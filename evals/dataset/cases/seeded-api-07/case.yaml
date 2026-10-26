@@ -1,0 +1,33 @@
+id: seeded-api-07
+kind: seeded
+split: dev
+title: >-
+  Irrigation config now parses duration strings into milliseconds but stores them where the scheduler
+  and controller expect seconds
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: irrigation/config.py
+  line_start: 88
+  line_end: 88
+  severity: critical
+  category: api_contract
+  description: >
+    `parse_duration` returns milliseconds, and `_parse_zone` now stores that value directly in `ZoneConfig.duration`,
+    which was (and for its consumers still is) a number of seconds: the unchanged `plan_day` in irrigation/scheduler.py
+    builds `timedelta(seconds=zone.duration)` and the controller sleeps for `run.seconds` with the valve
+    open. Every zone, including legacy `minutes` entries, is therefore planned and watered 1000 times
+    longer than configured (a "10m" zone keeps its valve open for about 6.9 days), flooding the beds and
+    pushing every later run of the day out.
+  must_find: true
+notes: >
+  PR purpose: let zone run times be written as duration strings ("10m", "1h30m", "750ms") instead of only
+  whole minutes, keeping `minutes` as a legacy key, and add a configurable pause between valves (`valve_gap`)
+  that the controller waits between runs.

@@ -1,0 +1,47 @@
+diff --git a/docsearch/snippets.py b/docsearch/snippets.py
+--- a/docsearch/snippets.py
++++ b/docsearch/snippets.py
+@@ -4,7 +4,7 @@
+ 
+ from dataclasses import dataclass
+ 
+-from docsearch.text import words
++from docsearch.text import normalize, terms, words
+ 
+ DEFAULT_WIDTH = 24
+ 
+@@ -21,16 +21,30 @@
+         return f"{prefix}{self.text}{suffix}"
+ 
+ 
++def _first_match(tokens: list[str], wanted: set[str]) -> int | None:
++    for position, token in enumerate(tokens):
++        if normalize(token) in wanted:
++            return position
++    return None
++
++
+ def make_snippet(body: str, query: str, width: int = DEFAULT_WIDTH) -> Snippet:
+-    """Return the opening `width` words of `body`.
++    """Return `width` words of `body` centred on the first word that matches a query term.
+ 
+-    `query` is accepted so callers do not change when snippets start following the match.
++    Near the end of the body the window slides back so it still shows `width` words. Without a
++    matching term the snippet is the opening `width` words.
+     """
+     if width < 1:
+         raise ValueError("width must be >= 1")
+     tokens = words(body)
+-    shown = tokens[:width]
+-    return Snippet(" ".join(shown), False, len(tokens) > width)
++    hit = _first_match(tokens, set(terms(query)))
++    if hit is None:
++        start = 0
++    else:
++        start = min(hit - width // 2, len(tokens) - width)
++    end = start + width
++    shown = tokens[start:end]
++    return Snippet(" ".join(shown), start > 0, end < len(tokens))
+ 
+ 
+ def preview(body: str, width: int = DEFAULT_WIDTH) -> str:

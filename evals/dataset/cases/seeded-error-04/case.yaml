@@ -1,0 +1,30 @@
+id: seeded-error-04
+kind: seeded
+split: test
+title: >-
+  Retry backoff for failed jobs is overwritten by a finally block that always schedules a full interval
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: scheduler/runner.py
+  line_start: 75
+  line_end: 76
+  severity: medium
+  category: error_handling
+  description: >
+    `job.next_run = now + job.interval` was moved into a `finally` block, which runs after the `except`
+    branch and overwrites the backoff `next_run` it just set. A failed job is therefore never retried
+    after `retry_delay`; it waits a full interval (a failed nightly job waits a whole day), so the new
+    retry and backoff behaviour never takes effect.
+  must_find: true
+notes: >
+  PR purpose: retry failed jobs sooner with exponential backoff (per-job `retry_delay`, doubled per consecutive
+  failure, capped at the interval), disable a job after `max_failures` consecutive failures, and add `Scheduler.enable`
+  to re-enable it.

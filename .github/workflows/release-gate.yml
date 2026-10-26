@@ -1,0 +1,90 @@
+name: release-gate
+
+# The eval as a release gate. A pull request that changes the reviewer (prompt, config, reviewer code or
+# skill) is re-measured live on the test split and gated against evals/baseline.json. The gate's exit code
+# is this job's result, so making "release-gate" a required check blocks the merge of a regression.
+#
+# The candidate is named in evals/release_candidate.txt ("<config> <samples>"). Cassettes already committed
+# for it are reused (--resume), so only new prompts/configs cost money, bounded by BUDGET_USD.
+# Fork PRs get no secrets: they fall back to replay, which fails on missing cassettes rather than passing.
+on:
+  pull_request:
+    paths:
+      - "src/aireview/reviewer/**"
+      - "src/aireview/llm/**"
+      - "skills/**"
+      - "evals/configs/**"
+      - "evals/release_candidate.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  BUDGET_USD: "5"
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      RUN_ID: gate-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -e '.[dev]'
+
+      - name: Read candidate
+        id: cand
+        shell: bash
+        run: |
+          set -euo pipefail
+          read -r cfg k offset < <(grep -vE '^[[:space:]]*(#|$)' evals/release_candidate.txt | head -n1)
+          echo "config=$cfg" >> "$GITHUB_OUTPUT"
+          echo "samples=${k:-3}" >> "$GITHUB_OUTPUT"
+          echo "offset=${offset:-0}" >> "$GITHUB_OUTPUT"
+          if [ -n "${ANTHROPIC_API_KEY}" ]; then echo "mode=record" >> "$GITHUB_OUTPUT"; else echo "mode=replay" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Measure candidate (${{ steps.cand.outputs.mode }})
+        shell: bash
+        run: |
+          set -euo pipefail
+          extra=()
+          if [ "${{ steps.cand.outputs.mode }}" = "record" ]; then extra=(--resume --yes --budget-usd "$BUDGET_USD"); fi
+          aireview eval run --config "${{ steps.cand.outputs.config }}" --split test \
+            --samples "${{ steps.cand.outputs.samples }}" --sample-offset "${{ steps.cand.outputs.offset }}" \
+            --mode "${{ steps.cand.outputs.mode }}" "${extra[@]}" --run-id "$RUN_ID" --runs-dir evals/runs/_scratch
+
+      - name: Gate against baseline
+        id: gate
+        run: aireview eval gate --run "evals/runs/_scratch/$RUN_ID"
+
+      - name: Summary and PR comment
+        if: always()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          dir="evals/runs/_scratch/$RUN_ID"
+          for f in gate.md report.md; do [ -f "$dir/$f" ] && cat "$dir/$f" >> "$GITHUB_STEP_SUMMARY"; done
+          if [ "${{ github.event_name }}" = "pull_request" ] && [ -f "$dir/gate.md" ]; then
+            gh pr comment "${{ github.event.pull_request.number }}" --body-file "$dir/gate.md" || true
+          fi
+
+      - name: Upload run dir and new cassettes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.RUN_ID }}
+          path: |
+            evals/runs/_scratch/${{ env.RUN_ID }}
+            evals/cassettes
+          if-no-files-found: warn

@@ -1,0 +1,33 @@
+id: seeded-logic-02
+kind: seeded
+split: dev
+title: >-
+  Replenishment by inventory position counts received purchase orders as still inbound
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: stock/replenish.py
+  line_start: 38
+  line_end: 38
+  severity: high
+  category: logic
+  description: >
+    `inbound_by_sku` counts every purchase order that is not cancelled, including RECEIVED ones, but `receive()`
+    in stock/models.py has already added a received order's quantity to `on_hand`. The nightly job passes
+    the whole order book, so every delivered order is counted twice in the inventory position; once its
+    stock has been sold down, the SKU looks well stocked and is not reordered, leading to stockouts.
+  must_find: true
+  tags:
+  - unshown_context
+notes: >
+  PR purpose: base nightly replenishment on the inventory position (on hand - reserved + inbound purchase
+  orders) instead of raw on-hand stock, so items with deliveries already on order are not ordered twice;
+  the nightly job now passes the order book to the planner. Finding the defect requires reading `receive()`
+  in the unchanged stock/models.py.

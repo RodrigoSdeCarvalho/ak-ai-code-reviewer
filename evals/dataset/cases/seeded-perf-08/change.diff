@@ -1,0 +1,223 @@
+diff --git a/adserve/ledger.py b/adserve/ledger.py
+--- a/adserve/ledger.py
++++ b/adserve/ledger.py
+@@ -10,6 +10,8 @@
+ 
+ class ImpressionLog(Protocol):
+     def append(self, impression: Impression) -> None: ...
++
++    def mark_invalid(self, impression: Impression) -> None: ...
+ 
+     def for_day(self, campaign_id: str, day: date) -> list[Impression]: ...
+ 
+@@ -24,7 +26,11 @@
+ 
+ 
+ class JsonlImpressionLog:
+-    """Append-only impression log, one JSON Lines file per day. Billing reads it back per campaign."""
++    """Append-only impression log, one JSON Lines file per day. Billing reads it back per campaign.
++
++    Impressions found to be invalid traffic are not removed: an ``invalid`` record is appended to the
++    file of the day they were served, and reads leave them out.
++    """
+ 
+     def __init__(self, directory: Path) -> None:
+         self._directory = directory
+@@ -48,10 +54,18 @@
+             },
+         )
+ 
++    def mark_invalid(self, impression: Impression) -> None:
++        self._write(impression.served_at.date(), {"kind": "invalid", "id": impression.impression_id})
++
+     def for_day(self, campaign_id: str, day: date) -> list[Impression]:
+         path = self._path(day)
+         if not path.exists():
+             return []
+         with path.open(encoding="utf-8") as handle:
+             records = [json.loads(line) for line in handle if line.strip()]
+-        return [_impression(record) for record in records if record["campaign"] == campaign_id]
++        invalid = {record["id"] for record in records if record.get("kind") == "invalid"}
++        return [
++            _impression(record)
++            for record in records
++            if record.get("kind") != "invalid" and record["campaign"] == campaign_id and record["id"] not in invalid
++        ]
+diff --git a/adserve/model.py b/adserve/model.py
+--- a/adserve/model.py
++++ b/adserve/model.py
+@@ -17,6 +17,7 @@
+     daily_budget_micros: int
+     max_bid_micros: int
+     active: bool = True
++    hourly_cap_micros: int | None = None
+ 
+ 
+ @dataclass(frozen=True)
+diff --git a/adserve/pacing.py b/adserve/pacing.py
+--- a/adserve/pacing.py
++++ b/adserve/pacing.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ from collections.abc import Iterable
++from dataclasses import dataclass
+ from datetime import date, datetime, time
+ 
+ from adserve.ledger import ImpressionLog
+@@ -14,32 +15,51 @@
+     return (now - midnight).total_seconds() / SECONDS_PER_DAY
+ 
+ 
++@dataclass(frozen=True)
++class Spend:
++    campaign_id: str
++    day: date
++    hourly: tuple[int, ...]
++
++    @property
++    def total(self) -> int:
++        return sum(self.hourly)
++
++    def in_hour(self, hour: int) -> int:
++        return self.hourly[hour]
++
++
+ class BudgetPacer:
+     """Spreads each campaign's daily budget evenly over the day.
+ 
+     A campaign may bid while its spend so far plus its maximum bid stays within the share of the daily
+-    budget that matches the time of day, plus some slack so it can catch up after quiet hours.
++    budget that matches the time of day, plus some slack so it can catch up after quiet hours, and within
++    its hourly cap if it has one.
++
++    Spend comes from the impression log, so pacing carries on where it left off after a restart and
++    impressions credited back as invalid traffic stop counting against the budget.
+     """
+ 
+     def __init__(self, campaigns: Iterable[Campaign], log: ImpressionLog, *, slack: float = 0.05) -> None:
+         self._campaigns = {campaign.campaign_id: campaign for campaign in campaigns}
+         self._log = log
+         self._slack = slack
+-        self._day: date | None = None
+-        self._spent: dict[str, int] = {}
+ 
+-    def _roll(self, day: date) -> None:
+-        if self._day is None or day > self._day:
+-            self._day = day
+-            self._spent = {}
++    @property
++    def campaigns(self) -> list[Campaign]:
++        return list(self._campaigns.values())
+ 
+     def record(self, impression: Impression) -> None:
+         self._log.append(impression)
+-        day = impression.served_at.date()
+-        self._roll(day)
+-        if day == self._day:
+-            campaign_id = impression.campaign_id
+-            self._spent[campaign_id] = self._spent.get(campaign_id, 0) + impression.cost_micros
++
++    def refund(self, impression: Impression) -> None:
++        self._log.mark_invalid(impression)
++
++    def spend(self, campaign_id: str, day: date) -> Spend:
++        hourly = [0] * 24
++        for impression in self._log.for_day(campaign_id, day):
++            hourly[impression.served_at.hour] += impression.cost_micros
++        return Spend(campaign_id, day, tuple(hourly))
+ 
+     def allowance(self, campaign: Campaign, now: datetime) -> int:
+         share = min(1.0, day_fraction(now) + self._slack)
+@@ -48,9 +68,12 @@
+     def can_bid(self, campaign: Campaign, request: BidRequest) -> bool:
+         if not campaign.active or campaign.max_bid_micros < request.floor_micros:
+             return False
+-        self._roll(request.received_at.date())
+-        spent = self._spent.get(campaign.campaign_id, 0)
+-        return spent + campaign.max_bid_micros <= self.allowance(campaign, request.received_at)
++        now = request.received_at
++        spend = self.spend(campaign.campaign_id, now.date())
++        if spend.total + campaign.max_bid_micros > self.allowance(campaign, now):
++            return False
++        cap = campaign.hourly_cap_micros
++        return cap is None or spend.in_hour(now.hour) + campaign.max_bid_micros <= cap
+ 
+     def eligible(self, request: BidRequest) -> list[Campaign]:
+         return [campaign for campaign in self._campaigns.values() if self.can_bid(campaign, request)]
+diff --git a/adserve/report.py b/adserve/report.py
+new file mode 100644
+--- /dev/null
++++ b/adserve/report.py
+@@ -0,0 +1,71 @@
++from __future__ import annotations
++
++import csv
++from dataclasses import dataclass
++from datetime import date
++from typing import TextIO
++
++from adserve.model import MICROS_PER_UNIT, format_micros
++from adserve.pacing import BudgetPacer
++
++
++@dataclass(frozen=True)
++class SpendRow:
++    campaign_id: str
++    advertiser: str
++    spent_micros: int
++    budget_micros: int
++    peak_hour: int | None
++    peak_micros: int
++
++    @property
++    def utilisation(self) -> float:
++        return self.spent_micros / self.budget_micros if self.budget_micros else 0.0
++
++
++def spend_report(pacer: BudgetPacer, day: date) -> list[SpendRow]:
++    rows: list[SpendRow] = []
++    for campaign in pacer.campaigns:
++        spend = pacer.spend(campaign.campaign_id, day)
++        peak_micros = max(spend.hourly)
++        rows.append(
++            SpendRow(
++                campaign_id=campaign.campaign_id,
++                advertiser=campaign.advertiser,
++                spent_micros=spend.total,
++                budget_micros=campaign.daily_budget_micros,
++                peak_hour=spend.hourly.index(peak_micros) if peak_micros else None,
++                peak_micros=peak_micros,
++            )
++        )
++    rows.sort(key=lambda row: (-row.utilisation, row.campaign_id))
++    return rows
++
++
++def format_report(rows: list[SpendRow], day: date) -> str:
++    header = f"Spend for {day.isoformat()}"
++    if not rows:
++        return f"{header}\nno campaigns"
++    width = max(len(row.advertiser) for row in rows)
++    lines = [header]
++    for row in rows:
++        peak = f"peak {row.peak_hour:02d}:00" if row.peak_hour is not None else "no spend"
++        amounts = f"{format_micros(row.spent_micros):>12} / {format_micros(row.budget_micros):>12}"
++        lines.append(f"{row.advertiser.ljust(width)}  {amounts}  {row.utilisation:7.1%}  {peak}")
++    return "\n".join(lines)
++
++
++def write_csv(rows: list[SpendRow], out: TextIO) -> None:
++    writer = csv.writer(out, lineterminator="\n")
++    writer.writerow(["campaign_id", "advertiser", "spent", "budget", "utilisation", "peak_hour"])
++    for row in rows:
++        writer.writerow(
++            [
++                row.campaign_id,
++                row.advertiser,
++                f"{row.spent_micros / MICROS_PER_UNIT:.2f}",
++                f"{row.budget_micros / MICROS_PER_UNIT:.2f}",
++                f"{row.utilisation:.4f}",
++                "" if row.peak_hour is None else row.peak_hour,
++            ]
++        )

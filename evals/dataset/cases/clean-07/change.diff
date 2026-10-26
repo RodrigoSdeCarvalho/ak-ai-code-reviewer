@@ -1,0 +1,69 @@
+diff --git a/attachments/handlers.py b/attachments/handlers.py
+--- a/attachments/handlers.py
++++ b/attachments/handlers.py
+@@ -5,7 +5,7 @@
+ import json
+ from dataclasses import dataclass, field
+ 
+-from attachments.store import AttachmentStore, TooLarge, UnsupportedType, content_type_for
++from attachments.store import AttachmentStore, InvalidName, NotFound, TooLarge, UnsupportedType, content_type_for
+ 
+ 
+ @dataclass(frozen=True)
+@@ -34,6 +34,8 @@
+     """GET /attachments/<name>: the file bytes."""
+     try:
+         data = store.read(name)
+-    except FileNotFoundError:
++    except InvalidName:
++        return _json(400, {"error": "invalid attachment name"})
++    except NotFound:
+         return _json(404, {"error": "no such attachment"})
+     return Response(200, data, {"Content-Type": content_type_for(name)})
+diff --git a/attachments/store.py b/attachments/store.py
+--- a/attachments/store.py
++++ b/attachments/store.py
+@@ -30,6 +30,14 @@
+     pass
+ 
+ 
++class InvalidName(AttachmentError):
++    pass
++
++
++class NotFound(AttachmentError):
++    pass
++
++
+ @dataclass(frozen=True)
+ class StoredFile:
+     name: str
+@@ -44,7 +52,7 @@
+ 
+ class AttachmentStore:
+     def __init__(self, root: Path) -> None:
+-        self._root = root
++        self._root = root.resolve()
+         self._root.mkdir(parents=True, exist_ok=True)
+ 
+     def save(self, data: bytes, original_name: str) -> StoredFile:
+@@ -68,5 +76,18 @@
+                 raise
+         return StoredFile(name, len(data), digest, CONTENT_TYPES[suffix])
+ 
++    def _path_for(self, name: str) -> Path:
++        try:
++            path = (self._root / name).resolve()
++        except (OSError, ValueError):
++            raise InvalidName(f"not an attachment name: {name!r}") from None
++        if path.parent != self._root:
++            raise InvalidName(f"not an attachment name: {name!r}")
++        return path
++
+     def read(self, name: str) -> bytes:
+-        return (self._root / name).read_bytes()
++        path = self._path_for(name)
++        try:
++            return path.read_bytes()
++        except FileNotFoundError:
++            raise NotFound(name) from None

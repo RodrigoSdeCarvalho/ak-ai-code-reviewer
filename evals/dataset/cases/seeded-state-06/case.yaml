@@ -1,0 +1,41 @@
+id: seeded-state-06
+kind: seeded
+split: test
+title: >-
+  Async enrichment retry returns an unawaited coroutine, and progress counting drains the input
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: pipeline/runner.py
+  line_start: 51
+  line_end: 51
+  severity: high
+  category: concurrency
+  description: >
+    The retry branch of `enrich_one` returns `enrich(event, geo)` without `await`, so after a LookupTimeout
+    the "event" handed to the sink is a coroutine object that never runs. Every event whose first lookup
+    times out is written as garbage (or crashes the sink) instead of being enriched, and Python warns
+    that the coroutine was never awaited.
+  must_find: true
+- id: b2
+  file: pipeline/runner.py
+  line_start: 42
+  line_end: 42
+  severity: critical
+  category: logic
+  description: >
+    `total = sum(1 for _ in lines)` iterates `lines` once to count it, and the loop below iterates it
+    again. The CLI passes an open file, which is a one-shot iterator, so the main loop sees no lines:
+    the job writes an empty output file and reports success with zero events.
+  must_find: true
+notes: >
+  PR purpose: geo lookups are moving to an async client, so make enrichment async with bounded concurrency
+  per batch, retry a lookup once on timeout, and report progress as lines read out of the total, with
+  the CLI switched to asyncio.run and a --concurrency flag.

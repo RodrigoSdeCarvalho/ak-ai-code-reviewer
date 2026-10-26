@@ -1,0 +1,18 @@
+# Regression tolerances: a gated metric (headline or slice) fails when the paired-bootstrap CI of
+# candidate - baseline lies entirely beyond the tolerance in the bad direction.
+# Replace each DEFAULT with the measured run-to-run noise floor (provenance MEASURED + date, design §5).
+mode: strict
+slices: [kind, category_group]   # gated slices; a regressing slice fails even if the headline holds
+metrics:
+  recall:
+    value: 0.10
+    provenance: "DEFAULT — replace with measured noise floor"
+  recall_high:
+    value: 0.10
+    provenance: "DEFAULT — replace with measured noise floor"
+  precision:
+    value: 0.10
+    provenance: "DEFAULT — replace with measured noise floor"
+  clean_false_alarm_rate:
+    value: 0.15
+    provenance: "DEFAULT — replace with measured noise floor"

@@ -1,0 +1,146 @@
+diff --git a/loyalty/api.py b/loyalty/api.py
+--- a/loyalty/api.py
++++ b/loyalty/api.py
+@@ -2,6 +2,7 @@
+ 
+ from dataclasses import dataclass, field
+ 
++from loyalty.cors import CorsPolicy
+ from loyalty.settings import Settings
+ 
+ 
+@@ -59,22 +60,14 @@
+     def __init__(self, settings: Settings, ledger: PointsLedger) -> None:
+         self._settings = settings
+         self._ledger = ledger
++        self._cors = CorsPolicy.from_settings(settings)
+ 
+     def handle(self, request: Request) -> Response:
+         origin = request.headers.get("origin")
+-        allowed = origin is not None and origin.rstrip("/").lower() in self._settings.allowed_origins
+         if request.method == "OPTIONS":
+-            response = Response(204)
+-            if allowed:
+-                response.headers["Access-Control-Allow-Methods"] = "GET, POST"
+-                response.headers["Access-Control-Allow-Headers"] = "content-type"
+-                response.headers["Access-Control-Max-Age"] = str(self._settings.cors_max_age)
+-        else:
+-            response = self._route(request)
+-        response.headers["Vary"] = "Origin"
+-        if allowed:
+-            response.headers["Access-Control-Allow-Origin"] = origin
+-            response.headers["Access-Control-Allow-Credentials"] = "true"
++            return Response(204, headers=self._cors.preflight_headers(origin, request.headers))
++        response = self._route(request)
++        response.headers.update(self._cors.response_headers(origin))
+         return response
+ 
+     def _route(self, request: Request) -> Response:
+diff --git a/loyalty/cors.py b/loyalty/cors.py
+new file mode 100644
+--- /dev/null
++++ b/loyalty/cors.py
+@@ -0,0 +1,74 @@
++from __future__ import annotations
++
++from collections.abc import Iterable, Mapping
++from urllib.parse import urlsplit
++
++from loyalty.settings import Settings
++
++ALLOWED_METHODS = ("GET", "POST")
++ALLOWED_HEADERS = ("content-type", "x-request-id")
++
++
++class CorsPolicy:
++    """Decides which browser origins may call the API with the member's session cookie.
++
++    Origins are allowed either exactly (``allowed_origins``) or because they are served over https
++    from a partner's domain (``partner_domains``), which covers every storefront a partner runs on
++    its own subdomains without listing each one.
++    """
++
++    def __init__(self, exact_origins: Iterable[str], partner_domains: Iterable[str], max_age: int) -> None:
++        self._exact = frozenset(origin.rstrip("/").lower() for origin in exact_origins)
++        self._partner_domains = tuple(domain.lower() for domain in partner_domains)
++        self._max_age = max_age
++
++    @classmethod
++    def from_settings(cls, settings: Settings) -> CorsPolicy:
++        return cls(settings.allowed_origins, settings.partner_domains, settings.cors_max_age)
++
++    def is_allowed(self, origin: str | None) -> bool:
++        if not origin:
++            return False
++        normalised = origin.rstrip("/").lower()
++        if normalised in self._exact:
++            return True
++        try:
++            parts = urlsplit(normalised)
++        except ValueError:
++            return False
++        if parts.scheme != "https" or not parts.hostname or parts.path or parts.query:
++            return False
++        host = parts.hostname
++        return any(host.endswith(domain) for domain in self._partner_domains)
++
++    def response_headers(self, origin: str | None) -> dict[str, str]:
++        headers = {"Vary": "Origin"}
++        if self.is_allowed(origin):
++            headers["Access-Control-Allow-Origin"] = origin
++            headers["Access-Control-Allow-Credentials"] = "true"
++        return headers
++
++    def preflight_headers(self, origin: str | None, request_headers: Mapping[str, str]) -> dict[str, str]:
++        headers = {"Vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"}
++        if not self.is_allowed(origin):
++            return headers
++        method = request_headers.get("access-control-request-method", "").upper()
++        if method not in ALLOWED_METHODS:
++            return headers
++        requested = _header_list(request_headers.get("access-control-request-headers", ""))
++        if any(name not in ALLOWED_HEADERS for name in requested):
++            return headers
++        headers.update(
++            {
++                "Access-Control-Allow-Origin": origin,
++                "Access-Control-Allow-Credentials": "true",
++                "Access-Control-Allow-Methods": ", ".join(ALLOWED_METHODS),
++                "Access-Control-Allow-Headers": ", ".join(ALLOWED_HEADERS),
++                "Access-Control-Max-Age": str(self._max_age),
++            }
++        )
++        return headers
++
++
++def _header_list(raw: str) -> list[str]:
++    return [name.strip().lower() for name in raw.split(",") if name.strip()]
+diff --git a/loyalty/settings.py b/loyalty/settings.py
+--- a/loyalty/settings.py
++++ b/loyalty/settings.py
+@@ -25,10 +25,18 @@
+     return number
+ 
+ 
++def _partner_domain(entry: str) -> str:
++    domain = entry.lower().removeprefix("*.").strip(".")
++    if not domain or "/" in domain or ":" in domain or "." not in domain:
++        raise SettingsError(f"partner domain {entry!r} must be a bare domain name such as shop.example")
++    return domain
++
++
+ @dataclass(frozen=True)
+ class Settings:
+     program_name: str = "Rewards"
+     allowed_origins: tuple[str, ...] = ()
++    partner_domains: tuple[str, ...] = ()
+     cors_max_age: int = 600
+ 
+     @classmethod
+@@ -40,5 +48,6 @@
+         return cls(
+             program_name=raw.get("LOYALTY_PROGRAM_NAME", "Rewards").strip() or "Rewards",
+             allowed_origins=origins,
++            partner_domains=tuple(_partner_domain(d) for d in _split_list(raw.get("LOYALTY_PARTNER_DOMAINS", ""))),
+             cors_max_age=_int_setting(raw, "LOYALTY_CORS_MAX_AGE", 600),
+         )

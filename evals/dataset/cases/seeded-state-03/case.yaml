@@ -1,0 +1,30 @@
+id: seeded-state-03
+kind: seeded
+split: test
+title: >-
+  New tax-rate cache bounds the number of countries instead of the number of cached rates
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: billing/ratecache.py
+  line_start: 107
+  line_end: 107
+  severity: medium
+  category: resource
+  description: >
+    `_store` compares `len(self._keys_by_country)` (the number of distinct countries) with `max_entries`,
+    so eviction only runs once there are more countries than `max_entries`. Rates are cached per (country,
+    postal code), so a long-lived calculator keeps every postal code it has ever seen: the cache grows
+    without bound and `cache_size` has no effect.
+  must_find: true
+notes: >
+  PR purpose: replace the functools.lru_cache around the rate source with a RateCache that adds a TTL,
+  per-country invalidation when an admin replaces a country's rate table, and hit/miss metrics, plus the
+  admin handlers that use them.

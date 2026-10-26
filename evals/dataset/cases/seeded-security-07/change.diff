@@ -1,0 +1,106 @@
+diff --git a/kanban/models.py b/kanban/models.py
+--- a/kanban/models.py
++++ b/kanban/models.py
+@@ -46,5 +46,6 @@
+     description: str = ""
+     position: int = 0
+     labels: list[str] = field(default_factory=list)
++    archived: bool = False
+     created_at: datetime | None = None
+     updated_at: datetime | None = None
+diff --git a/kanban/service.py b/kanban/service.py
+--- a/kanban/service.py
++++ b/kanban/service.py
+@@ -88,3 +88,38 @@
+             card.labels = sorted(set(labels))
+         card.updated_at = now
+         return card
++
++    def move_card(
++        self,
++        card_id: int,
++        actor_id: int,
++        to_board_id: int,
++        to_column: str,
++        now: datetime,
++        position: int | None = None,
++    ) -> Card:
++        """Move a card to another column, possibly on another board, at `position` (default: the end)."""
++        card = self._store.card(card_id)
++        target = self._require_editor(to_board_id, actor_id)
++        if to_column not in target.columns:
++            raise KanbanError(f"board {to_board_id} has no column {to_column!r}")
++        if position is not None and position < 0:
++            raise KanbanError("position must not be negative")
++        if card.archived:
++            raise KanbanError("archived cards cannot be moved")
++        self._store.detach(card)
++        card.board_id = target.id
++        card.column = to_column
++        self._store.insert(card, position)
++        card.updated_at = now
++        return card
++
++    def archive_card(self, card_id: int, actor_id: int, now: datetime) -> Card:
++        card = self._store.card(card_id)
++        self._require_editor(card.board_id, actor_id)
++        if card.archived:
++            return card
++        self._store.detach(card)
++        card.archived = True
++        card.updated_at = now
++        return card
+diff --git a/kanban/store.py b/kanban/store.py
+--- a/kanban/store.py
++++ b/kanban/store.py
+@@ -25,19 +25,18 @@
+         return board
+ 
+     def add_card(self, board_id: int, column: str, title: str, description: str, now: datetime) -> Card:
+-        position = len(self.cards_in_column(board_id, column))
+         card = Card(
+             id=self._next_card_id,
+             board_id=board_id,
+             column=column,
+             title=title,
+             description=description,
+-            position=position,
+             created_at=now,
+             updated_at=now,
+         )
+         self._cards[card.id] = card
+         self._next_card_id += 1
++        self.insert(card)
+         return card
+ 
+     def card(self, card_id: int) -> Card:
+@@ -47,9 +46,27 @@
+         return card
+ 
+     def cards_in_column(self, board_id: int, column: str) -> list[Card]:
+-        found = [c for c in self._cards.values() if c.board_id == board_id and c.column == column]
++        found = [
++            c for c in self._cards.values() if c.board_id == board_id and c.column == column and not c.archived
++        ]
+         return sorted(found, key=lambda c: c.position)
+ 
+     def cards_on_board(self, board_id: int) -> list[Card]:
+-        found = [c for c in self._cards.values() if c.board_id == board_id]
++        found = [c for c in self._cards.values() if c.board_id == board_id and not c.archived]
+         return sorted(found, key=lambda c: (c.column, c.position))
++
++    def detach(self, card: Card) -> None:
++        """Close the gap a card leaves in its current column."""
++        for other in self.cards_in_column(card.board_id, card.column):
++            if other.id != card.id and other.position > card.position:
++                other.position -= 1
++
++    def insert(self, card: Card, position: int | None = None) -> None:
++        """Place a card in its current column, shifting the cards below it down by one."""
++        others = [c for c in self.cards_in_column(card.board_id, card.column) if c.id != card.id]
++        if position is None or position > len(others):
++            position = len(others)
++        for other in others:
++            if other.position >= position:
++                other.position += 1
++        card.position = position

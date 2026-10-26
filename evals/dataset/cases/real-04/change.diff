@@ -1,0 +1,36 @@
+diff --git a/fastapi/dependencies/utils.py b/fastapi/dependencies/utils.py
+--- a/fastapi/dependencies/utils.py
++++ b/fastapi/dependencies/utils.py
+@@ -1058,14 +1058,6 @@
+                 yield key, param_values, None
+ 
+ 
+-async def _read_file_bytes(file: UploadFile) -> bytes:
+-    position = file.file.tell()
+-    try:
+-        return await file.read()
+-    finally:
+-        await file.seek(position)
+-
+-
+ async def _extract_form_body(
+     body_fields: list[ModelField],
+     received_body: FormData,
+@@ -1075,7 +1067,7 @@
+             if is_bytes_or_nonable_bytes_annotation(
+                 field.field_info.annotation
+             ) and isinstance(value, UploadFile):
+-                value = await _read_file_bytes(value)
++                value = await value.read()
+             elif is_bytes_sequence_annotation(
+                 field.field_info.annotation
+             ) and value_is_sequence(value):
+@@ -1083,7 +1075,7 @@
+                 results: list[bytes | str] = []
+                 for sub_value in value:
+                     if isinstance(sub_value, UploadFile):
+-                        results.append(await _read_file_bytes(sub_value))
++                        results.append(await sub_value.read())
+                     else:
+                         results.append(sub_value)
+                 value = serialize_sequence_value(field=field, value=results)

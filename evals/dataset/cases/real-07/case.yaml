@@ -1,0 +1,42 @@
+id: real-07
+kind: real
+split: dev
+title: >-
+  LimitedSet purge() and pop() act on stale heap entries, expiring and evicting re-added items early
+language: python
+size_bucket: S
+provenance:
+  origin: reverted-fix
+  source: >-
+    https://github.com/celery/celery/commit/75ca8ccf5aa6976e437ae8e0ecfbb51d516385b1 (committed 2026-10-22,
+    license BSD-3-Clause)
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: fix-derived
+bugs:
+- id: b1
+  file: celery/utils/collections.py
+  line_start: 633
+  line_end: 647
+  severity: medium
+  category: logic
+  description: >
+    `discard()` (and therefore `add()` of an item already in the set) removes the item from `_data` but
+    leaves its old (timestamp, seq, item) entry in `_heap`. `purge()` reads `self._heap[0][0]` without
+    checking that the top entry is still the item's current entry, and `pop()` drops `item` from `_data`
+    as soon as any heap entry for it is popped. So an item re-added to refresh its expiry is expired by
+    its old timestamp, is evicted first when `maxlen` is reached and is returned first by `pop()`; and
+    a leftover entry from a plain `discard()` at the top of the heap makes `purge()` call `pop()`, which
+    expires the next live item whatever its own timestamp. Items vanish from the set before their time
+    (for example revoked task ids held by a worker are forgotten early, so the revoked task can run).
+  must_find: true
+  tags:
+  - unshown_context
+notes: >
+  Reverted upstream fix (celery PR #10758, issue #10757). The PR under review inlines the heap handling
+  in purge()/pop() and removes the _is_current() helper; the reverse diff still deletes a visible currency
+  check, which makes it easier than an organic bug-introducing PR. The fix's two explanatory comments
+  (on the skipped heap entry and in _is_current) were removed from before/ and fixed/ so the diff does
+  not announce the defect; after/ is byte-identical to the fix's parent. The label spans both methods
+  because the defect is the same missing currency check in each; a finding on either purge() or pop()
+  describing stale heap entries should match. Labels are the buggy-side lines that the fix changed.

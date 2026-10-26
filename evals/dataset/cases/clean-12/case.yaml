@@ -1,0 +1,25 @@
+id: clean-12
+kind: clean
+split: test
+title: Make blob store writes atomic and add streaming uploads and server-side copy
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: put() wrote straight into the destination file, so a crash or failed upload left a truncated
+  blob; writes now go through an _atomic_write context manager (temp file in the same directory, fsync,
+  os.replace), and the store gains put_stream() and copy(). keys() now skips in-progress temp files. Decoys:
+  `except BaseException:` looks over-broad but only removes the temp file and re-raises; the temp file
+  lives in the target's directory (not the system temp dir) so os.replace stays an atomic same-filesystem
+  rename, and it is created with a plain exclusive open ("xb"), so the stored blob gets the same umask-derived
+  permissions a direct write had; in copy() the source is opened outside the `with` statement, which looks
+  like a handle that can escape, but nothing runs between the open and `with source, ...`, and the with
+  closes it even if creating the temp file fails; the temp prefix starts with "." and keys must start
+  with a letter or digit, so temp files can never collide with a key and the regex filter in keys() hides
+  them.

@@ -1,0 +1,41 @@
+"""`salesreport daily EXPORT.csv [--store NAME]`: print daily totals from a POS export."""
+
+from __future__ import annotations
+
+import argparse
+import sys
+from collections.abc import Sequence
+from pathlib import Path
+from typing import TextIO
+
+from salesreport.daily import daily_totals, format_report
+from salesreport.records import RecordError, read_sales
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(prog="salesreport")
+    sub = parser.add_subparsers(dest="command", required=True)
+    daily = sub.add_parser("daily", help="daily totals")
+    daily.add_argument("export", type=Path)
+    daily.add_argument("--store", default=None, help="only this store")
+    return parser
+
+
+def run_daily(args: argparse.Namespace, out: TextIO) -> int:
+    with args.export.open(encoding="utf-8", newline="") as handle:
+        sales = list(read_sales(handle))
+    rows = daily_totals(sales, args.store)
+    out.write(format_report(rows) + "\n")
+    return 0
+
+
+def main(argv: Sequence[str] | None = None, out: TextIO = sys.stdout) -> int:
+    args = build_parser().parse_args(argv)
+    try:
+        return run_daily(args, out)
+    except RecordError as exc:
+        print(f"{args.export}: {exc}", file=sys.stderr)
+        return 2
+    except OSError as exc:
+        print(f"cannot read {args.export}: {exc.strerror}", file=sys.stderr)
+        return 2

@@ -1,0 +1,18 @@
+id: clean-template-01
+kind: clean
+split: dev
+title: Drive shipping base rates from a tier table and expose it for the pricing page
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (agent), reviewed by Rodrigo
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  Behaviour-preserving refactor: the if/elif chain becomes a RATE_TIERS table searched with bisect_left,
+  plus a new rate_table() for the pricing page. Decoy: bisect_left (not bisect_right) looks like a boundary
+  slip but is exactly right for upper-inclusive tiers (1 kg -> first tier), and `index == len(...)` correctly
+  detects weights above the last bound.

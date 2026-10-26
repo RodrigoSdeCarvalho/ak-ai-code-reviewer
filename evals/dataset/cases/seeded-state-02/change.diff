@@ -1,0 +1,62 @@
+diff --git a/storage/blobs.py b/storage/blobs.py
+--- a/storage/blobs.py
++++ b/storage/blobs.py
+@@ -4,6 +4,8 @@
+ 
+ import hashlib
+ import os
++import uuid
++from collections.abc import Iterable
+ from dataclasses import dataclass
+ from pathlib import Path
+ 
+@@ -31,7 +33,8 @@
+     def __init__(self, root: Path, max_size: int = DEFAULT_MAX_SIZE) -> None:
+         self._root = root
+         self._max_size = max_size
+-        self._root.mkdir(parents=True, exist_ok=True)
++        self._incoming = root / "incoming"
++        self._incoming.mkdir(parents=True, exist_ok=True)
+ 
+     def _path_for(self, digest: str) -> Path:
+         if len(digest) != 64 or any(c not in "0123456789abcdef" for c in digest):
+@@ -39,17 +42,31 @@
+         return self._root / digest[:2] / digest[2:]
+ 
+     def put(self, data: bytes) -> BlobInfo:
+-        if len(data) > self._max_size:
+-            raise BlobTooLarge(f"blob exceeds {self._max_size} bytes")
+-        digest = hashlib.sha256(data).hexdigest()
++        return self.put_stream([data])
++
++    def put_stream(self, chunks: Iterable[bytes]) -> BlobInfo:
++        """Store a blob delivered in chunks without holding it in memory."""
++        hasher = hashlib.sha256()
++        size = 0
++        incoming = self._incoming / f"upload-{uuid.uuid4().hex}"
++        try:
++            with incoming.open("xb") as out:
++                for chunk in chunks:
++                    size += len(chunk)
++                    if size > self._max_size:
++                        raise BlobTooLarge(f"blob exceeds {self._max_size} bytes")
++                    hasher.update(chunk)
++                    out.write(chunk)
++        except BaseException:
++            incoming.unlink(missing_ok=True)
++            raise
++        digest = hasher.hexdigest()
+         target = self._path_for(digest)
+         if target.exists():
+-            return BlobInfo(digest, len(data), created=False)
++            return BlobInfo(digest, size, created=False)
+         target.parent.mkdir(parents=True, exist_ok=True)
+-        partial = target.with_name(target.name + ".part")
+-        partial.write_bytes(data)
+-        os.replace(partial, target)
+-        return BlobInfo(digest, len(data), created=True)
++        os.replace(incoming, target)
++        return BlobInfo(digest, size, created=True)
+ 
+     def exists(self, digest: str) -> bool:
+         return self._path_for(digest).exists()

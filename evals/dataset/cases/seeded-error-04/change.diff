@@ -1,0 +1,96 @@
+diff --git a/scheduler/jobs.py b/scheduler/jobs.py
+--- a/scheduler/jobs.py
++++ b/scheduler/jobs.py
+@@ -9,7 +9,11 @@
+ 
+ @dataclass
+ class Job:
+-    """A callable run every `interval`, starting at `next_run`."""
++    """A callable run every `interval`, starting at `next_run`.
++
++    After a failure the job is retried sooner: `retry_delay`, doubled per consecutive failure and
++    capped at `interval`.
++    """
+ 
+     name: str
+     interval: timedelta
+@@ -19,10 +23,13 @@
+     consecutive_failures: int = 0
+     last_success: datetime | None = None
+     last_error: str | None = None
++    retry_delay: timedelta = timedelta(minutes=1)
+ 
+     def __post_init__(self) -> None:
+         if self.interval <= timedelta(0):
+             raise ValueError(f"job {self.name!r}: interval must be positive")
++        if self.retry_delay <= timedelta(0):
++            raise ValueError(f"job {self.name!r}: retry_delay must be positive")
+ 
+ 
+ def every(
+diff --git a/scheduler/runner.py b/scheduler/runner.py
+--- a/scheduler/runner.py
++++ b/scheduler/runner.py
+@@ -5,7 +5,7 @@
+ import logging
+ from collections import deque
+ from dataclasses import dataclass
+-from datetime import datetime
++from datetime import datetime, timedelta
+ 
+ from scheduler.jobs import Job
+ 
+@@ -20,9 +20,15 @@
+     error: str | None = None
+ 
+ 
++DEFAULT_MAX_FAILURES = 5
++
++
+ class Scheduler:
+-    def __init__(self, max_history: int = 1000) -> None:
++    def __init__(self, max_history: int = 1000, max_failures: int = DEFAULT_MAX_FAILURES) -> None:
++        if max_failures < 1:
++            raise ValueError("max_failures must be >= 1")
+         self._jobs: dict[str, Job] = {}
++        self._max_failures = max_failures
+         self.history: deque[RunRecord] = deque(maxlen=max_history)
+ 
+     def add(self, job: Job) -> None:
+@@ -32,6 +38,13 @@
+ 
+     def get(self, name: str) -> Job:
+         return self._jobs[name]
++
++    def enable(self, name: str, now: datetime) -> None:
++        """Re-enable a job disabled after repeated failures and run it at the next tick."""
++        job = self._jobs[name]
++        job.enabled = True
++        job.consecutive_failures = 0
++        job.next_run = now
+ 
+     def due(self, now: datetime) -> list[Job]:
+         """Enabled jobs whose next run is at or before `now`, oldest first."""
+@@ -49,12 +62,21 @@
+             logger.exception("job %s failed", job.name)
+             job.consecutive_failures += 1
+             job.last_error = repr(exc)
++            job.next_run = now + self._retry_delay(job)
++            if job.consecutive_failures >= self._max_failures:
++                logger.error("disabling job %s after %d failures", job.name, job.consecutive_failures)
++                job.enabled = False
+             record = RunRecord(job.name, now, ok=False, error=job.last_error)
+         else:
+             job.consecutive_failures = 0
+             job.last_success = now
+             job.last_error = None
+             record = RunRecord(job.name, now, ok=True)
+-        job.next_run = now + job.interval
++        finally:
++            job.next_run = now + job.interval
+         self.history.append(record)
+         return record
++
++    def _retry_delay(self, job: Job) -> timedelta:
++        backoff = job.retry_delay * 2 ** (job.consecutive_failures - 1)
++        return min(backoff, job.interval)

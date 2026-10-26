@@ -1,0 +1,44 @@
+id: seeded-error-06
+kind: seeded
+split: test
+title: >-
+  Persistent session store treats an unreadable file as empty and wipes it; sign-out-everywhere swallows
+  failed revocations
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: auth/store.py
+  line_start: 139
+  line_end: 140
+  severity: critical
+  category: error_handling
+  description: >
+    `FileSessionStore._read_all` catches `(OSError, ValueError, KeyError)` and returns `{}`, so a corrupt,
+    truncated or unreadable session file (permission error, partial write, bad JSON) is treated exactly
+    like a missing file. The next `save`/`delete` writes that empty dict plus the change back over the
+    file, silently destroying every other user's session; reads meanwhile report every valid token as
+    unknown.
+  must_find: true
+- id: b2
+  file: auth/sessions.py
+  line_start: 98
+  line_end: 100
+  severity: high
+  category: error_handling
+  description: >
+    `sign_out_everywhere` catches `StoreError` from `delete`, logs a warning and continues, so `change_password`
+    returns normally even when some sessions were not revoked. After a password change (e.g. on a compromised
+    account) those sessions keep authenticating, and the caller has no way to tell that the sign-out was
+    incomplete.
+  must_find: true
+notes: >
+  PR purpose: move login sessions out of process memory behind a SessionStore interface (memory and JSON-file
+  backends that store only token hashes), split sessions into short-lived access tokens and rotating refresh
+  tokens, and add sign-out-everywhere and purging of expired sessions.

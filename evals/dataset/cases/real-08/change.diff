@@ -1,0 +1,16 @@
+diff --git a/celery/worker/strategy.py b/celery/worker/strategy.py
+--- a/celery/worker/strategy.py
++++ b/celery/worker/strategy.py
+@@ -186,12 +186,7 @@
+             except (OverflowError, ValueError) as exc:
+                 error("Couldn't convert ETA %r to timestamp: %r. Task: %r",
+                       req.eta, exc, req.info(safe=True), exc_info=True)
+-                req.task.backend.mark_as_failure(
+-                    req.id, exc, request=req._context,
+-                    store_result=req.store_errors,
+-                )
+                 req.reject(requeue=False)
+-                return
+         if rate_limits_enabled:
+             bucket = get_bucket(task.name)
+ 

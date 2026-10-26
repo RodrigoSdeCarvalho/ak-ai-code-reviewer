@@ -1,0 +1,33 @@
+id: seeded-perf-03
+kind: seeded
+split: test
+title: >-
+  Multi-region calendar refactor drops the per-year holiday cache, re-reading holiday data for every day
+  checked
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: scheduling/calendar.py
+  line_start: 37
+  line_end: 38
+  severity: medium
+  category: performance
+  description: >
+    The refactor removed the `_holidays_by_year` memo, so `BusinessCalendar.holidays` calls the holiday
+    source on every `is_business_day` check. With `JsonHolidaySource` that re-reads and re-parses the
+    holiday JSON file for every day walked by `roll_forward`, `add_business_days` and `business_days_between`,
+    so computing due dates for a ticket queue does thousands of file reads instead of one per region and
+    year.
+  must_find: true
+notes: >
+  PR purpose: support customers in several regions. Holiday data becomes keyed by region, a Region value
+  carries its own weekend days and same-day cutoff hour, CalendarSet hands out one calendar per region,
+  and SLA due dates, overdue lists (now with days late) and a per-region overdue view use the ticket's
+  region.

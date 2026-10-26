@@ -1,0 +1,111 @@
+diff --git a/stock/nightly.py b/stock/nightly.py
+--- a/stock/nightly.py
++++ b/stock/nightly.py
+@@ -32,12 +32,12 @@
+     def describe(self) -> str:
+         if not self.lines:
+             return "nothing to reorder"
+-        parts = [f"{line.sku} x{line.quantity}" for line in self.lines]
++        parts = [f"{line.sku} x{line.quantity} (available {line.position.available})" for line in self.lines]
+         return f"{len(self.created)} draft orders: " + ", ".join(parts)
+ 
+ 
+ def run(stock: dict[str, StockItem], book: OrderBook) -> RunSummary:
+-    lines = plan(stock.values())
++    lines = plan(stock.values(), book.orders)
+     created = draft_orders(lines, book.next_id())
+     book.add(created)
+     return RunSummary(lines, created)
+diff --git a/stock/replenish.py b/stock/replenish.py
+--- a/stock/replenish.py
++++ b/stock/replenish.py
+@@ -1,22 +1,51 @@
+-"""Nightly replenishment: decide which SKUs to reorder and how many units to buy."""
++"""Nightly replenishment: decide which SKUs to reorder and how many units to buy.
++
++Decisions use the inventory position (stock on hand, minus units reserved for open sales orders, plus
++units already on order), so a SKU that is short today but has a delivery coming is not ordered twice.
++"""
+ 
+ from __future__ import annotations
+ 
+-from collections.abc import Iterable
++from collections import Counter
++from collections.abc import Iterable, Mapping
+ from dataclasses import dataclass
+ 
+-from stock.models import PurchaseOrder, StockItem
++from stock.models import POStatus, PurchaseOrder, StockItem
++
++
++@dataclass(frozen=True)
++class Position:
++    on_hand: int
++    reserved: int
++    inbound: int
++
++    @property
++    def available(self) -> int:
++        return self.on_hand - self.reserved + self.inbound
+ 
+ 
+ @dataclass(frozen=True)
+ class ReorderLine:
+     sku: str
+     quantity: int
+-    on_hand: int
++    position: Position
+ 
+ 
+-def needs_reorder(item: StockItem) -> bool:
+-    return item.on_hand <= item.reorder_point
++def inbound_by_sku(purchase_orders: Iterable[PurchaseOrder]) -> Counter[str]:
++    """Units per SKU that have been ordered from suppliers but are not in stock yet."""
++    inbound: Counter[str] = Counter()
++    for order in purchase_orders:
++        if order.status is not POStatus.CANCELLED:
++            inbound[order.sku] += order.quantity
++    return inbound
++
++
++def position_of(item: StockItem, inbound: Mapping[str, int]) -> Position:
++    return Position(item.on_hand, item.reserved, inbound.get(item.sku, 0))
++
++
++def needs_reorder(item: StockItem, position: Position) -> bool:
++    return position.available <= item.reorder_point
+ 
+ 
+ def round_to_pack(quantity: int, pack_size: int) -> int:
+@@ -25,22 +54,24 @@
+     return packs * pack_size
+ 
+ 
+-def order_quantity(item: StockItem) -> int:
+-    shortfall = item.reorder_up_to - item.on_hand
++def order_quantity(item: StockItem, position: Position) -> int:
++    shortfall = item.reorder_up_to - position.available
+     if shortfall <= 0:
+         return 0
+     return round_to_pack(shortfall, item.pack_size)
+ 
+ 
+-def plan(items: Iterable[StockItem]) -> list[ReorderLine]:
+-    """Reorder lines for every item at or below its reorder point, sorted by SKU."""
++def plan(items: Iterable[StockItem], purchase_orders: Iterable[PurchaseOrder] = ()) -> list[ReorderLine]:
++    """Reorder lines for every item whose position is at or below its reorder point, sorted by SKU."""
++    inbound = inbound_by_sku(purchase_orders)
+     lines: list[ReorderLine] = []
+     for item in items:
+-        if not needs_reorder(item):
++        position = position_of(item, inbound)
++        if not needs_reorder(item, position):
+             continue
+-        quantity = order_quantity(item)
++        quantity = order_quantity(item, position)
+         if quantity:
+-            lines.append(ReorderLine(item.sku, quantity, item.on_hand))
++            lines.append(ReorderLine(item.sku, quantity, position))
+     return sorted(lines, key=lambda line: line.sku)
+ 
+ 

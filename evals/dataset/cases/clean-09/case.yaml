@@ -1,0 +1,22 @@
+id: clean-09
+kind: clean
+split: test
+title: Add repeatable --level and a cross-file --limit to the logscan CLI
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: logscan gains `--level` (repeatable, restricted to known levels) and `--limit N` (stop after
+  N printed lines in total across all files); LogFilter gets a `levels` condition. Decoys: `action="append"`
+  without a default looks like it might need `default=[]`, but the None default is what avoids argparse
+  sharing one list between parses, and filter_from_args maps None/empty to "no level condition"; `printed
+  == args.limit` compares against None when no limit is given and is never true, so every line is printed;
+  `--limit 0` is handled before any file is opened; the check right after the write prints exactly N lines
+  and stops without reading further or opening later files, and the early `return 0` inside the `with`
+  still closes the file.

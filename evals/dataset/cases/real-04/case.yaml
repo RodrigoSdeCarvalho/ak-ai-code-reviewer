@@ -1,0 +1,38 @@
+id: real-04
+kind: real
+split: test
+title: >-
+  FastAPI converts UploadFile to bytes by reading it to the end, starving other parameters
+language: python
+size_bucket: S
+provenance:
+  origin: reverted-fix
+  source: >-
+    https://github.com/fastapi/fastapi/commit/b47e166dd56023e65812de7904416794b8fdfc8d (committed 2026-10-21,
+    license MIT)
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: fix-derived
+bugs:
+- id: b1
+  file: fastapi/dependencies/utils.py
+  line_start: 1070
+  line_end: 1078
+  severity: medium
+  category: logic
+  description: >
+    `_extract_form_body` converts an uploaded file to `bytes` with `await value.read()` (and `sub_value.read()`
+    for `list[bytes]`) without restoring the file position. The same `UploadFile` from the parsed form
+    is shared by every parameter that declares that field, so when a dependency and the endpoint (or two
+    dependencies) both declare `file: bytes = File()`, the first conversion consumes the stream and the
+    later ones receive `b""`; an endpoint that takes the same field as `UploadFile` after a `bytes` dependency
+    likewise reads nothing. The read position must be saved and restored around the read.
+  must_find: true
+notes: >
+  Reverted fix of fastapi/fastapi PR 16566. Presented to the reviewer as a change that inlines a small
+  `_read_file_bytes` helper (which saved and restored the file position) back into plain `read()` calls.
+  The label spans both call sites the upstream fix changed (single value and list of files); they are
+  one defect. `utils.py` is the whole upstream file (about 1250 lines). Deviation from upstream: before/
+  and fixed/ drop the one-line comment the fix put in the helper ("Automatic conversion must not consume
+  a file shared with other parameters."), because as a deleted line in change.diff it stated the defect
+  to the reviewer; code is otherwise byte-identical to the fix commit (before/) and its parent (after/).

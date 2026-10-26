@@ -1,0 +1,53 @@
+diff --git a/auth/handlers.py b/auth/handlers.py
+--- a/auth/handlers.py
++++ b/auth/handlers.py
+@@ -58,7 +58,7 @@
+     user_id = str(body.get("user_id", ""))
+     if not _password_ok(directory.get(user_id), str(body.get("password", ""))):
+         return 401, {"error": "invalid credentials"}
+-    session = store.create(user_id)
++    session = store.login(user_id)
+     return 200, {"token": session.token, "expires_at": session.expires_at.isoformat()}
+ 
+ 
+diff --git a/auth/sessions.py b/auth/sessions.py
+--- a/auth/sessions.py
++++ b/auth/sessions.py
+@@ -47,14 +47,34 @@
+         self._by_user: dict[str, Session] = {}
+ 
+     def create(self, user_id: str) -> Session:
+-        session = Session(self._token_factory(), user_id, self._clock() + self._ttl)
++        return self._issue(user_id, self._token_factory())
++
++    def _issue(self, user_id: str, token: str) -> Session:
++        session = Session(token, user_id, self._clock() + self._ttl)
+         with self._lock:
+             previous = self._by_user.get(user_id)
+-            if previous is not None:
++            if previous is not None and previous.token != token:
+                 del self._by_token[previous.token]
+             self._by_user[user_id] = session
+-            self._by_token[session.token] = session
++            self._by_token[token] = session
+         return session
++
++    def current(self, user_id: str) -> Session | None:
++        """The user's live session, if any."""
++        with self._lock:
++            session = self._by_user.get(user_id)
++        if session is None or not session.is_live(self._clock()):
++            return None
++        return session
++
++    def login(self, user_id: str) -> Session:
++        """Sign in, keeping the token of a live session so other open tabs stay signed in.
++
++        The session's expiry restarts either way.
++        """
++        session = self.current(user_id)
++        token = session.token if session is not None else self._token_factory()
++        return self._issue(user_id, token)
+ 
+     def validate(self, token: str) -> Session | None:
+         with self._lock:

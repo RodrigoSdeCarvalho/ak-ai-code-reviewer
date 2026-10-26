@@ -1,0 +1,32 @@
+diff --git a/scheduler/jobs.py b/scheduler/jobs.py
+--- a/scheduler/jobs.py
++++ b/scheduler/jobs.py
+@@ -69,6 +69,28 @@
+         finally:
+             self._lock.release()
+ 
++    def reschedule(self, job_id: str, run_at: datetime) -> bool:
++        """Move a pending job to `run_at`. False if the job is unknown or has already started."""
++        self._acquire()
++        job = self._jobs.get(job_id)
++        if job is None or job.status is not JobStatus.PENDING:
++            return False
++        self._jobs[job_id] = replace(job, run_at=run_at)
++        self._lock.release()
++        return True
++
++    def retry(self, job_id: str, run_at: datetime, max_attempts: int = 3) -> bool:
++        """Queue a failed job again at `run_at`. False if unknown, not failed or out of attempts."""
++        self._acquire()
++        try:
++            job = self._jobs.get(job_id)
++            if job is None or job.status is not JobStatus.FAILED or job.attempts >= max_attempts:
++                return False
++            self._jobs[job_id] = replace(job, status=JobStatus.PENDING, run_at=run_at)
++            return True
++        finally:
++            self._lock.release()
++
+     def get(self, job_id: str) -> Job | None:
+         self._acquire()
+         try:

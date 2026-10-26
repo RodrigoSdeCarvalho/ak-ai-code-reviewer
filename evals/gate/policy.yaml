@@ -1,0 +1,14 @@
+# Which gate checks block and which only advise.
+# blocking: always blocks | advisory: never blocks | blocking_when_accepted: blocks once acceptance is ACCEPTED.
+acceptance:
+  state: PENDING        # PENDING | ACCEPTED (set by the owner after reviewing the measured bars, with an ADR reference)
+  by: null
+  date: null
+  reference: null
+checks:
+  completeness: blocking
+  absolute_bars: blocking_when_accepted
+  regression: blocking
+  newly_missed_critical: blocking
+  cost_latency: advisory
+min_items: 6            # slices / metrics with fewer units are INSUFFICIENT_DATA and cannot fail

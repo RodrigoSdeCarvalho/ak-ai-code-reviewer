@@ -1,0 +1,45 @@
+id: real-06
+kind: real
+split: test
+title: >-
+  Concurrent robots.txt waiters all await one shared Deferred, so later requests get no parser and bypass
+  robots.txt
+language: python
+size_bucket: S
+provenance:
+  origin: reverted-fix
+  source: >-
+    https://github.com/scrapy/scrapy/commit/4091b936b6a1b6aeb4b7297b47015b1d1907b5ea (committed 2026-10-21,
+    license BSD-3-Clause)
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: fix-derived
+bugs:
+- id: b1
+  file: scrapy/downloadermiddlewares/robotstxt.py
+  line_start: 208
+  line_end: 208
+  severity: high
+  category: concurrency
+  description: >
+    While a host's robots.txt is still being fetched, `self._parsers[netloc]` is one shared Deferred,
+    and `robot_parser()` now has every concurrent caller await that same Deferred through `maybe_deferred_to_future(parser)`.
+    Converting a Deferred to a future adds a callback that consumes the result and passes None down the
+    chain, so only the first waiter receives the parser; the second and later waiters (the third and later
+    concurrent requests to the host, counting the one that fetches robots.txt) get None. `process_request_2`
+    treats None as "no robots.txt" and lets them through, so with ROBOTSTXT_OBEY=True disallowed URLs
+    are downloaded whenever several requests to a host start before its robots.txt arrives. Cancelling
+    one waiter's future also cancels the shared Deferred for everyone.
+  must_find: true
+  tags:
+  - unshown_context
+  - library_knowledge
+notes: >
+  Reverted upstream fix (scrapy PR #8386, issue #8297). The PR under review replaces the per-caller waiter
+  Deferred with a direct await of the shared per-host Deferred: it reads like a simplification that deletes
+  a helper callback. The upstream fix's explanatory comment ("Every caller needs to get its own Deferred,
+  so that awaiting or cancelling one doesn't affect others.") was removed from before/ and fixed/ so the
+  reverse diff does not announce the defect; after/ is byte-identical to the fix's parent. Spotting the
+  defect requires knowing Twisted's Deferred.asFuture() semantics (the result is replaced by None for
+  later callbacks); the maybe_deferred_to_future helper itself is not included in the case. The label
+  is the buggy-side line that the fix changed.

@@ -1,0 +1,86 @@
+diff --git a/storage/blobs.py b/storage/blobs.py
+--- a/storage/blobs.py
++++ b/storage/blobs.py
+@@ -2,11 +2,18 @@
+ 
+ from __future__ import annotations
+ 
++import os
+ import re
+-from collections.abc import Iterator
++import shutil
++import uuid
++from collections.abc import Iterable, Iterator
++from contextlib import contextmanager
+ from pathlib import Path
++from typing import IO
+ 
+ _KEY = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}")
++_TEMP_PREFIX = ".incoming-"
++_COPY_CHUNK = 1024 * 1024
+ 
+ 
+ class InvalidKey(ValueError):
+@@ -17,7 +24,25 @@
+     pass
+ 
+ 
++@contextmanager
++def _atomic_write(target: Path) -> Iterator[IO[bytes]]:
++    """Yield a temporary file next to `target`; it replaces `target` only if the block completes."""
++    temp_path = target.with_name(f"{_TEMP_PREFIX}{uuid.uuid4().hex}")
++    handle = temp_path.open("xb")
++    try:
++        with handle:
++            yield handle
++            handle.flush()
++            os.fsync(handle.fileno())
++        os.replace(temp_path, target)
++    except BaseException:
++        temp_path.unlink(missing_ok=True)
++        raise
++
++
+ class BlobStore:
++    """Writes are atomic: a reader sees either the previous blob or the complete new one, never a partial file."""
++
+     def __init__(self, root: Path) -> None:
+         self._root = root
+         self._root.mkdir(parents=True, exist_ok=True)
+@@ -28,7 +53,26 @@
+         return self._root / key
+ 
+     def put(self, key: str, data: bytes) -> None:
+-        self._path(key).write_bytes(data)
++        with _atomic_write(self._path(key)) as handle:
++            handle.write(data)
++
++    def put_stream(self, key: str, chunks: Iterable[bytes]) -> int:
++        """Store the concatenation of `chunks` under `key`. Returns the number of bytes written."""
++        written = 0
++        with _atomic_write(self._path(key)) as handle:
++            for chunk in chunks:
++                handle.write(chunk)
++                written += len(chunk)
++        return written
++
++    def copy(self, source_key: str, target_key: str) -> None:
++        target = self._path(target_key)
++        try:
++            source = self._path(source_key).open("rb")
++        except FileNotFoundError:
++            raise BlobNotFound(source_key) from None
++        with source, _atomic_write(target) as handle:
++            shutil.copyfileobj(source, handle, _COPY_CHUNK)
+ 
+     def get(self, key: str) -> bytes:
+         try:
+@@ -49,6 +93,7 @@
+             raise BlobNotFound(key) from None
+ 
+     def keys(self) -> Iterator[str]:
++        """Stored keys in sorted order; uploads still in progress are not listed."""
+         for entry in sorted(self._root.iterdir()):
+-            if entry.is_file():
++            if entry.is_file() and _KEY.fullmatch(entry.name):
+                 yield entry.name

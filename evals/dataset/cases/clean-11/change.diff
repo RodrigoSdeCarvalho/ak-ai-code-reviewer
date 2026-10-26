@@ -1,0 +1,58 @@
+diff --git a/webhooks/delivery.py b/webhooks/delivery.py
+--- a/webhooks/delivery.py
++++ b/webhooks/delivery.py
+@@ -3,10 +3,13 @@
+ from __future__ import annotations
+ 
+ import json
++import time
++from collections.abc import Callable
+ from dataclasses import dataclass
+ from typing import Protocol
+ 
+ RETRYABLE_STATUSES = frozenset({408, 429, 500, 502, 503, 504})
++Sleep = Callable[[float], None]
+ 
+ 
+ class Transport(Protocol):
+@@ -34,6 +37,16 @@
+         return json.dumps({"id": self.id, "type": self.type, "data": self.payload}, sort_keys=True).encode()
+ 
+ 
++@dataclass(frozen=True)
++class RetryPolicy:
++    attempts: int = 4
++    base_delay: float = 0.5
++    max_delay: float = 8.0
++
++    def delay(self, attempt: int) -> float:
++        return min(self.max_delay, self.base_delay * 2 ** (attempt - 1))
++
++
+ def post_once(transport: Transport, endpoint: str, event: Event) -> None:
+     headers = {"Content-Type": "application/json", "Idempotency-Key": event.id}
+     try:
+@@ -44,10 +57,20 @@
+         raise DeliveryError(endpoint, status)
+ 
+ 
+-def deliver(transport: Transport, endpoint: str, event: Event) -> int:
++def deliver(
++    transport: Transport, endpoint: str, event: Event, policy: RetryPolicy = RetryPolicy(), sleep: Sleep = time.sleep
++) -> int:
+     """Post the event to one endpoint. Returns the number of attempts made."""
+-    post_once(transport, endpoint, event)
+-    return 1
++    attempt = 1
++    while True:
++        try:
++            post_once(transport, endpoint, event)
++            return attempt
++        except DeliveryError as error:
++            if attempt >= policy.attempts or error.status not in RETRYABLE_STATUSES | {None}:
++                raise
++        sleep(policy.delay(attempt))
++        attempt += 1
+ 
+ 
+ def broadcast(transport: Transport, endpoints: list[str], event: Event) -> dict[str, DeliveryError]:

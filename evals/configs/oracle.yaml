@@ -1,0 +1,3 @@
+# Oracle: the gold must_find bugs as findings. The scorer must give recall = precision = 1.
+name: oracle
+backend: oracle

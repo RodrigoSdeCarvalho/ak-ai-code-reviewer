@@ -1,0 +1,28 @@
+id: seeded-state-01
+kind: seeded
+split: test
+title: Rejected stock reservations never return their pooled connection
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: inventory/service.py
+  line_start: 93
+  line_end: 96
+  severity: critical
+  category: resource
+  description: >
+    In `reserve`, `self._pool.release(conn)` runs only after the try block succeeds; the `except InventoryError`
+    branch rolls back and re-raises without releasing the connection. Every rejected reservation (out
+    of stock, unknown SKU, duplicate order) permanently removes a connection from the pool, so after `pool.size`
+    rejections every stock operation fails with PoolExhausted.
+  must_find: true
+notes: >
+  PR purpose: add all-or-nothing order reservations (`reserve`) and `cancel` to the stock service, with
+  typed errors for insufficient stock and duplicate reservations.

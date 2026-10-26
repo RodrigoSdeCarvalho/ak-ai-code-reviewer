@@ -1,0 +1,34 @@
+id: seeded-security-02
+kind: seeded
+split: dev
+title: >-
+  Volunteer search builds its surname filter by formatting the user's text into the SQL, so the query
+  breaks on surnames like O'Brien and can be rewritten through the search form
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: roster/search.py
+  line_start: 82
+  line_end: 82
+  severity: critical
+  category: security
+  description: >
+    The surname clause interpolates `flt.surname_prefix`, which comes straight from the coordinators'
+    search form via `parse_filter`, into the SQL text with an f-string instead of binding it as a parameter
+    like every other filter. A surname containing a quote (O'Brien) produces malformed SQL and the search
+    fails with sqlite3.OperationalError, and any form user can alter the WHERE clause (for example to
+    list inactive volunteers' contact details or read other tables). `%` and `_` in the input also act
+    as wildcards because the value is not passed through `_escape_like`.
+  must_find: true
+notes: >
+  PR purpose: add a filtered, paginated volunteer search for the food-bank coordinators' page (surname
+  prefix, email domain, skills, weekday availability, sort order) plus a contact sheet and weekday coverage
+  report built on it. The ORDER BY and IN (...) placeholder f-strings are safe: sort orders come from
+  a fixed mapping and the IN list only contains `?` markers.

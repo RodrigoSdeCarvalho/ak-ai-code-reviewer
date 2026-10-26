@@ -1,0 +1,45 @@
+diff --git a/blobstore/store.py b/blobstore/store.py
+--- a/blobstore/store.py
++++ b/blobstore/store.py
+@@ -17,6 +17,13 @@
+     name: str
+     digest: str
+     size: int
++
++
++@dataclass(frozen=True)
++class GcReport:
++    removed: list[str]
++    freed_bytes: int
++    kept: int
+ 
+ 
+ class BlobStore:
+@@ -57,6 +64,27 @@
+     def names(self) -> list[str]:
+         return sorted(self._live_entries())
+ 
++    def usage(self) -> int:
++        """Bytes referenced by live names, counting shared content once."""
++        sizes = {entry.digest: entry.size for entry in self._live_entries().values()}
++        return sum(sizes.values())
++
++    def collect_garbage(self) -> GcReport:
++        """Delete object files that no live name points to."""
++        removed: list[str] = []
++        freed = 0
++        kept = 0
++        for path in sorted(self._objects.iterdir()):
++            if path.suffix == ".tmp":
++                continue
++            if any(entry.digest == path.name for entry in self._live_entries().values()):
++                kept += 1
++                continue
++            freed += path.stat().st_size
++            path.unlink()
++            removed.append(path.name)
++        return GcReport(removed=removed, freed_bytes=freed, kept=kept)
++
+     def _append(self, record: dict[str, object]) -> None:
+         with self._index.open("a", encoding="utf-8") as fh:
+             fh.write(json.dumps(record, sort_keys=True) + "\n")

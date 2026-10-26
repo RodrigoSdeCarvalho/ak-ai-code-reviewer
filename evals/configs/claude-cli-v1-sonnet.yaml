@@ -1,0 +1,7 @@
+# Headless Claude Code running skills/aireview-code-review/SKILL.md (smoke run of the skill path; not cassette-backed).
+name: claude-cli-v1-sonnet
+backend: claude-cli
+model: claude-sonnet-5-5
+prompt_version: v1
+effort: medium
+max_tokens: 16000

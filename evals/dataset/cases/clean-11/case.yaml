@@ -1,0 +1,23 @@
+id: clean-11
+kind: clean
+split: dev
+title: Retry transient webhook delivery failures with capped exponential backoff
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: deliver() used to post once; it now retries unreachable endpoints and 408/429/5xx answers
+  under a RetryPolicy (4 attempts, 0.5 s doubling, capped at 8 s), with an injectable sleep for tests,
+  and re-raises the last DeliveryError when attempts run out or the failure is permanent. Decoys: `policy:
+  RetryPolicy = RetryPolicy()` looks like the shared-mutable-default trap, but RetryPolicy is a frozen
+  dataclass and is never mutated; the bare `raise` inside `except` re-raises the original error (no failure
+  is swallowed, and the cause chain from post_once is kept); `2 ** (attempt - 1)` with a 1-based attempt
+  gives 0.5, 1, 2 for the three waits; the `sleep` call sits after the try block, so it only runs when
+  a retry will follow, and the `while True` loop always ends because each iteration either returns, raises,
+  or increments `attempt` towards `policy.attempts`.

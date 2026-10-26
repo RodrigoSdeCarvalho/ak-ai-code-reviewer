@@ -1,0 +1,21 @@
+id: clean-13
+kind: clean
+split: dev
+title: Make the per-tenant usage meter safe to share between request threads
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: the worker moved to a thread pool, so UsageMeter now guards its Counter with a lock, drain()
+  swaps in a fresh Counter instead of copy-then-clear (which could drop calls recorded in between), and
+  the constructor accepts counts restored from the last persisted export. Decoys: `initial: Mapping[str,
+  int] = {}` is a mutable default argument, but it is only read (Counter copies it), so meters never share
+  state; in drain() the `dict(calls)` copy happens after the lock is released, which looks unsynchronised,
+  but after the swap no other code holds a reference to that Counter; snapshot() likewise copies under
+  the lock and only builds the frozen UsageSnapshot outside it. record() validates before taking the lock.

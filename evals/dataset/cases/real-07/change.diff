@@ -1,0 +1,39 @@
+diff --git a/celery/utils/collections.py b/celery/utils/collections.py
+--- a/celery/utils/collections.py
++++ b/celery/utils/collections.py
+@@ -630,26 +630,22 @@
+         # time based expiring:
+         if self.expires:
+             while len(self._data) > self.minlen >= 0:
+-                entry = self._heap[0]
+-                if not self._is_current(entry):
+-                    heappop(self._heap)
+-                    continue
+-                if entry[0] + self.expires > now:
++                inserted_time = self._heap[0][0]
++                if inserted_time + self.expires > now:
+                     break  # oldest item hasn't expired yet
+                 self.pop()
+ 
+     def pop(self, default: Any = None) -> Any:
+         """Remove and return the oldest item, or :const:`None` when empty."""
+         while self._heap:
+-            entry = heappop(self._heap)
+-            if self._is_current(entry):
+-                del self._data[entry[2]]
+-                return entry[2]
++            _, _, item = heappop(self._heap)
++            try:
++                self._data.pop(item)
++            except KeyError:
++                pass
++            else:
++                return item
+         return default
+-
+-    def _is_current(self, entry):
+-        # type: (Tuple[float, int, Any]) -> bool
+-        return self._data.get(entry[2]) is entry
+ 
+     def as_dict(self):
+         # type: () -> Dict

@@ -1,0 +1,226 @@
+diff --git a/billing/invoices.py b/billing/invoices.py
+--- a/billing/invoices.py
++++ b/billing/invoices.py
+@@ -5,8 +5,11 @@
+ from dataclasses import dataclass
+ from datetime import date
+ from decimal import ROUND_HALF_UP, Decimal
++from enum import Enum
++from typing import TYPE_CHECKING
+ 
+-from billing.subscriptions import Status, Subscription
++if TYPE_CHECKING:
++    from billing.subscriptions import Subscription
+ 
+ DEFAULT_TAX_RATE = Decimal("0.20")
+ 
+@@ -17,44 +20,58 @@
+     return f"{sign}{whole:,}.{frac:02d}"
+ 
+ 
++class LineKind(str, Enum):
++    RECURRING = "recurring"
++    PRORATION = "proration"
++
++
++@dataclass(frozen=True)
++class LineItem:
++    description: str
++    amount_cents: int
++    kind: LineKind = LineKind.RECURRING
++
++
+ @dataclass(frozen=True)
+ class Invoice:
+     customer_id: str
+     period_start: date
+     period_end: date
+-    description: str
+-    amount_cents: int
++    lines: tuple[LineItem, ...]
+     tax_rate: Decimal
+ 
+     @property
++    def subtotal_cents(self) -> int:
++        return sum(line.amount_cents for line in self.lines)
++
++    @property
+     def tax_cents(self) -> int:
+-        tax = Decimal(self.amount_cents) * self.tax_rate
++        tax = Decimal(self.subtotal_cents) * self.tax_rate
+         return int(tax.quantize(Decimal(1), rounding=ROUND_HALF_UP))
+ 
+     @property
+     def total_cents(self) -> int:
+-        return self.amount_cents + self.tax_cents
++        return self.subtotal_cents + self.tax_cents
++
++    def lines_of(self, kind: LineKind) -> list[LineItem]:
++        return [line for line in self.lines if line.kind is kind]
+ 
+     def render(self) -> str:
+-        return "\n".join(
+-            [
+-                f"Invoice for {self.customer_id}, {self.period_start} to {self.period_end}",
+-                f"  {self.description:<40} {format_cents(self.amount_cents):>12}",
+-                f"  {'Tax':<40} {format_cents(self.tax_cents):>12}",
+-                f"  {'Total':<40} {format_cents(self.total_cents):>12}",
+-            ]
+-        )
++        rows = [f"Invoice for {self.customer_id}, {self.period_start} to {self.period_end}"]
++        for line in self.lines:
++            rows.append(f"  {line.description:<48} {format_cents(line.amount_cents):>12}")
++        rows.append(f"  {'Subtotal':<48} {format_cents(self.subtotal_cents):>12}")
++        rows.append(f"  {'Tax':<48} {format_cents(self.tax_cents):>12}")
++        rows.append(f"  {'Total':<48} {format_cents(self.total_cents):>12}")
++        return "\n".join(rows)
+ 
+ 
+ def build_invoice(sub: Subscription, tax_rate: Decimal = DEFAULT_TAX_RATE) -> Invoice:
+-    """Invoice for the subscription's current period."""
++    """Invoice for the subscription's current period, including adjustments queued since the last one."""
++    from billing.subscriptions import Status
++
+     if sub.status is not Status.ACTIVE:
+         raise ValueError(f"{sub.customer_id}: no invoice for a cancelled subscription")
+-    return Invoice(
+-        sub.customer_id,
+-        sub.period_start,
+-        sub.period_end,
+-        f"{sub.plan.name} plan",
+-        sub.plan.monthly_price_cents,
+-        tax_rate,
+-    )
++    recurring = LineItem(f"{sub.plan.name} plan", sub.plan.monthly_price_cents)
++    lines = (*sub.take_pending_lines(), recurring)
++    return Invoice(sub.customer_id, sub.period_start, sub.period_end, lines, tax_rate)
+diff --git a/billing/proration.py b/billing/proration.py
+new file mode 100644
+--- /dev/null
++++ b/billing/proration.py
+@@ -0,0 +1,54 @@
++"""Mid-period plan changes: credit the unused part of the old plan, charge the rest on the new one."""
++
++from __future__ import annotations
++
++from datetime import date, timedelta
++from decimal import ROUND_HALF_UP, Decimal
++from typing import TYPE_CHECKING
++
++from billing.invoices import LineItem, LineKind, format_cents
++from billing.plans import Plan
++
++if TYPE_CHECKING:
++    from billing.subscriptions import Subscription
++
++
++def prorate(amount_cents: int, days: int, period_days: int) -> int:
++    """`amount_cents` scaled by days / period_days, rounded half up to a whole cent."""
++    if period_days <= 0:
++        raise ValueError("a billing period is at least one day long")
++    if not 0 <= days <= period_days:
++        raise ValueError(f"days must be between 0 and {period_days}, got {days}")
++    scaled = Decimal(amount_cents) * days / period_days
++    return int(scaled.quantize(Decimal(1), rounding=ROUND_HALF_UP))
++
++
++def split_period(start: date, end: date, on: date) -> tuple[int, int]:
++    """(used, remaining) days of the period [start, end) for a change that takes effect on `on`."""
++    if not start <= on < end:
++        raise ValueError(f"{on} is outside the billing period {start} to {end}")
++    used = (on - start).days
++    return used, (end - start).days - used
++
++
++def plan_change_lines(sub: Subscription, new_plan: Plan, on: date) -> list[LineItem]:
++    """Credit and charge lines for moving `sub` from its current plan to `new_plan` on `on`."""
++    period_days = (sub.period_end - sub.period_start).days
++    used, remaining = split_period(sub.period_start, sub.period_end, on)
++    old_plan = sub.plan
++    credit = prorate(old_plan.monthly_price_cents, used, period_days)
++    charge = prorate(new_plan.monthly_price_cents, remaining, period_days)
++    last_day = sub.period_end - timedelta(days=1)
++    span = f"{on.isoformat()} to {last_day.isoformat()}"
++    return [
++        LineItem(f"Unused {old_plan.name} ({span})", -credit, LineKind.PRORATION),
++        LineItem(f"{new_plan.name} ({span})", charge, LineKind.PRORATION),
++    ]
++
++
++def preview_change(sub: Subscription, new_plan: Plan, on: date) -> str:
++    """One-line summary of what a plan change would add to the next invoice, before tax."""
++    lines = plan_change_lines(sub, new_plan, on)
++    net = sum(line.amount_cents for line in lines)
++    verb = "charge" if net >= 0 else "credit"
++    return f"Switching to {new_plan.name} on {on.isoformat()}: {verb} of {format_cents(abs(net))} before tax"
+diff --git a/billing/subscriptions.py b/billing/subscriptions.py
+--- a/billing/subscriptions.py
++++ b/billing/subscriptions.py
+@@ -3,11 +3,13 @@
+ from __future__ import annotations
+ 
+ import calendar
+-from dataclasses import dataclass
++from dataclasses import dataclass, field
+ from datetime import date
+ from enum import Enum
+ 
++from billing.invoices import LineItem
+ from billing.plans import Plan
++from billing.proration import plan_change_lines
+ 
+ 
+ class Status(str, Enum):
+@@ -22,9 +24,20 @@
+     return date(year, month, min(anchor_day, last))
+ 
+ 
++@dataclass(frozen=True)
++class PlanChange:
++    on: date
++    from_code: str
++    to_code: str
++
++
+ @dataclass
+ class Subscription:
+-    """A subscription whose current billing period is [period_start, period_end)."""
++    """A subscription whose current billing period is [period_start, period_end).
++
++    Plan changes take effect immediately; their prorated credit and charge are held in
++    `pending_lines` until the next invoice is built.
++    """
+ 
+     customer_id: str
+     plan: Plan
+@@ -32,6 +45,8 @@
+     period_end: date
+     anchor_day: int
+     status: Status = Status.ACTIVE
++    history: list[PlanChange] = field(default_factory=list)
++    pending_lines: list[LineItem] = field(default_factory=list)
+ 
+     @classmethod
+     def start(cls, customer_id: str, plan: Plan, on: date) -> Subscription:
+@@ -45,3 +60,21 @@
+ 
+     def cancel(self) -> None:
+         self.status = Status.CANCELLED
++
++    def change_plan(self, new_plan: Plan, on: date) -> list[LineItem]:
++        """Switch to `new_plan` from `on` and queue the prorated adjustment for the next invoice."""
++        if self.status is not Status.ACTIVE:
++            raise ValueError(f"{self.customer_id}: cannot change the plan of a cancelled subscription")
++        if new_plan.code == self.plan.code:
++            raise ValueError(f"{self.customer_id}: already on {new_plan.code}")
++        previous = self.plan
++        self.plan = new_plan
++        self.history.append(PlanChange(on, previous.code, new_plan.code))
++        adjustment = plan_change_lines(self, new_plan, on)
++        self.pending_lines.extend(adjustment)
++        return adjustment
++
++    def take_pending_lines(self) -> list[LineItem]:
++        """Return the queued adjustment lines and clear the queue."""
++        lines, self.pending_lines = self.pending_lines, []
++        return lines

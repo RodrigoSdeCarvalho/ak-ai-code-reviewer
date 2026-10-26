@@ -1,0 +1,30 @@
+id: seeded-logic-06
+kind: seeded
+split: test
+title: >-
+  New token-bucket limiter re-credits the same elapsed time on every denied request
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: ratelimit/limiter.py
+  line_start: 69
+  line_end: 73
+  severity: high
+  category: logic
+  description: >
+    `check` stores the refilled token count in `bucket.tokens` and then returns early on denial without
+    advancing `bucket.updated_at`, so the next call adds the same elapsed interval again. A throttled
+    client that keeps retrying refills far faster than `refill_rate` (polling every 0.125 s after draining
+    a 10-token, 1 token/s bucket admits 22 requests in 10 s instead of 10), so the limit is not enforced
+    under load.
+  must_find: true
+notes: >
+  PR purpose: add a token-bucket limiter alongside the fixed-window one and let the gateway config choose
+  it with `strategy: token_bucket` (refill rate derived from limit / window_seconds, optional `burst`).

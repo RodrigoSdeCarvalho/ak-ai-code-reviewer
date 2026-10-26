@@ -1,0 +1,21 @@
+id: clean-01
+kind: clean
+split: dev
+title: Add status filter and sortable columns to the orders dashboard report
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: let the back-office dashboard filter orders by status and sort by placed date, total or
+  customer, driven by query parameters. Decoy: the SELECT is built with an f-string that interpolates
+  the sort column, direction and an IN (...) placeholder list. The column comes only from the SORTABLE_COLUMNS
+  whitelist (unknown keys raise ValueError before any SQL is built), the direction is one of two literals,
+  and the status values are bound as `?` parameters after being checked against STATUSES, so user input
+  never reaches the SQL text. Tests pin the sort orders, the filter and the rejection of hostile sort
+  keys and statuses.

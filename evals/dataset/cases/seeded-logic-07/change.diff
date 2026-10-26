@@ -1,0 +1,268 @@
+diff --git a/metering/cli.py b/metering/cli.py
+--- a/metering/cli.py
++++ b/metering/cli.py
+@@ -3,12 +3,17 @@
+ from __future__ import annotations
+ 
+ import argparse
++import re
+ import sys
+ from collections import defaultdict
+ from collections.abc import Sequence
+ from pathlib import Path
+ 
+ from metering.events import EventFormatError, UsageEvent, load_events
++from metering.report import build_report, render_csv, render_text
++from metering.rollup import rollup
++
++MONTH_RE = re.compile(r"^\d{4}-(0[1-9]|1[0-2])$")
+ 
+ 
+ def read_events(path: Path) -> list[UsageEvent]:
+@@ -24,10 +29,23 @@
+     return {account: dict(metrics) for account, metrics in totals.items()}
+ 
+ 
++def month_arg(value: str) -> str:
++    if not MONTH_RE.match(value):
++        raise argparse.ArgumentTypeError(f"expected YYYY-MM, got {value!r}")
++    return value
++
++
+ def _cmd_summary(args: argparse.Namespace) -> int:
+     for account, metrics in sorted(summarize(read_events(args.export)).items()):
+         parts = ", ".join(f"{metric}={value}" for metric, value in sorted(metrics.items()))
+         print(f"{account}: {parts}")
++    return 0
++
++
++def _cmd_report(args: argparse.Namespace) -> int:
++    rows = build_report(rollup(read_events(args.export)), args.month)
++    output = render_csv(rows) if args.format == "csv" else render_text(rows, args.month)
++    sys.stdout.write(output)
+     return 0
+ 
+ 
+@@ -37,6 +55,11 @@
+     summary = commands.add_parser("summary", help="total usage per account")
+     summary.add_argument("export", type=Path)
+     summary.set_defaults(handler=_cmd_summary)
++    report = commands.add_parser("report", help="monthly usage report with month-over-month change")
++    report.add_argument("export", type=Path)
++    report.add_argument("--month", type=month_arg, required=True, help="YYYY-MM")
++    report.add_argument("--format", choices=("text", "csv"), default="text")
++    report.set_defaults(handler=_cmd_report)
+     return parser
+ 
+ 
+diff --git a/metering/report.py b/metering/report.py
+new file mode 100644
+--- /dev/null
++++ b/metering/report.py
+@@ -0,0 +1,109 @@
++"""Monthly usage report with month-over-month change, as a text table or CSV."""
++
++from __future__ import annotations
++
++import csv
++import io
++from collections.abc import Mapping, Sequence
++from dataclasses import dataclass
++from datetime import date
++
++from metering.rollup import MonthlyUsage, UsageKey, previous_month
++
++COLUMNS = (
++    "account_id",
++    "metric",
++    "total",
++    "active_days",
++    "avg_per_day",
++    "peak_day",
++    "peak_quantity",
++    "previous_total",
++    "change",
++)
++
++
++@dataclass(frozen=True)
++class ReportRow:
++    account_id: str
++    metric: str
++    total: int
++    active_days: int
++    average_per_day: float
++    peak_day: date
++    peak_quantity: int
++    previous_total: int | None
++
++    @property
++    def change_pct(self) -> float | None:
++        """Percent change from the previous month, or None when there is nothing to compare."""
++        if not self.previous_total:
++            return None
++        return round((self.total - self.previous_total) / self.previous_total * 100, 1)
++
++    def cells(self) -> list[str]:
++        return [
++            self.account_id,
++            self.metric,
++            str(self.total),
++            str(self.active_days),
++            f"{self.average_per_day:.1f}",
++            self.peak_day.isoformat(),
++            str(self.peak_quantity),
++            "" if self.previous_total is None else str(self.previous_total),
++            format_change(self.change_pct),
++        ]
++
++
++def format_change(change_pct: float | None) -> str:
++    return "n/a" if change_pct is None else f"{change_pct:+.1f}%"
++
++
++def build_report(usage: Mapping[UsageKey, MonthlyUsage], month: str) -> list[ReportRow]:
++    """One row per account and metric with usage in `month`, sorted by account then metric."""
++    prior = previous_month(month)
++    rows: list[ReportRow] = []
++    for (account_id, metric, row_month), current in usage.items():
++        if row_month != month:
++            continue
++        previous = usage.get((account_id, prior, metric))
++        rows.append(
++            ReportRow(
++                account_id=account_id,
++                metric=metric,
++                total=current.total,
++                active_days=current.active_days,
++                average_per_day=current.average_per_active_day,
++                peak_day=current.peak_day,
++                peak_quantity=current.peak_quantity,
++                previous_total=previous.total if previous is not None else None,
++            )
++        )
++    rows.sort(key=lambda row: (row.account_id, row.metric))
++    return rows
++
++
++def top_accounts(rows: Sequence[ReportRow], metric: str, limit: int = 5) -> list[ReportRow]:
++    """The `limit` rows with the highest total for `metric`."""
++    matching = [row for row in rows if row.metric == metric]
++    return sorted(matching, key=lambda row: (-row.total, row.account_id))[:limit]
++
++
++def render_text(rows: Sequence[ReportRow], month: str) -> str:
++    """Fixed-width table with a title line."""
++    table = [list(COLUMNS), *(row.cells() for row in rows)]
++    widths = [max(len(line[index]) for line in table) for index in range(len(COLUMNS))]
++    lines = [f"Usage report for {month}", ""]
++    for line in table:
++        lines.append("  ".join(cell.ljust(width) for cell, width in zip(line, widths)).rstrip())
++    if not rows:
++        lines.append("(no usage)")
++    return "\n".join(lines) + "\n"
++
++
++def render_csv(rows: Sequence[ReportRow]) -> str:
++    buffer = io.StringIO()
++    writer = csv.writer(buffer, lineterminator="\n")
++    writer.writerow(COLUMNS)
++    writer.writerows(row.cells() for row in rows)
++    return buffer.getvalue()
+diff --git a/metering/rollup.py b/metering/rollup.py
+new file mode 100644
+--- /dev/null
++++ b/metering/rollup.py
+@@ -0,0 +1,92 @@
++"""Roll usage events up into daily and monthly totals per account and metric."""
++
++from __future__ import annotations
++
++from collections.abc import Iterable, Iterator
++from dataclasses import dataclass
++from datetime import date
++
++from metering.events import UsageEvent
++
++UsageKey = tuple[str, str, str]
++"""(account_id, metric, month) with month formatted as YYYY-MM."""
++
++
++@dataclass(frozen=True)
++class DailyTotal:
++    account_id: str
++    metric: str
++    day: date
++    quantity: int
++
++
++@dataclass
++class MonthlyUsage:
++    account_id: str
++    metric: str
++    month: str
++    total: int
++    active_days: int
++    peak_day: date
++    peak_quantity: int
++
++    @property
++    def average_per_active_day(self) -> float:
++        return self.total / self.active_days
++
++
++def month_key(day: date) -> str:
++    return f"{day.year:04d}-{day.month:02d}"
++
++
++def previous_month(month: str) -> str:
++    """The YYYY-MM month before `month`."""
++    year, number = (int(part) for part in month.split("-"))
++    if number == 1:
++        return f"{year - 1:04d}-12"
++    return f"{year:04d}-{number - 1:02d}"
++
++
++def daily_totals(events: Iterable[UsageEvent]) -> Iterator[DailyTotal]:
++    """Quantity per account, metric and UTC day, in account/metric/day order."""
++    ordered = sorted(events, key=lambda event: (event.account_id, event.metric, event.timestamp))
++    current: tuple[str, str, date] | None = None
++    quantity = 0
++    for event in ordered:
++        key = (event.account_id, event.metric, event.timestamp.date())
++        if current is not None and key != current:
++            yield DailyTotal(*current, quantity)
++        current = key
++        quantity += event.quantity
++    if current is not None:
++        yield DailyTotal(*current, quantity)
++
++
++def monthly_usage(daily: Iterable[DailyTotal]) -> dict[UsageKey, MonthlyUsage]:
++    """Monthly totals, active days and the peak day for each account and metric."""
++    usage: dict[UsageKey, MonthlyUsage] = {}
++    for total in daily:
++        month = month_key(total.day)
++        key = (total.account_id, total.metric, month)
++        current = usage.get(key)
++        if current is None:
++            usage[key] = MonthlyUsage(
++                account_id=total.account_id,
++                metric=total.metric,
++                month=month,
++                total=total.quantity,
++                active_days=1,
++                peak_day=total.day,
++                peak_quantity=total.quantity,
++            )
++            continue
++        current.total += total.quantity
++        current.active_days += 1
++        if total.quantity > current.peak_quantity:
++            current.peak_day = total.day
++            current.peak_quantity = total.quantity
++    return usage
++
++
++def rollup(events: Iterable[UsageEvent]) -> dict[UsageKey, MonthlyUsage]:
++    return monthly_usage(daily_totals(events))

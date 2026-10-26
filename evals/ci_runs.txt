@@ -1,0 +1,6 @@
+# Reviewer configs that CI replays from committed cassettes and gates against evals/baseline.json.
+# One line per run: <config path> <samples> [<sample offset>, default 0], e.g.
+#   evals/configs/v1-sonnet.yaml 3
+#   evals/configs/v1-sonnet.yaml 3 3    (an independent re-record, cassettes at sample indices 3..5)
+# Add a line only once the run's reviewer and judge cassettes are committed: a missing cassette fails CI.
+# Empty (comments only) = CI skips the eval steps.

@@ -1,0 +1,29 @@
+id: seeded-error-05
+kind: seeded
+split: dev
+title: >-
+  Whole-order reservation keeps earlier lines reserved when a later line is out of stock
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: inventory/warehouse.py
+  line_start: 59
+  line_end: 60
+  severity: high
+  category: error_handling
+  description: >
+    `reserve_order` reserves the lines one by one and does not release the lines it already reserved when
+    a later `reserve` raises OutOfStock or UnknownSku. `place_order` then answers 409/404 for an order
+    that was never created, but the earlier lines' units stay reserved with no order referencing them,
+    so every rejected order permanently shrinks available stock and later valid orders are refused.
+  must_find: true
+notes: >
+  PR purpose: replace the handler's check-availability-then-reserve sequence with a single `Warehouse.reserve_order`
+  call, so the availability check and the reservation cannot disagree.

@@ -1,0 +1,221 @@
+diff --git a/tracking/events.py b/tracking/events.py
+--- a/tracking/events.py
++++ b/tracking/events.py
+@@ -6,15 +6,18 @@
+ from datetime import datetime, timezone
+ from typing import Any
+ 
+-EVENT_NAMES = frozenset({"signup", "login", "page_view", "purchase", "invite_sent"})
++EVENT_NAMES = frozenset({"signup", "login", "logout", "page_view", "purchase", "invite_sent"})
+ 
+ 
+ @dataclass(frozen=True)
+ class Event:
++    """One tracked action. `account_id` is None for anonymous visitors."""
++
+     name: str
+     at: datetime
+-    user_id: str | None = None
++    account_id: str | None = None
+     props: dict[str, Any] = field(default_factory=dict)
++    session_id: str | None = None
+ 
+     def __post_init__(self) -> None:
+         if self.name not in EVENT_NAMES:
+@@ -26,15 +29,31 @@
+         return {
+             "name": self.name,
+             "at": self.at.astimezone(timezone.utc).isoformat(),
+-            "user_id": self.user_id,
++            "account_id": self.account_id,
++            "session_id": self.session_id,
+             "props": dict(self.props),
+         }
+ 
+     @classmethod
+     def from_record(cls, record: dict[str, Any]) -> Event:
++        record = upgrade_record(record)
+         return cls(
+             name=record["name"],
+             at=datetime.fromisoformat(record["at"]),
+-            user_id=record.get("user_id"),
++            account_id=record.get("account_id"),
++            session_id=record.get("session_id"),
+             props=dict(record.get("props", {})),
+         )
++
++
++def upgrade_record(record: dict[str, Any]) -> dict[str, Any]:
++    """Return `record` in the current schema.
++
++    Records written before accounts replaced users carry `user_id` and no `session_id`.
++    """
++    if "user_id" not in record:
++        return record
++    upgraded = {key: value for key, value in record.items() if key != "user_id"}
++    upgraded.setdefault("account_id", record["user_id"])
++    upgraded.setdefault("session_id", None)
++    return upgraded
+diff --git a/tracking/reports.py b/tracking/reports.py
+--- a/tracking/reports.py
++++ b/tracking/reports.py
+@@ -4,7 +4,8 @@
+ 
+ from collections import Counter, defaultdict
+ from collections.abc import Iterable
+-from datetime import date, datetime
++from dataclasses import dataclass
++from datetime import date, datetime, timedelta
+ from typing import Any
+ 
+ from tracking.store import EventStore
+@@ -12,8 +13,12 @@
+ Record = dict[str, Any]
+ 
+ 
++def _at(record: Record) -> datetime:
++    return datetime.fromisoformat(record["at"])
++
++
+ def _day(record: Record) -> date:
+-    return datetime.fromisoformat(record["at"]).date()
++    return _at(record).date()
+ 
+ 
+ def daily_counts(records: Iterable[Record], name: str) -> dict[date, int]:
+@@ -25,16 +30,85 @@
+     return dict(sorted(counts.items()))
+ 
+ 
+-def top_users(records: Iterable[Record], n: int = 10, name: str | None = None) -> list[tuple[str, int]]:
+-    """The `n` users with the most events (of `name`, if given), most active first."""
++def top_accounts(records: Iterable[Record], n: int = 10, name: str | None = None) -> list[tuple[str, int]]:
++    """The `n` accounts with the most events (of `name`, if given), most active first."""
+     counts = Counter(
+-        record["user_id"]
++        record["account_id"]
+         for record in records
+-        if record.get("user_id") is not None and (name is None or record["name"] == name)
++        if record.get("account_id") is not None and (name is None or record["name"] == name)
+     )
+     return sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:n]
+ 
+ 
+-def user_timeline(store: EventStore, user_id: str) -> list[tuple[datetime, str]]:
+-    """Every event of one user as (time, name), oldest first."""
+-    return sorted((datetime.fromisoformat(record["at"]), record["name"]) for record in store.for_user(user_id))
++def daily_active_accounts(records: Iterable[Record]) -> dict[date, int]:
++    """Distinct signed-in accounts with at least one event, per UTC day, in day order."""
++    active: dict[date, set[str]] = defaultdict(set)
++    for record in records:
++        account = record.get("account_id")
++        if account is not None:
++            active[_day(record)].add(account)
++    return {day: len(accounts) for day, accounts in sorted(active.items())}
++
++
++def retention(records: Iterable[Record], cohort_day: date, horizon: int = 7) -> list[float]:
++    """Share of the accounts that signed up on `cohort_day` that were active on each following day.
++
++    Element 0 is the day after signup, up to `horizon` days. An empty cohort gives all zeros.
++    """
++    if horizon < 1:
++        raise ValueError("horizon must be at least 1")
++    cohort: set[str] = set()
++    active_days: dict[str, set[date]] = defaultdict(set)
++    for record in records:
++        account = record.get("account_id")
++        if account is None:
++            continue
++        day = _day(record)
++        if record["name"] == "signup" and day == cohort_day:
++            cohort.add(account)
++        active_days[account].add(day)
++    if not cohort:
++        return [0.0] * horizon
++    shares: list[float] = []
++    for offset in range(1, horizon + 1):
++        target = cohort_day + timedelta(days=offset)
++        returning = sum(1 for account in cohort if target in active_days[account])
++        shares.append(returning / len(cohort))
++    return shares
++
++
++@dataclass
++class SessionStats:
++    account_id: str | None
++    started: datetime
++    ended: datetime
++    events: int
++
++    @property
++    def duration(self) -> timedelta:
++        return self.ended - self.started
++
++
++def session_stats(records: Iterable[Record]) -> dict[str, SessionStats]:
++    """Per session id: the account that signed in (if any), first and last event time, event count."""
++    sessions: dict[str, SessionStats] = {}
++    for record in records:
++        session_id = record.get("session_id")
++        if session_id is None:
++            continue
++        at = _at(record)
++        stats = sessions.get(session_id)
++        if stats is None:
++            sessions[session_id] = SessionStats(record.get("account_id"), at, at, 1)
++            continue
++        stats.started = min(stats.started, at)
++        stats.ended = max(stats.ended, at)
++        stats.events += 1
++        if stats.account_id is None:
++            stats.account_id = record.get("account_id")
++    return sessions
++
++
++def account_timeline(store: EventStore, account_id: str) -> list[tuple[datetime, str]]:
++    """Every event of one account as (time, name), oldest first."""
++    return sorted((_at(record), record["name"]) for record in store.for_account(account_id))
+diff --git a/tracking/store.py b/tracking/store.py
+--- a/tracking/store.py
++++ b/tracking/store.py
+@@ -8,7 +8,7 @@
+ from pathlib import Path
+ from typing import Any
+ 
+-from tracking.events import Event
++from tracking.events import Event, upgrade_record
+ 
+ 
+ class EventStore:
+@@ -25,14 +25,14 @@
+         return len(lines)
+ 
+     def records(self, since: datetime | None = None, until: datetime | None = None) -> Iterator[dict[str, Any]]:
+-        """Yield stored records in write order, optionally limited to `since <= at < until`."""
++        """Yield stored records in write order and in the current schema, limited to `since <= at < until`."""
+         if not self._path.exists():
+             return
+         with self._path.open(encoding="utf-8") as handle:
+             for line in handle:
+                 if not line.strip():
+                     continue
+-                record = json.loads(line)
++                record = upgrade_record(json.loads(line))
+                 at = datetime.fromisoformat(record["at"])
+                 if since is not None and at < since:
+                     continue
+@@ -43,6 +43,10 @@
+     def events(self, since: datetime | None = None, until: datetime | None = None) -> Iterator[Event]:
+         return (Event.from_record(record) for record in self.records(since, until))
+ 
+-    def for_user(self, user_id: str) -> Iterator[dict[str, Any]]:
+-        """Records for one user, in write order."""
+-        return (record for record in self.records() if record.get("user_id") == user_id)
++    def for_account(self, account_id: str) -> Iterator[dict[str, Any]]:
++        """Records for one account, in write order."""
++        return (record for record in self.records() if record.get("user_id") == account_id)
++
++    def for_session(self, session_id: str) -> Iterator[dict[str, Any]]:
++        """Records for one session, in write order."""
++        return (record for record in self.records() if record.get("session_id") == session_id)

@@ -1,0 +1,114 @@
+diff --git a/audit/handlers.py b/audit/handlers.py
+--- a/audit/handlers.py
++++ b/audit/handlers.py
+@@ -2,17 +2,27 @@
+ 
+ from __future__ import annotations
+ 
++import base64
++import re
+ from collections.abc import Mapping
+ from dataclasses import dataclass
+ from typing import Any
+ 
+ from audit.store import AuditEvent, AuditStore
+ 
++DEFAULT_PAGE_SIZE = 50
++MAX_PAGE_SIZE = 200
++_CURSOR = re.compile(r"v1:([1-9][0-9]*)")
++
+ 
+ @dataclass(frozen=True)
+ class Response:
+     status: int
+     body: dict[str, Any]
++
++
++class BadRequest(ValueError):
++    pass
+ 
+ 
+ def _serialize(event: AuditEvent) -> dict[str, Any]:
+@@ -25,10 +35,47 @@
+     }
+ 
+ 
++def encode_cursor(event_id: int) -> str:
++    return base64.urlsafe_b64encode(f"v1:{event_id}".encode()).decode()
++
++
++def decode_cursor(cursor: str) -> int:
++    try:
++        raw = base64.urlsafe_b64decode(cursor.encode()).decode()
++    except ValueError:
++        raise BadRequest("malformed cursor") from None
++    match = _CURSOR.fullmatch(raw)
++    if match is None:
++        raise BadRequest("malformed cursor")
++    return int(match.group(1))
++
++
++def _page_size(raw: str | None) -> int:
++    if raw is None:
++        return DEFAULT_PAGE_SIZE
++    try:
++        size = int(raw)
++    except ValueError:
++        raise BadRequest("limit must be an integer") from None
++    if size < 1:
++        raise BadRequest("limit must be at least 1")
++    return min(size, MAX_PAGE_SIZE)
++
++
+ def list_events(store: AuditStore, params: Mapping[str, str]) -> Response:
+-    """GET /audit/events?actor=&action= : matching events, newest first."""
+-    events = store.query(actor=params.get("actor"), action=params.get("action"))
+-    return Response(200, {"events": [_serialize(event) for event in events]})
++    """GET /audit/events?actor=&action=&limit=&cursor= : one page of matching events, newest first.
++
++    `next_cursor` is null on the last page; otherwise pass it back as `cursor` to get the next page.
++    """
++    try:
++        limit = _page_size(params.get("limit"))
++        before_id = decode_cursor(params["cursor"]) if "cursor" in params else None
++    except BadRequest as exc:
++        return Response(400, {"error": str(exc)})
++    rows = store.query(actor=params.get("actor"), action=params.get("action"), before_id=before_id, limit=limit + 1)
++    page = rows[:limit]
++    next_cursor = encode_cursor(page[-1].id) if len(rows) > limit else None
++    return Response(200, {"events": [_serialize(event) for event in page], "next_cursor": next_cursor})
+ 
+ 
+ def get_event(store: AuditStore, event_id: str) -> Response:
+diff --git a/audit/store.py b/audit/store.py
+--- a/audit/store.py
++++ b/audit/store.py
+@@ -34,10 +34,21 @@
+             return self._events[event_id - 1]
+         return None
+ 
+-    def query(self, *, actor: str | None = None, action: str | None = None) -> list[AuditEvent]:
+-        """Matching events, newest first."""
+-        return [
+-            event
+-            for event in reversed(self._events)
+-            if (actor is None or event.actor == actor) and (action is None or event.action == action)
+-        ]
++    def query(
++        self,
++        *,
++        actor: str | None = None,
++        action: str | None = None,
++        before_id: int | None = None,
++        limit: int | None = None,
++    ) -> list[AuditEvent]:
++        """Matching events, newest first, with ids strictly below `before_id`; at most `limit` of them."""
++        end = len(self._events) if before_id is None else max(0, min(before_id - 1, len(self._events)))
++        matches: list[AuditEvent] = []
++        for index in range(end - 1, -1, -1):
++            if limit is not None and len(matches) >= limit:
++                break
++            event = self._events[index]
++            if (actor is None or event.actor == actor) and (action is None or event.action == action):
++                matches.append(event)
++        return matches

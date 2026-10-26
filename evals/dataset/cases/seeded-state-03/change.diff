@@ -1,0 +1,232 @@
+diff --git a/billing/admin.py b/billing/admin.py
+new file mode 100644
+--- /dev/null
++++ b/billing/admin.py
+@@ -0,0 +1,51 @@
++"""Admin handlers for tax rate tables and rate-cache metrics."""
++
++from __future__ import annotations
++
++from decimal import Decimal, InvalidOperation
++from typing import Any
++
++from billing.tax import TableRateSource, TaxCalculator, normalise_postal_code
++
++Response = tuple[int, dict[str, Any]]
++
++
++def _parse_table(raw: Any) -> dict[str, Decimal]:
++    if not isinstance(raw, dict) or not raw:
++        raise ValueError("rates must be a non-empty object of postal prefix -> rate")
++    table: dict[str, Decimal] = {}
++    for prefix, value in raw.items():
++        try:
++            rate = Decimal(str(value))
++        except InvalidOperation:
++            raise ValueError(f"rate for {prefix!r} is not a number") from None
++        if not rate.is_finite() or not Decimal("0") <= rate < Decimal("1"):
++            raise ValueError(f"rate for {prefix!r} must be in [0, 1)")
++        table[normalise_postal_code(str(prefix))] = rate
++    return table
++
++
++def put_country_rates(
++    source: TableRateSource, calculator: TaxCalculator, country: str, body: dict[str, Any]
++) -> Response:
++    """PUT /admin/tax-rates/{country}: replace a country's table and drop its cached rates."""
++    try:
++        table = _parse_table(body.get("rates"))
++    except ValueError as exc:
++        return 400, {"error": str(exc)}
++    country = country.upper()
++    source.replace_country(country, table)
++    dropped = calculator.rates_changed(country)
++    return 200, {"country": country, "prefixes": len(table), "cache_entries_dropped": dropped}
++
++
++def get_cache_stats(calculator: TaxCalculator) -> Response:
++    """GET /admin/tax-rates/cache: hit ratio and size of the rate cache."""
++    stats = calculator.cache_stats()
++    return 200, {
++        "hits": stats.hits,
++        "misses": stats.misses,
++        "evictions": stats.evictions,
++        "size": stats.size,
++        "hit_ratio": round(stats.hit_ratio, 4),
++    }
+diff --git a/billing/ratecache.py b/billing/ratecache.py
+new file mode 100644
+--- /dev/null
++++ b/billing/ratecache.py
+@@ -0,0 +1,116 @@
++"""Time-bounded LRU cache for tax rates with per-country invalidation."""
++
++from __future__ import annotations
++
++import threading
++from collections import OrderedDict
++from collections.abc import Callable
++from dataclasses import dataclass
++from datetime import UTC, datetime, timedelta
++from decimal import Decimal
++
++Key = tuple[str, str]
++Loader = Callable[[str, str], Decimal]
++Clock = Callable[[], datetime]
++
++
++def utcnow() -> datetime:
++    return datetime.now(UTC)
++
++
++@dataclass(frozen=True)
++class CacheStats:
++    hits: int
++    misses: int
++    evictions: int
++    size: int
++
++    @property
++    def hit_ratio(self) -> float:
++        lookups = self.hits + self.misses
++        return self.hits / lookups if lookups else 0.0
++
++
++@dataclass(frozen=True)
++class _Entry:
++    rate: Decimal
++    expires_at: datetime
++
++
++class RateCache:
++    """Caches `loader(country, postal_code)` for `ttl`, keeping at most `max_entries` rates.
++
++    The loader runs while the cache lock is held, so a lookup never stores a rate that an
++    invalidation has already superseded.
++    """
++
++    def __init__(
++        self,
++        loader: Loader,
++        *,
++        ttl: timedelta = timedelta(hours=1),
++        max_entries: int = 4096,
++        clock: Clock = utcnow,
++    ) -> None:
++        if max_entries < 1:
++            raise ValueError("max_entries must be at least 1")
++        self._loader = loader
++        self._ttl = ttl
++        self._max_entries = max_entries
++        self._clock = clock
++        self._lock = threading.Lock()
++        self._entries: OrderedDict[Key, _Entry] = OrderedDict()
++        self._keys_by_country: dict[str, set[Key]] = {}
++        self._hits = 0
++        self._misses = 0
++        self._evictions = 0
++
++    def __len__(self) -> int:
++        with self._lock:
++            return len(self._entries)
++
++    def get(self, country: str, postal_code: str) -> Decimal:
++        key = (country, postal_code)
++        with self._lock:
++            now = self._clock()
++            entry = self._entries.get(key)
++            if entry is not None and entry.expires_at > now:
++                self._entries.move_to_end(key)
++                self._hits += 1
++                return entry.rate
++            self._misses += 1
++            rate = self._loader(country, postal_code)
++            self._store(key, _Entry(rate, now + self._ttl))
++            return rate
++
++    def invalidate_country(self, country: str) -> int:
++        """Drop every cached rate for `country`; returns how many were dropped."""
++        with self._lock:
++            keys = self._keys_by_country.pop(country, set())
++            for key in keys:
++                del self._entries[key]
++            return len(keys)
++
++    def clear(self) -> None:
++        with self._lock:
++            self._entries.clear()
++            self._keys_by_country.clear()
++
++    def stats(self) -> CacheStats:
++        with self._lock:
++            return CacheStats(self._hits, self._misses, self._evictions, len(self._entries))
++
++    def _store(self, key: Key, entry: _Entry) -> None:
++        self._entries[key] = entry
++        self._entries.move_to_end(key)
++        self._keys_by_country.setdefault(key[0], set()).add(key)
++        while len(self._keys_by_country) > self._max_entries:
++            self._evict_oldest()
++
++    def _evict_oldest(self) -> None:
++        key, _ = self._entries.popitem(last=False)
++        keys = self._keys_by_country[key[0]]
++        keys.discard(key)
++        if not keys:
++            del self._keys_by_country[key[0]]
++        self._evictions += 1
+diff --git a/billing/tax.py b/billing/tax.py
+--- a/billing/tax.py
++++ b/billing/tax.py
+@@ -3,9 +3,11 @@
+ from __future__ import annotations
+ 
+ from dataclasses import dataclass
++from datetime import timedelta
+ from decimal import ROUND_HALF_UP, Decimal
+-from functools import lru_cache
+ from typing import Protocol
++
++from billing.ratecache import CacheStats, Clock, RateCache, utcnow
+ 
+ CENT = Decimal("0.01")
+ 
+@@ -55,12 +57,21 @@
+ 
+ 
+ class TaxCalculator:
+-    def __init__(self, source: RateSource) -> None:
++    def __init__(
++        self,
++        source: RateSource,
++        *,
++        cache_ttl: timedelta = timedelta(hours=1),
++        cache_size: int = 4096,
++        clock: Clock = utcnow,
++    ) -> None:
+         self._source = source
+-        self._lookup = lru_cache(maxsize=4096)(source.rate_for)
++        self._cache = RateCache(
++            source.rate_for, ttl=cache_ttl, max_entries=cache_size, clock=clock
++        )
+ 
+     def rate(self, country: str, postal_code: str) -> Decimal:
+-        return self._lookup(country.upper(), normalise_postal_code(postal_code))
++        return self._cache.get(country.upper(), normalise_postal_code(postal_code))
+ 
+     def tax_lines(
+         self, country: str, postal_code: str, items: list[tuple[str, Decimal]]
+@@ -71,5 +82,12 @@
+             for description, net in items
+         ]
+ 
++    def rates_changed(self, country: str) -> int:
++        """Forget cached rates for one country after its rate table was replaced."""
++        return self._cache.invalidate_country(country.upper())
++
+     def clear_cache(self) -> None:
+-        self._lookup.cache_clear()
++        self._cache.clear()
++
++    def cache_stats(self) -> CacheStats:
++        return self._cache.stats()

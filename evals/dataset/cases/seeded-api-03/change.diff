@@ -1,0 +1,126 @@
+diff --git a/notify/channels.py b/notify/channels.py
+--- a/notify/channels.py
++++ b/notify/channels.py
+@@ -14,13 +14,13 @@
+ 
+ 
+ class Transport(Protocol):
+-    def post(self, endpoint: str, payload: dict[str, str]) -> int:
++    async def post(self, endpoint: str, payload: dict[str, str]) -> int:
+         """Send `payload` to the provider endpoint and return the HTTP status code."""
+         ...
+ 
+ 
+ class Channel(Protocol):
+-    def send(self, message: Message) -> bool: ...
++    async def send(self, message: Message) -> bool: ...
+ 
+ 
+ class EmailChannel:
+@@ -30,8 +30,8 @@
+         self._transport = transport
+         self._sender = sender
+ 
+-    def send(self, message: Message) -> bool:
+-        status = self._transport.post(
++    async def send(self, message: Message) -> bool:
++        status = await self._transport.post(
+             self.endpoint,
+             {"from": self._sender, "to": message.recipient, "subject": message.subject, "text": message.body},
+         )
+@@ -45,9 +45,9 @@
+     def __init__(self, transport: Transport) -> None:
+         self._transport = transport
+ 
+-    def send(self, message: Message) -> bool:
++    async def send(self, message: Message) -> bool:
+         text = f"{message.subject}: {message.body}"
+         if len(text) > self.max_length:
+             text = text[: self.max_length - 1] + "…"
+-        status = self._transport.post(self.endpoint, {"to": message.recipient, "text": text})
++        status = await self._transport.post(self.endpoint, {"to": message.recipient, "text": text})
+         return 200 <= status < 300
+diff --git a/notify/digest.py b/notify/digest.py
+--- a/notify/digest.py
++++ b/notify/digest.py
+@@ -5,6 +5,7 @@
+ from collections import defaultdict
+ 
+ from notify.channels import Channel, Message
++from notify.dispatcher import deliver
+ 
+ DIGEST_SUBJECT = "Your daily digest"
+ MAX_LINES = 50
+@@ -29,16 +30,22 @@
+     def pending(self, recipient: str) -> list[str]:
+         return list(self._pending.get(recipient, []))
+ 
+-    def flush(self, channel: Channel, subject: str = DIGEST_SUBJECT) -> list[str]:
++    async def flush(self, channel: Channel, subject: str = DIGEST_SUBJECT) -> list[str]:
+         """Send one digest per recipient and return the recipients whose digest was not delivered.
+ 
+-        Delivered digests are removed from the queue; undelivered ones stay queued for the next flush.
++        Each digest is retried like any other notification. Delivered lines are removed from the
++        queue, keeping any queued while the digest was being sent; undelivered ones stay queued for
++        the next flush.
+         """
+         failed: list[str] = []
+         for recipient in sorted(self._pending):
+-            message = Message(recipient, subject, render(self._pending[recipient]))
+-            if channel.send(message):
+-                del self._pending[recipient]
++            lines = self._pending[recipient]
++            sent = len(lines)
++            message = Message(recipient, subject, render(lines))
++            if deliver(channel, message):
++                del lines[:sent]
++                if not lines:
++                    del self._pending[recipient]
+             else:
+                 failed.append(recipient)
+         return failed
+diff --git a/notify/dispatcher.py b/notify/dispatcher.py
+--- a/notify/dispatcher.py
++++ b/notify/dispatcher.py
+@@ -2,23 +2,36 @@
+ 
+ from __future__ import annotations
+ 
++import asyncio
+ from collections.abc import Iterable
+ 
+ from notify.channels import Channel, Message
+ 
+ DEFAULT_ATTEMPTS = 3
++MAX_CONCURRENT_SENDS = 10
+ 
+ 
+-def deliver(channel: Channel, message: Message, attempts: int = DEFAULT_ATTEMPTS) -> bool:
++async def deliver(channel: Channel, message: Message, attempts: int = DEFAULT_ATTEMPTS) -> bool:
+     """Send `message`, retrying up to `attempts` times in total. Return whether it was accepted."""
+     if attempts < 1:
+         raise ValueError("attempts must be at least 1")
+     for _ in range(attempts):
+-        if channel.send(message):
++        if await channel.send(message):
+             return True
+     return False
+ 
+ 
+-def broadcast(channel: Channel, recipients: Iterable[str], subject: str, body: str) -> dict[str, bool]:
+-    """Send the same notification to every recipient; map each recipient to whether it was delivered."""
+-    return {recipient: deliver(channel, Message(recipient, subject, body)) for recipient in recipients}
++async def broadcast(channel: Channel, recipients: Iterable[str], subject: str, body: str) -> dict[str, bool]:
++    """Send the same notification to every recipient; map each recipient to whether it was delivered.
++
++    At most MAX_CONCURRENT_SENDS messages are in flight at once.
++    """
++    limit = asyncio.Semaphore(MAX_CONCURRENT_SENDS)
++
++    async def send_one(recipient: str) -> bool:
++        async with limit:
++            return await deliver(channel, Message(recipient, subject, body))
++
++    targets = list(dict.fromkeys(recipients))
++    results = await asyncio.gather(*(send_one(recipient) for recipient in targets))
++    return dict(zip(targets, results, strict=True))

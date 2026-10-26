@@ -1,0 +1,77 @@
+name: eval-live
+
+# Records a fresh run against the Anthropic API, gates it and uploads the run dir.
+# Manual only: forks have no secrets, and every run spends money (bounded by budget_usd).
+on:
+  workflow_dispatch:
+    inputs:
+      config:
+        description: Reviewer config
+        default: evals/configs/v1-sonnet.yaml
+        required: true
+      split:
+        description: Dataset split
+        type: choice
+        options: [test, dev, all]
+        default: test
+      samples:
+        description: Samples per case (k)
+        default: "3"
+        required: true
+      sample_offset:
+        description: First sample index (cassettes are write-once; use k, 2k, ... to re-record a config independently)
+        default: "0"
+        required: true
+      budget_usd:
+        description: Hard spend limit in USD (the run refuses to start above it and stops when it is reached)
+        default: "5"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      RUN_ID: live-${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -e '.[dev]'
+
+      - name: Record run
+        run: |
+          aireview eval run --config "${{ inputs.config }}" --split "${{ inputs.split }}" \
+            --samples "${{ inputs.samples }}" --sample-offset "${{ inputs.sample_offset }}" --mode record --budget-usd "${{ inputs.budget_usd }}" --yes \
+            --run-id "$RUN_ID" --runs-dir evals/runs
+
+      - name: Gate
+        id: gate
+        run: aireview eval gate --run "evals/runs/$RUN_ID"
+
+      - name: Summary
+        if: always()
+        shell: bash
+        run: |
+          for f in gate.md report.md; do
+            if [ -f "evals/runs/$RUN_ID/$f" ]; then cat "evals/runs/$RUN_ID/$f" >> "$GITHUB_STEP_SUMMARY"; fi
+          done
+
+      - name: Upload run dir and new cassettes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.RUN_ID }}
+          path: |
+            evals/runs/${{ env.RUN_ID }}
+            evals/cassettes
+          if-no-files-found: warn

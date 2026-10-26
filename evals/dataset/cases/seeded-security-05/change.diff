@@ -1,0 +1,55 @@
+diff --git a/mailer/config.py b/mailer/config.py
+--- a/mailer/config.py
++++ b/mailer/config.py
+@@ -1,9 +1,13 @@
+ from __future__ import annotations
+ 
++import logging
+ from collections.abc import Mapping
+ from dataclasses import dataclass
+ 
+ DEFAULT_PORT = 587
++ENV_PREFIX = "MAILER_RELAY_"
++
++log = logging.getLogger(__name__)
+ 
+ 
+ class ConfigError(ValueError):
+@@ -51,3 +55,13 @@
+         use_tls=_parse_bool(values.get("use_tls", "true")),
+         sender=values.get("sender", "newsletter@localhost"),
+     )
++
++
++def from_env(environ: Mapping[str, str], defaults: Mapping[str, str] | None = None) -> RelaySettings:
++    values = dict(defaults or {})
++    for name, raw in environ.items():
++        if name.startswith(ENV_PREFIX) and raw.strip():
++            values[name[len(ENV_PREFIX) :].lower()] = raw.strip()
++    settings = from_mapping(values)
++    log.info("mail relay configured: %s", settings)
++    return settings
+diff --git a/mailer/dispatch.py b/mailer/dispatch.py
+--- a/mailer/dispatch.py
++++ b/mailer/dispatch.py
+@@ -5,7 +5,7 @@
+ from dataclasses import dataclass, field
+ from typing import Protocol
+ 
+-from mailer.config import RelaySettings, from_mapping
++from mailer.config import RelaySettings, from_env
+ 
+ log = logging.getLogger(__name__)
+ 
+@@ -52,5 +52,9 @@
+         return report
+ 
+ 
+-def build_dispatcher(config: Mapping[str, str], transport: Transport) -> Dispatcher:
+-    return Dispatcher(from_mapping(config), transport)
++def build_dispatcher(
++    environ: Mapping[str, str],
++    transport: Transport,
++    defaults: Mapping[str, str] | None = None,
++) -> Dispatcher:
++    return Dispatcher(from_env(environ, defaults), transport)

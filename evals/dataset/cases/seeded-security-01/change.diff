@@ -1,0 +1,41 @@
+diff --git a/bookclub/handlers.py b/bookclub/handlers.py
+--- a/bookclub/handlers.py
++++ b/bookclub/handlers.py
+@@ -63,6 +63,21 @@
+     return entry
+ 
+ 
++def leave_entry(store: EntryStore, user: User, entry_id: int) -> None:
++    entry = store.get(entry_id)
++    _require_reader(entry, user)
++    if entry.owner_id == user.id:
++        raise ValueError("the owner cannot leave their own journal entry; delete it instead")
++    entry.readers.discard(user.id)
++
++
++def delete_entry(store: EntryStore, user: User, entry_id: int) -> dict[str, object]:
++    entry = store.get(entry_id)
++    _require_reader(entry, user)
++    removed = store.remove(entry.id)
++    return {"deleted": removed.id, "former_readers": sorted(removed.readers)}
++
++
+ def list_entries(store: EntryStore, user: User) -> dict[str, list[dict[str, object]]]:
+     return {
+         "mine": [e.summary() for e in store.owned_by(user.id)],
+diff --git a/bookclub/store.py b/bookclub/store.py
+--- a/bookclub/store.py
++++ b/bookclub/store.py
+@@ -22,6 +22,12 @@
+         except KeyError:
+             raise NotFound(f"journal entry {entry_id} does not exist") from None
+ 
++    def remove(self, entry_id: int) -> JournalEntry:
++        try:
++            return self._entries.pop(entry_id)
++        except KeyError:
++            raise NotFound(f"journal entry {entry_id} does not exist") from None
++
+     def owned_by(self, user_id: int) -> list[JournalEntry]:
+         return sorted(
+             (e for e in self._entries.values() if e.owner_id == user_id),

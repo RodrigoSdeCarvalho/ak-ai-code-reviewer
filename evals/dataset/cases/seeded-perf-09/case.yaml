@@ -1,0 +1,36 @@
+id: seeded-perf-09
+kind: seeded
+split: test
+title: >-
+  Translation bundles with locale fallback check and fetch each key in each locale separately instead
+  of one batch read per locale
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-26'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: i18n/bundles.py
+  line_start: 43
+  line_end: 44
+  severity: medium
+  category: performance
+  description: >
+    `build_bundle` now walks the fallback chain key by key and, for every key and every locale it tries,
+    calls `catalog.exists` and then `catalog.get`. With `RedisCatalog` each is a separate Redis round
+    trip (`HEXISTS`, `HGET`), so a bundle of K keys costs up to 2 x K x (chain length) round trips instead
+    of one `get_many` (`HMGET`) per locale for the keys still missing, which the previous version did
+    with a single batch call. A 600-key page bundle for `pt-BR` whose texts mostly live in `pt` makes
+    well over a thousand round trips per request instead of three, so every page load that fetches its
+    bundle gets much slower and Redis load multiplies. The separate check and fetch also mean a text removed
+    between the two calls is returned as `None` instead of falling back.
+  must_find: true
+notes: >
+  PR purpose: when a translation is missing in the requested locale, fall back through its parent locales
+  and then the default locale (`pt-BR` -> `pt` -> `en`) instead of rendering the raw key, normalise locale
+  tags (`pt_br` -> `pt-BR`), and record which locale served each key so the translation team can see what
+  is falling back.

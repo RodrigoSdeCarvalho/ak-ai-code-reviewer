@@ -1,0 +1,30 @@
+id: seeded-state-02
+kind: seeded
+split: test
+title: >-
+  Streaming blob upload leaves its staging file behind whenever the content already exists
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: storage/blobs.py
+  line_start: 65
+  line_end: 66
+  severity: high
+  category: resource
+  description: >
+    `put_stream` stages every upload in a file under `incoming/`, but the cleanup only covers the write
+    loop: when the digest already exists it returns early without deleting the staged file (the file is
+    disposed of only on a write error or by `os.replace`). Every duplicate upload, including every `put`
+    of content already stored, leaves a full copy of the blob in `incoming/`, so disk usage grows without
+    bound.
+  must_find: true
+notes: >
+  PR purpose: add `put_stream` so large uploads are hashed and staged chunk by chunk instead of in memory,
+  and route `put` through it.

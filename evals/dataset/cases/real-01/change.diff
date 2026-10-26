@@ -1,0 +1,54 @@
+diff --git a/src/flask/app.py b/src/flask/app.py
+--- a/src/flask/app.py
++++ b/src/flask/app.py
+@@ -12,7 +12,6 @@
+ from itertools import chain
+ from types import TracebackType
+ from urllib.parse import quote as _url_quote
+-from urllib.parse import urlsplit
+ 
+ import click
+ from werkzeug.datastructures import Headers
+@@ -722,9 +721,7 @@
+         sn_host = sn_port = None
+ 
+         if server_name:
+-            server_url = urlsplit(f"//{server_name}")
+-            sn_host = server_url.hostname
+-            sn_port = server_url.port
++            sn_host, _, sn_port = server_name.partition(":")
+ 
+         if not host:
+             if sn_host:
+@@ -734,8 +731,8 @@
+ 
+         if port or port == 0:
+             port = int(port)
+-        elif sn_port is not None:
+-            port = sn_port
++        elif sn_port:
++            port = int(sn_port)
+         else:
+             port = 5000
+ 
+@@ -748,7 +745,7 @@
+         from werkzeug.serving import run_simple
+ 
+         try:
+-            run_simple(host, port, self, **options)
++            run_simple(t.cast(str, host), port, self, **options)
+         finally:
+             # reset the first request information if the development server
+             # reset normally.  This makes it possible to restart the server
+diff --git a/src/flask/testing.py b/src/flask/testing.py
+--- a/src/flask/testing.py
++++ b/src/flask/testing.py
+@@ -177,7 +177,7 @@
+             app.session_interface.save_session(app, sess, resp)
+ 
+         self._update_cookies_from_response(
+-            urlsplit(ctx.request.host_url).hostname or "localhost",
++            ctx.request.host.partition(":")[0],
+             ctx.request.path,
+             resp.headers.getlist("Set-Cookie"),
+         )

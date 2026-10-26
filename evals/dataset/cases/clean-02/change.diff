@@ -1,0 +1,53 @@
+diff --git a/relnotes/cli.py b/relnotes/cli.py
+--- a/relnotes/cli.py
++++ b/relnotes/cli.py
+@@ -18,13 +18,17 @@
+     parser.add_argument("--until", default="HEAD", help="last commit to include (default: HEAD)")
+     parser.add_argument("--repo", type=Path, default=Path.cwd(), help="repository directory")
+     parser.add_argument("--output", type=Path, help="write to this file instead of stdout")
++    parser.add_argument("--path", dest="paths", action="append", default=[], help="limit to this path (repeatable)")
+     return parser
+ 
+ 
+ def main(argv: Sequence[str] | None = None) -> int:
+     args = build_parser().parse_args(argv)
+     try:
+-        commits = commits_between(args.repo, args.since, args.until)
++        commits = commits_between(args.repo, args.since, args.until, paths=args.paths)
++    except ValueError as exc:
++        print(f"relnotes: {exc}", file=sys.stderr)
++        return 2
+     except GitError as exc:
+         print(f"relnotes: git failed: {exc}", file=sys.stderr)
+         return 2
+diff --git a/relnotes/git.py b/relnotes/git.py
+--- a/relnotes/git.py
++++ b/relnotes/git.py
+@@ -3,6 +3,7 @@
+ from __future__ import annotations
+ 
+ import subprocess
++from collections.abc import Sequence
+ from dataclasses import dataclass
+ from pathlib import Path
+ 
+@@ -32,9 +33,16 @@
+     return commits
+ 
+ 
+-def commits_between(repo: Path, since: str, until: str = "HEAD") -> list[Commit]:
+-    """Non-merge commits reachable from `until` but not from `since`, oldest first."""
+-    argv = ["git", "log", "--no-merges", "--reverse", LOG_FORMAT, f"{since}..{until}"]
++def _revision(value: str) -> str:
++    if not value or value.startswith("-") or any(ch.isspace() for ch in value):
++        raise ValueError(f"not a git revision: {value!r}")
++    return value
++
++
++def commits_between(repo: Path, since: str, until: str = "HEAD", paths: Sequence[str] = ()) -> list[Commit]:
++    """Non-merge commits reachable from `until` but not from `since` that touch `paths` (all if empty), oldest first."""
++    revisions = f"{_revision(since)}..{_revision(until)}"
++    argv = ["git", "log", "--no-merges", "--reverse", LOG_FORMAT, revisions, "--", *paths]
+     try:
+         proc = subprocess.run(argv, cwd=repo, capture_output=True, text=True, check=True)
+     except subprocess.CalledProcessError as exc:

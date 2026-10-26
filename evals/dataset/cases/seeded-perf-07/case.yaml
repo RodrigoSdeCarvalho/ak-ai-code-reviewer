@@ -1,0 +1,35 @@
+id: seeded-perf-07
+kind: seeded
+split: dev
+title: >-
+  Podcast back-catalogue import fetches each page by number, re-walking the cursor chain from the first
+  page every time
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: podsync/sync.py
+  line_start: 79
+  line_end: 82
+  severity: medium
+  category: performance
+  description: >
+    `import_back_catalogue` loops over page numbers and calls `client.episode_page(show_id, number)` for
+    each one, and `episode_page` follows the cursor chain from the first page to reach page `number`.
+    Page k therefore costs k+1 API requests, so importing a catalogue of P pages makes P(P+1)/2 requests
+    instead of P (a 200-page show is 20,100 requests instead of 200). Every resumed run pays the same
+    re-walk again. On the hosting API's rate limit, imports of any sizeable show keep stopping with `retry_after`
+    and take hours or days to finish instead of minutes; the cursor should be carried forward across pages
+    (one walk to the checkpoint, then one request per page).
+  must_find: true
+notes: >
+  PR purpose: import a show's full back catalogue (oldest first) from the hosting API with a resumable
+  per-show page checkpoint, stopping a multi-show run cleanly when the API rate-limits and marking shows
+  as imported once the last page is stored. Page numbers are stored instead of cursors because the API's
+  cursors expire.

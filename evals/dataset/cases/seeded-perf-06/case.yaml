@@ -1,0 +1,32 @@
+id: seeded-perf-06
+kind: seeded
+split: test
+title: >-
+  Greenhouse zone summary with sensor valid ranges queries the calibration table once per reading
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: greenhouse/readings.py
+  line_start: 49
+  line_end: 49
+  severity: medium
+  category: performance
+  description: >
+    The new `calibrated()` helper calls `source.load(reading.sensor_id)` for every reading, and `summarize`
+    calls it inside the loop over all readings. With `SqlCalibrationSource` that is one database query
+    per reading instead of one per distinct sensor, which the previous per-batch `calibrations` dict provided.
+    A day of 5-minute readings from 200 sensors becomes about 57,600 calibration queries instead of 200,
+    so the summary (and the irrigation plan built from it) slows down by orders of magnitude and loads
+    the database.
+  must_find: true
+notes: >
+  PR purpose: add per-sensor valid ranges to calibrations, count out-of-range readings as rejected instead
+  of averaging them, stream readings instead of materialising the batch, and add an irrigation plan that
+  waters dry zones and flags zones with mostly rejected readings for inspection.

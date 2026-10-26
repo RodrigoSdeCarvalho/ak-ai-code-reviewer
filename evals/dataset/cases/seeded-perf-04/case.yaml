@@ -1,0 +1,29 @@
+id: seeded-perf-04
+kind: seeded
+split: dev
+title: >-
+  Blob garbage collection re-reads and parses the whole name index for every object file
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: blobstore/store.py
+  line_start: 80
+  line_end: 80
+  severity: medium
+  category: performance
+  description: >
+    `collect_garbage` calls `self._live_entries()` inside the loop over object files, and that call opens
+    and JSON-parses the entire append-only index each time. A store with N objects and an index of M records
+    does N full index reads (O(N x M) I/O and parsing), so garbage collection on a store with tens of
+    thousands of attachments can take tens of minutes or more instead of one pass over the index.
+  must_find: true
+notes: >
+  PR purpose: add `collect_garbage()` to delete object files no longer referenced by any live name (skipping
+  in-flight `.tmp` staging files) and a `usage()` helper that reports referenced bytes.

@@ -1,0 +1,31 @@
+id: seeded-security-01
+kind: seeded
+split: test
+title: >-
+  New delete-journal-entry handler checks read access instead of ownership, so anyone an entry is shared
+  with can delete it
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: bookclub/handlers.py
+  line_start: 76
+  line_end: 76
+  severity: critical
+  category: security
+  description: >
+    `delete_entry` authorises with `_require_reader`, which also passes for every user the owner shared
+    the entry with (`entry.readers`), instead of `_require_owner` as every other mutating handler does.
+    Any member who was given read-only access to someone else's journal entry can permanently delete it,
+    destroying the owner's data.
+  must_find: true
+notes: >
+  PR purpose: let book-club members delete their journal entries and let readers leave an entry that was
+  shared with them (new `EntryStore.remove`, `leave_entry` and `delete_entry`). `leave_entry` correctly
+  uses the reader check; `delete_entry` should be owner-only.

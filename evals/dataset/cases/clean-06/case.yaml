@@ -1,0 +1,20 @@
+id: clean-06
+kind: clean
+split: test
+title: Add type hints and docstrings to the readability metrics module
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: typing-only cleanup so the module passes the new mypy gate: annotations on every function,
+  short docstrings, and clearer local names in flesch_reading_ease, with no behaviour change. Decoy: the
+  newly annotated signature `top_words(..., ignore: list[str] = [])` shows a mutable default argument,
+  but the list is only read (copied into a lower-cased set) and never mutated, so calls cannot leak state
+  into each other; the caller's STOPWORDS list is likewise only read. Tests pin the unchanged scores and
+  word counts, the default staying empty across calls and STOPWORDS staying untouched.

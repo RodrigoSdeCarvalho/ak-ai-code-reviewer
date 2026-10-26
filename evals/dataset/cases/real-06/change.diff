@@ -1,0 +1,19 @@
+diff --git a/scrapy/downloadermiddlewares/robotstxt.py b/scrapy/downloadermiddlewares/robotstxt.py
+--- a/scrapy/downloadermiddlewares/robotstxt.py
++++ b/scrapy/downloadermiddlewares/robotstxt.py
+@@ -205,14 +205,7 @@
+ 
+         parser = self._parsers[netloc]
+         if isinstance(parser, Deferred):
+-            waiter: Deferred[RobotParser | None] = Deferred()
+-
+-            def cb(result: RobotParser | None) -> RobotParser | None:
+-                waiter.callback(result)
+-                return result
+-
+-            parser.addCallback(cb)
+-            return await maybe_deferred_to_future(waiter)
++            return await maybe_deferred_to_future(parser)
+         return parser
+ 
+     async def _parse_robots(

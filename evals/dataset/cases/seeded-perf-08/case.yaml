@@ -1,0 +1,37 @@
+id: seeded-perf-08
+kind: seeded
+split: test
+title: >-
+  Ad budget pacing with refunds and hourly caps re-reads and re-sums the day's impression log on every
+  bid decision
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-26'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: adserve/pacing.py
+  line_start: 72
+  line_end: 72
+  severity: high
+  category: performance
+  description: >
+    `can_bid` calls `self.spend(campaign.campaign_id, now.date())`, which asks the impression log for
+    every impression the campaign has served today and sums them, on every bid decision; `eligible` does
+    this for every active campaign on every bid request. The previous pacer kept running totals updated
+    in `record`. With `JsonlImpressionLog` each call opens and JSON-parses the whole day file (all campaigns),
+    so the work per bid request grows with the number of campaigns times the number of impressions served
+    so far today: quadratic over the day. By mid-day a busy exchange integration parses millions of log
+    lines per request, bid responses miss the exchange's deadline, and the server stops bidding on the
+    main serving path. Today's spend should be loaded once per campaign and day and then updated incrementally
+    on `record` (and reloaded or adjusted on `refund`).
+  must_find: true
+notes: >
+  PR purpose: credit back impressions flagged as invalid traffic (an `invalid` record in the impression
+  log), add optional hourly spend caps per campaign, make pacing pick up today's spend after a restart
+  by taking spend from the impression log instead of in-memory counters, and add a daily spend report
+  with peak hour and a CSV export.

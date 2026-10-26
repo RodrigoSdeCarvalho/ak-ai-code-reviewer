@@ -1,0 +1,39 @@
+id: real-09
+kind: real
+split: dev
+title: >-
+  Resetting logging_token deletes a class-level attribute and raises AttributeError on connections without
+  a token
+language: python
+size_bucket: S
+provenance:
+  origin: reverted-fix
+  source: >-
+    https://github.com/sqlalchemy/sqlalchemy/commit/975ffa7d77ee3bbf5afd470bc93a1bc1d7f88df4 (committed
+    2026-10-05, license MIT)
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: fix-derived
+bugs:
+- id: b1
+  file: lib/sqlalchemy/engine/characteristics.py
+  line_start: 145
+  line_end: 145
+  severity: medium
+  category: logic
+  description: >
+    When `logging_token` is set to None or another false value, `set_connection_characteristic` runs `del
+    conn._message_formatter`. On `Connection`, `_message_formatter` is a class-level default (None) and
+    only becomes an instance attribute once a token has been set, so the `del` raises AttributeError on
+    a connection that has no token yet: a freshly checked-out connection, `logging_token=None` set at
+    the Engine level, or a second reset to None. Clearing the token should assign None instead.
+  must_find: true
+  tags:
+  - unshown_context
+  - library_knowledge
+notes: >
+  Reverted upstream fix (sqlalchemy issue #13641; the fixed regression dates from 2.0.30). The PR under
+  review changes one line, from assigning None to deleting the attribute. Judging it needs the knowledge
+  that Connection._message_formatter is declared with a class-level default (lib/sqlalchemy/engine/base.py,
+  not included in the case), so a reviewer must infer that the instance attribute may not exist. One-line
+  reverse of a one-line fix.

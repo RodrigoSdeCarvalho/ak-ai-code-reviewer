@@ -1,0 +1,28 @@
+id: seeded-error-01
+kind: seeded
+split: dev
+title: Atomic blob write swallows OSError, so a failed upload is reported as stored
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: storage/blobs.py
+  line_start: 55
+  line_end: 56
+  severity: critical
+  category: error_handling
+  description: >
+    The new `except OSError:` in `BlobStore.put` deletes the temp file but does not re-raise, so a failed
+    write (disk full, permission denied, failed rename) falls through to `return BlobInfo(...)` as if
+    the blob had been stored. `AttachmentService.upload` then indexes an attachment whose bytes were never
+    written: the user's upload is silently lost and every later download raises `BlobNotFound`.
+  must_find: true
+notes: >
+  PR purpose: make blob writes atomic (write to a temp file, fsync, then os.replace) so readers never
+  see a partially written blob.

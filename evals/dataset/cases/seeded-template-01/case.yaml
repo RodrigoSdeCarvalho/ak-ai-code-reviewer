@@ -1,0 +1,26 @@
+id: seeded-template-01
+kind: seeded
+split: dev
+title: Page count floors a partial last page in the new list-orders endpoint
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (agent), reviewed by Rodrigo
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: shop/pagination.py
+  line_start: 39
+  line_end: 39
+  severity: high
+  category: logic
+  description: >
+    `total_pages = total // per_page` rounds down, so a partial last page is not counted (25 orders at
+    10 per page gives 2 pages instead of 3). `has_next` is then false on the second page, and a client
+    that follows `has_next` never sees the remaining orders.
+  must_find: true
+notes: >
+  PR purpose: add a paginated GET /customers/{id}/orders endpoint and a reusable pagination helper.

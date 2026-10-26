@@ -1,0 +1,123 @@
+diff --git a/reports/dashboard.py b/reports/dashboard.py
+--- a/reports/dashboard.py
++++ b/reports/dashboard.py
+@@ -3,6 +3,7 @@
+ from __future__ import annotations
+ 
+ import sqlite3
++from collections.abc import Mapping, Sequence
+ from datetime import date
+ 
+ from reports.orders_report import OrderRow, orders_between, revenue_cents, top_customers
+@@ -23,11 +24,19 @@
+     }
+ 
+ 
+-def orders_panel(conn: sqlite3.Connection, start: date, end: date) -> dict[str, object]:
+-    """Orders, revenue and top customers for the selected date range."""
++def orders_panel(
++    conn: sqlite3.Connection,
++    start: date,
++    end: date,
++    *,
++    statuses: Sequence[str] | None = None,
++    sort: str = "placed",
++    descending: bool = True,
++) -> dict[str, object]:
++    """Orders, revenue and top customers for the selected date range and statuses."""
+     if end < start:
+         raise ValueError("end date is before start date")
+-    rows = orders_between(conn, start, end)
++    rows = orders_between(conn, start, end, statuses=statuses, sort=sort, descending=descending)
+     return {
+         "range": {"start": start.isoformat(), "end": end.isoformat()},
+         "count": len(rows),
+@@ -37,3 +46,21 @@
+         ],
+         "orders": [_row_payload(r) for r in rows],
+     }
++
++
++def panel_from_query(conn: sqlite3.Connection, query: Mapping[str, str]) -> dict[str, object]:
++    """Build the panel from dashboard query parameters.
++
++    `start` and `end` are ISO dates, `status` is a comma-separated list of statuses and
++    `sort` names a sortable column, prefixed with `-` for descending (default `-placed`).
++    """
++    missing = [key for key in ("start", "end") if key not in query]
++    if missing:
++        raise ValueError(f"missing query parameter: {', '.join(missing)}")
++    start = date.fromisoformat(query["start"])
++    end = date.fromisoformat(query["end"])
++    raw_status = query.get("status", "")
++    statuses = [s.strip() for s in raw_status.split(",") if s.strip()] or None
++    sort = query.get("sort", "-placed")
++    descending = sort.startswith("-")
++    return orders_panel(conn, start, end, statuses=statuses, sort=sort.removeprefix("-"), descending=descending)
+diff --git a/reports/orders_report.py b/reports/orders_report.py
+--- a/reports/orders_report.py
++++ b/reports/orders_report.py
+@@ -3,8 +3,16 @@
+ from __future__ import annotations
+ 
+ import sqlite3
++from collections.abc import Iterable
+ from dataclasses import dataclass
+ from datetime import date
++
++SORTABLE_COLUMNS: dict[str, str] = {
++    "placed": "placed_on",
++    "total": "total_cents",
++    "customer": "customer",
++}
++STATUSES = frozenset({"pending", "paid", "shipped", "refunded"})
+ 
+ 
+ @dataclass(frozen=True)
+@@ -26,14 +34,40 @@
+     )
+ 
+ 
+-def orders_between(conn: sqlite3.Connection, start: date, end: date) -> list[OrderRow]:
+-    """Orders placed from `start` to `end`, both inclusive, newest first."""
+-    cursor = conn.execute(
++def orders_between(
++    conn: sqlite3.Connection,
++    start: date,
++    end: date,
++    *,
++    statuses: Iterable[str] | None = None,
++    sort: str = "placed",
++    descending: bool = True,
++) -> list[OrderRow]:
++    """Orders placed from `start` to `end`, both inclusive.
++
++    `sort` is a key of SORTABLE_COLUMNS; ties are broken by order id in the same direction.
++    `statuses`, when given, keeps only orders in one of those statuses.
++    """
++    if sort not in SORTABLE_COLUMNS:
++        raise ValueError(f"cannot sort by {sort!r}; choose one of {sorted(SORTABLE_COLUMNS)}")
++    column = SORTABLE_COLUMNS[sort]
++    direction = "DESC" if descending else "ASC"
++    clauses = ["placed_on >= ?", "placed_on <= ?"]
++    params: list[str] = [start.isoformat(), end.isoformat()]
++    if statuses is not None:
++        wanted = sorted(set(statuses))
++        unknown = [s for s in wanted if s not in STATUSES]
++        if unknown:
++            raise ValueError(f"unknown order status: {', '.join(unknown)}")
++        if not wanted:
++            return []
++        clauses.append(f"status IN ({', '.join('?' for _ in wanted)})")
++        params.extend(wanted)
++    query = (
+         "SELECT id, customer, status, total_cents, placed_on FROM orders "
+-        "WHERE placed_on >= ? AND placed_on <= ? ORDER BY placed_on DESC, id DESC",
+-        (start.isoformat(), end.isoformat()),
++        f"WHERE {' AND '.join(clauses)} ORDER BY {column} {direction}, id {direction}"
+     )
+-    return [_to_row(r) for r in cursor.fetchall()]
++    return [_to_row(r) for r in conn.execute(query, params).fetchall()]
+ 
+ 
+ def revenue_cents(rows: list[OrderRow]) -> int:

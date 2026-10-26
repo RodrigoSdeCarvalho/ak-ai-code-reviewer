@@ -1,0 +1,33 @@
+diff --git a/inventory/stocktake.py b/inventory/stocktake.py
+--- a/inventory/stocktake.py
++++ b/inventory/stocktake.py
+@@ -31,6 +31,7 @@
+ class Reconciliation:
+     variances: list[Variance] = field(default_factory=list)
+     matched: int = 0
++    unknown: dict[str, list[str]] = field(default_factory=dict)
+ 
+     @property
+     def net_delta(self) -> int:
+@@ -46,9 +47,19 @@
+     return dict(totals)
+ 
+ 
++def unknown_locations(catalog: Catalog, scans: Iterable[Scan]) -> dict[str, list[str]]:
++    active_skus = [item.sku for item in catalog.active()]
++    unknown: dict[str, list[str]] = defaultdict(list)
++    for scan in scans:
++        if scan.sku not in active_skus:
++            unknown[scan.sku].append(scan.location)
++    return dict(unknown)
++
++
+ def reconcile(catalog: Catalog, scans: Iterable[Scan]) -> Reconciliation:
+-    counted = count_by_sku(scans)
+-    result = Reconciliation()
++    scanned = list(scans)
++    counted = count_by_sku(scanned)
++    result = Reconciliation(unknown=unknown_locations(catalog, scanned))
+     for item in catalog.active():
+         quantity = counted.get(item.sku, 0)
+         if quantity == item.on_hand:

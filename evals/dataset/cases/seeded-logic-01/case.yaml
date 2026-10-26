@@ -1,0 +1,31 @@
+id: seeded-logic-01
+kind: seeded
+split: dev
+title: >-
+  Search snippets centred on the first match come out empty when the match is near the start of a long
+  body
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: docsearch/snippets.py
+  line_start: 44
+  line_end: 44
+  severity: high
+  category: logic
+  description: >
+    `start = min(hit - width // 2, len(tokens) - width)` is never clamped at 0, so when the first match
+    is fewer than `width // 2` words from the start of a body of at least `width` words, `start` is negative
+    and `tokens[start:end]` counts it from the end of the list, which always yields an empty window. Hits
+    whose term appears early in a document (for example in the first sentence) show an empty snippet.
+  must_find: true
+notes: >
+  PR purpose: make search-result snippets follow the query instead of always showing the opening words
+  of the document: find the first token matching a query term, centre a `width`-word window on it, and
+  slide the window back near the end of the body.

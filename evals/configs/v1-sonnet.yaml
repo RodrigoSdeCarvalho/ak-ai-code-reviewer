@@ -1,0 +1,6 @@
+name: v1-sonnet
+backend: anthropic
+model: claude-sonnet-5-5
+prompt_version: v1
+effort: medium
+max_tokens: 16000

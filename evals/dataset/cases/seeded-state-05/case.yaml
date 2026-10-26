@@ -1,0 +1,28 @@
+id: seeded-state-05
+kind: seeded
+split: dev
+title: Reschedule returns early while still holding the scheduler lock
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: scheduler/jobs.py
+  line_start: 74
+  line_end: 79
+  severity: critical
+  category: resource
+  description: >
+    `reschedule` takes the scheduler lock with `_acquire()` but releases it only on the success path;
+    when the job is unknown or no longer pending it returns False with the lock still held. From then
+    on every scheduler call (`add`, `claim_due`, `finish`, `get`) times out with SchedulerBusy, so all
+    workers stop processing jobs.
+  must_find: true
+notes: >
+  PR purpose: let callers move a pending job to a new time (`reschedule`) and re-queue a failed job within
+  an attempt budget (`retry`).

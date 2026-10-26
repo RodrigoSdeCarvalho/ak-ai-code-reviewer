@@ -1,0 +1,31 @@
+id: seeded-error-02
+kind: seeded
+split: test
+title: >-
+  Skip-malformed-rows loader catches Exception around the batch flush, hiding sink failures and dropping
+  batches
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: pipeline/load.py
+  line_start: 64
+  line_end: 67
+  severity: critical
+  category: error_handling
+  description: >
+    The new `try` wraps both `parse_row` and the batch flush, and `except Exception` treats any error
+    as a malformed row. When the sink fails (SinkError, e.g. a dropped connection), the batch already
+    detached into `pending` is discarded, the triggering valid row is reported as "rejected" with the
+    sink's error text, and the load carries on and returns a report instead of failing, so up to `batch_size`
+    rows are silently lost from the import.
+  must_find: true
+notes: >
+  PR purpose: stop aborting the nightly import on the first malformed CSV row; skip malformed rows, list
+  them (row number and reason) in the load report, and abort only after `max_rejected` rejections.

@@ -1,0 +1,25 @@
+id: clean-05
+kind: clean
+split: dev
+title: >-
+  Cache feature-flag snapshots with stale fallback and add code-level flag defaults
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: every `is_enabled` call re-read the flag file, so a CachedBackend now wraps any backend:
+  per-environment snapshots for `ttl` seconds, one refresh at a time per environment, a stale snapshot
+  served (with backoff) while the store is down for up to `max_stale` seconds, invalidation that also
+  discards refreshes already in flight, and hit/miss stats on the admin status line. Flags also get code-level
+  defaults. Decoys: the refresh lock is taken with `acquire()` and released in a `finally` far below,
+  with three early returns and a bare `raise` in between (all paths release it); the bare `raise` sits
+  inside the `except BackendUnavailable` block, so it re-raises the backend error; and DEFAULT_FLAGS is
+  a module-level mutable dict that is only ever read (snapshot() merges it into a new dict). Tests pin
+  TTL expiry, copy-on-read, stale fallback and backoff, invalidation, single-flight refresh under concurrency,
+  lock release after errors and that DEFAULT_FLAGS is never modified.

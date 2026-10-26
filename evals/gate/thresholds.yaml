@@ -1,0 +1,36 @@
+# Absolute bars and fixed limits for `aireview eval gate` (design §7).
+# Every bar names its provenance. PLACEHOLDER bars must be replaced with values measured on the first
+# promoted baseline (provenance MEASURED + date) and accepted in policy.yaml before they can block.
+bars:
+  recall_high:
+    op: ">="
+    value: 0.5
+    mode: strict
+    provenance: "PLACEHOLDER — set from first baseline"
+  clean_false_alarm_rate:
+    op: "<="
+    value: 0.4
+    mode: strict
+    provenance: "PLACEHOLDER — set from first baseline"
+  precision:
+    op: ">="
+    value: 0.3
+    mode: strict
+    provenance: "PLACEHOLDER — set from first baseline"
+
+completeness:
+  max_hard_errors: 0          # api_error + schema_error rows left after retries
+  max_soft_error_rate: 0.02   # (truncated + refused) / samples
+  max_judge_error_rate: 0.02  # failed judgments / judge calls (missing judgments always fail)
+  provenance: "design §7"
+
+newly_missed:
+  severities: [critical, high]
+  baseline_min_rate: 0.66     # baseline detected the bug in >= 2 of 3 samples
+  candidate_max_rate: 0.0     # ... and the candidate in none
+  provenance: "design §7"
+
+cost_latency:
+  max_cost_ratio: 1.5
+  max_p95_latency_ratio: 1.5
+  provenance: "design §7"

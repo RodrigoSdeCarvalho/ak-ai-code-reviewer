@@ -1,0 +1,24 @@
+id: clean-07
+kind: clean
+split: dev
+title: >-
+  Reject attachment names that escape the storage directory and return 400/404 from downloads
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: hardening and error-handling change for attachment downloads. `read` used to join the requested
+  name onto the root and surface FileNotFoundError; it now resolves the path, accepts it only if it sits
+  directly in the (resolved) storage root, and raises InvalidName or NotFound, which the download handler
+  maps to 400 and 404. Decoy: `self._root / name` still joins a client-supplied name, which looks like
+  path traversal, but the joined path is resolved (following `..` and symlinks) and compared with the
+  resolved root before any read, so absolute paths, `..` segments and empty names are rejected; a name
+  that cannot be resolved (for example one containing a NUL byte) is also InvalidName rather than an unhandled
+  ValueError. The root is resolved in __init__, so a relative root keeps pointing at the same directory
+  after a chdir. Tests pin rejected and allowed names, 400/404 mapping and the round trip.

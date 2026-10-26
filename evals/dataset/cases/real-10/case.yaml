@@ -1,0 +1,38 @@
+id: real-10
+kind: real
+split: dev
+title: >-
+  Pluck falls back to the attribute name when the plucked field's data_key is the empty string
+language: python
+size_bucket: S
+provenance:
+  origin: reverted-fix
+  source: >-
+    https://github.com/marshmallow-code/marshmallow/commit/5761beab3985d654d712f9326e08bfb2e2ec9c4c (committed
+    2026-10-19, license MIT)
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: fix-derived
+bugs:
+- id: b1
+  file: src/marshmallow/fields.py
+  line_start: 713
+  line_end: 713
+  severity: medium
+  category: logic
+  description: >
+    `Pluck._field_data_key` returns `only_field.data_key or self.field_name`, which treats an explicit
+    `data_key=""` as unset and falls back to the attribute name. The nested schema keys that field by
+    `data_key` whenever it is not None (so by ""), so the two disagree: `dump` looks up `ret[field_name]`
+    in a dict keyed by "" and raises KeyError, and `load` wraps the value under `field_name`, which the
+    nested schema rejects as an unknown field (or drops). The check must be `data_key is not None`.
+  must_find: true
+  tags:
+  - unshown_context
+  - library_knowledge
+notes: >
+  Reverted upstream fix. The PR under review collapses a conditional expression into an `or` fallback,
+  which reads like a harmless simplification. fields.py is over 2000 lines and is included whole; the
+  schema-side `data_key is not None` convention lives in schema.py, which is not included, so the reviewer
+  must know or infer marshmallow's convention. The trigger (data_key="") is an uncommon edge case. One-line
+  reverse of a one-line fix.

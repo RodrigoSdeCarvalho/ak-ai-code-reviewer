@@ -1,0 +1,31 @@
+id: seeded-api-02
+kind: seeded
+split: test
+title: Search result cache hands out its own list, which the handler sorts in place
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: catalog/service.py
+  line_start: 63
+  line_end: 68
+  severity: high
+  category: api_contract
+  description: >
+    `find` used to return a fresh list on every call; with the new cache it returns the cached list object
+    itself, both on a hit and on the miss that stores it. `search_products` in catalog/handlers.py sorts
+    the returned list in place for `sort=price|-price|rating`, which reorders the cached entry, so for
+    the next 60 seconds a default (relevance) search for the same query returns results in the previous
+    request's price or rating order.
+  must_find: true
+  tags:
+  - unshown_context
+notes: >
+  PR purpose: cache search results in SearchService per (query words, tag set) with a TTL, a size bound
+  and invalidation on `add`, to avoid re-scoring the catalogue for repeated searches.

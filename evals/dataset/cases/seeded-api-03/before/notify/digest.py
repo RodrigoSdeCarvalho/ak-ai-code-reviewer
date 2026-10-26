@@ -1,0 +1,44 @@
+"""Batch low-priority notifications into one digest per recipient."""
+
+from __future__ import annotations
+
+from collections import defaultdict
+
+from notify.channels import Channel, Message
+
+DIGEST_SUBJECT = "Your daily digest"
+MAX_LINES = 50
+
+
+def render(lines: list[str]) -> str:
+    """Render digest lines as a bulleted body, summarising any lines past MAX_LINES."""
+    shown = [f"- {line}" for line in lines[:MAX_LINES]]
+    hidden = len(lines) - MAX_LINES
+    if hidden > 0:
+        shown.append(f"... and {hidden} more")
+    return "\n".join(shown)
+
+
+class DigestQueue:
+    def __init__(self) -> None:
+        self._pending: dict[str, list[str]] = defaultdict(list)
+
+    def add(self, recipient: str, line: str) -> None:
+        self._pending[recipient].append(line)
+
+    def pending(self, recipient: str) -> list[str]:
+        return list(self._pending.get(recipient, []))
+
+    def flush(self, channel: Channel, subject: str = DIGEST_SUBJECT) -> list[str]:
+        """Send one digest per recipient and return the recipients whose digest was not delivered.
+
+        Delivered digests are removed from the queue; undelivered ones stay queued for the next flush.
+        """
+        failed: list[str] = []
+        for recipient in sorted(self._pending):
+            message = Message(recipient, subject, render(self._pending[recipient]))
+            if channel.send(message):
+                del self._pending[recipient]
+            else:
+                failed.append(recipient)
+        return failed

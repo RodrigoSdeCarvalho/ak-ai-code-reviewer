@@ -1,0 +1,121 @@
+from __future__ import annotations
+
+import random
+import string
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+
+from workspace.members import Directory, Forbidden, Member, Role
+
+CODE_ALPHABET = string.ascii_letters + string.digits
+CODE_LENGTH = 22
+DEFAULT_TTL = timedelta(days=7)
+MAX_TTL = timedelta(days=30)
+MAX_ACTIVE_LINKS = 20
+
+
+class InviteError(Exception):
+    pass
+
+
+class InviteNotFound(InviteError, LookupError):
+    pass
+
+
+class InviteNotUsable(InviteError):
+    pass
+
+
+@dataclass
+class InviteLink:
+    code: str
+    workspace_id: int
+    role: Role
+    created_by: int
+    created_at: datetime
+    expires_at: datetime
+    max_uses: int
+    uses: int = 0
+    revoked: bool = False
+
+    def is_active(self, now: datetime) -> bool:
+        return not self.revoked and self.uses < self.max_uses and now < self.expires_at
+
+    def url(self, base_url: str) -> str:
+        return f"{base_url.rstrip('/')}/join/{self.code}"
+
+
+def _new_code() -> str:
+    return "".join(random.choices(CODE_ALPHABET, k=CODE_LENGTH))
+
+
+class InviteService:
+    def __init__(self, directory: Directory) -> None:
+        self._directory = directory
+        self._links: dict[str, InviteLink] = {}
+
+    def create_link(
+        self,
+        workspace_id: int,
+        actor_id: int,
+        role: Role,
+        now: datetime,
+        ttl: timedelta = DEFAULT_TTL,
+        max_uses: int = 1,
+    ) -> InviteLink:
+        self._directory.require_manager(workspace_id, actor_id)
+        if role is Role.OWNER:
+            raise Forbidden("ownership cannot be granted through an invite link")
+        if not timedelta(0) < ttl <= MAX_TTL:
+            raise ValueError(f"link lifetime must be between 0 and {MAX_TTL.days} days")
+        if max_uses < 1:
+            raise ValueError("max_uses must be at least 1")
+        if len(self.active_links(workspace_id, now)) >= MAX_ACTIVE_LINKS:
+            raise InviteError(f"a workspace can have at most {MAX_ACTIVE_LINKS} active links")
+        code = _new_code()
+        while code in self._links:
+            code = _new_code()
+        link = InviteLink(
+            code=code,
+            workspace_id=workspace_id,
+            role=role,
+            created_by=actor_id,
+            created_at=now,
+            expires_at=now + ttl,
+            max_uses=max_uses,
+        )
+        self._links[code] = link
+        return link
+
+    def lookup(self, code: str) -> InviteLink:
+        link = self._links.get(code)
+        if link is None:
+            raise InviteNotFound("unknown invite link")
+        return link
+
+    def accept(self, code: str, user_id: int, email: str, now: datetime) -> Member:
+        link = self.lookup(code)
+        if link.revoked or link.uses >= link.max_uses:
+            raise InviteNotUsable("this invite link is no longer valid")
+        member = self._directory.add(link.workspace_id, user_id, email, link.role, joined_at=now, invite_code=link.code)
+        link.uses += 1
+        return member
+
+    def revoke(self, code: str, actor_id: int) -> InviteLink:
+        link = self.lookup(code)
+        if actor_id != link.created_by:
+            self._directory.require_manager(link.workspace_id, actor_id)
+        link.revoked = True
+        return link
+
+    def active_links(self, workspace_id: int, now: datetime) -> list[InviteLink]:
+        found = [link for link in self._links.values() if link.workspace_id == workspace_id and link.is_active(now)]
+        return sorted(found, key=lambda link: link.created_at)
+
+    def purge(self, now: datetime, keep_for: timedelta = timedelta(days=90)) -> int:
+        stale = [
+            code for code, link in self._links.items() if not link.is_active(now) and link.created_at + keep_for <= now
+        ]
+        for code in stale:
+            del self._links[code]
+        return len(stale)

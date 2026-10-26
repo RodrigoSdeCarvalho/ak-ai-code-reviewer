@@ -1,0 +1,43 @@
+id: seeded-security-03
+kind: seeded
+split: dev
+title: >-
+  Magic-link sign-in generates its one-time tokens with the random module and accepts links after they
+  have expired
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: allotment/magic_links.py
+  line_start: 53
+  line_end: 53
+  severity: high
+  category: security
+  description: >
+    The sign-in token is built with `random.choices`, which uses the non-cryptographic Mersenne Twister
+    PRNG; its output can be predicted from previously observed values, so someone who requests links for
+    their own account can work out tokens issued to other members and sign in as them. A login credential
+    must come from `secrets` (e.g. `secrets.token_urlsafe(32)`), as SessionStore already does for session
+    ids.
+  must_find: true
+- id: b2
+  file: allotment/magic_links.py
+  line_start: 66
+  line_end: 66
+  severity: high
+  category: security
+  description: >
+    `redeem` only checks that the token is pending, never `link.expires_at`. The email promises a 15-minute
+    link, but an unused link keeps signing the member in until `purge_expired` happens to run, so an old
+    link found in a mailbox, forwarded email or proxy log still grants a session hours later.
+  must_find: true
+notes: >
+  PR purpose: add passwordless sign-in to the allotment association members' portal: email a one-time
+  link valid for 15 minutes (at most 3 pending per member, silent for unknown addresses), redeem it into
+  a session tagged with the sign-in method, and purge expired links from a periodic job.

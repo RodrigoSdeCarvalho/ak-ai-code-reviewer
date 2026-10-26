@@ -1,0 +1,24 @@
+id: clean-14
+kind: clean
+split: test
+title: Cursor-paginate the admin audit-events endpoint
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: GET /audit/events returned the whole trail in one response; it now returns pages of `limit`
+  events (default 50, clamped to 200) with an opaque `next_cursor`, agreed with the admin UI, and AuditStore.query
+  gains an exclusive `before_id` and a `limit`. Decoys: the handler asks the store for `limit + 1` rows
+  and returns `rows[:limit]`, which looks like an off-by-one but is how it learns whether another page
+  exists (so an exact multiple of the page size never yields an empty trailing page); `page[-1]` is only
+  evaluated when len(rows) > limit >= 1, so it cannot index an empty list; `before_id - 1` as the slice
+  end and `range(end - 1, -1, -1)` look like boundary slips but select exactly the ids below the cursor,
+  newest first, given ids are 1-based and consecutive; the limit check sits before the append so `limit=0`
+  returns nothing; `except ValueError` in decode_cursor covers both binascii.Error and UnicodeDecodeError,
+  and the anchored regex rejects anything that is not a positive id.

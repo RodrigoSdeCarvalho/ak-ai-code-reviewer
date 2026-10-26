@@ -1,0 +1,29 @@
+id: seeded-api-05
+kind: seeded
+split: test
+title: >-
+  user_id to account_id rename leaves EventStore.for_account filtering on the old record key
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: tracking/store.py
+  line_start: 48
+  line_end: 48
+  severity: high
+  category: api_contract
+  description: >
+    The PR renames the record field `user_id` to `account_id` (new records are written with `account_id`
+    and `upgrade_record` rewrites legacy ones), but `for_account` still compares `record.get("user_id")`.
+    That key no longer exists on any record `records()` yields, so `for_account` always yields nothing
+    and `account_timeline` returns an empty list for every account.
+  must_find: true
+notes: >
+  PR purpose: rename users to accounts in the analytics event schema (with an upgrade path for records
+  already on disk), add session ids, and add daily-active-accounts, cohort retention and session reports.

@@ -1,0 +1,74 @@
+diff --git a/ratelimit/limiter.py b/ratelimit/limiter.py
+--- a/ratelimit/limiter.py
++++ b/ratelimit/limiter.py
+@@ -41,3 +41,37 @@
+         used += cost
+         self._windows[client_id] = (start, used)
+         return Decision(True, self._limit - used, 0.0)
++
++
++@dataclass
++class _Bucket:
++    tokens: float
++    updated_at: float
++
++
++class TokenBucketLimiter:
++    """Up to `capacity` tokens per client, refilled continuously at `refill_rate` tokens per second."""
++
++    def __init__(self, capacity: int, refill_rate: float, clock: Clock) -> None:
++        if capacity <= 0 or refill_rate <= 0:
++            raise ValueError("capacity and refill_rate must be positive")
++        self._capacity = capacity
++        self._rate = refill_rate
++        self._clock = clock
++        self._buckets: dict[str, _Bucket] = {}
++
++    def check(self, client_id: str, cost: int = 1) -> Decision:
++        now = self._clock()
++        bucket = self._buckets.get(client_id)
++        if bucket is None:
++            bucket = self._buckets[client_id] = _Bucket(float(self._capacity), now)
++        elapsed = max(0.0, now - bucket.updated_at)
++        bucket.tokens = min(float(self._capacity), bucket.tokens + elapsed * self._rate)
++        if bucket.tokens < cost:
++            return Decision(False, int(bucket.tokens), (cost - bucket.tokens) / self._rate)
++        bucket.tokens -= cost
++        bucket.updated_at = now
++        return Decision(True, int(bucket.tokens), 0.0)
++
++    def reset(self, client_id: str) -> None:
++        self._buckets.pop(client_id, None)
+diff --git a/ratelimit/middleware.py b/ratelimit/middleware.py
+--- a/ratelimit/middleware.py
++++ b/ratelimit/middleware.py
+@@ -7,7 +7,7 @@
+ from dataclasses import dataclass, field
+ from typing import Any
+ 
+-from ratelimit.limiter import Clock, FixedWindowLimiter, Limiter
++from ratelimit.limiter import Clock, FixedWindowLimiter, Limiter, TokenBucketLimiter
+ 
+ 
+ @dataclass
+@@ -40,7 +40,19 @@
+ 
+ 
+ def build_limiter(config: dict[str, Any], clock: Clock) -> Limiter:
+-    return FixedWindowLimiter(int(config["limit"]), float(config["window_seconds"]), clock)
++    """Limiter for config["strategy"]: "fixed_window" (the default) or "token_bucket".
++
++    A token bucket refills at limit / window_seconds tokens per second and holds up to
++    `burst` tokens (default: `limit`).
++    """
++    strategy = config.get("strategy", "fixed_window")
++    limit = int(config["limit"])
++    window = float(config["window_seconds"])
++    if strategy == "fixed_window":
++        return FixedWindowLimiter(limit, window, clock)
++    if strategy == "token_bucket":
++        return TokenBucketLimiter(int(config.get("burst", limit)), limit / window, clock)
++    raise ValueError(f"unknown rate limit strategy: {strategy!r}")
+ 
+ 
+ def rate_limited(handler: Handler, limiter: Limiter) -> Handler:

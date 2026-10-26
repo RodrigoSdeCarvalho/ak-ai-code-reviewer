@@ -1,0 +1,42 @@
+id: seeded-security-04
+kind: seeded
+split: test
+title: >-
+  Workspace invite links get their codes from the random module, and accepting a link ignores its expiry
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: workspace/invites.py
+  line_start: 49
+  line_end: 49
+  severity: high
+  category: security
+  description: >
+    `_new_code` builds invite codes with `random.choices`, i.e. the process-wide Mersenne Twister, which
+    is not a cryptographic generator. The code is the only credential needed to join a workspace, and
+    anyone able to observe enough generated codes (for example an admin of their own workspace creating
+    links) can recover the generator state and predict other workspaces' codes, joining them without an
+    invitation. Codes must come from `secrets`.
+  must_find: true
+- id: b2
+  file: workspace/invites.py
+  line_start: 98
+  line_end: 98
+  severity: medium
+  category: security
+  description: >
+    `accept` only rejects revoked or used-up links and never compares `now` with `expires_at` (it does
+    not use `is_active`), so a link keeps admitting new members after its lifetime has passed; an old
+    link shared in chat or email still grants workspace access days or months later.
+  must_find: true
+notes: >
+  PR purpose: add shareable workspace invite links: admins create links with a role, lifetime and use
+  limit, anyone holding the code joins with that role, links can be revoked, listed while active and purged
+  later; members record the invite code they joined with.

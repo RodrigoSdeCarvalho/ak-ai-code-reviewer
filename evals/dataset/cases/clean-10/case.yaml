@@ -1,0 +1,25 @@
+id: clean-10
+kind: clean
+split: test
+title: >-
+  Put a TTL cache in front of storefront catalog reads with eviction on every write
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: storefront product and category reads were hitting the database on every request; a new
+  catalog/cache.py adds a thread-safe LRU-bounded TTL cache and CatalogService reads through it, evicting
+  the affected keys after every write (both categories on a move, all category listings on a bulk import),
+  while back-office writes switch from the shared loader to an uncached _fetch. Decoys: get_or_load runs
+  the loader outside the lock, which looks like a stale-fill race, but the generation counter discards
+  a result if any invalidation happened during the load; `cache if cache is not None` matters because
+  an empty TTLCache is falsy via __len__ (`cache or TTLCache(...)` would silently ignore an injected cache);
+  invalidate_where and purge_expired collect keys into a list before deleting, so the OrderedDict is not
+  mutated while iterated; the MISSING sentinel lets None be cached; category() caches a tuple and returns
+  a fresh list so callers cannot corrupt the cache; misses (UnknownProduct) are never cached.

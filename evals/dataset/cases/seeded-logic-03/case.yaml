@@ -1,0 +1,45 @@
+id: seeded-logic-03
+kind: seeded
+split: dev
+title: >-
+  Mid-period plan changes with prorated invoice lines credit the used days instead of the unused ones,
+  and price the credit at the new plan because the plan is switched before proration
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: billing/proration.py
+  line_start: 39
+  line_end: 39
+  severity: high
+  category: logic
+  description: >
+    The credit for the old plan is prorated over `used` days instead of `remaining` days, so a customer
+    who changes plan is refunded for the part of the period they already consumed rather than the part
+    they give up. A Starter-to-Team switch on day 11 of a 31-day period credits 4.84 instead of 10.16,
+    and a change on the first day of the period credits nothing, overcharging the customer.
+  must_find: true
+- id: b2
+  file: billing/subscriptions.py
+  line_start: 71
+  line_end: 73
+  severity: high
+  category: logic
+  description: >
+    `change_plan` assigns `self.plan = new_plan` before calling `plan_change_lines(self, ...)`, which
+    reads `sub.plan` as the old plan. The "unused" credit is therefore priced at the new plan, so on an
+    upgrade the credit cancels the new-plan charge and the customer pays nothing for the upgrade (a downgrade
+    is similarly mispriced). Because the state is changed first, a change date outside the period also
+    raises only after the plan and history have already been modified.
+  must_find: true
+notes: >
+  PR purpose: support switching plans in the middle of a billing period. Adds a proration module (credit
+  for the unused part of the old plan, charge for the rest of the period on the new plan, plus a preview),
+  `Subscription.change_plan` that queues those adjustment lines, and turns invoices from a single amount
+  into line items that carry the queued adjustments on the next invoice.

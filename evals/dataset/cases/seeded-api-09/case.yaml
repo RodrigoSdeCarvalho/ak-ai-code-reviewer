@@ -1,0 +1,32 @@
+id: seeded-api-09
+kind: seeded
+split: test
+title: >-
+  Retry option renamed to max_attempts, but ticket creation still passes attempts=1, which becomes a body
+  field and lets the POST be retried
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: helpdesk/tickets.py
+  line_start: 39
+  line_end: 40
+  severity: high
+  category: api_contract
+  description: >
+    This PR renames `HelpdeskClient.request`'s `attempts` keyword to `max_attempts` (helpdesk/client.py),
+    and the `create_ticket` call it edits still passes `attempts=1`. Because `request` collects unknown
+    keywords into `**fields`, the old name is silently accepted as a JSON body field and the call falls
+    back to the default of 3 attempts. A ticket POST that times out or gets a 5xx after the server has
+    stored it is now sent again, creating duplicate tickets for the customer, and every create request
+    carries a stray `attempts` field.
+  must_find: true
+notes: >
+  PR purpose: add exponential backoff between retries in the helpdesk client, rename the retry option
+  to `max_attempts` to match the new semantics, and let callers set a ticket priority on creation.

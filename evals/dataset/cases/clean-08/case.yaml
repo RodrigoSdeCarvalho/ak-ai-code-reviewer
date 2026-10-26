@@ -1,0 +1,22 @@
+id: clean-08
+kind: clean
+split: dev
+title: Add a recording-session report to the telemetry batch pipeline
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: new telemetry/sessions.py splits each device's readings into sessions wherever consecutive
+  samples are more than max_gap apart, and pipeline.py gains session_report/run_session_job (sharing a
+  new clean_readings helper with the daily job). Decoys: `range(1, len(points))` comparing points[i] with
+  points[i - 1] looks like it could skip or overrun an element but visits every consecutive pair; groupby
+  is only correct on sorted input and the input is sorted by (device_id, taken_at) first; the trailing
+  `yield points[start:]` after the loop emits the final session (never empty, since groupby groups are
+  non-empty); the strict `>` deliberately keeps a gap of exactly max_gap in one session, as documented.
+  The lazily filled `errors` list is complete because each job consumes the generator before returning.

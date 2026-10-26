@@ -1,0 +1,21 @@
+id: clean-02
+kind: clean
+split: test
+title: >-
+  Let the release-notes CLI restrict notes to monorepo paths and validate revisions
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: add a repeatable `--path` option so a monorepo package gets its own release notes, and reject
+  revision arguments that git could parse as options. Decoy: user-supplied revisions and paths are passed
+  to `subprocess.run`. The argv is a fixed list (no shell), revisions starting with `-` or containing
+  whitespace are rejected before git runs, and paths come after `--`, so git treats them as pathspecs
+  only. Tests pin the exact argv, the absence of shell=True, the rejection of option-like revisions and
+  the CLI wiring.

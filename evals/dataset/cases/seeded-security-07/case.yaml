@@ -1,0 +1,33 @@
+id: seeded-security-07
+kind: seeded
+split: test
+title: >-
+  New move-card handler checks edit rights only on the destination board, so anyone can pull a card off
+  a board they cannot see into their own
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: kanban/service.py
+  line_start: 103
+  line_end: 103
+  severity: critical
+  category: security
+  description: >
+    `move_card` loads the card by its global id and authorises only against `to_board_id` (the board the
+    caller names as the destination), never against `card.board_id`, the board the card currently belongs
+    to. Any user who can edit some board of their own can move any card from any private board into it
+    by id (card ids are sequential), which hands them the card's title, description and labels and removes
+    the card from its owner's board. Every other card handler (`view_card`, `edit_card`, `archive_card`)
+    checks the card's own board.
+  must_find: true
+notes: >
+  PR purpose: let users reorder cards and move them between columns or to another board (`move_card`),
+  archive cards (`archive_card`, new `Card.archived` field hidden from column listings), and keep card
+  positions contiguous with new `BoardStore.detach`/`insert` helpers that `add_card` now also uses.

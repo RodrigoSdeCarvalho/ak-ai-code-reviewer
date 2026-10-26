@@ -1,0 +1,107 @@
+diff --git a/billing/invoices.py b/billing/invoices.py
+--- a/billing/invoices.py
++++ b/billing/invoices.py
+@@ -3,11 +3,13 @@
+ from __future__ import annotations
+ 
+ import logging
+-from collections.abc import Iterable
++import time
++from collections.abc import Callable, Iterable
+ from dataclasses import dataclass
+ from enum import Enum
+ 
+ from billing.gateway import GatewayError, PaymentGateway
++from billing.retry import RetryingGateway, RetryPolicy
+ 
+ logger = logging.getLogger(__name__)
+ 
+@@ -50,12 +52,18 @@
+     return invoice
+ 
+ 
+-def settle_open_invoices(gateway: PaymentGateway, invoices: Iterable[Invoice]) -> dict[str, int]:
+-    """Settle every open invoice and count the outcomes."""
++def settle_open_invoices(
++    gateway: PaymentGateway,
++    invoices: Iterable[Invoice],
++    policy: RetryPolicy | None = None,
++    sleep: Callable[[float], None] = time.sleep,
++) -> dict[str, int]:
++    """Settle every open invoice, retrying failed charges per `policy`, and count the outcomes."""
++    retrying = RetryingGateway(gateway, policy, sleep)
+     counts = {"paid": 0, "failed": 0}
+     for invoice in invoices:
+         if invoice.status is not InvoiceStatus.OPEN:
+             continue
+-        settle_invoice(gateway, invoice)
++        settle_invoice(retrying, invoice)
+         counts["paid" if invoice.status is InvoiceStatus.PAID else "failed"] += 1
+     return counts
+diff --git a/billing/retry.py b/billing/retry.py
+new file mode 100644
+--- /dev/null
++++ b/billing/retry.py
+@@ -0,0 +1,62 @@
++"""Retry wrapper for the payment gateway."""
++
++from __future__ import annotations
++
++import logging
++import time
++from collections.abc import Callable
++from dataclasses import dataclass
++
++from billing.gateway import Charge, GatewayError, PaymentGateway
++
++logger = logging.getLogger(__name__)
++
++
++@dataclass(frozen=True)
++class RetryPolicy:
++    attempts: int = 3
++    base_delay: float = 0.5
++    max_delay: float = 8.0
++
++    def __post_init__(self) -> None:
++        if self.attempts < 1:
++            raise ValueError("attempts must be >= 1")
++        if self.base_delay < 0 or self.max_delay < self.base_delay:
++            raise ValueError("delays must satisfy 0 <= base_delay <= max_delay")
++
++    def delay(self, attempt: int) -> float:
++        """Seconds to wait after failed attempt number `attempt` (1-based)."""
++        return min(self.base_delay * 2 ** (attempt - 1), self.max_delay)
++
++
++class RetryingGateway:
++    """A PaymentGateway that retries failed charges with exponential backoff.
++
++    Every attempt reuses the caller's idempotency key, so a retried charge is never applied twice.
++    """
++
++    def __init__(
++        self,
++        gateway: PaymentGateway,
++        policy: RetryPolicy | None = None,
++        sleep: Callable[[float], None] = time.sleep,
++    ) -> None:
++        self._gateway = gateway
++        self._policy = policy or RetryPolicy()
++        self._sleep = sleep
++
++    def charge(
++        self, customer_id: str, amount_cents: int, currency: str, idempotency_key: str
++    ) -> Charge:
++        attempts = self._policy.attempts
++        for attempt in range(1, attempts + 1):
++            try:
++                return self._gateway.charge(customer_id, amount_cents, currency, idempotency_key)
++            except GatewayError as exc:
++                logger.warning(
++                    "charge %s failed (attempt %d/%d): %s", idempotency_key, attempt, attempts, exc
++                )
++                if attempt == attempts:
++                    logger.error("giving up on charge %s", idempotency_key)
++                    break
++                self._sleep(self._policy.delay(attempt))

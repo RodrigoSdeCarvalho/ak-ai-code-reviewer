@@ -1,0 +1,44 @@
+id: seeded-error-03
+kind: seeded
+split: test
+title: >-
+  New gateway retry wrapper retries declined cards and returns None once attempts run out
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: billing/retry.py
+  line_start: 55
+  line_end: 55
+  severity: medium
+  category: error_handling
+  description: >
+    `except GatewayError` retries every gateway error, including the permanent `CardDeclined` and `InvalidRequest`,
+    not just the transient `GatewayUnavailable`/`GatewayTimeout`. A declined card is re-submitted `attempts`
+    times with backoff sleeps in between, slowing the settlement run and hammering the issuer with repeat
+    attempts for a charge that cannot succeed.
+  must_find: true
+  tags:
+  - unshown_context
+- id: b2
+  file: billing/retry.py
+  line_start: 61
+  line_end: 61
+  severity: high
+  category: error_handling
+  description: >
+    After the last failed attempt the loop `break`s and `charge` falls off the end, returning None instead
+    of re-raising the gateway error. `settle_invoice` only handles `GatewayError`, so it reads `charge.id`
+    on None and raises AttributeError: the invoice is never marked payment_failed and `settle_open_invoices`
+    aborts, leaving every remaining invoice unsettled whenever the gateway is down (or, with b1, a card
+    is declined).
+  must_find: true
+notes: >
+  PR purpose: make the nightly invoice settlement resilient to gateway outages by wrapping the payment
+  gateway in a retrying client with exponential backoff that reuses the invoice's idempotency key.

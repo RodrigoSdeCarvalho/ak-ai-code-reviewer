@@ -1,0 +1,29 @@
+id: seeded-perf-01
+kind: seeded
+split: dev
+title: >-
+  Billing breakdown looks up each entry's project with its own query in the utilisation report
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: timesheets/report.py
+  line_start: 67
+  line_end: 67
+  severity: medium
+  category: performance
+  description: >
+    `store.project(entry.project_id)` runs one SELECT against the projects table for every time entry
+    in the period (N+1), although the store offers a batched `projects(ids)` and the same function already
+    batches employees. A month for a 50-person team is thousands of round trips to fetch a handful of
+    projects, so report generation slows down linearly with the number of entries.
+  must_find: true
+notes: >
+  PR purpose: extend the monthly utilisation report with billable hours per employee and a billed amount
+  per project (hours times the project's hourly rate), and render both in the text output.

@@ -1,0 +1,226 @@
+diff --git a/fleet/api.py b/fleet/api.py
+--- a/fleet/api.py
++++ b/fleet/api.py
+@@ -2,10 +2,11 @@
+ 
+ from __future__ import annotations
+ 
++from datetime import date
+ from typing import Any
+ 
+ from fleet.models import Vehicle
+-from fleet.registry import DuplicateVehicle, VehicleRegistry
++from fleet.registry import DuplicateVehicle, VehicleRegistry, VehicleRetired
+ 
+ Response = tuple[int, dict[str, Any]]
+ 
+@@ -18,7 +19,21 @@
+         "depot": vehicle.depot,
+         "odometer_km": vehicle.odometer_km,
+         "service_due": vehicle.service_due(),
++        "active": vehicle.active,
++        "retired_on": vehicle.retired_on.isoformat() if vehicle.retired_on else None,
++        "retirement_reason": vehicle.retirement_reason,
+     }
++
++
++def _not_found(plate: str) -> Response:
++    return 404, {"error": f"no vehicle {plate}"}
++
++
++def _lookup(registry: VehicleRegistry, plate: str) -> Vehicle | None:
++    try:
++        return registry.get(plate)
++    except ValueError:
++        return None
+ 
+ 
+ def register_vehicle(registry: VehicleRegistry, body: dict[str, Any]) -> Response:
+@@ -39,14 +54,67 @@
+ 
+ 
+ def vehicle_detail(registry: VehicleRegistry, plate: str) -> Response:
+-    try:
+-        vehicle = registry.get(plate)
+-    except (KeyError, ValueError):
+-        return 404, {"error": f"no vehicle {plate}"}
++    vehicle = _lookup(registry, plate)
++    if vehicle is None:
++        return _not_found(plate)
+     return 200, serialise(vehicle)
+ 
+ 
+ def list_vehicles(registry: VehicleRegistry, query: dict[str, str]) -> Response:
+     depot = query.get("depot") or None
+-    items = [serialise(vehicle) for vehicle in registry.vehicles(depot)]
++    include_retired = query.get("include_retired", "").lower() in ("1", "true", "yes")
++    items = [serialise(vehicle) for vehicle in registry.vehicles(depot, include_retired=include_retired)]
+     return 200, {"items": items, "count": len(items)}
++
++
++def transfer_vehicle(registry: VehicleRegistry, plate: str, body: dict[str, Any]) -> Response:
++    if _lookup(registry, plate) is None:
++        return _not_found(plate)
++    depot = str(body.get("depot", "")).strip()
++    if not depot:
++        return 400, {"error": "depot is required"}
++    try:
++        vehicle = registry.transfer(plate, depot)
++    except VehicleRetired:
++        return 409, {"error": f"{plate} is retired"}
++    return 200, serialise(vehicle)
++
++
++def retire_vehicle(registry: VehicleRegistry, plate: str, body: dict[str, Any]) -> Response:
++    if _lookup(registry, plate) is None:
++        return _not_found(plate)
++    try:
++        on = date.fromisoformat(str(body["on"]))
++        vehicle = registry.retire(plate, on, str(body.get("reason", "")))
++    except VehicleRetired:
++        return 409, {"error": f"{plate} is already retired"}
++    except (KeyError, ValueError) as exc:
++        return 400, {"error": f"invalid retirement: {exc}"}
++    return 200, serialise(vehicle)
++
++
++def record_service(registry: VehicleRegistry, plate: str, body: dict[str, Any]) -> Response:
++    if _lookup(registry, plate) is None:
++        return _not_found(plate)
++    try:
++        on = date.fromisoformat(str(body["on"]))
++    except (KeyError, ValueError) as exc:
++        return 400, {"error": f"invalid service date: {exc}"}
++    try:
++        vehicle = registry.record_service(plate, on)
++    except VehicleRetired:
++        return 409, {"error": f"{plate} is retired"}
++    return 200, serialise(vehicle)
++
++
++def fleet_summary(registry: VehicleRegistry) -> Response:
++    depots: dict[str, dict[str, int]] = {}
++    for vehicle in registry.vehicles(include_retired=True):
++        counts = depots.setdefault(vehicle.depot, {"active": 0, "retired": 0, "service_due": 0})
++        if vehicle.active:
++            counts["active"] += 1
++            counts["service_due"] += vehicle.service_due()
++        else:
++            counts["retired"] += 1
++    totals = {key: sum(counts[key] for counts in depots.values()) for key in ("active", "retired", "service_due")}
++    return 200, {"depots": dict(sorted(depots.items())), "totals": totals}
+diff --git a/fleet/models.py b/fleet/models.py
+--- a/fleet/models.py
++++ b/fleet/models.py
+@@ -6,6 +6,7 @@
+ from datetime import date
+ 
+ SERVICE_INTERVAL_KM = 15_000
++RETIREMENT_REASONS = ("sold", "written_off", "lease_returned", "scrapped")
+ 
+ 
+ @dataclass
+@@ -17,13 +18,19 @@
+     odometer_km: int = 0
+     last_service_km: int = 0
+     last_service_on: date | None = None
++    retired_on: date | None = None
++    retirement_reason: str | None = None
+     notes: list[str] = field(default_factory=list)
++
++    @property
++    def active(self) -> bool:
++        return self.retired_on is None
+ 
+     def km_since_service(self) -> int:
+         return self.odometer_km - self.last_service_km
+ 
+     def service_due(self, interval_km: int = SERVICE_INTERVAL_KM) -> bool:
+-        return self.km_since_service() >= interval_km
++        return self.active and self.km_since_service() >= interval_km
+ 
+ 
+ def normalise_plate(plate: str) -> str:
+diff --git a/fleet/registry.py b/fleet/registry.py
+--- a/fleet/registry.py
++++ b/fleet/registry.py
+@@ -5,10 +5,14 @@
+ from collections.abc import Iterator
+ from datetime import date
+ 
+-from fleet.models import Vehicle, normalise_plate
++from fleet.models import RETIREMENT_REASONS, Vehicle, normalise_plate
+ 
+ 
+ class DuplicateVehicle(ValueError):
++    pass
++
++
++class VehicleRetired(ValueError):
+     pass
+ 
+ 
+@@ -26,25 +30,57 @@
+         self._vehicles[vehicle.plate] = vehicle
+         return vehicle
+ 
+-    def get(self, plate: str) -> Vehicle:
+-        """Return the vehicle registered under `plate`; raise KeyError if there is none."""
+-        return self._vehicles[normalise_plate(plate)]
++    def get(self, plate: str) -> Vehicle | None:
++        """Return the vehicle registered under `plate`, retired or not, or None if there is none."""
++        return self._vehicles.get(normalise_plate(plate))
+ 
+-    def vehicles(self, depot: str | None = None) -> Iterator[Vehicle]:
++    def _require(self, plate: str) -> Vehicle:
++        vehicle = self.get(plate)
++        if vehicle is None:
++            raise KeyError(plate)
++        return vehicle
++
++    def vehicles(self, depot: str | None = None, include_retired: bool = False) -> Iterator[Vehicle]:
+         for plate in sorted(self._vehicles):
+             vehicle = self._vehicles[plate]
++            if not include_retired and not vehicle.active:
++                continue
+             if depot is None or vehicle.depot == depot:
+                 yield vehicle
+ 
+     def record_odometer(self, plate: str, km: int) -> Vehicle:
+-        vehicle = self.get(plate)
++        vehicle = self._require(plate)
+         if km < vehicle.odometer_km:
+             raise ValueError(f"{vehicle.plate}: odometer cannot go back from {vehicle.odometer_km} to {km}")
+         vehicle.odometer_km = km
+         return vehicle
+ 
+     def record_service(self, plate: str, on: date) -> Vehicle:
+-        vehicle = self.get(plate)
++        vehicle = self._require(plate)
++        if not vehicle.active:
++            raise VehicleRetired(vehicle.plate)
+         vehicle.last_service_km = vehicle.odometer_km
+         vehicle.last_service_on = on
+         return vehicle
++
++    def transfer(self, plate: str, depot: str) -> Vehicle:
++        vehicle = self._require(plate)
++        if not vehicle.active:
++            raise VehicleRetired(vehicle.plate)
++        if vehicle.depot != depot:
++            vehicle.notes.append(f"transferred from {vehicle.depot} to {depot}")
++            vehicle.depot = depot
++        return vehicle
++
++    def retire(self, plate: str, on: date, reason: str) -> Vehicle:
++        """Take a vehicle out of service. Its record is kept for reporting and audits."""
++        if reason not in RETIREMENT_REASONS:
++            raise ValueError(f"unknown retirement reason {reason!r}")
++        vehicle = self._require(plate)
++        if not vehicle.active:
++            raise VehicleRetired(vehicle.plate)
++        if vehicle.last_service_on is not None and on < vehicle.last_service_on:
++            raise ValueError(f"{vehicle.plate}: cannot retire before its last service on {vehicle.last_service_on}")
++        vehicle.retired_on = on
++        vehicle.retirement_reason = reason
++        return vehicle

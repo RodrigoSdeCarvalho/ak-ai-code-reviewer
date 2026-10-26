@@ -1,0 +1,201 @@
+diff --git a/podsync/client.py b/podsync/client.py
+--- a/podsync/client.py
++++ b/podsync/client.py
+@@ -1,6 +1,7 @@
+ from __future__ import annotations
+ 
+ from collections.abc import Mapping
++from dataclasses import dataclass
+ from typing import Any, Protocol
+ 
+ from podsync.models import Episode, Show, parse_episode, parse_show
+@@ -22,6 +23,13 @@
+     def get(self, path: str, params: Mapping[str, str]) -> dict[str, Any]: ...
+ 
+ 
++@dataclass(frozen=True)
++class EpisodePage:
++    number: int
++    episodes: list[Episode]
++    has_more: bool
++
++
+ class HostingClient:
+     def __init__(self, transport: Transport, page_size: int = 50) -> None:
+         if not 1 <= page_size <= 100:
+@@ -38,3 +46,24 @@
+             {"limit": str(min(limit, 100)), "order": "newest"},
+         )
+         return [parse_episode(show_id, item) for item in payload["items"]]
++
++    def _oldest_first(self, show_id: str, cursor: str | None) -> dict[str, Any]:
++        params = {"limit": str(self._page_size), "order": "oldest"}
++        if cursor is not None:
++            params["cursor"] = cursor
++        return self._transport.get(f"/v2/shows/{show_id}/episodes", params)
++
++    def episode_page(self, show_id: str, number: int) -> EpisodePage:
++        """Return page `number` (0-based) of the show's episodes, oldest first.
++
++        Cursors issued by the hosting API expire after a few minutes, so callers that need
++        to resume later address pages by number.
++        """
++        cursor: str | None = None
++        for _ in range(number):
++            cursor = self._oldest_first(show_id, cursor).get("next_cursor")
++            if cursor is None:
++                return EpisodePage(number, [], has_more=False)
++        payload = self._oldest_first(show_id, cursor)
++        episodes = [parse_episode(show_id, item) for item in payload["items"]]
++        return EpisodePage(number, episodes, has_more=payload.get("next_cursor") is not None)
+diff --git a/podsync/store.py b/podsync/store.py
+--- a/podsync/store.py
++++ b/podsync/store.py
+@@ -16,6 +16,11 @@
+     explicit INTEGER NOT NULL
+ );
+ CREATE INDEX IF NOT EXISTS episodes_by_show ON episodes (show_id, published_at);
++CREATE TABLE IF NOT EXISTS import_state (
++    show_id TEXT PRIMARY KEY,
++    next_page INTEGER NOT NULL DEFAULT 0,
++    completed_at TEXT
++);
+ """
+ 
+ 
+@@ -61,3 +66,35 @@
+             "SELECT MAX(published_at) FROM episodes WHERE show_id = ?", (show_id,)
+         ).fetchone()
+         return datetime.fromisoformat(row[0]) if row[0] else None
++
++    def checkpoint(self, show_id: str) -> int:
++        row = self._conn.execute(
++            "SELECT next_page FROM import_state WHERE show_id = ?", (show_id,)
++        ).fetchone()
++        return int(row[0]) if row else 0
++
++    def save_checkpoint(self, show_id: str, next_page: int) -> None:
++        with self._conn:
++            self._conn.execute(
++                "INSERT INTO import_state (show_id, next_page) VALUES (?, ?) "
++                "ON CONFLICT (show_id) DO UPDATE SET next_page = excluded.next_page",
++                (show_id, next_page),
++            )
++
++    def mark_imported(self, show_id: str, at: datetime) -> None:
++        with self._conn:
++            self._conn.execute(
++                "INSERT INTO import_state (show_id, completed_at) VALUES (?, ?) "
++                "ON CONFLICT (show_id) DO UPDATE SET completed_at = excluded.completed_at",
++                (show_id, at.isoformat()),
++            )
++
++    def imported_at(self, show_id: str) -> datetime | None:
++        row = self._conn.execute(
++            "SELECT completed_at FROM import_state WHERE show_id = ?", (show_id,)
++        ).fetchone()
++        return datetime.fromisoformat(row[0]) if row and row[0] else None
++
++    def reset_import(self, show_id: str) -> None:
++        with self._conn:
++            self._conn.execute("DELETE FROM import_state WHERE show_id = ?", (show_id,))
+diff --git a/podsync/sync.py b/podsync/sync.py
+--- a/podsync/sync.py
++++ b/podsync/sync.py
+@@ -1,10 +1,10 @@
+ from __future__ import annotations
+ 
+ from collections.abc import Iterable
+-from dataclasses import dataclass
++from dataclasses import dataclass, field
+ from datetime import datetime, timedelta
+ 
+-from podsync.client import HostingClient
++from podsync.client import HostingClient, RateLimited
+ from podsync.store import CatalogueStore
+ 
+ 
+@@ -13,6 +13,26 @@
+     show_id: str
+     inserted: int = 0
+     updated: int = 0
++
++
++@dataclass
++class ImportResult:
++    show_id: str
++    pages: int = 0
++    inserted: int = 0
++    updated: int = 0
++    complete: bool = False
++    retry_after: int | None = None
++
++
++@dataclass
++class ImportRun:
++    results: dict[str, ImportResult] = field(default_factory=dict)
++    retry_after: int | None = None
++
++    @property
++    def pending(self) -> list[str]:
++        return [show_id for show_id, result in self.results.items() if not result.complete]
+ 
+ 
+ def refresh_recent(
+@@ -42,3 +62,56 @@
+         if latest is None or now - latest > max_age:
+             stale.append(show_id)
+     return stale
++
++
++def import_back_catalogue(
++    client: HostingClient,
++    store: CatalogueStore,
++    show_id: str,
++    *,
++    now: datetime,
++    max_pages: int | None = None,
++) -> ImportResult:
++    result = ImportResult(show_id)
++    if store.imported_at(show_id) is not None:
++        result.complete = True
++        return result
++    number = store.checkpoint(show_id)
++    while max_pages is None or result.pages < max_pages:
++        try:
++            page = client.episode_page(show_id, number)
++        except RateLimited as exc:
++            result.retry_after = exc.retry_after
++            return result
++        for episode in page.episodes:
++            if store.upsert_episode(episode):
++                result.inserted += 1
++            else:
++                result.updated += 1
++        result.pages += 1
++        number += 1
++        store.save_checkpoint(show_id, number)
++        if not page.has_more:
++            store.mark_imported(show_id, now)
++            result.complete = True
++            break
++    return result
++
++
++def import_shows(
++    client: HostingClient,
++    store: CatalogueStore,
++    show_ids: Iterable[str],
++    *,
++    now: datetime,
++    max_pages_per_show: int | None = None,
++) -> ImportRun:
++    run = ImportRun()
++    for show_id in show_ids:
++        if run.retry_after is not None:
++            run.results[show_id] = ImportResult(show_id)
++            continue
++        result = import_back_catalogue(client, store, show_id, now=now, max_pages=max_pages_per_show)
++        run.results[show_id] = result
++        run.retry_after = result.retry_after
++    return run

@@ -1,0 +1,38 @@
+id: real-03
+kind: real
+split: test
+title: RootModel shallow copy shares the private-attribute dict with the original
+language: python
+size_bucket: S
+provenance:
+  origin: reverted-fix
+  source: >-
+    https://github.com/pydantic/pydantic/commit/900e8991b7bf066a0d44346636c43b371608d8cf (committed 2026-10-14,
+    license MIT)
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: fix-derived
+bugs:
+- id: b1
+  file: pydantic/root_model.py
+  line_start: 104
+  line_end: 106
+  severity: medium
+  category: logic
+  description: >
+    `RootModel.__copy__` shallow-copies `__dict__`, and on root models the private attributes live in
+    `__dict__['__pydantic_private__']` (the class attribute `__pydantic_private__ = None` shadows the
+    slot). The copy therefore shares the same private-attribute dict object as the original, so after
+    `copied = original.model_copy()` (shallow is the default), `copied._tag = 'copy'` also changes `original._tag`.
+    The copy must get its own private dict, as `BaseModel.__copy__` does.
+  must_find: true
+notes: >
+  Reverted fix of pydantic/pydantic PR 13989. Presented to the reviewer as a change that removes five
+  lines from `RootModel.__copy__` that gave the copy its own private-attribute dict (also skipping `PydanticUndefined`
+  values). Since the fix only added code, the buggy side has nothing at the fix location; the label covers
+  the surviving lines of `__copy__` where the handling belongs (the shallow `__dict__` copy, the `root`
+  copy and the point where the dict is attached). A reversal that deletes the handling is easier to spot
+  than a genuine PR that never had it. `__deepcopy__` is not affected. Deviation from upstream: before/
+  and fixed/ drop the one-line comment the fix added ("Private attributes live in `__dict__` on root models,
+  so give the copy its own:"), because as a deleted line in change.diff it stated the defect to the reviewer;
+  code is otherwise byte-identical to the fix commit (before/) and its parent (after/).

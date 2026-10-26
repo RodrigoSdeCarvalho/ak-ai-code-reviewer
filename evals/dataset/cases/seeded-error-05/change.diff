@@ -1,0 +1,50 @@
+diff --git a/inventory/orders.py b/inventory/orders.py
+--- a/inventory/orders.py
++++ b/inventory/orders.py
+@@ -5,7 +5,7 @@
+ from dataclasses import dataclass
+ from typing import Any
+ 
+-from inventory.warehouse import UnknownSku, Warehouse
++from inventory.warehouse import OutOfStock, UnknownSku, Warehouse
+ 
+ Response = tuple[int, dict[str, Any]]
+ 
+@@ -48,11 +48,9 @@
+     except ValueError as exc:
+         return 400, {"error": str(exc)}
+     try:
+-        for line in lines:
+-            if warehouse.available(line.sku) < line.quantity:
+-                return 409, {"error": "insufficient stock", "sku": line.sku}
++        warehouse.reserve_order((line.sku, line.quantity) for line in lines)
+     except UnknownSku as exc:
+         return 404, {"error": f"unknown sku {exc.args[0]}"}
+-    for line in lines:
+-        warehouse.reserve(line.sku, line.quantity)
++    except OutOfStock as exc:
++        return 409, {"error": "insufficient stock", "sku": exc.sku}
+     return 201, {"reserved": {line.sku: line.quantity for line in lines}}
+diff --git a/inventory/warehouse.py b/inventory/warehouse.py
+--- a/inventory/warehouse.py
++++ b/inventory/warehouse.py
+@@ -2,6 +2,7 @@
+ 
+ from __future__ import annotations
+ 
++from collections.abc import Iterable
+ from dataclasses import dataclass
+ 
+ 
+@@ -53,6 +54,11 @@
+             raise OutOfStock(sku, quantity, level.available)
+         level.reserved += quantity
+ 
++    def reserve_order(self, lines: Iterable[tuple[str, int]]) -> None:
++        """Reserve stock for every (sku, quantity) line of one order."""
++        for sku, quantity in lines:
++            self.reserve(sku, quantity)
++
+     def release(self, sku: str, quantity: int) -> None:
+         """Return reserved units to available stock (order cancelled)."""
+         _check_quantity(quantity)

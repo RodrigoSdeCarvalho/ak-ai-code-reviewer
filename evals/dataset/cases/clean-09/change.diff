@@ -1,0 +1,77 @@
+diff --git a/logscan/cli.py b/logscan/cli.py
+--- a/logscan/cli.py
++++ b/logscan/cli.py
+@@ -7,7 +7,7 @@
+ from collections.abc import Sequence
+ from datetime import datetime
+ 
+-from logscan.filters import LogFilter
++from logscan.filters import LEVELS, LogFilter
+ 
+ 
+ def _timestamp(value: str) -> datetime:
+@@ -17,16 +17,29 @@
+         raise argparse.ArgumentTypeError(f"not an ISO timestamp: {value!r}") from None
+ 
+ 
++def _count(value: str) -> int:
++    try:
++        number = int(value)
++    except ValueError:
++        raise argparse.ArgumentTypeError(f"not a whole number: {value!r}") from None
++    if number < 0:
++        raise argparse.ArgumentTypeError("must be zero or more")
++    return number
++
++
+ def build_parser() -> argparse.ArgumentParser:
+     parser = argparse.ArgumentParser(prog="logscan", description="Print matching lines from log files.")
+     parser.add_argument("paths", nargs="+", help="log files to scan, in order")
+     parser.add_argument("--since", type=_timestamp, help="only lines at or after this ISO timestamp")
+     parser.add_argument("--grep", help="only lines whose message contains this text")
++    parser.add_argument("--level", dest="levels", action="append", choices=LEVELS, help="only this level; repeatable")
++    parser.add_argument("--limit", type=_count, help="stop after printing this many lines across all files")
+     return parser
+ 
+ 
+ def filter_from_args(args: argparse.Namespace) -> LogFilter:
+-    return LogFilter(since=args.since, substring=args.grep)
++    levels = frozenset(args.levels) if args.levels else None
++    return LogFilter(since=args.since, substring=args.grep, levels=levels)
+ 
+ 
+ def _emit(line: str) -> None:
+@@ -36,11 +49,17 @@
+ def main(argv: Sequence[str] | None = None) -> int:
+     args = build_parser().parse_args(argv)
+     log_filter = filter_from_args(args)
++    if args.limit == 0:
++        return 0
++    printed = 0
+     for path in args.paths:
+         try:
+             with open(path, encoding="utf-8") as handle:
+                 for line in log_filter.matching(handle):
+                     _emit(line)
++                    printed += 1
++                    if printed == args.limit:
++                        return 0
+         except OSError as exc:
+             print(f"logscan: {exc}", file=sys.stderr)
+             return 2
+diff --git a/logscan/filters.py b/logscan/filters.py
+--- a/logscan/filters.py
++++ b/logscan/filters.py
+@@ -34,9 +34,12 @@
+ 
+     since: datetime | None = None
+     substring: str | None = None
++    levels: frozenset[str] | None = None
+ 
+     def accepts(self, entry: LogLine) -> bool:
+         if self.since is not None and entry.timestamp < self.since:
++            return False
++        if self.levels is not None and entry.level not in self.levels:
+             return False
+         return self.substring is None or self.substring in entry.message
+ 

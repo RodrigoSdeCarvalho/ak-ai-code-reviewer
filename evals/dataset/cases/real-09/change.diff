@@ -1,0 +1,12 @@
+diff --git a/lib/sqlalchemy/engine/characteristics.py b/lib/sqlalchemy/engine/characteristics.py
+--- a/lib/sqlalchemy/engine/characteristics.py
++++ b/lib/sqlalchemy/engine/characteristics.py
+@@ -142,7 +142,7 @@
+         if value:
+             conn._message_formatter = lambda msg: "[%s] %s" % (value, msg)
+         else:
+-            conn._message_formatter = None
++            del conn._message_formatter
+ 
+     def get_characteristic(
+         self, dialect: Dialect, dbapi_conn: DBAPIConnection

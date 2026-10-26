@@ -1,0 +1,3 @@
+# Non-LLM floor: ruff + bandit diagnostics on changed lines (aireview.reviewer.static_baseline).
+name: static
+backend: static

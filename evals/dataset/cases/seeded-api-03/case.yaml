@@ -1,0 +1,29 @@
+id: seeded-api-03
+kind: seeded
+split: test
+title: >-
+  Digest flush calls the now-async deliver without awaiting it, dropping every digest
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: notify/digest.py
+  line_start: 45
+  line_end: 45
+  severity: critical
+  category: concurrency
+  description: >
+    `deliver` became a coroutine function in this PR (notify/dispatcher.py), but `flush` calls `if deliver(channel,
+    message):` without `await`. The coroutine object is always truthy and is never run, so no digest is
+    ever sent, every recipient's lines are removed from the queue as if delivered, and `flush` reports
+    no failures: every queued digest is silently lost.
+  must_find: true
+notes: >
+  PR purpose: move notification channels to an async transport, make `deliver`/`broadcast` async (with
+  bounded concurrency in `broadcast`), and have digest flushing reuse `deliver` so digests get retries.

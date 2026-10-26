@@ -1,0 +1,46 @@
+diff --git a/newsletter/campaign.py b/newsletter/campaign.py
+--- a/newsletter/campaign.py
++++ b/newsletter/campaign.py
+@@ -4,7 +4,7 @@
+ from dataclasses import dataclass, field
+ from urllib.parse import urlencode
+ 
+-from newsletter.mailer import Mailer, Message
++from newsletter.mailer import Mailer, Message, RecipientRefused
+ 
+ 
+ @dataclass(frozen=True)
+@@ -14,6 +14,16 @@
+     lists: frozenset[str] = field(default_factory=frozenset)
+     confirmed: bool = True
+     unsubscribed: bool = False
++
++
++@dataclass
++class CampaignReport:
++    sent: list[str] = field(default_factory=list)
++    refused: dict[str, str] = field(default_factory=dict)
++
++    @property
++    def attempted(self) -> int:
++        return len(self.sent) + len(self.refused)
+ 
+ 
+ @dataclass(frozen=True)
+@@ -61,3 +71,16 @@
+     preview = Subscriber(email=address, name="Test Recipient", lists=frozenset({campaign.list_name}))
+     message = render(campaign, preview)
+     mailer.send(Message(message.sender, message.to, f"[TEST] {message.subject}", message.body, message.headers))
++
++
++def send_campaign(mailer: Mailer, campaign: Campaign, subscribers: Iterable[Subscriber]) -> CampaignReport:
++    report = CampaignReport()
++    for subscriber in eligible(subscribers, campaign):
++        message = render(campaign, subscriber)
++        try:
++            mailer.send(message)
++        except RecipientRefused as exc:
++            report.refused[subscriber.email] = exc.reason
++        else:
++            report.sent.append(subscriber.email)
++    return report

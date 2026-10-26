@@ -1,0 +1,29 @@
+id: seeded-security-05
+kind: seeded
+split: dev
+title: >-
+  Reading mail relay settings from the environment logs the settings object, writing the SMTP password
+  to the application log
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: mailer/config.py
+  line_start: 66
+  line_end: 66
+  severity: high
+  category: security
+  description: >
+    `from_env` logs `"mail relay configured: %s"` with the whole `RelaySettings` dataclass. Its generated
+    repr includes every field, so the SMTP relay password is written in clear text to the INFO log on
+    every startup, exposing the credential to anyone with access to logs or log shipping.
+  must_find: true
+notes: >
+  PR purpose: configure the newsletter dispatcher's SMTP relay from MAILER_RELAY_* environment variables
+  (with optional defaults) instead of a config mapping, and log the effective relay configuration at startup.

@@ -1,0 +1,42 @@
+id: seeded-logic-07
+kind: seeded
+split: test
+title: >-
+  Monthly usage report carries daily totals across days and looks up the previous month with a reordered
+  key
+language: python
+size_bucket: L
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: metering/rollup.py
+  line_start: 57
+  line_end: 58
+  severity: high
+  category: logic
+  description: >
+    `daily_totals` never resets `quantity` after yielding a finished day, so each DailyTotal is a running
+    sum of every earlier day (and earlier account/metric) in the sorted stream. Whenever an account has
+    usage on more than one day, the monthly totals, averages and peak days in the report are wrong (acme's
+    March api_calls total comes out as 1,500 instead of 500).
+  must_find: true
+- id: b2
+  file: metering/report.py
+  line_start: 69
+  line_end: 69
+  severity: high
+  category: logic
+  description: >
+    The previous-month lookup uses `(account_id, prior, metric)`, but rollup keys are `(account_id, metric,
+    month)`, so it never matches. `previous_total` is always empty and the change column always shows
+    "n/a", even for accounts that had usage the month before.
+  must_find: true
+notes: >
+  PR purpose: add a `report --month YYYY-MM` CLI command that rolls gateway usage events up into daily
+  and monthly totals per account and metric (new rollup.py) and renders a monthly report with month-over-month
+  change as text or CSV (new report.py).

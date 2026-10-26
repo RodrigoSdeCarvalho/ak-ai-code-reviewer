@@ -1,0 +1,75 @@
+diff --git a/contacts/importer.py b/contacts/importer.py
+--- a/contacts/importer.py
++++ b/contacts/importer.py
+@@ -2,6 +2,7 @@
+ 
+ from __future__ import annotations
+ 
++from collections.abc import Iterable
+ from dataclasses import dataclass, field
+ 
+ from contacts.book import AddressBook
+@@ -23,13 +24,14 @@
+     rejected: list[tuple[int, str]] = field(default_factory=list)
+ 
+ 
+-def import_csv(book: AddressBook, text: str, max_errors: int = DEFAULT_MAX_ERRORS) -> ImportReport:
+-    """Import every valid row of `text` into `book`.
++def import_csv(book: AddressBook, text: str | Iterable[str], max_errors: int = DEFAULT_MAX_ERRORS) -> ImportReport:
++    """Import every valid row of the CSV `text` (a string, or lines such as an open file) into `book`.
+ 
+     If more than `max_errors` rows are invalid the file is assumed to be the wrong export, and
+     TooManyErrors is raised before anything is written.
+     """
+-    rows = parse_rows(text.splitlines())
++    lines = text.splitlines() if isinstance(text, str) else text
++    rows = parse_rows(lines)
+     rejected = [(row.line, row.error) for row in rows if row.error]
+     if len(rejected) > max_errors:
+         raise TooManyErrors(rejected)
+diff --git a/contacts/parsing.py b/contacts/parsing.py
+--- a/contacts/parsing.py
++++ b/contacts/parsing.py
+@@ -3,7 +3,7 @@
+ from __future__ import annotations
+ 
+ import csv
+-from collections.abc import Iterable
++from collections.abc import Iterable, Iterator
+ from dataclasses import dataclass
+ 
+ REQUIRED_COLUMNS = ("email", "name")
+@@ -30,27 +30,25 @@
+     return ("+" if raw.startswith("+") else "") + digits
+ 
+ 
+-def parse_rows(lines: Iterable[str]) -> list[ContactRow]:
+-    """Parse CSV lines with a header row. Invalid rows are returned with `error` set."""
++def parse_rows(lines: Iterable[str]) -> Iterator[ContactRow]:
++    """Parse CSV lines with a header row, one row at a time. Invalid rows are yielded with `error` set."""
+     reader = csv.DictReader(lines)
+     missing = [column for column in REQUIRED_COLUMNS if column not in (reader.fieldnames or ())]
+     if missing:
+         raise ValueError(f"missing columns: {', '.join(missing)}")
+-    rows: list[ContactRow] = []
+     for record in reader:
+         line = reader.line_num
+         email = (record["email"] or "").strip().lower()
+         name = (record["name"] or "").strip()
+         if "@" not in email:
+-            rows.append(ContactRow(line, email, name, error="invalid e-mail address"))
++            yield ContactRow(line, email, name, error="invalid e-mail address")
+             continue
+         if not name:
+-            rows.append(ContactRow(line, email, name, error="name is empty"))
++            yield ContactRow(line, email, name, error="name is empty")
+             continue
+         try:
+             phone = normalise_phone(record.get("phone"))
+         except ValueError as exc:
+-            rows.append(ContactRow(line, email, name, error=str(exc)))
++            yield ContactRow(line, email, name, error=str(exc))
+             continue
+-        rows.append(ContactRow(line, email, name, phone))
+-    return rows
++        yield ContactRow(line, email, name, phone)

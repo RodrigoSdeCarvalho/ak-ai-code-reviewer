@@ -1,0 +1,317 @@
+diff --git a/auth/sessions.py b/auth/sessions.py
+--- a/auth/sessions.py
++++ b/auth/sessions.py
+@@ -1,15 +1,21 @@
+-"""Login sessions kept in process memory."""
++"""Login sessions: short-lived access tokens plus rotating refresh tokens."""
+ 
+ from __future__ import annotations
+ 
++import hashlib
++import logging
+ import secrets
+ from collections.abc import Callable
+ from dataclasses import dataclass
+ from datetime import datetime, timedelta
+ 
++from auth.store import SessionRecord, SessionStore, StoreError
+ from auth.users import User, UserDirectory
+ 
+-SESSION_TTL = timedelta(hours=12)
++logger = logging.getLogger(__name__)
++
++ACCESS_TTL = timedelta(minutes=30)
++REFRESH_TTL = timedelta(days=14)
+ 
+ 
+ class InvalidCredentials(Exception):
+@@ -17,15 +23,22 @@
+ 
+ 
+ class InvalidSession(Exception):
+-    """The session token is unknown, expired or belongs to a deactivated user."""
++    """The token is unknown, expired, already used or belongs to a deactivated user."""
+ 
+ 
+ @dataclass(frozen=True)
+-class Session:
+-    token: str
++class IssuedSession:
++    """What the client receives at login or refresh. The raw tokens are never stored."""
++
++    access_token: str
++    refresh_token: str
+     user_id: int
+-    created_at: datetime
+     expires_at: datetime
++    refresh_expires_at: datetime
++
++
++def token_hash(token: str) -> str:
++    return hashlib.sha256(token.encode("utf-8")).hexdigest()
+ 
+ 
+ def _new_token() -> str:
+@@ -36,37 +49,86 @@
+     def __init__(
+         self,
+         users: UserDirectory,
+-        ttl: timedelta = SESSION_TTL,
++        store: SessionStore,
++        access_ttl: timedelta = ACCESS_TTL,
++        refresh_ttl: timedelta = REFRESH_TTL,
+         token_factory: Callable[[], str] = _new_token,
+     ) -> None:
+         self._users = users
+-        self._ttl = ttl
++        self._store = store
++        self._access_ttl = access_ttl
++        self._refresh_ttl = refresh_ttl
+         self._new_token = token_factory
+-        self._sessions: dict[str, Session] = {}
+ 
+-    def login(self, email: str, password: str, now: datetime) -> Session:
++    def login(self, email: str, password: str, now: datetime) -> IssuedSession:
+         user = self._users.check_password(email, password)
+         if user is None:
+             raise InvalidCredentials()
+-        session = Session(self._new_token(), user.id, now, now + self._ttl)
+-        self._sessions[session.token] = session
+-        return session
++        return self._issue(user.id, now)
+ 
+-    def authenticate(self, token: str, now: datetime) -> User:
+-        session = self._sessions.get(token)
+-        if session is None or session.expires_at <= now:
+-            self._sessions.pop(token, None)
++    def authenticate(self, access_token: str, now: datetime) -> User:
++        record = self._store.get(token_hash(access_token))
++        if record is None or record.expires_at <= now:
+             raise InvalidSession()
+-        user = self._users.get(session.user_id)
++        user = self._users.get(record.user_id)
+         if not user.active:
+             raise InvalidSession()
+         return user
+ 
+-    def logout(self, token: str) -> None:
+-        self._sessions.pop(token, None)
++    def refresh(self, refresh_token: str, now: datetime) -> IssuedSession:
++        """Exchange a refresh token for a new session; the old tokens stop working."""
++        record = self._store.take_by_refresh(token_hash(refresh_token))
++        if record is None or record.refresh_expires_at <= now:
++            raise InvalidSession()
++        if not self._users.get(record.user_id).active:
++            raise InvalidSession()
++        return self._issue(record.user_id, now)
+ 
+-    def change_password(self, user_id: int, new_password: str) -> None:
++    def logout(self, access_token: str) -> None:
++        self._store.delete(token_hash(access_token))
++
++    def sign_out_everywhere(self, user_id: int) -> int:
++        """End every session of the user and return how many were ended."""
++        revoked = 0
++        for record in self._store.all():
++            if record.user_id != user_id:
++                continue
++            try:
++                self._store.delete(record.access_hash)
++            except StoreError:
++                logger.warning("could not revoke a session of user %s", user_id)
++                continue
++            revoked += 1
++        return revoked
++
++    def change_password(self, user_id: int, new_password: str) -> int:
+         """Set a new password and end every session of the user."""
+         self._users.set_password(user_id, new_password)
+-        for token in [t for t, s in self._sessions.items() if s.user_id == user_id]:
+-            del self._sessions[token]
++        return self.sign_out_everywhere(user_id)
++
++    def purge_expired(self, now: datetime) -> int:
++        """Delete sessions whose refresh token has expired; returns how many were deleted."""
++        expired = [r for r in self._store.all() if r.refresh_expires_at <= now]
++        for record in expired:
++            self._store.delete(record.access_hash)
++        return len(expired)
++
++    def _issue(self, user_id: int, now: datetime) -> IssuedSession:
++        issued = IssuedSession(
++            access_token=self._new_token(),
++            refresh_token=self._new_token(),
++            user_id=user_id,
++            expires_at=now + self._access_ttl,
++            refresh_expires_at=now + self._refresh_ttl,
++        )
++        self._store.save(
++            SessionRecord(
++                access_hash=token_hash(issued.access_token),
++                refresh_hash=token_hash(issued.refresh_token),
++                user_id=user_id,
++                created_at=now,
++                expires_at=issued.expires_at,
++                refresh_expires_at=issued.refresh_expires_at,
++            )
++        )
++        return issued
+diff --git a/auth/store.py b/auth/store.py
+new file mode 100644
+--- /dev/null
++++ b/auth/store.py
+@@ -0,0 +1,154 @@
++"""Session storage backends.
++
++Stores only ever see SHA-256 hashes of the access and refresh tokens, never the tokens themselves.
++"""
++
++from __future__ import annotations
++
++import json
++import os
++import threading
++from dataclasses import dataclass
++from datetime import datetime
++from pathlib import Path
++from typing import Any, Protocol
++
++
++class StoreError(Exception):
++    """The session store could not be read or written."""
++
++
++@dataclass(frozen=True)
++class SessionRecord:
++    access_hash: str
++    refresh_hash: str
++    user_id: int
++    created_at: datetime
++    expires_at: datetime
++    refresh_expires_at: datetime
++
++    def to_dict(self) -> dict[str, Any]:
++        return {
++            "access_hash": self.access_hash,
++            "refresh_hash": self.refresh_hash,
++            "user_id": self.user_id,
++            "created_at": self.created_at.isoformat(),
++            "expires_at": self.expires_at.isoformat(),
++            "refresh_expires_at": self.refresh_expires_at.isoformat(),
++        }
++
++    @classmethod
++    def from_dict(cls, data: dict[str, Any]) -> SessionRecord:
++        return cls(
++            access_hash=data["access_hash"],
++            refresh_hash=data["refresh_hash"],
++            user_id=int(data["user_id"]),
++            created_at=datetime.fromisoformat(data["created_at"]),
++            expires_at=datetime.fromisoformat(data["expires_at"]),
++            refresh_expires_at=datetime.fromisoformat(data["refresh_expires_at"]),
++        )
++
++
++class SessionStore(Protocol):
++    def get(self, access_hash: str) -> SessionRecord | None: ...
++
++    def take_by_refresh(self, refresh_hash: str) -> SessionRecord | None:
++        """Remove and return the session holding this refresh hash, atomically."""
++        ...
++
++    def all(self) -> list[SessionRecord]: ...
++
++    def save(self, record: SessionRecord) -> None: ...
++
++    def delete(self, access_hash: str) -> None:
++        """Remove a session; deleting an unknown session is not an error."""
++        ...
++
++
++class MemorySessionStore:
++    """Process-local store for tests and single-process development servers."""
++
++    def __init__(self) -> None:
++        self._records: dict[str, SessionRecord] = {}
++        self._lock = threading.Lock()
++
++    def get(self, access_hash: str) -> SessionRecord | None:
++        return self._records.get(access_hash)
++
++    def take_by_refresh(self, refresh_hash: str) -> SessionRecord | None:
++        with self._lock:
++            record = _find_refresh(self._records, refresh_hash)
++            if record is not None:
++                del self._records[record.access_hash]
++            return record
++
++    def all(self) -> list[SessionRecord]:
++        with self._lock:
++            return list(self._records.values())
++
++    def save(self, record: SessionRecord) -> None:
++        with self._lock:
++            self._records[record.access_hash] = record
++
++    def delete(self, access_hash: str) -> None:
++        with self._lock:
++            self._records.pop(access_hash, None)
++
++
++class FileSessionStore:
++    """Keeps every session in one JSON file that is rewritten atomically on each change.
++
++    Meant for a single server process with a modest number of live sessions.
++    """
++
++    def __init__(self, path: Path) -> None:
++        self._path = path
++        self._lock = threading.Lock()
++
++    def get(self, access_hash: str) -> SessionRecord | None:
++        return self._read_all().get(access_hash)
++
++    def take_by_refresh(self, refresh_hash: str) -> SessionRecord | None:
++        with self._lock:
++            records = self._read_all()
++            record = _find_refresh(records, refresh_hash)
++            if record is not None:
++                del records[record.access_hash]
++                self._write_all(records)
++            return record
++
++    def all(self) -> list[SessionRecord]:
++        return list(self._read_all().values())
++
++    def save(self, record: SessionRecord) -> None:
++        with self._lock:
++            records = self._read_all()
++            records[record.access_hash] = record
++            self._write_all(records)
++
++    def delete(self, access_hash: str) -> None:
++        with self._lock:
++            records = self._read_all()
++            if records.pop(access_hash, None) is not None:
++                self._write_all(records)
++
++    def _read_all(self) -> dict[str, SessionRecord]:
++        try:
++            items = json.loads(self._path.read_text(encoding="utf-8"))
++            return {item["access_hash"]: SessionRecord.from_dict(item) for item in items}
++        except (OSError, ValueError, KeyError):
++            return {}
++
++    def _write_all(self, records: dict[str, SessionRecord]) -> None:
++        tmp = self._path.with_name(self._path.name + ".tmp")
++        payload = json.dumps([record.to_dict() for record in records.values()], indent=1)
++        try:
++            tmp.write_text(payload, encoding="utf-8")
++            os.replace(tmp, self._path)
++        except OSError as exc:
++            tmp.unlink(missing_ok=True)
++            raise StoreError(f"cannot write {self._path}: {exc}") from exc
++
++
++def _find_refresh(records: dict[str, SessionRecord], refresh_hash: str) -> SessionRecord | None:
++    return next((r for r in records.values() if r.refresh_hash == refresh_hash), None)

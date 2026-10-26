@@ -1,0 +1,119 @@
+diff --git a/boxoffice/handlers.py b/boxoffice/handlers.py
+--- a/boxoffice/handlers.py
++++ b/boxoffice/handlers.py
+@@ -9,6 +9,7 @@
+ Handler = Callable[[Request], Response]
+ 
+ MAX_PER_ORDER = 10
++MAX_COMPS_PER_REQUEST = 50
+ 
+ 
+ def _ticket_body(ticket: Ticket) -> dict[str, object]:
+@@ -18,6 +19,7 @@
+         "holder_id": ticket.holder_id,
+         "price_paid_cents": ticket.price_paid_cents,
+         "status": ticket.status.value,
++        "comp": ticket.is_comp,
+     }
+ 
+ 
+@@ -29,6 +31,8 @@
+             "tickets.buy": self.buy_tickets,
+             "tickets.refund": self.refund_ticket,
+             "event.cancel": self.cancel_event,
++            "event.attendees": self.attendee_list,
++            "tickets.comp": self.comp_tickets,
+         }
+ 
+     def handle(self, route: str, request: Request) -> Response:
+@@ -80,3 +84,24 @@
+         require_role(request.user, Role.ADMIN)
+         refunded = self._store.cancel_event(int(request.params["event_id"]))
+         return Response(200, {"refunded": refunded})
++
++    def attendee_list(self, request: Request) -> Response:
++        require_role(request.user, Role.STAFF, Role.ADMIN)
++        event_id = int(request.params["event_id"])
++        counts = self._store.attendees(event_id)
++        rows = [{"holder_id": holder, "tickets": n} for holder, n in sorted(counts.items())]
++        return Response(200, {"event_id": event_id, "attendees": rows, "total": sum(counts.values())})
++
++    def comp_tickets(self, request: Request) -> Response:
++        user = require_login(request.user)
++        quantity = int(request.params.get("quantity", "1"))
++        if quantity > MAX_COMPS_PER_REQUEST:
++            raise ValueError(f"at most {MAX_COMPS_PER_REQUEST} complimentary tickets per request")
++        tickets = self._store.issue_comps(
++            int(request.params["event_id"]),
++            int(request.params["holder_id"]),
++            quantity,
++            issued_by=user.id,
++            note=request.params.get("note", ""),
++        )
++        return Response(201, {"tickets": [_ticket_body(t) for t in tickets]})
+diff --git a/boxoffice/models.py b/boxoffice/models.py
+--- a/boxoffice/models.py
++++ b/boxoffice/models.py
+@@ -43,6 +43,12 @@
+     holder_id: int
+     price_paid_cents: int
+     status: TicketStatus = TicketStatus.VALID
++    comp_issued_by: int | None = None
++    comp_note: str = ""
++
++    @property
++    def is_comp(self) -> bool:
++        return self.comp_issued_by is not None
+ 
+ 
+ @dataclass
+diff --git a/boxoffice/store.py b/boxoffice/store.py
+--- a/boxoffice/store.py
++++ b/boxoffice/store.py
+@@ -47,15 +47,44 @@
+ 
+     def sell(self, event_id: int, holder_id: int, quantity: int) -> list[Ticket]:
+         event = self.event(event_id)
++        return self._issue(event, holder_id, quantity, event.price_cents)
++
++    def issue_comps(self, event_id: int, holder_id: int, quantity: int, issued_by: int, note: str = "") -> list[Ticket]:
++        event = self.event(event_id)
++        return self._issue(event, holder_id, quantity, 0, comp_issued_by=issued_by, comp_note=note)
++
++    def attendees(self, event_id: int) -> dict[int, int]:
++        self.event(event_id)
++        counts: dict[int, int] = {}
++        for ticket in self.valid_tickets(event_id):
++            counts[ticket.holder_id] = counts.get(ticket.holder_id, 0) + 1
++        return counts
++
++    def _issue(
++        self,
++        event: Event,
++        holder_id: int,
++        quantity: int,
++        price_cents: int,
++        comp_issued_by: int | None = None,
++        comp_note: str = "",
++    ) -> list[Ticket]:
+         if event.status is not EventStatus.ON_SALE:
+             raise EventClosed(event.name)
+         if quantity < 1:
+             raise ValueError("quantity must be at least 1")
+-        if quantity > self.remaining(event_id):
++        if quantity > self.remaining(event.id):
+             raise SoldOut(event.name)
+         issued = []
+         for _ in range(quantity):
+-            ticket = Ticket(next(self._ids), event_id, holder_id, event.price_cents)
++            ticket = Ticket(
++                next(self._ids),
++                event.id,
++                holder_id,
++                price_cents,
++                comp_issued_by=comp_issued_by,
++                comp_note=comp_note,
++            )
+             self._tickets[ticket.id] = ticket
+             issued.append(ticket)
+         return issued

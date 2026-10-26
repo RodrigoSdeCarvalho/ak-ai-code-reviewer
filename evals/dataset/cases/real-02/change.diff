@@ -1,0 +1,15 @@
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -1108,10 +1108,7 @@
+         return self
+ 
+     def add_replace(self):
+-        def __replace__(*args, **changes):
+-            return evolve(*args, **changes)
+-
+-        self._cls_dict["__replace__"] = self._add_method_dunders(__replace__)
++        self._cls_dict["__replace__"] = self._add_method_dunders(evolve)
+         return self
+ 
+     def add_match_args(self):

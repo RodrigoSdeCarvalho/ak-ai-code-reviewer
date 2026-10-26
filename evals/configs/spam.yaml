@@ -1,0 +1,3 @@
+# Spam: one low-severity finding per changed line. Location recall ~1, precision ~0.
+name: spam
+backend: spam

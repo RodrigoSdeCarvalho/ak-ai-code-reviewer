@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aireview"
+version = "0.1.0"
+description = "A small AI code reviewer and the release-gating eval that measures it."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+dependencies = [
+  "anthropic>=1.12,<2",
+  "pydantic>=2.7,<3",
+  "pyyaml>=6,<7",
+  "numpy>=2,<3",
+  "scipy>=1.13,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "pre-commit>=3.7", "bandit>=1.7"]
+static = ["ruff>=0.6", "bandit>=1.7"]
+mlflow = ["mlflow>=2.14"]
+
+[project.scripts]
+aireview = "aireview.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aireview = ["reviewer/prompts/*.md", "evals/judge_prompts/*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = ["evals/dataset/cases"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["RUF012", "E501"]

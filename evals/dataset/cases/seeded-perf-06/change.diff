@@ -1,0 +1,173 @@
+diff --git a/greenhouse/calibration.py b/greenhouse/calibration.py
+--- a/greenhouse/calibration.py
++++ b/greenhouse/calibration.py
+@@ -14,9 +14,18 @@
+     sensor_id: str
+     offset: float
+     gain: float
++    valid_low: float | None = None
++    valid_high: float | None = None
+ 
+     def apply(self, raw: float) -> float:
+         return round((raw - self.offset) * self.gain, 3)
++
++    def in_range(self, value: float) -> bool:
++        if self.valid_low is not None and value < self.valid_low:
++            return False
++        if self.valid_high is not None and value > self.valid_high:
++            return False
++        return True
+ 
+ 
+ class CalibrationSource(Protocol):
+@@ -27,9 +36,13 @@
+ QueryFn = Callable[[str, tuple[Any, ...]], list[Row]]
+ 
+ LATEST_CALIBRATION = (
+-    "SELECT raw_offset, gain FROM sensor_calibration "
++    "SELECT raw_offset, gain, valid_low, valid_high FROM sensor_calibration "
+     "WHERE sensor_id = ? ORDER BY calibrated_at DESC LIMIT 1"
+ )
++
++
++def _optional_float(value: Any) -> float | None:
++    return None if value is None else float(value)
+ 
+ 
+ class SqlCalibrationSource:
+@@ -45,4 +58,6 @@
+             sensor_id=sensor_id,
+             offset=float(row["raw_offset"]),
+             gain=float(row["gain"]),
++            valid_low=_optional_float(row["valid_low"]),
++            valid_high=_optional_float(row["valid_high"]),
+         )
+diff --git a/greenhouse/irrigation.py b/greenhouse/irrigation.py
+new file mode 100644
+--- /dev/null
++++ b/greenhouse/irrigation.py
+@@ -0,0 +1,55 @@
++from __future__ import annotations
++
++import math
++from collections.abc import Mapping
++from dataclasses import dataclass
++
++from greenhouse.readings import ZoneSummary
++
++
++@dataclass(frozen=True)
++class IrrigationPolicy:
++    default_target: float = 35.0
++    minutes_per_point: float = 1.5
++    max_minutes: int = 30
++    max_rejected_share: float = 0.5
++
++
++@dataclass(frozen=True)
++class ZoneAction:
++    zone: str
++    action: str
++    minutes: int = 0
++    reason: str = ""
++
++
++def plan(
++    summaries: Mapping[str, ZoneSummary],
++    targets: Mapping[str, float],
++    policy: IrrigationPolicy | None = None,
++) -> list[ZoneAction]:
++    policy = policy or IrrigationPolicy()
++    actions: list[ZoneAction] = []
++    for zone, summary in sorted(summaries.items()):
++        if summary.mean is None or summary.rejected_share > policy.max_rejected_share:
++            actions.append(ZoneAction(zone, "inspect", reason=f"{summary.rejected} readings out of range"))
++            continue
++        target = targets.get(zone, policy.default_target)
++        deficit = target - summary.mean
++        if deficit <= 0:
++            actions.append(ZoneAction(zone, "skip", reason=f"moisture {summary.mean} >= target {target}"))
++            continue
++        minutes = min(policy.max_minutes, math.ceil(deficit * policy.minutes_per_point))
++        actions.append(ZoneAction(zone, "water", minutes, reason=f"moisture {summary.mean} < target {target}"))
++    return actions
++
++
++def format_plan(actions: list[ZoneAction]) -> str:
++    if not actions:
++        return "no zones reported"
++    width = max(len(action.zone) for action in actions)
++    lines = []
++    for action in actions:
++        detail = f"{action.minutes} min" if action.action == "water" else action.action
++        lines.append(f"{action.zone.ljust(width)}  {detail:<8}  {action.reason}")
++    return "\n".join(lines)
+diff --git a/greenhouse/readings.py b/greenhouse/readings.py
+--- a/greenhouse/readings.py
++++ b/greenhouse/readings.py
+@@ -1,6 +1,6 @@
+ from __future__ import annotations
+ 
+-from collections import defaultdict
++from collections import Counter, defaultdict
+ from collections.abc import Iterable
+ from dataclasses import dataclass
+ from datetime import datetime
+@@ -21,28 +21,47 @@
+ class ZoneSummary:
+     zone: str
+     count: int
+-    mean: float
+-    low: float
+-    high: float
++    rejected: int
++    mean: float | None
++    low: float | None
++    high: float | None
++
++    @property
++    def rejected_share(self) -> float:
++        total = self.count + self.rejected
++        return self.rejected / total if total else 0.0
+ 
+ 
+-def _summary(zone: str, values: list[float]) -> ZoneSummary:
++def _summary(zone: str, values: list[float], rejected: int) -> ZoneSummary:
++    if not values:
++        return ZoneSummary(zone=zone, count=0, rejected=rejected, mean=None, low=None, high=None)
+     return ZoneSummary(
+         zone=zone,
+         count=len(values),
++        rejected=rejected,
+         mean=round(fmean(values), 2),
+         low=min(values),
+         high=max(values),
+     )
+ 
+ 
++def calibrated(reading: Reading, source: CalibrationSource) -> float | None:
++    calibration = source.load(reading.sensor_id)
++    value = calibration.apply(reading.raw)
++    return value if calibration.in_range(value) else None
++
++
+ def summarize(readings: Iterable[Reading], source: CalibrationSource) -> dict[str, ZoneSummary]:
+-    batch = list(readings)
+-    calibrations = {sensor_id: source.load(sensor_id) for sensor_id in {r.sensor_id for r in batch}}
+-    by_zone: dict[str, list[float]] = defaultdict(list)
+-    for reading in batch:
+-        by_zone[reading.zone].append(calibrations[reading.sensor_id].apply(reading.raw))
+-    return {zone: _summary(zone, values) for zone, values in sorted(by_zone.items())}
++    accepted: dict[str, list[float]] = defaultdict(list)
++    rejected: Counter[str] = Counter()
++    for reading in readings:
++        value = calibrated(reading, source)
++        if value is None:
++            rejected[reading.zone] += 1
++        else:
++            accepted[reading.zone].append(value)
++    zones = sorted(set(accepted) | set(rejected))
++    return {zone: _summary(zone, accepted.get(zone, []), rejected[zone]) for zone in zones}
+ 
+ 
+ def latest_per_sensor(readings: Iterable[Reading]) -> dict[str, Reading]:

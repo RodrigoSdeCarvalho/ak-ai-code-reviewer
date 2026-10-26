@@ -1,0 +1,29 @@
+id: seeded-logic-04
+kind: seeded
+split: dev
+title: >-
+  Zero-filled daily sales report with --since/--until drops the last day of the range
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: salesreport/daily.py
+  line_start: 42
+  line_end: 43
+  severity: high
+  category: logic
+  description: >
+    `days = (until - since).days` is the number of days between the two dates, not the number of days
+    in the inclusive range, so `range(days)` stops one day short and the `until` day never gets a row.
+    Sales on that day are summed but not reported: the report and its total silently omit the last day
+    (with the CLI defaults, the most recent day in the export), and a single-day report is empty.
+  must_find: true
+notes: >
+  PR purpose: let the daily sales report take an explicit --since/--until range (defaulting to the first
+  and last sale in the export) and emit a zero row for days without sales so gaps are visible.

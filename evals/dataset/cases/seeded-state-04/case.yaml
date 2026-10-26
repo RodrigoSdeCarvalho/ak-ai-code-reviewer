@@ -1,0 +1,31 @@
+id: seeded-state-04
+kind: seeded
+split: dev
+title: >-
+  Session reuse on login checks and creates outside one lock, so parallel sign-ins log each other out
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: auth/sessions.py
+  line_start: 75
+  line_end: 77
+  severity: high
+  category: concurrency
+  description: >
+    `login` looks up the live session with `current()` and then writes with `_issue()`, each taking the
+    lock separately, so the check and the write are not atomic. When two sign-ins for the same user with
+    no live session run concurrently, both see none and both mint a token; the second `_issue` deletes
+    the first token, so the first client receives a token that is already invalid (401 on its next request),
+    which is exactly what session reuse was meant to prevent. The same window lets a login re-register
+    a token that a concurrent logout just revoked.
+  must_find: true
+notes: >
+  PR purpose: stop each login from replacing the user's existing session (which signed out other open
+  tabs) by adding `SessionStore.login`, which reuses a live session, and use it in the login handler.

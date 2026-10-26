@@ -1,0 +1,43 @@
+id: seeded-api-06
+kind: seeded
+split: test
+title: >-
+  Expense policy check now returns violations but decide still treats it as a pass flag, and foreign amounts
+  are multiplied by a per-dollar rate
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: expenses/approval.py
+  line_start: 26
+  line_end: 26
+  severity: high
+  category: api_contract
+  description: >
+    `check` changed from returning True when a report is within policy to returning a list of violations
+    (empty when compliant), but `decide` still does `if check(report, rates):` to approve. The meaning
+    is inverted: every report with a violation is auto-approved and every compliant report is sent to
+    a manager.
+  must_find: true
+- id: b2
+  file: expenses/policy.py
+  line_start: 22
+  line_end: 22
+  severity: high
+  category: api_contract
+  description: >
+    `RateTable.per_usd` returns how many units of the currency one US dollar buys (EUR 0.92), so converting
+    to US cents must divide by it; `to_usd_cents` multiplies instead. EUR 70.00 becomes $64.40 instead
+    of $76.09, so foreign expenses from currencies quoted below 1 per dollar are understated and slip
+    under the category limits and the receipt threshold (and those quoted above 1, such as CAD, are overstated
+    and flagged wrongly).
+  must_find: true
+notes: >
+  PR purpose: make the policy check return human-readable violations for the manager approval screen (new
+  `review_notes`) and convert foreign-currency expenses to US dollars before applying the limits.

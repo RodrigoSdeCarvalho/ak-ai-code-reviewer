@@ -1,0 +1,30 @@
+id: seeded-security-06
+kind: seeded
+split: test
+title: >-
+  New complimentary-ticket endpoint only requires a signed-in user, so any attendee can issue free tickets
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: boxoffice/handlers.py
+  line_start: 96
+  line_end: 96
+  severity: critical
+  category: security
+  description: >
+    `comp_tickets` guards the new `tickets.comp` route with `require_login` instead of `require_role(...,
+    Role.STAFF, Role.ADMIN)`, so any signed-in attendee can issue up to 50 zero-price tickets per request
+    to any event and any holder. Paid inventory is given away for free (an event can be emptied by one
+    attendee) and the box office loses the revenue.
+  must_find: true
+notes: >
+  PR purpose: add box-office staff tools: a `tickets.comp` route that issues complimentary (zero-price)
+  tickets recorded with the issuing user and a note, and an `event.attendees` route listing ticket counts
+  per holder; ticket issuing in the store is refactored into a shared `_issue` helper.

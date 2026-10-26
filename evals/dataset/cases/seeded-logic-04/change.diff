@@ -1,0 +1,88 @@
+diff --git a/salesreport/cli.py b/salesreport/cli.py
+--- a/salesreport/cli.py
++++ b/salesreport/cli.py
+@@ -1,10 +1,11 @@
+-"""`salesreport daily EXPORT.csv [--store NAME]`: print daily totals from a POS export."""
++"""`salesreport daily EXPORT.csv [--store NAME] [--since DAY] [--until DAY]`: print daily totals."""
+ 
+ from __future__ import annotations
+ 
+ import argparse
+ import sys
+ from collections.abc import Sequence
++from datetime import date
+ from pathlib import Path
+ from typing import TextIO
+ 
+@@ -18,13 +19,20 @@
+     daily = sub.add_parser("daily", help="daily totals")
+     daily.add_argument("export", type=Path)
+     daily.add_argument("--store", default=None, help="only this store")
++    daily.add_argument("--since", type=date.fromisoformat, default=None, help="first day (default: first sale)")
++    daily.add_argument("--until", type=date.fromisoformat, default=None, help="last day (default: last sale)")
+     return parser
+ 
+ 
+ def run_daily(args: argparse.Namespace, out: TextIO) -> int:
+     with args.export.open(encoding="utf-8", newline="") as handle:
+         sales = list(read_sales(handle))
+-    rows = daily_totals(sales, args.store)
++    if not sales and (args.since is None or args.until is None):
++        out.write("no sales in export\n")
++        return 0
++    since = args.since or min(sale.day for sale in sales)
++    until = args.until or max(sale.day for sale in sales)
++    rows = daily_totals(sales, since, until, args.store)
+     out.write(format_report(rows) + "\n")
+     return 0
+ 
+@@ -36,6 +44,9 @@
+     except RecordError as exc:
+         print(f"{args.export}: {exc}", file=sys.stderr)
+         return 2
++    except ValueError as exc:
++        print(f"salesreport: {exc}", file=sys.stderr)
++        return 2
+     except OSError as exc:
+         print(f"cannot read {args.export}: {exc.strerror}", file=sys.stderr)
+         return 2
+diff --git a/salesreport/daily.py b/salesreport/daily.py
+--- a/salesreport/daily.py
++++ b/salesreport/daily.py
+@@ -5,7 +5,7 @@
+ from collections import defaultdict
+ from collections.abc import Iterable
+ from dataclasses import dataclass
+-from datetime import date
++from datetime import date, timedelta
+ 
+ from salesreport.records import Sale
+ 
+@@ -23,16 +23,24 @@
+         return round(self.amount_cents / self.transactions)
+ 
+ 
+-def daily_totals(sales: Iterable[Sale], store: str | None = None) -> list[DayTotal]:
+-    """One row per day that has sales, oldest first, optionally for a single store."""
++def daily_totals(sales: Iterable[Sale], since: date, until: date, store: str | None = None) -> list[DayTotal]:
++    """One row per calendar day from `since` to `until` inclusive, oldest first.
++
++    Days without sales get a zero row so gaps are visible; sales outside the range are ignored.
++    """
++    if until < since:
++        raise ValueError(f"until ({until}) is before since ({since})")
+     amounts: defaultdict[date, int] = defaultdict(int)
+     counts: defaultdict[date, int] = defaultdict(int)
+     for sale in sales:
+         if store is not None and sale.store != store:
+             continue
++        if not since <= sale.day <= until:
++            continue
+         amounts[sale.day] += sale.amount_cents
+         counts[sale.day] += 1
+-    return [DayTotal(day, amounts[day], counts[day]) for day in sorted(amounts)]
++    days = (until - since).days
++    return [DayTotal(day, amounts[day], counts[day]) for day in (since + timedelta(n) for n in range(days))]
+ 
+ 
+ def format_report(rows: list[DayTotal]) -> str:

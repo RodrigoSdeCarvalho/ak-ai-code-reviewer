@@ -1,0 +1,20 @@
+id: clean-03
+kind: clean
+split: test
+title: List open appointment slots per day for the online booking calendar
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: none
+bugs: []
+notes: >
+  PR purpose: the online booking page needs the free appointment start times for a date range, so the
+  availability module gains busy-interval merging, gap finding and a per-day slot listing. Decoys: `range(len(inside)
+  - 1)` in free_gaps looks like it drops the last booking, but it walks the gaps between consecutive bookings
+  and the gap after the last booking is added separately; `range((last_day - first_day).days + 1)` looks
+  like an extra iteration but is the inclusive last day the docstring promises. Tests pin both, plus merging
+  of touching bookings and that every listed slot passes check_bookable.

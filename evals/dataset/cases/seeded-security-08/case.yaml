@@ -1,0 +1,32 @@
+id: seeded-security-08
+kind: seeded
+split: test
+title: >-
+  CORS partner-domain support matches origins with a bare endswith, so any site whose hostname merely
+  ends in a partner's domain gets credentialed access to members' points
+language: python
+size_bucket: M
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: loyalty/cors.py
+  line_start: 42
+  line_end: 42
+  severity: high
+  category: security
+  description: >
+    `is_allowed` accepts an origin when `host.endswith(domain)` for a partner domain, without requiring
+    the host to equal the domain or end in `"." + domain`. With partner domain `kettle.example`, an unrelated
+    site such as `https://bluekettle.example` is treated as a partner and receives `Access-Control-Allow-Origin`
+    with `Access-Control-Allow-Credentials: true`, so its pages can read a signed-in member's balance
+    and pass the preflight for `POST /v1/redeem` to spend the member's points with their session cookie.
+  must_find: true
+notes: >
+  PR purpose: move CORS handling out of `LoyaltyApi.handle` into a `CorsPolicy` class and let partners'
+  storefronts on any subdomain of a configured partner domain (new `LOYALTY_PARTNER_DOMAINS` setting)
+  call the API with the member's session; preflights now also check the requested method and headers.

@@ -1,0 +1,36 @@
+id: real-05
+kind: real
+split: test
+title: Click's Sentinel enum loses its copy, deepcopy and pickle support
+language: python
+size_bucket: S
+provenance:
+  origin: reverted-fix
+  source: >-
+    https://github.com/pallets/click/commit/4295457ddc7b5ca9a733d59ca40d9651b02b9b1d (committed 2026-08-29,
+    license BSD-3-Clause)
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: fix-derived
+bugs:
+- id: b1
+  file: src/click/_utils.py
+  line_start: 15
+  line_end: 21
+  severity: medium
+  category: api_contract
+  description: >
+    The `Sentinel` enum members have bare `object()` values and the class no longer defines `__copy__`,
+    `__deepcopy__` or `__reduce_ex__`. Enum pickling reconstructs a member as `Sentinel(value)`, but an
+    unpickled `object()` is a new object, so `pickle.loads(pickle.dumps(UNSET))` raises `ValueError: <object
+    ...> is not a valid Sentinel`; on Python 3.10, where `Enum` has no `__deepcopy__`, `copy.deepcopy`
+    fails the same way. Since every Click `Parameter` holds these sentinels, pickling (any Python) or
+    deep-copying (3.10) an `Option`, `Argument` or `Command` crashes.
+  must_find: true
+notes: >
+  Reverted fix of pallets/click PR 3805. Presented to the reviewer as a change that deletes three small
+  dunder methods from `Sentinel`. The fix only added code, so the label covers the surviving lines where
+  the handling belongs: the members with `object()` values (the reason default enum pickling cannot work)
+  through the end of the class body. Judging the consequence needs knowledge of how `Enum` pickles members;
+  the callers holding sentinels (core.py) are not included. A deletion like this is easier to question
+  than a genuine PR that never had the methods.

@@ -1,0 +1,37 @@
+id: real-08
+kind: real
+split: test
+title: >-
+  Task whose ETA cannot be converted is rejected but still executed immediately, with no failure recorded
+language: python
+size_bucket: S
+provenance:
+  origin: reverted-fix
+  source: >-
+    https://github.com/celery/celery/commit/3ce29f9ed7f4dcbf00a62f41d640dd85503b2aa8 (committed 2026-10-17,
+    license BSD-3-Clause)
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: fix-derived
+bugs:
+- id: b1
+  file: celery/worker/strategy.py
+  line_start: 187
+  line_end: 189
+  severity: medium
+  category: error_handling
+  description: >
+    In `task_message_handler`, when converting `req.eta` to a timestamp raises OverflowError or ValueError
+    (for example an out-of-range ETA), the handler logs the error and calls `req.reject(requeue=False)`
+    but does not return. `eta` stays None, so execution falls through to the rate-limit/reserve path and
+    the task is executed immediately, ignoring its ETA, even though its message was already rejected.
+    The failure is also never stored in the result backend, so a caller waiting on the task result never
+    sees an error.
+  must_find: true
+notes: >
+  Reverted upstream fix (celery PR #10876). The PR under review deletes the mark_as_failure(...) call
+  and the return after req.reject(requeue=False) in the ETA conversion error path; it reads like a cleanup
+  of the error branch. The reverse diff is pure deletion, so the labelled lines are the surviving lines
+  of the except block around the removed code. The missing return (task runs anyway) is the main defect;
+  a finding about only the missing failure state also describes this bug. Severity is medium per the rubric:
+  wrong behaviour (a rejected task still runs, early) on an edge path (an ETA that cannot be converted).

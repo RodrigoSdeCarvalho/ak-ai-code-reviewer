@@ -1,0 +1,58 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -e '.[dev]'
+
+      - name: Lint
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Unit tests (scorer oracle/null/spam, gate, SKILL.md parity, validator)
+        run: pytest
+
+      - name: Dataset validator (fast)
+        run: aireview eval validate-dataset --fast
+
+      # Replays each reference run listed in evals/ci_runs.txt from committed cassettes (no secrets,
+      # no network) and gates it against evals/baseline.json. A missing cassette fails the job: it means
+      # the prompt or config changed without a recorded run.
+      - name: Replay eval + gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t runs < <(grep -vE '^[[:space:]]*(#|$)' evals/ci_runs.txt || true)
+          if [ "${#runs[@]}" -eq 0 ]; then
+            echo "evals/ci_runs.txt lists no reference runs; skipping the replay eval."
+            echo "Replay eval skipped: evals/ci_runs.txt is empty." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          status=0
+          for line in "${runs[@]}"; do
+            read -r cfg k offset <<<"$line"
+            name="$(basename "$cfg" .yaml)"
+            run_id="ci-replay-${name}-o${offset:-0}"
+            aireview eval run --config "$cfg" --split test --samples "${k:-3}" --sample-offset "${offset:-0}" \
+              --mode replay --run-id "$run_id" --runs-dir evals/runs/_scratch
+            aireview eval gate --run "evals/runs/_scratch/${run_id}" || status=$?
+            cat "evals/runs/_scratch/${run_id}/gate.md" "evals/runs/_scratch/${run_id}/report.md" >> "$GITHUB_STEP_SUMMARY"
+          done
+          exit "$status"

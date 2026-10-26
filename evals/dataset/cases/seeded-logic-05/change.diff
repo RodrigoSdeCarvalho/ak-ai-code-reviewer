@@ -1,0 +1,55 @@
+diff --git a/textkit/keywords.py b/textkit/keywords.py
+--- a/textkit/keywords.py
++++ b/textkit/keywords.py
+@@ -7,6 +7,8 @@
+ from dataclasses import dataclass
+ 
+ WORD_RE = re.compile(r"[a-z][a-z0-9'-]*")
++
++DEFAULT_TITLE_BONUS = 0.1
+ 
+ STOPWORDS = frozenset(
+     {
+@@ -36,11 +38,26 @@
+     return [word for word in tokenize(text) if len(word) >= min_length and word not in STOPWORDS]
+ 
+ 
+-def extract_keywords(body: str, limit: int = 5, min_length: int = 3) -> list[Keyword]:
+-    """Top `limit` terms by relative frequency, ties broken alphabetically."""
++def extract_keywords(
++    body: str,
++    limit: int = 5,
++    min_length: int = 3,
++    *,
++    title: str = "",
++    title_bonus: float = DEFAULT_TITLE_BONUS,
++) -> list[Keyword]:
++    """Top `limit` terms by relative frequency in the body, plus a bonus for terms in the title.
++
++    Ties are broken alphabetically.
++    """
+     counts = Counter(candidate_terms(body, min_length))
+     total = sum(counts.values())
+     if total == 0:
+         return []
+-    ranked = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+-    return [Keyword(term, round(count / total, 4)) for term, count in ranked[:limit]]
++    title_terms = set(candidate_terms(title, min_length))
++    scores: dict[str, float] = {}
++    for term, count in counts.items():
++        frequency = count / total
++        scores[term] = frequency + title_bonus if term in title_terms else 0.0
++    ranked = sorted(scores.items(), key=lambda item: (-item[1], item[0]))
++    return [Keyword(term, round(score, 4)) for term, score in ranked[:limit]]
+diff --git a/textkit/tagger.py b/textkit/tagger.py
+--- a/textkit/tagger.py
++++ b/textkit/tagger.py
+@@ -21,7 +21,7 @@
+ def suggest_tags(article: Article, max_tags: int = MAX_TAGS) -> list[str]:
+     """Keywords above MIN_SCORE that the article is not already tagged with."""
+     existing = {tag.lower() for tag in article.tags}
+-    keywords = extract_keywords(article.body, limit=max_tags + len(existing))
++    keywords = extract_keywords(article.body, limit=max_tags + len(existing), title=article.title)
+     suggestions = [kw.term for kw in keywords if kw.score >= MIN_SCORE and kw.term not in existing]
+     return suggestions[:max_tags]
+ 

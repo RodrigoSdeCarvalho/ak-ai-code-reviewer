@@ -1,0 +1,31 @@
+id: seeded-perf-05
+kind: seeded
+split: test
+title: >-
+  Newsletter campaign send opens, logs in to and closes a new SMTP connection for every recipient
+language: python
+size_bucket: S
+provenance:
+  origin: authored
+  source: null
+  author: claude-opus-5-5 (authoring agent)
+  created: '2026-10-23'
+ground_truth: test-validated
+bugs:
+- id: b1
+  file: newsletter/campaign.py
+  line_start: 78
+  line_end: 81
+  severity: medium
+  category: performance
+  description: >
+    `send_campaign` calls `mailer.send(message)` for each eligible subscriber, and `Mailer.send` opens
+    a new transport through `session()`, logs in, delivers one message and quits. A campaign to N subscribers
+    therefore makes N SMTP connections and N logins instead of one session reused for the whole loop (`mailer.session()`
+    around the loop with `transport.deliver`). A list of tens of thousands of readers spends most of its
+    time on connection and TLS/AUTH handshakes and runs into the provider's per-connection rate limits,
+    so campaigns take far longer and get throttled.
+  must_find: true
+notes: >
+  PR purpose: add bulk sending of a newsletter campaign to the eligible subscribers of its list, collecting
+  delivered and refused addresses in a report instead of aborting on the first refused recipient.
