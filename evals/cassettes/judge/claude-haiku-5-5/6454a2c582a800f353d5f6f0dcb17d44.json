@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6454a2c582a800f353d5f6f0dcb17d44",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2023,
+  "user_sha256": "172d6f7e179bb423d5c45555158155e3a416673988e883d2e6c055a44c283944"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a race where the uses check and increment are non-atomic, plus a demoted-creator issue. Description B identifies the missing expiry check against `now`/`expires_at`, so expired links still admit members. These are different failures (concurrency/creator validity vs. expiration), even though both sit in the accept path.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a race where the uses check and increment are non-atomic, plus a demoted-creator issue. Description B identifies the missing expiry check against `now`/`expires_at`, so expired links still admit members. These are different failures (concurrency/creator validity vs. expiration), even though both sit in the accept path.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.302000000000002e-05,
+   "input_tokens": 731,
+   "latency_ms": null,
+   "output_tokens": 120
+  }
+ }
+}

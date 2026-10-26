@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "354897575686e915b462c67d0944c672",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2608,
+  "user_sha256": "53fb127a4394e7d9c386abd99a05459fa3da485fcb2597a89ea034b5ac3e0fb0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the try block wraps the batch flush as well as parse_row, so sink write failures are caught by the row-level except and recorded as a single rejected row, while the detached batch of up to batch_size rows is silently dropped and the load continues returning a mostly clean report. Different wording and emphasis, same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the try block wraps the batch flush as well as parse_row, so sink write failures are caught by the row-level except and recorded as a single rejected row, while the detached batch of up to batch_size rows is silently dropped and the load continues returning a mostly clean report. Different wording and emphasis, same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.457e-05,
+   "input_tokens": 912,
+   "latency_ms": null,
+   "output_tokens": 130
+  }
+ }
+}

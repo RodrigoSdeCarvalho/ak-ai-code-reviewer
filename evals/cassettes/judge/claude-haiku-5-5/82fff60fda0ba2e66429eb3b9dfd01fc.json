@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "82fff60fda0ba2e66429eb3b9dfd01fc",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2331,
+  "user_sha256": "7cfb5dd1f65355d6b96ee63d254acf7963ce208786b62acd57b989a173dfdb8d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: on the denial path, refilled tokens are stored in bucket.tokens but bucket.updated_at is not advanced, so the same elapsed interval is credited again on the next call, letting throttled clients exceed the configured rate. Description A gives a line-73 location and a worked example; Description B cites lines 69-73 and a polling example. The defect and its consequence match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: on the denial path, refilled tokens are stored in bucket.tokens but bucket.updated_at is not advanced, so the same elapsed interval is credited again on the next call, letting throttled clients exceed the configured rate. Description A gives a line-73 location and a worked example; Description B cites lines 69-73 and a polling example. The defect and its consequence match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.972e-05,
+   "input_tokens": 920,
+   "latency_ms": null,
+   "output_tokens": 149
+  }
+ }
+}

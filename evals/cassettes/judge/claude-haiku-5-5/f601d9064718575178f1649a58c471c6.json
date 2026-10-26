@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f601d9064718575178f1649a58c471c6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1995,
+  "user_sha256": "8da7cabad1bbe8b2620ce307f86d7798ecb5ec08d96f93177a0462bbaacbb43d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the unconditional finally-block assignment `job.next_run = now + job.interval` overwrites the retry-backoff next_run set on failure, so failed jobs wait a full interval and retry_delay has no effect. They differ only in wording and line reference (A cites 75-76 and 65, B cites 76 and the overwrite relative to line 65).",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the unconditional finally-block assignment `job.next_run = now + job.interval` overwrites the retry-backoff next_run set on failure, so failed jobs wait a full interval and retry_delay has no effect. They differ only in wording and line reference (A cites 75-76 and 65, B cites 76 and the overwrite relative to line 65).\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.832e-05,
+   "input_tokens": 727,
+   "latency_ms": null,
+   "output_tokens": 142
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "12ee2ec710ac67e15a9a10ccbe7a808c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2378,
+  "user_sha256": "282308045c525c2958911a02c88747c977a27e1f9567bf28a77c832648462b96"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that move_card only authorizes the target board via _require_editor and never checks the card's current source board, letting an editor of their own board move cards from private boards by id. Description B adds detail about other handlers checking the card's board, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that move_card only authorizes the target board via _require_editor and never checks the card's current source board, letting an editor of their own board move cards from private boards by id. Description B adds detail about other handlers checking the card's board, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.131999999999999e-05,
+   "input_tokens": 772,
+   "latency_ms": null,
+   "output_tokens": 105
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "aae4e1897bb47dfe7fa537efcfb563ed",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2658,
+  "user_sha256": "14b315182e5692ff9456cb48b3ce22e91a2e58878cce1edb4ed2b5c2b4434dd0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the bundle's locale field now holds the normalised tag (chain[0]) instead of the requested string, affecting callers keyed by the requested locale. Description B says the per-key exists/get loop causes many Redis round trips, a performance regression, plus a check-then-fetch race. These are different defects at the same function, with different failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the bundle's locale field now holds the normalised tag (chain[0]) instead of the requested string, affecting callers keyed by the requested locale. Description B says the per-key exists/get loop causes many Redis round trips, a performance regression, plus a check-then-fetch race. These are different defects at the same function, with different failures.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.782e-05,
+   "input_tokens": 997,
+   "latency_ms": null,
+   "output_tokens": 126
+  }
+ }
+}

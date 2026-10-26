@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b30e3bff4897b0d424b5236f2aa109b6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3171,
+  "user_sha256": "b06cf50ba0ebc49fb64e1f828bffeaa47c359b689e3fa83a5a9d8084c1152f60"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a performance defect: spend is recomputed by scanning the entire day's impression log on every bid request, causing quadratic work. Description B identifies a timezone mismatch between impression.served_at.hour bucketing and now.hour from request.received_at. Different root causes at overlapping lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a performance defect: spend is recomputed by scanning the entire day's impression log on every bid request, causing quadratic work. Description B identifies a timezone mismatch between impression.served_at.hour bucketing and now.hour from request.received_at. Different root causes at overlapping lines.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.457e-05,
+   "input_tokens": 1182,
+   "latency_ms": null,
+   "output_tokens": 116
+  }
+ }
+}

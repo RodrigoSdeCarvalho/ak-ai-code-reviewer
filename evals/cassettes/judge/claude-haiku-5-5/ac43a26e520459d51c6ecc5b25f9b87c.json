@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ac43a26e520459d51c6ecc5b25f9b87c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2267,
+  "user_sha256": "c61d5b1f424d5fa1ba677d368dc8ab66b5d76bfd123ed5d83b9ec4086f958b9f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that create_ticket still passes the old `attempts=1` keyword after the rename to `max_attempts`, so it is swallowed into `**fields`, retries are not disabled, and the non-idempotent POST can create duplicate tickets. Same root cause and failure, at the same call site.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that create_ticket still passes the old `attempts=1` keyword after the rename to `max_attempts`, so it is swallowed into `**fields`, retries are not disabled, and the non-idempotent POST can create duplicate tickets. Same root cause and failure, at the same call site.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.942e-05,
+   "input_tokens": 874,
+   "latency_ms": null,
+   "output_tokens": 117
+  }
+ }
+}

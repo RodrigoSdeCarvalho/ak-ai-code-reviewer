@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:45:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8d05c50eba0a5f37df2083b7201ec291",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2178,
+  "user_sha256": "5914421b80ccf18221eb7e7065c878e7d58c8e5445e89cbea9d343d77398e2c7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A only names the generic lint rule B006 (mutable default argument) without explaining the failure. Description B identifies the specific consequence: the shared default dict is mutated via setdefault, so content-type leaks across calls. A is a generic concern that does not identify the specific failure B describes, though both point at the same default argument on line 73.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A only names the generic lint rule B006 (mutable default argument) without explaining the failure. Description B identifies the specific consequence: the shared default dict is mutated via setdefault, so content-type leaks across calls. A is a generic concern that does not identify the specific failure B describes, though both point at the same default argument on line 73.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLx34wuQohXQUXBbCat",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016304,
+   "input_tokens": 881,
+   "latency_ms": 2390,
+   "output_tokens": 124
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b58e8a4f927f4f197b4b0ee2cb9c47d1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2032,
+  "user_sha256": "cb5b5ebfd2f724696c598eb205d68aff18efae1b7c9eaf827ef199969c2afd19"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the `quantity` accumulator in daily_totals is never reset after yielding a group, so each subsequent DailyTotal carries over earlier groups' sums and inflates monthly totals, averages and peaks. Description A points at lines 57-58 and Description B at line 58, which overlap the same fault region.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the `quantity` accumulator in daily_totals is never reset after yielding a group, so each subsequent DailyTotal carries over earlier groups' sums and inflates monthly totals, averages and peaks. Description A points at lines 57-58 and Description B at line 58, which overlap the same fault region.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.806999999999999e-05,
+   "input_tokens": 787,
+   "latency_ms": null,
+   "output_tokens": 129
+  }
+ }
+}

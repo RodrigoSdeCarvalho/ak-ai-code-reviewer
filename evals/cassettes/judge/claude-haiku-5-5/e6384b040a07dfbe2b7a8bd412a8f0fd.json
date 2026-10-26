@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e6384b040a07dfbe2b7a8bd412a8f0fd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1917,
+  "user_sha256": "1c057063011b9d5607f7a6014a49319f31324a8c21776d1d06c7f112135a1a17"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 61: the conditional expression parses as (frequency + title_bonus) if term in title_terms else 0.0, so body-only terms get score 0 instead of their frequency. Both note the resulting alphabetical fallback with no title and the consequence in suggest_tags. Description B adds detail about MIN_SCORE and extract_keywords, but the root cause is identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 61: the conditional expression parses as (frequency + title_bonus) if term in title_terms else 0.0, so body-only terms get score 0 instead of their frequency. Both note the resulting alphabetical fallback with no title and the consequence in suggest_tags. Description B adds detail about MIN_SCORE and extract_keywords, but the root cause is identical.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.037e-05,
+   "input_tokens": 723,
+   "latency_ms": null,
+   "output_tokens": 151
+  }
+ }
+}

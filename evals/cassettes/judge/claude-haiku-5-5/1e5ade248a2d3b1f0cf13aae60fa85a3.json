@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1e5ade248a2d3b1f0cf13aae60fa85a3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2208,
+  "user_sha256": "54c0ea5467c436f3ab4e6ca4cdf9850b41ed5bbdb20711c758e33397d68340d3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: check() now returns a list of violations (empty when compliant), but decide() still treats its return value as a boolean approval flag at approval.py line 26, so violating reports are auto-approved and compliant ones sent to review. Same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: check() now returns a list of violations (empty when compliant), but decide() still treats its return value as a boolean approval flag at approval.py line 26, so violating reports are auto-approved and compliant ones sent to review. Same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.332e-05,
+   "input_tokens": 802,
+   "latency_ms": null,
+   "output_tokens": 107
+  }
+ }
+}

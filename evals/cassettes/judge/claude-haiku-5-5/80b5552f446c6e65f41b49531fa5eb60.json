@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "80b5552f446c6e65f41b49531fa5eb60",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2316,
+  "user_sha256": "765f8eea3db7f915f9f40ddbf1145892eb3834ff019bda036dce8b2a2e7575c7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: using partition(':') on SERVER_NAME in Flask.run() splits IPv6 literals like '[::1]:8080' at the first colon, producing host '[' and a bogus port string that breaks int(sn_port) or binding. Description B adds extra details (explicit port case, bracketed address without port) but the defect and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: using partition(':') on SERVER_NAME in Flask.run() splits IPv6 literals like '[::1]:8080' at the first colon, producing host '[' and a bogus port string that breaks int(sn_port) or binding. Description B adds extra details (explicit port case, bracketed address without port) but the defect and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.000161025,
+   "input_tokens": 913,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}

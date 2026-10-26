@@ -28,7 +28,8 @@ newly_missed:
   severities: [critical, high]
   baseline_min_rate: 0.66     # baseline detected the bug in >= 2 of 3 samples
   candidate_max_rate: 0.0     # ... and the candidate in none
-  provenance: "design §7"
+  max_lost: 1                 # fail on 2+ such bugs: the A/A run lost one by chance alone
+  provenance: "MEASURED A/A 2026-10-26: an identical config re-sampled lost 1 high bug (seeded-perf-08/b1, 3/3 -> 0/3)"
 
 cost_latency:
   max_cost_ratio: 1.5

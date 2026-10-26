@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "af032825c356a49948450c5160eefe52",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2708,
+  "user_sha256": "e3c6f10e4c614ffa5039d66d77e1daab8d57c45c6af26e6e7397f25b46669be9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says Bundle.locale is set to the normalised chain[0] instead of the caller's locale, breaking callers keyed on the requested locale string. Description B says the per-key exists/get loop causes many Redis round trips and a race between exists and get. These are different defects at different aspects of the code (locale value vs. performance/race in lookup loop).",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says Bundle.locale is set to the normalised chain[0] instead of the caller's locale, breaking callers keyed on the requested locale string. Description B says the per-key exists/get loop causes many Redis round trips and a race between exists and get. These are different defects at different aspects of the code (locale value vs. performance/race in lookup loop).\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.912e-05,
+   "input_tokens": 1003,
+   "latency_ms": null,
+   "output_tokens": 130
+  }
+ }
+}

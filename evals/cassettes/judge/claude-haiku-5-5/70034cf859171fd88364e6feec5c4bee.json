@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "70034cf859171fd88364e6feec5c4bee",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2054,
+  "user_sha256": "9840b2d3735f3d214af4af5dc41329fda247a6181767dbbae54a3d3346786214"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says charge() falls off the end and returns None after exhausting retries (the break at line 61), causing downstream AttributeError. Description B says the except clause at line 55 retries all GatewayErrors including permanent declines, which is a different defect (retry classification) than the missing raise/return after exhaustion.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says charge() falls off the end and returns None after exhausting retries (the break at line 61), causing downstream AttributeError. Description B says the except clause at line 55 retries all GatewayErrors including permanent declines, which is a different defect (retry classification) than the missing raise/return after exhaustion.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.342e-05,
+   "input_tokens": 754,
+   "latency_ms": null,
+   "output_tokens": 117
+  }
+ }
+}

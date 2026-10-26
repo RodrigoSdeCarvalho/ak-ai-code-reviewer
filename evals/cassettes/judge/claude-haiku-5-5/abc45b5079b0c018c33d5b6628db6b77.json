@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "abc45b5079b0c018c33d5b6628db6b77",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2211,
+  "user_sha256": "3bdbcc7863fb03ed2668138af924b093e1ef869434264a93e679cb0b288b9485"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the StoreError raised by delete in sign_out_everywhere is caught and only logged, so sessions remain valid and change_password (which calls sign_out_everywhere) returns normally, leaving the caller unaware that sign-out was incomplete. Description A adds mention of the refresh token, but the root cause and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the StoreError raised by delete in sign_out_everywhere is caught and only logged, so sessions remain valid and change_password (which calls sign_out_everywhere) returns normally, leaving the caller unaware that sign-out was incomplete. Description A adds mention of the refresh token, but the root cause and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.806999999999999e-05,
+   "input_tokens": 757,
+   "latency_ms": null,
+   "output_tokens": 135
+  }
+ }
+}

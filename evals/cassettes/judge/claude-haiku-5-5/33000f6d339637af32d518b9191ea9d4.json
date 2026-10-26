@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "33000f6d339637af32d518b9191ea9d4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1990,
+  "user_sha256": "6593636f3fc32bb05616417313324146d6d9ccf3f9f06d5f427ba46502836160"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the temp file leaks when mkdir or os.replace raises (line 68). Description B says the staged file is never deleted on the early-return path when the digest already exists (lines 65-66), so every duplicate upload leaks a copy. These are different failure paths: one is an exception during mkdir/replace, the other is the normal duplicate-return branch that skips cleanup.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the temp file leaks when mkdir or os.replace raises (line 68). Description B says the staged file is never deleted on the early-return path when the digest already exists (lines 65-66), so every duplicate upload leaks a copy. These are different failure paths: one is an exception during mkdir/replace, the other is the normal duplicate-return branch that skips cleanup.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.802000000000002e-05,
+   "input_tokens": 736,
+   "latency_ms": null,
+   "output_tokens": 139
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "80dd1c0bbac1cd54d0c6e2d7baaa990e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2524,
+  "user_sha256": "b052a5f27c4dbc1502677e006c76c916c90b691fb98602091c2ae429dfc96984"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: the new per-reading calibrated() call invokes source.load (a DB query) for every reading instead of once per distinct sensor as the old per-batch calibrations dict did. Description A names line 49 with an alternative at 57-58 and quantifies the impact; Description B points at line 58 (which calls calibrated) and describes the same N+1 query pattern. Both are the same defect at listed locations.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: the new per-reading calibrated() call invokes source.load (a DB query) for every reading instead of once per distinct sensor as the old per-batch calibrations dict did. Description A names line 49 with an alternative at 57-58 and quantifies the impact; Description B points at line 58 (which calls calibrated) and describes the same N+1 query pattern. Both are the same defect at listed locations.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.531999999999999e-05,
+   "input_tokens": 982,
+   "latency_ms": null,
+   "output_tokens": 159
+  }
+ }
+}

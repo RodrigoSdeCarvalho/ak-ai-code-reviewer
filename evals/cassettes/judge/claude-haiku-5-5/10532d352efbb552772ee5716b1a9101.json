@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "10532d352efbb552772ee5716b1a9101",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2237,
+  "user_sha256": "fbedb25162d411291be3f823a2a0a6ca62b7b657f35971796c5333a5ca8930f1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the removed mark_as_failure call means the failure is no longer stored in the result backend, so the task stays PENDING. Description B says that after the ETA conversion error the handler does not return, so the task falls through and executes immediately despite being rejected; it also mentions the missing backend storage as a secondary effect. The primary defects differ: A is about a removed backend write, while B is about missing control flow (no return) causing unintended execution. Both do touch on the lack of backend recording, but A's root cause is the removed mark_as_failure call, whereas B's root cause is the missing return after reject.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the removed mark_as_failure call means the failure is no longer stored in the result backend, so the task stays PENDING. Description B says that after the ETA conversion error the handler does not return, so the task falls through and executes immediately despite being rejected; it also mentions the missing backend storage as a secondary effect. The primary defects differ: A is about a removed backend write, while B is about missing control flow (no return) causing unintended execution. Both do touch on the lack of backend recording, but A's root cause is the removed mark_as_failure call, whereas B's root cause is the missing return after reject.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.922e-05,
+   "input_tokens": 810,
+   "latency_ms": null,
+   "output_tokens": 209
+  }
+ }
+}

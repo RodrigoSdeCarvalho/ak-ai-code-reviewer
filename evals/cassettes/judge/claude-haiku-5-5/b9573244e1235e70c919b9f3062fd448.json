@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b9573244e1235e70c919b9f3062fd448",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2930,
+  "user_sha256": "6b9b48bb8091f6366bc38db5269becffb19577a429f1fde224bc1b4cf2579ae8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the connection is not released on the InventoryError path in reserve (lines 93-96), leaking pool connections on rejected reservations. Description B says duplicate SKUs in one order can cause stale reads that under-count reserved stock (lines 82-90), a lost-update issue. Different root causes and different failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the connection is not released on the InventoryError path in reserve (lines 93-96), leaking pool connections on rejected reservations. Description B says duplicate SKUs in one order can cause stale reads that under-count reserved stock (lines 82-90), a lost-update issue. Different root causes and different failures.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.931999999999999e-05,
+   "input_tokens": 1057,
+   "latency_ms": null,
+   "output_tokens": 120
+  }
+ }
+}

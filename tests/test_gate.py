@@ -326,3 +326,30 @@ def test_baseline_run_dir_changed_after_promotion_is_not_paired(tmp_path: Path, 
     assert gate["regression_basis"] == "unpaired-ci-overlap"
     assert gate["notes"] and "changed since promotion" in gate["notes"][0]
     assert "Notes:" in (candidate_dir / "gate.md").read_text(encoding="utf-8")
+
+
+def test_non_inferiority_needs_the_bad_end_inside_the_tolerance():
+    from aireview.evals.gate import _regressed
+
+    # A/A-like noise passes both rules; an inconclusive drop passes "demonstrated" but fails non-inferiority.
+    assert not _regressed("recall", -0.081, 0.028, 0.10, "non_inferiority")
+    assert not _regressed("recall", -0.162, 0.056, 0.10, "demonstrated")
+    assert _regressed("recall", -0.162, 0.056, 0.10, "non_inferiority")
+    # Lower-is-better metrics use the upper end.
+    assert _regressed("clean_false_alarm_rate", 0.0, 0.2, 0.15, "non_inferiority")
+    assert not _regressed("clean_false_alarm_rate", 0.0, 0.2, 0.15, "demonstrated")
+
+
+def test_newly_missed_tolerates_max_lost_flips():
+    from aireview.evals.gate import NewlyMissed, newly_missed_check
+
+    def bug(case, rate):
+        return {"case_id": case, "bug_id": "b1", "severity": "high", "must_find": True, "strict": {"detect_rate": rate}}
+
+    baseline = {"per_bug": [bug("a", 1.0), bug("b", 1.0)]}
+    one_lost = {"per_bug": [bug("a", 0.0), bug("b", 1.0)]}
+    two_lost = {"per_bug": [bug("a", 0.0), bug("b", 0.0)]}
+    rule = NewlyMissed(max_lost=1)
+    assert newly_missed_check(one_lost, baseline, rule, "strict", True).status == "PASS"
+    assert newly_missed_check(two_lost, baseline, rule, "strict", True).status == "FAIL"
+    assert newly_missed_check(one_lost, baseline, NewlyMissed(), "strict", True).status == "FAIL"
