@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "470e470345674c7623d92cf925b0755e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2084,
+  "user_sha256": "1305a5aea2327a79872d7dae2ca5b0e10d00858cbfbaf41d47eb56d67a87e47e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: in daily_totals, quantity is never reset to 0 after yielding a group, so each DailyTotal carries over the running sum of earlier groups, inflating monthly/peak/average values. Description A cites lines 57-58 and Description B cites line 59, but both point at the same accumulator logic in this function.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: in daily_totals, quantity is never reset to 0 after yielding a group, so each DailyTotal carries over the running sum of earlier groups, inflating monthly/peak/average values. Description A cites lines 57-58 and Description B cites line 59, but both point at the same accumulator logic in this function.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpSehWb26rwPdejtoU",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015724,
+   "input_tokens": 798,
+   "latency_ms": 1953,
+   "output_tokens": 129
+  }
+ }
+}

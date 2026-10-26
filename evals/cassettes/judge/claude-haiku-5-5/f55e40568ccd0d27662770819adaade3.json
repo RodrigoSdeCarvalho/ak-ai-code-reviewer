@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f55e40568ccd0d27662770819adaade3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 3129,
+  "user_sha256": "b7ecba432a663e909206893abd53f1f2daff03d957be4a19fd95337b7434055a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that purge() reads the heap head at self._heap[0][0] without checking whether that entry is stale (superseded by re-adding or left by discard), causing wrong expiry timestamps and premature eviction of live items. Description A adds more detail on pop() and maxlen effects, but the core root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that purge() reads the heap head at self._heap[0][0] without checking whether that entry is stale (superseded by re-adding or left by discard), causing wrong expiry timestamps and premature eviction of live items. Description A adds more detail on pop() and maxlen effects, but the core root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 9.302000000000001e-05,
+   "input_tokens": 1118,
+   "latency_ms": null,
+   "output_tokens": 124
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f8fadcafebfd5f58c8d6096651afc258",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2658,
+  "user_sha256": "08fe5ac79ca00fef01afd2949d2feac91fd2fe34126821b84e176e6297fb7e41"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that the try block wraps the batch flush as well as parse_row, so a sink failure is caught by except Exception and reported as a rejection of the current valid row, while the detached pending batch (up to batch_size rows) is silently lost and the load continues. Same root cause and location, different wording and emphasis.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that the try block wraps the batch flush as well as parse_row, so a sink failure is caught by except Exception and reported as a rejection of the current valid row, while the detached pending batch (up to batch_size rows) is silently lost and the load continues. Same root cause and location, different wording and emphasis.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKoKCwUvTvRG238Yf1g",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016594,
+   "input_tokens": 925,
+   "latency_ms": 1421,
+   "output_tokens": 121
+  }
+ }
+}

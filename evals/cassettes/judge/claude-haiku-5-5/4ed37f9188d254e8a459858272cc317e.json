@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4ed37f9188d254e8a459858272cc317e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1961,
+  "user_sha256": "460254cd8fa93c672bde912d04744e24df7a0c041725cb9220b8f3e32e3c39be"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the exponent in _retry_delay (line 81) can grow so large that timedelta multiplication overflows and aborts tick. Description B says the finally block at lines 75-76 overwrites the backoff next_run set at line 65, so failed jobs wait a full interval instead of retrying. Different root causes at different places.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the exponent in _retry_delay (line 81) can grow so large that timedelta multiplication overflows and aborts tick. Description B says the finally block at lines 75-76 overwrites the backoff next_run set at line 65, so failed jobs wait a full interval instead of retrying. Different root causes at different places.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKoggmHL8yjL9xq3sfx",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014704000000000003,
+   "input_tokens": 726,
+   "latency_ms": 1781,
+   "output_tokens": 123
+  }
+ }
+}

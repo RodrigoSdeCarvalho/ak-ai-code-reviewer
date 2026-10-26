@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:14:00+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "cf34bef8a5ab705c97034ff10f753822",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15451,
+  "user_sha256": "caeecd29e2cd9a527ca4f343a253254325a029280b00725ebfde768ed52420e0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.9,
+     "description": "comp_tickets uses only require_login, so any logged-in attendee can issue free tickets (up to 50 per request) to any holder. Other privileged endpoints (cancel_event, attendee_list) use require_role. This allows free tickets and exhausting event capacity.",
+     "file": "boxoffice/handlers.py",
+     "line": 96,
+     "severity": "critical",
+     "suggestion": "Replace require_login with require_role(request.user, Role.STAFF, Role.ADMIN) and use the returned user for issued_by.",
+     "title": "Comp ticket endpoint lacks role authorization"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"boxoffice/handlers.py\",\"line\":96,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Comp ticket endpoint lacks role authorization\",\"description\":\"comp_tickets uses only require_login, so any logged-in attendee can issue free tickets (up to 50 per request) to any holder. Other privileged endpoints (cancel_event, attendee_list) use require_role. This allows free tickets and exhausting event capacity.\",\"suggestion\":\"Replace require_login with require_role(request.user, Role.STAFF, Role.ADMIN) and use the returned user for issued_by.\",\"confidence\":0.9}]}",
+  "request_id": "req_011CgRJXPMfb5c7R7QXC7Rj4",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.015745,
+   "input_tokens": 6538,
+   "latency_ms": 3453,
+   "output_tokens": 215
+  }
+ }
+}

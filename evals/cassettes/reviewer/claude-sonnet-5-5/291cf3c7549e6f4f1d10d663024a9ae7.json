@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:12:23+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "291cf3c7549e6f4f1d10d663024a9ae7",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15679,
+  "user_sha256": "cf802054654e78df9139881001360b19106db38c2060e8d401cf047ee6f214b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "`server_name.partition(\":\")` splits on the first colon. For an IPv6 SERVER_NAME such as `[::1]:5000`, host becomes `[` and port becomes `:1]:5000`. Then `int(sn_port)` raises ValueError in `run()`, or the host is wrong. The previous `urlsplit` code handled bracketed IPv6 correctly and also validated the port.",
+     "file": "src/flask/app.py",
+     "line": 724,
+     "severity": "medium",
+     "suggestion": "Keep using `urlsplit(f\"//{server_name}\")` to get hostname and port, or parse bracketed hosts explicitly.",
+     "title": "SERVER_NAME parsing via partition breaks IPv6 literals"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.55,
+     "description": "`ctx.request.host.partition(\":\")[0]` splits on the first colon. For an IPv6 host like `[::1]:5000`, it yields `[`, so the cookie domain is wrong and session cookies are not matched on later requests. The old code used `urlsplit(...).hostname or \"localhost\"`, which handled IPv6 and gave a fallback for an empty host. An empty host now yields an empty string.",
+     "file": "src/flask/testing.py",
+     "line": 180,
+     "severity": "medium",
+     "suggestion": "Restore `urlsplit(ctx.request.host_url).hostname or \"localhost\"`.",
+     "title": "Cookie domain derived by partition on host breaks IPv6 and drops localhost fallback"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/flask/app.py\",\"line\":724,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"SERVER_NAME parsing via partition breaks IPv6 literals\",\"description\":\"`server_name.partition(\\\":\\\")` splits on the first colon. For an IPv6 SERVER_NAME such as `[::1]:5000`, host becomes `[` and port becomes `:1]:5000`. Then `int(sn_port)` raises ValueError in `run()`, or the host is wrong. The previous `urlsplit` code handled bracketed IPv6 correctly and also validated the port.\",\"suggestion\":\"Keep using `urlsplit(f\\\"//{server_name}\\\")` to get hostname and port, or parse bracketed hosts explicitly.\",\"confidence\":0.6},{\"file\":\"src/flask/testing.py\",\"line\":180,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Cookie domain derived by partition on host breaks IPv6 and drops localhost fallback\",\"description\":\"`ctx.request.host.partition(\\\":\\\")[0]` splits on the first colon. For an IPv6 host like `[::1]:5000`, it yields `[`, so the cookie domain is wrong and session cookies are not matched on later requests. The old code used `urlsplit(...).hostname or \\\"localhost\\\"`, which handled IPv6 and gave a fallback for an empty host. An empty host now yields an empty string.\",\"suggestion\":\"Restore `urlsplit(ctx.request.host_url).hostname or \\\"localhost\\\"`.\",\"confidence\":0.55}]}",
+  "request_id": "req_011CgRJQBvsnCCwQqpQSXmiZ",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.018487,
+   "input_tokens": 6364,
+   "latency_ms": 4125,
+   "output_tokens": 524
+  }
+ }
+}

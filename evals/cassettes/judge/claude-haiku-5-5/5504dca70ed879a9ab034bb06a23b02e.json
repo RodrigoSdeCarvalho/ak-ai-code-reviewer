@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5504dca70ed879a9ab034bb06a23b02e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2539,
+  "user_sha256": "f9e566867e22a77fed1944436d04142cca123b1c3414dc07d16b3890a65d9fcd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that the try block wraps the batch flush, so sink write failures are caught by the broad except Exception and treated as row rejections, causing the detached batch of up to batch_size rows to be silently dropped while the load continues. Same root cause and location, different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that the try block wraps the batch flush, so sink write failures are caught by the broad except Exception and treated as row rejections, causing the detached batch of up to batch_size rows to be silently dropped while the load continues. Same root cause and location, different wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJbnQMatcjcKCw7G55i",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015384000000000003,
+   "input_tokens": 886,
+   "latency_ms": 1875,
+   "output_tokens": 106
+  }
+ }
+}

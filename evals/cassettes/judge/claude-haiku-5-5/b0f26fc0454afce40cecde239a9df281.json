@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b0f26fc0454afce40cecde239a9df281",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2287,
+  "user_sha256": "83b8f72ab4df3299d08a4a0b0ce8a3c4ec23e76c1c18468a2b4272004d1d663d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: parse_rows now returns a generator, and import_csv iterates rows twice (line 35 comprehension consumes it, then line 39 loop sees an exhausted iterator), so no valid rows are imported and counts stay at zero. Both point at the same lines and failure, differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: parse_rows now returns a generator, and import_csv iterates rows twice (line 35 comprehension consumes it, then line 39 loop sees an exhausted iterator), so no valid rows are imported and counts stay at zero. Both point at the same lines and failure, differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiU8KVidZf9JzH8Uer",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016324000000000002,
+   "input_tokens": 863,
+   "latency_ms": 1796,
+   "output_tokens": 128
+  }
+ }
+}

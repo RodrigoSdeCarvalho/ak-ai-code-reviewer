@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:13:37+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "0e5ff349600c5c933f09d8f7d5e3e679",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3855,
+  "user_sha256": "32887b3404624ed688496e7a7896b08859f59c8e1a7f8d83e1d43ce5eb49ac1d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.7,
+     "description": "active_skus is built as a list, and `scan.sku not in active_skus` does a linear scan for every scan. With a large catalog and many scans, the cost is O(scans × skus), which can make reconciliation very slow on real stocktakes.",
+     "file": "inventory/stocktake.py",
+     "line": 54,
+     "severity": "medium",
+     "suggestion": "Build active_skus as a set: `active_skus = {item.sku for item in catalog.active()}`.",
+     "title": "Membership test against a list makes unknown_locations quadratic"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/stocktake.py\",\"line\":54,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Membership test against a list makes unknown_locations quadratic\",\"description\":\"active_skus is built as a list, and `scan.sku not in active_skus` does a linear scan for every scan. With a large catalog and many scans, the cost is O(scans × skus), which can make reconciliation very slow on real stocktakes.\",\"suggestion\":\"Build active_skus as a set: `active_skus = {item.sku for item in catalog.active()}`.\",\"confidence\":0.7}]}",
+  "request_id": "req_011CgRJVrAf64sY2SPg6DqGJ",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.005897,
+   "input_tokens": 1709,
+   "latency_ms": 1984,
+   "output_tokens": 196
+  }
+ }
+}

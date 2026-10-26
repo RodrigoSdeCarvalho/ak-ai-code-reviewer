@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:34+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b10623e5d3b61523a28445d57a66200b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2351,
+  "user_sha256": "310fe923edbc96192bc4ebb3d5cd79851e36505c54bdec4040d54869632c319e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause at line 42: the `host.endswith(domain)` partner check lacks a dot/label boundary, so lookalike domains like bluekettle.example or evilshop.example are accepted and reflected with credentials. Both describe the same consequence (cross-origin balance read and redemption via session cookie). Only the example domains and wording differ.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause at line 42: the `host.endswith(domain)` partner check lacks a dot/label boundary, so lookalike domains like bluekettle.example or evilshop.example are accepted and reflected with credentials. Both describe the same consequence (cross-origin balance read and redemption via session cookie). Only the example domains and wording differ.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJeRyNCvVEEx9T6gbqm",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016884000000000004,
+   "input_tokens": 876,
+   "latency_ms": 1750,
+   "output_tokens": 138
+  }
+ }
+}

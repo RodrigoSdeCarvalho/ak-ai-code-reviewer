@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:12:23+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "041869a3a5bad1248552b474c8096da6",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15679,
+  "user_sha256": "cf802054654e78df9139881001360b19106db38c2060e8d401cf047ee6f214b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "`server_name.partition(\":\")` splits at the first colon. An IPv6 SERVER_NAME such as `[::1]:5000` yields host `[` and port `:1]:5000`. `int(sn_port)` then raises ValueError in `app.run()`. The previous `urlsplit` handled bracketed IPv6 and also stripped any userinfo, so this is a regression.",
+     "file": "src/flask/app.py",
+     "line": 724,
+     "severity": "medium",
+     "suggestion": "Keep using `urlsplit(f\"//{server_name}\")` for `hostname` and `port`, or use `rpartition(\":\")` and handle brackets explicitly.",
+     "title": "SERVER_NAME parsing with partition(\":\") breaks IPv6 literals"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "`ctx.request.host.partition(\":\")[0]` replaces `urlsplit(host_url).hostname or \"localhost\"`. For an IPv6 host such as `[::1]:5000`, it yields `[` instead of `::1`, so the cookie is stored against the wrong domain. An empty host now gives \"\" instead of the \"localhost\" fallback. The result is that session cookies set by `session_transaction` may not be sent on later requests. The old code also lowercased the hostname, and this does not.",
+     "file": "src/flask/testing.py",
+     "line": 180,
+     "severity": "medium",
+     "suggestion": "Restore `urlsplit(ctx.request.host_url).hostname or \"localhost\"`.",
+     "title": "Cookie domain derived by partitioning host on first colon; empty host not handled"
+    },
+    {
+     "category": "maintainability",
+     "confidence": 0.15,
+     "description": "The `urlsplit` import is still used in EnvironBuilder, so this is not a bug. However, the host handling is now duplicated, with `urlsplit` in one place and `partition` in another, and the two can drift apart.",
+     "file": "src/flask/testing.py",
+     "line": 9,
+     "severity": "low",
+     "suggestion": "Use one consistent host-parsing approach.",
+     "title": "urlsplit import still needed but removed usage in session_transaction"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/flask/app.py\",\"line\":724,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"SERVER_NAME parsing with partition(\\\":\\\") breaks IPv6 literals\",\"description\":\"`server_name.partition(\\\":\\\")` splits at the first colon. An IPv6 SERVER_NAME such as `[::1]:5000` yields host `[` and port `:1]:5000`. `int(sn_port)` then raises ValueError in `app.run()`. The previous `urlsplit` handled bracketed IPv6 and also stripped any userinfo, so this is a regression.\",\"suggestion\":\"Keep using `urlsplit(f\\\"//{server_name}\\\")` for `hostname` and `port`, or use `rpartition(\\\":\\\")` and handle brackets explicitly.\",\"confidence\":0.6},{\"file\":\"src/flask/testing.py\",\"line\":180,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Cookie domain derived by partitioning host on first colon; empty host not handled\",\"description\":\"`ctx.request.host.partition(\\\":\\\")[0]` replaces `urlsplit(host_url).hostname or \\\"localhost\\\"`. For an IPv6 host such as `[::1]:5000`, it yields `[` instead of `::1`, so the cookie is stored against the wrong domain. An empty host now gives \\\"\\\" instead of the \\\"localhost\\\" fallback. The result is that session cookies set by `session_transaction` may not be sent on later requests. The old code also lowercased the hostname, and this does not.\",\"suggestion\":\"Restore `urlsplit(ctx.request.host_url).hostname or \\\"localhost\\\"`.\",\"confidence\":0.5},{\"file\":\"src/flask/testing.py\",\"line\":9,\"severity\":\"low\",\"category\":\"maintainability\",\"title\":\"urlsplit import still needed but removed usage in session_transaction\",\"description\":\"The `urlsplit` import is still used in EnvironBuilder, so this is not a bug. However, the host handling is now duplicated, with `urlsplit` in one place and `partition` in another, and the two can drift apart.\",\"suggestion\":\"Use one consistent host-parsing approach.\",\"confidence\":0.15}]}",
+  "request_id": "req_011CgRJQ8XFAAa7BHgFEz61n",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.020467,
+   "input_tokens": 6364,
+   "latency_ms": 5577,
+   "output_tokens": 722
+  }
+ }
+}

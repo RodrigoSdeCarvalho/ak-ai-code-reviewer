@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:07+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5ee16c4022fff1dcb0196ef68b126c2e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2665,
+  "user_sha256": "4ebae179554e3b068447a364bb2a0740cb20a5529e868ddd7551293b8cd51eb4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The code confirms the concrete effect: snapshot() overlays the backend on DEFAULT_FLAGS, so a True-default flag such as search_suggestions passes is_enabled() and require() when the backend omits it or returns an empty dict. That fails open for guards on unreleased endpoints, although the docstring documents the merge and the claimed 'before' behaviour cannot be verified from the shown code."
+  },
+  "raw_text": "{\"reason\": \"The code confirms the concrete effect: snapshot() overlays the backend on DEFAULT_FLAGS, so a True-default flag such as search_suggestions passes is_enabled() and require() when the backend omits it or returns an empty dict. That fails open for guards on unreleased endpoints, although the docstring documents the merge and the claimed 'before' behaviour cannot be verified from the shown code.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKkdXBa6xEftBJoB4HZ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00047086000000000003,
+   "input_tokens": 1047,
+   "latency_ms": 4625,
+   "output_tokens": 719
+  }
+ }
+}

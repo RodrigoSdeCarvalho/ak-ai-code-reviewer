@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "75bcaea159d5fd8435f56ade3d270217",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2350,
+  "user_sha256": "5301a2a31da7b0c36086ac56e8fcbbb87c83896e2786617b596259760b40e5c8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The claim depends on _read_all swallowing OSError and ValueError as an empty store and on the Windows replace window, but neither _read_all nor _write_all is shown. The docstring says the file is rewritten atomically, so the race is plausible but not confirmed by the code shown."
+  },
+  "raw_text": "{\"reason\": \"The claim depends on _read_all swallowing OSError and ValueError as an empty store and on the Windows replace window, but neither _read_all nor _write_all is shown. The docstring says the file is rewritten atomically, so the race is plausible but not confirmed by the code shown.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKtBykZdcjgMB2H5gyn",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00026916,
+   "input_tokens": 875,
+   "latency_ms": 2750,
+   "output_tokens": 350
+  }
+ }
+}

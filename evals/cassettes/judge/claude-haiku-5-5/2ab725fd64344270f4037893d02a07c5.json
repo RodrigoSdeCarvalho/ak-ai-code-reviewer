@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2ab725fd64344270f4037893d02a07c5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2199,
+  "user_sha256": "4d91d676709534fc295a00cf72d219fcfbb06f30184ac3f3b22b070c5854f9fd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same off-by-one: days = (until - since).days with range(days) omits the until day, so the report drops the last day's row (and single-day reports are empty). Same location and same failure, different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same off-by-one: days = (until - since).days with range(days) omits the until day, so the report drops the last day's row (and single-day reports are empty). Same location and same failure, different wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjBZSo23ML5HCMQtzV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013964,
+   "input_tokens": 837,
+   "latency_ms": 1844,
+   "output_tokens": 86
+  }
+ }
+}

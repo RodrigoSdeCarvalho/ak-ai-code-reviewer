@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:10+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f13cc74e5a2c38e5f5fb43eb7036cccb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2327,
+  "user_sha256": "c74a620a92ac3c7e346d62ea79ee27ecfea0b0ff259ecda0e1aed9c0d9a9f5f7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: on a denied check, the refilled tokens are stored but updated_at is not advanced, so the next call re-counts the same elapsed interval and refill is double-counted, letting clients exceed the configured rate. Description A adds a concrete example and a Retry-After note, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: on a denied check, the refilled tokens are stored but updated_at is not advanced, so the next call re-counts the same elapsed interval and refill is double-counted, letting clients exceed the configured rate. Description A adds a concrete example and a Retry-After note, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJciXif9pmfFp6v4GQp",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016494,
+   "input_tokens": 907,
+   "latency_ms": 1671,
+   "output_tokens": 124
+  }
+ }
+}

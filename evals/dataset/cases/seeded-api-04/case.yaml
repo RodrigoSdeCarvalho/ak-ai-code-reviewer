@@ -24,6 +24,10 @@ bugs:
     39). The first pass exhausts the generator, so the upsert loop never runs; every import reports 0
     created and 0 updated and writes nothing to the address book, while the rejected rows are still reported.
   must_find: true
+  alt_locations:
+  - file: contacts/parsing.py
+    line_start: 33
+    line_end: 33
 notes: >
   PR purpose: stream large CSV exports instead of loading them as one string: `parse_rows` yields rows,
   `import_csv` accepts a string as before or any iterable of lines such as an open file.

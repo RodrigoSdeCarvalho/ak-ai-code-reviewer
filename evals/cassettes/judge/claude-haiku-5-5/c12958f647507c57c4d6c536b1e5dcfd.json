@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:47+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c12958f647507c57c4d6c536b1e5dcfd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2265,
+  "user_sha256": "91b7d4e283b1c57074b1aa6d305a279c39b15378735159e09f316df8ee542a6a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a missing `await` on the retry branch at line 51, so timed-out events become unawaited coroutines. Description B identifies line 42 consuming a one-shot iterator before the main loop, so nothing is processed. These are different defects at different lines with different failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a missing `await` on the retry branch at line 51, so timed-out events become unawaited coroutines. Description B identifies line 42 consuming a one-shot iterator before the main loop, so nothing is processed. These are different defects at different lines with different failures.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJfPe1CisRvGBSqt9KP",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015124000000000002,
+   "input_tokens": 860,
+   "latency_ms": 1780,
+   "output_tokens": 106
+  }
+ }
+}

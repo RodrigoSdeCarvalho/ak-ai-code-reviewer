@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c9e36db383ed49ab4e0f08c2d485a452",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "find() now stores the list built by _rank in the cache and returns that same list object on every cache hit (here and at line 68 on a miss). Before this change each call returned a fresh list. If a caller sorts, appends to, or otherwise mutates the returned list, the cached entry changes too, so later calls with the same query and tags return the corrupted result until the TTL expires or add() is called.",
+     "end_line": null,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Return a copy, e.g. `return list(entry[1])` on a hit and `return list(hits)` after storing, or store a tuple and convert to a list on return.",
+     "title": "Cached result list is returned by reference and can be mutated by callers"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":null,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list is returned by reference and can be mutated by callers\",\"description\":\"find() now stores the list built by _rank in the cache and returns that same list object on every cache hit (here and at line 68 on a miss). Before this change each call returned a fresh list. If a caller sorts, appends to, or otherwise mutates the returned list, the cached entry changes too, so later calls with the same query and tags return the corrupted result until the TTL expires or add() is called.\",\"suggestion\":\"Return a copy, e.g. `return list(entry[1])` on a hit and `return list(hits)` after storing, or store a tuple and convert to a list on return.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00033232500000000007,
+   "input_tokens": 2172,
+   "latency_ms": null,
+   "output_tokens": 843
+  }
+ }
+}

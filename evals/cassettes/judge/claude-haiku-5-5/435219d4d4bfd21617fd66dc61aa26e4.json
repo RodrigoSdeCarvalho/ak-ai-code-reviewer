@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "435219d4d4bfd21617fd66dc61aa26e4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2589,
+  "user_sha256": "9bbe91ebca4f153ed61b920e6b442c0007d5ee0a4b9658aef4e225e67acfa946"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: self.plan is reassigned to new_plan before plan_change_lines runs, so the unused-credit proration is computed from the new plan's price, mispricing upgrades and downgrades. Both also note the state being mutated before a possible raise outside the period. The wording and emphasis differ, but the defect is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: self.plan is reassigned to new_plan before plan_change_lines runs, so the unused-credit proration is computed from the new plan's price, mispricing upgrades and downgrades. Both also note the state being mutated before a possible raise outside the period. The wording and emphasis differ, but the defect is the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKj9nJDy8Ww4sTDYxF5",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017354000000000002,
+   "input_tokens": 951,
+   "latency_ms": 1812,
+   "output_tokens": 131
+  }
+ }
+}

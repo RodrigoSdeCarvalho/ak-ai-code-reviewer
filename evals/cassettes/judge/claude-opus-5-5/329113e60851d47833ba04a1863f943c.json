@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:37:07+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "329113e60851d47833ba04a1863f943c",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1986,
+  "user_sha256": "9fc9378206f8f9533c4cfbe92023036993f1a914fd729b88ebfff92093f0a975"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "A says the duplicate-digest early return (lines 65-66) never deletes the staged file. B says the staged file leaks when mkdir or os.replace raises. These are different code paths with different triggers.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"A says the duplicate-digest early return (lines 65-66) never deletes the staged file. B says the staged file leaks when mkdir or os.replace raises. These are different code paths with different triggers.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLHkC8padAhXqQheJ63",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0048028,
+   "input_tokens": 736,
+   "latency_ms": 2031,
+   "output_tokens": 80
+  }
+ }
+}

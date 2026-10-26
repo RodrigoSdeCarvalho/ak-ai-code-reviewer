@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "e6fd9b547241a357f289e38f257da0d5",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 23355,
+  "user_sha256": "df7bb34c04a9b2c7693a0486418b684071580fd17e07d2daef1abdad4cb49822"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.8,
+     "description": "_read_all() catches OSError, ValueError and KeyError and returns an empty dict. A transient read failure (permissions, I/O error, a partially written or corrupt file) is therefore indistinguishable from 'no sessions'. The following save() or delete() calls read {}, add or remove one record, and _write_all() overwrites the file with that single record. Every other user's live sessions are silently lost and those users are logged out. The same empty result makes take_by_refresh() return None, so valid refresh tokens are rejected.",
+     "end_line": 140,
+     "file": "auth/store.py",
+     "line": 139,
+     "severity": "high",
+     "suggestion": "Only treat a missing file (FileNotFoundError) as an empty store. Let other OSError and ValueError/KeyError propagate, or raise StoreError, so that writes never run on data that was not read successfully.",
+     "title": "Unreadable or corrupt session file is treated as empty, so the next write wipes every session"
+    },
+    {
+     "category": "security",
+     "confidence": 0.6,
+     "description": "sign_out_everywhere() catches StoreError from store.delete(), logs a warning, and continues. The session remains usable, and its access token still passes authenticate(). change_password() returns this count as if the sessions had been ended, and callers have no way to know some sessions survived. After a password reset, an attacker holding a stolen session can keep access even though the caller believes all sessions were ended.",
+     "end_line": 102,
+     "file": "auth/sessions.py",
+     "line": 96,
+     "severity": "high",
+     "suggestion": "Do not swallow the error. Let StoreError propagate so the caller fails the request, or collect the failures and raise after attempting the rest, so that change_password can report incomplete revocation.",
+     "title": "Failed session revocation is logged and skipped, so sessions stay valid after sign-out or password change"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.4,
+     "description": "The Session dataclass is removed and login() now returns IssuedSession, which has access_token and refresh_token instead of token. The constructor's second positional argument changes from ttl to store, so existing calls such as SessionManager(users, ttl) now pass a timedelta as the store. Callers that read session.token or pass ttl will fail at runtime, and the failure may only appear on the login path.",
+     "end_line": 67,
+     "file": "auth/sessions.py",
+     "line": 22,
+     "severity": "medium",
+     "suggestion": "Keep a token attribute or a compatibility alias for callers that still need it, or update every caller in the same change and note the breaking change explicitly.",
+     "title": "SessionManager constructor and login return type changed in a breaking way"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"auth/store.py\",\"line\":139,\"end_line\":140,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"Unreadable or corrupt session file is treated as empty, so the next write wipes every session\",\"description\":\"_read_all() catches OSError, ValueError and KeyError and returns an empty dict. A transient read failure (permissions, I/O error, a partially written or corrupt file) is therefore indistinguishable from 'no sessions'. The following save() or delete() calls read {}, add or remove one record, and _write_all() overwrites the file with that single record. Every other user's live sessions are silently lost and those users are logged out. The same empty result makes take_by_refresh() return None, so valid refresh tokens are rejected.\",\"suggestion\":\"Only treat a missing file (FileNotFoundError) as an empty store. Let other OSError and ValueError/KeyError propagate, or raise StoreError, so that writes never run on data that was not read successfully.\",\"confidence\":0.8},{\"file\":\"auth/sessions.py\",\"line\":96,\"end_line\":102,\"severity\":\"high\",\"category\":\"security\",\"title\":\"Failed session revocation is logged and skipped, so sessions stay valid after sign-out or password change\",\"description\":\"sign_out_everywhere() catches StoreError from store.delete(), logs a warning, and continues. The session remains usable, and its access token still passes authenticate(). change_password() returns this count as if the sessions had been ended, and callers have no way to know some sessions survived. After a password reset, an attacker holding a stolen session can keep access even though the caller believes all sessions were ended.\",\"suggestion\":\"Do not swallow the error. Let StoreError propagate so the caller fails the request, or collect the failures and raise after attempting the rest, so that change_password can report incomplete revocation.\",\"confidence\":0.6},{\"file\":\"auth/sessions.py\",\"line\":22,\"end_line\":67,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"SessionManager constructor and login return type changed in a breaking way\",\"description\":\"The Session dataclass is removed and login() now returns IssuedSession, which has access_token and refresh_token instead of token. The constructor's second positional argument changes from ttl to store, so existing calls such as SessionManager(users, ttl) now pass a timedelta as the store. Callers that read session.token or pass ttl will fail at runtime, and the failure may only appear on the login path.\",\"suggestion\":\"Keep a token attribute or a compatibility alias for callers that still need it, or update every caller in the same change and note the breaking change explicitly.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.001059825,
+   "input_tokens": 9127,
+   "latency_ms": null,
+   "output_tokens": 2362
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c235fbc051234b6c0b8bdf67b2c39268",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2105,
+  "user_sha256": "bdd3adca79defeb6408cc581d1f6d9206d9cdc4615c75874d2b55ebf7a3ac83c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: redeem() never checks link.expires_at against now, so expired magic links remain usable until purge_expired runs, contrary to the advertised TTL. The line numbers differ slightly (66 vs 65) but both refer to the pending-token check in redeem, which is the same location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: redeem() never checks link.expires_at against now, so expired magic links remain usable until purge_expired runs, contrary to the advertised TTL. The line numbers differ slightly (66 vs 65) but both refer to the pending-token check in redeem, which is the same location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjnpk74T3VmGwG3Uoc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014713999999999998,
+   "input_tokens": 752,
+   "latency_ms": 1344,
+   "output_tokens": 118
+  }
+ }
+}

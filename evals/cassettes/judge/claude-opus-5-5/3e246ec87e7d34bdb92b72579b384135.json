@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3e246ec87e7d34bdb92b72579b384135",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2397,
+  "user_sha256": "aaacac407564949fc27192cb7b964a6dc315b0bbbe8ceb4f53cc78d5a39b057e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: `reschedule` returns False early without releasing the lock. The scheduler then stays locked and later calls fail with SchedulerBusy.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\":\"Both descriptions identify the same defect: `reschedule` returns False early without releasing the lock. The scheduler then stays locked and later calls fail with SchedulerBusy.\",\"verdict\":\"same\"}",
+  "request_id": "req_011CgRLGzmCxL66RK2ghiNdJ",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.005386800000000001,
+   "input_tokens": 912,
+   "latency_ms": 1795,
+   "output_tokens": 74
+  }
+ }
+}

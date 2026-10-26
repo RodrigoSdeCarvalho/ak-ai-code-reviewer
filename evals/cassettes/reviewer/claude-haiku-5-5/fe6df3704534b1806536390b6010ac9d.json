@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "fe6df3704534b1806536390b6010ac9d",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 20158,
+  "user_sha256": "dc8a27e6f55becb8700a56250673ef972fb55a5e77b4af373a8443194f48595f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "UsageKey is (account_id, metric, month), as documented in rollup.py and used in monthly_usage and build_report's own loop unpacking. The lookup builds (account_id, prior, metric), putting the month where the metric belongs and the metric where the month belongs. The lookup therefore never matches, so previous_total is always None and every row shows change 'n/a'. The month-over-month feature, which is the purpose of the report command, does not work.",
+     "end_line": null,
+     "file": "metering/report.py",
+     "line": 69,
+     "severity": "high",
+     "suggestion": "Use the key order used everywhere else: previous = usage.get((account_id, metric, prior)).",
+     "title": "Previous-month lookup uses the wrong key order, so previous_total is always None"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "Python's $ matches before a trailing newline, so a --month value such as '2024-01\\n' passes month_arg. The value is then compared against row months with exact equality in build_report, so no rows match and the report silently prints '(no usage)' for a month that has data.",
+     "end_line": null,
+     "file": "metering/cli.py",
+     "line": 16,
+     "severity": "low",
+     "suggestion": "Use fullmatch, or \\Z in place of $, for example MONTH_RE.fullmatch(value) with the pattern without anchors.",
+     "title": "MONTH_RE with $ accepts a trailing newline, which then matches no rows"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"metering/report.py\",\"line\":69,\"end_line\":null,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Previous-month lookup uses the wrong key order, so previous_total is always None\",\"description\":\"UsageKey is (account_id, metric, month), as documented in rollup.py and used in monthly_usage and build_report's own loop unpacking. The lookup builds (account_id, prior, metric), putting the month where the metric belongs and the metric where the month belongs. The lookup therefore never matches, so previous_total is always None and every row shows change 'n/a'. The month-over-month feature, which is the purpose of the report command, does not work.\",\"suggestion\":\"Use the key order used everywhere else: previous = usage.get((account_id, metric, prior)).\",\"confidence\":0.95},{\"file\":\"metering/cli.py\",\"line\":16,\"end_line\":null,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"MONTH_RE with $ accepts a trailing newline, which then matches no rows\",\"description\":\"Python's $ matches before a trailing newline, so a --month value such as '2024-01\\\\n' passes month_arg. The value is then compared against row months with exact equality in build_report, so no rows match and the report silently prints '(no usage)' for a month that has data.\",\"suggestion\":\"Use fullmatch, or \\\\Z in place of $, for example MONTH_RE.fullmatch(value) with the pattern without anchors.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000729725,
+   "input_tokens": 8315,
+   "latency_ms": null,
+   "output_tokens": 1204
+  }
+ }
+}

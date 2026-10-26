@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:25+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "88830e0ee71fb363ed688b0b186f0522",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3025,
+  "user_sha256": "acddc4ec354933ab1001a695d50ceecf47373692891a532bd82f95f961342c12"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: `await value.read()` (and the sub_value read for list[bytes]) in `_extract_form_body` consumes the shared UploadFile without restoring the file position, so later reads of the same file get empty bytes. Both point at lines 1070-1078 and propose restoring the position as the fix.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: `await value.read()` (and the sub_value read for list[bytes]) in `_extract_form_body` consumes the shared UploadFile without restoring the file position, so later reads of the same file get empty bytes. Both point at lines 1070-1078 and propose restoring the position as the fix.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKnCAk1Z5TpDcWdetTR",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018484,
+   "input_tokens": 1099,
+   "latency_ms": 1250,
+   "output_tokens": 124
+  }
+ }
+}

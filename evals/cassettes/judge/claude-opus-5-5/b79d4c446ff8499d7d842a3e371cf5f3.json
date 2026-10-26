@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b79d4c446ff8499d7d842a3e371cf5f3",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1935,
+  "user_sha256": "bd108647131b5d3598e5fcb1b6e3d379d2f891d3f6ed9517e7fc28865a342884"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says `accept` never checks the link's expiry, so expired links still admit members. Description B describes a race condition in which concurrent accepts all pass the `uses` check and together exceed `max_uses`. These are different root causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"Description A says `accept` never checks the link's expiry, so expired links still admit members. Description B describes a race condition in which concurrent accepts all pass the `uses` check and together exceed `max_uses`. These are different root causes.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLG81Vavz15MoG1jYcW",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.004922800000000001,
+   "input_tokens": 716,
+   "latency_ms": 2218,
+   "output_tokens": 90
+  }
+ }
+}

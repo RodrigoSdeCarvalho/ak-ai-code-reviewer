@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "8bc78cf58aadb60e63d6903d1ddb999a",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 1148,
+  "user_sha256": "edd3d93381e9e6b2fe0350ca7a2b1db9b240cac6bfaa5b04b6b764c0e427fd12"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.8,
+     "description": "`_add_method_dunders` sets `__module__`, `__qualname__` and `__doc__` on the function it receives. The old code passed a fresh wrapper per class, so this was harmless. Now it receives the global `attr.evolve` object, so every class that uses `__replace__` rewrites the public `evolve` function's metadata. After that, `evolve.__module__`, `evolve.__qualname__` and `evolve.__doc__` point at whichever class was built last. This breaks introspection, docs and repr of `evolve`, and the same function object is shared across all classes.",
+     "file": "src/attr/_make.py",
+     "line": 1111,
+     "severity": "medium",
+     "suggestion": "Keep a per-class wrapper so the dunders are set on the wrapper, not on `evolve`: `def __replace__(self, /, **changes): return evolve(self, **changes)`.",
+     "title": "Shared `evolve` function is mutated by `_add_method_dunders`"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/attr/_make.py\",\"line\":1111,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Shared `evolve` function is mutated by `_add_method_dunders`\",\"description\":\"`_add_method_dunders` sets `__module__`, `__qualname__` and `__doc__` on the function it receives. The old code passed a fresh wrapper per class, so this was harmless. Now it receives the global `attr.evolve` object, so every class that uses `__replace__` rewrites the public `evolve` function's metadata. After that, `evolve.__module__`, `evolve.__qualname__` and `evolve.__doc__` point at whichever class was built last. This breaks introspection, docs and repr of `evolve`, and the same function object is shared across all classes.\",\"suggestion\":\"Keep a per-class wrapper so the dunders are set on the wrapper, not on `evolve`: `def __replace__(self, /, **changes): return evolve(self, **changes)`.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0039525,
+   "input_tokens": 478,
+   "latency_ms": null,
+   "output_tokens": 643
+  }
+ }
+}

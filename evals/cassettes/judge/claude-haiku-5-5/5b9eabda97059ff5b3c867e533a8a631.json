@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5b9eabda97059ff5b3c867e533a8a631",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2283,
+  "user_sha256": "cec7c60f266d9bee656ec035f314327803934f10c9c4aa396a6bc16e2113510e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: Flask.run() splits SERVER_NAME with partition(':') on the first colon, so IPv6 literals like [::1]:5000 yield host '[' and a bogus port string, causing int(sn_port) to raise ValueError or binding to a bogus host. Both point at lines 724-735 and the same failure mode; B's suggested urlsplit fix is a different proposed fix, which still counts as the same defect.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: Flask.run() splits SERVER_NAME with partition(':') on the first colon, so IPv6 literals like [::1]:5000 yield host '[' and a bogus port string, causing int(sn_port) to raise ValueError or binding to a bogus host. Both point at lines 724-735 and the same failure mode; B's suggested urlsplit fix is a different proposed fix, which still counts as the same defect.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKmxE6c5HmbSbgSFvoe",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018613999999999998,
+   "input_tokens": 902,
+   "latency_ms": 1672,
+   "output_tokens": 166
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:15+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6dfe2dcad4ccd019c3365ef050881881",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2328,
+  "user_sha256": "f26882ec613554f03b62a6d353dc8c1a76b43d46cf28c905f39de2e050d5fa6b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that move_card authorizes only against the destination board (to_board_id) and never checks the card's current board, letting an editor on their own board move another board's card out of its owner's access. Description B adds detail about sequential ids and comparison to other handlers, but the root cause and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that move_card authorizes only against the destination board (to_board_id) and never checks the card's current board, letting an editor on their own board move another board's card out of its owner's access. Description B adds detail about sequential ids and comparison to other handlers, but the root cause and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKqrVB3rw7KarEpoSm2",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014524,
+   "input_tokens": 758,
+   "latency_ms": 1453,
+   "output_tokens": 113
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:08+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "064b496564dca8a46835e62a1099834a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2560,
+  "user_sha256": "cd3c7fab9815b3d05d53841a12d452c063c2860a8c3f25c51f62d8a99e6d1795"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The reserve method reads stock and reservations and writes them back without any lock, transaction isolation, or conditional write shown in the code, so concurrent calls can interleave and oversell or double-reserve. The shown code does not reveal whether the connection provides serializable transactions or whether the pool hands out exclusive connections, but the read-modify-write pattern on shared rows is a concrete, practical race."
+  },
+  "raw_text": "{\"reason\": \"The reserve method reads stock and reservations and writes them back without any lock, transaction isolation, or conditional write shown in the code, so concurrent calls can interleave and oversell or double-reserve. The shown code does not reveal whether the connection provides serializable transactions or whether the pool hands out exclusive connections, but the read-modify-write pattern on shared rows is a concrete, practical race.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKumLjHcjkSBss2WqL6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00017656,
+   "input_tokens": 964,
+   "latency_ms": 1671,
+   "output_tokens": 147
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:40+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3f00a1c1ec847d77813183f63503aba1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1974,
+  "user_sha256": "fea047022137cb7cd6f5a20bc377422e95515976d69e567b2ca1aa88aed574ab"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: when the target digest already exists, the early return at lines 65-66 skips removing the staged temp file in incoming/, so every duplicate upload leaves a full-size orphan and disk usage grows unbounded. Description B adds detail about the cleanup scope but names the same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: when the target digest already exists, the early return at lines 65-66 skips removing the staged temp file in incoming/, so every duplicate upload leaves a full-size orphan and disk usage grows unbounded. Description B adds detail about the cleanup scope but names the same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJesaVPYzQoWXKj2QNE",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014384000000000003,
+   "input_tokens": 706,
+   "latency_ms": 2094,
+   "output_tokens": 122
+  }
+ }
+}

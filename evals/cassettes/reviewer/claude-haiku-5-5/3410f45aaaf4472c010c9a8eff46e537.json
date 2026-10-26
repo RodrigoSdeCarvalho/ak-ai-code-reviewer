@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "3410f45aaaf4472c010c9a8eff46e537",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15679,
+  "user_sha256": "cf802054654e78df9139881001360b19106db38c2060e8d401cf047ee6f214b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.4,
+     "description": "The old urlsplit(f\"//{server_name}\") parsing handled bracketed IPv6 literals such as \"[::1]:5000\", giving hostname \"::1\" and port 5000. server_name.partition(\":\") splits at the first colon, so sn_host becomes \"[\" and sn_port becomes \":1]:5000\". The int(sn_port) call in the following branch then raises ValueError when run() is called with an IPv6 SERVER_NAME and no explicit port. The same change also drops hostname lowercasing and bracket stripping.",
+     "end_line": 724,
+     "file": "src/flask/app.py",
+     "line": 724,
+     "severity": "medium",
+     "suggestion": "Keep urlsplit-based parsing, or handle a leading '[' by splitting on ']' first, and lowercase the host the same way urlsplit().hostname does.",
+     "title": "partition on ':' breaks IPv6 server_name values"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.4,
+     "description": "Replacing urlsplit(ctx.request.host_url).hostname with ctx.request.host.partition(\":\")[0] changes the domain passed to _update_cookies_from_response. For a request host like \"[::1]:8000\", the domain becomes \"[\" instead of \"::1\". Cookies set by the response are then stored under the wrong domain and are not sent back on later requests to that host. The hostname attribute also lowercased the value, which partition does not.",
+     "end_line": 180,
+     "file": "src/flask/testing.py",
+     "line": 180,
+     "severity": "medium",
+     "suggestion": "Use urlsplit(ctx.request.host_url).hostname or \"localhost\" as before, or strip brackets and lowercase the host explicitly.",
+     "title": "Cookie domain for IPv6 hosts is truncated to '['"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/flask/app.py\",\"line\":724,\"end_line\":724,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"partition on ':' breaks IPv6 server_name values\",\"description\":\"The old urlsplit(f\\\"//{server_name}\\\") parsing handled bracketed IPv6 literals such as \\\"[::1]:5000\\\", giving hostname \\\"::1\\\" and port 5000. server_name.partition(\\\":\\\") splits at the first colon, so sn_host becomes \\\"[\\\" and sn_port becomes \\\":1]:5000\\\". The int(sn_port) call in the following branch then raises ValueError when run() is called with an IPv6 SERVER_NAME and no explicit port. The same change also drops hostname lowercasing and bracket stripping.\",\"suggestion\":\"Keep urlsplit-based parsing, or handle a leading '[' by splitting on ']' first, and lowercase the host the same way urlsplit().hostname does.\",\"confidence\":0.4},{\"file\":\"src/flask/testing.py\",\"line\":180,\"end_line\":180,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Cookie domain for IPv6 hosts is truncated to '['\",\"description\":\"Replacing urlsplit(ctx.request.host_url).hostname with ctx.request.host.partition(\\\":\\\")[0] changes the domain passed to _update_cookies_from_response. For a request host like \\\"[::1]:8000\\\", the domain becomes \\\"[\\\" instead of \\\"::1\\\". Cookies set by the response are then stored under the wrong domain and are not sent back on later requests to that host. The hostname attribute also lowercased the value, which partition does not.\",\"suggestion\":\"Use urlsplit(ctx.request.host_url).hostname or \\\"localhost\\\" as before, or strip brackets and lowercase the host explicitly.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0007609250000000001,
+   "input_tokens": 6364,
+   "latency_ms": null,
+   "output_tokens": 1719
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "413fc496082ff3ab5eb3cff498ded8f8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2199,
+  "user_sha256": "cd1876e9c0c24bb4e4df07d52cf8f320c313cba6f237b45b159bf8ca15e32add"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says non-InventoryError exceptions skip rollback, leaving partial state on a reused connection. Description B says the InventoryError path re-raises without releasing the connection, leaking pool connections until exhaustion. Both touch the except block at lines 93-95, but they identify different failures: one is incomplete rollback for other exception types, the other is a connection leak on the InventoryError path.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says non-InventoryError exceptions skip rollback, leaving partial state on a reused connection. Description B says the InventoryError path re-raises without releasing the connection, leaking pool connections until exhaustion. Both touch the except block at lines 93-95, but they identify different failures: one is incomplete rollback for other exception types, the other is a connection leak on the InventoryError path.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJekMADE2qnqG2hB8QM",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016254000000000003,
+   "input_tokens": 783,
+   "latency_ms": 1797,
+   "output_tokens": 144
+  }
+ }
+}

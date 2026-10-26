@@ -1,0 +1,93 @@
+{
+ "recorded_at": "2026-10-26T18:13:22+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "ef6839fa7af734481bc26871e261b341",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 23355,
+  "user_sha256": "df7bb34c04a9b2c7693a0486418b684071580fd17e07d2daef1abdad4cb49822"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "sign_out_everywhere catches StoreError per record, logs a warning and carries on, so it only returns a smaller count. change_password ignores whether every session was ended, even though its docstring promises that. If the file store fails to write, the old sessions stay valid after a password change (for example a stolen access or refresh token) and the caller is never told. The count returned does not reveal this, since the caller does not know how many sessions existed.",
+     "end_line": 107,
+     "file": "auth/sessions.py",
+     "line": 104,
+     "severity": "high",
+     "suggestion": "Re-raise or aggregate failures from sign_out_everywhere, or have it report failures to the caller, so change_password fails loudly when any session could not be revoked.",
+     "title": "change_password silently leaves sessions alive when revocation fails"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "_read_all catches OSError, ValueError and KeyError and returns {}. A corrupt file, a transient read error, or a record missing a field makes the store look empty. The next save, delete or take_by_refresh then rewrites the file from that empty dict, permanently wiping every other session. A single malformed record also discards all valid ones.",
+     "end_line": 140,
+     "file": "auth/store.py",
+     "line": 135,
+     "severity": "high",
+     "suggestion": "Treat only FileNotFoundError as empty. Raise StoreError for other read or parse failures, and skip or quarantine individual bad records instead of dropping the whole file.",
+     "title": "Corrupt or unreadable session file is treated as empty and then overwritten"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.25,
+     "description": "FileSessionStore.get and all read the file without taking self._lock. The writer uses a fixed temp name and os.replace, so reads never see a partial file. However, sign_out_everywhere and purge_expired iterate over a snapshot from all() and delete records afterwards, and a concurrent refresh can have already rotated the record, so the delete targets a stale hash. Separately, MemorySessionStore.get reads the dict without the lock.",
+     "end_line": 109,
+     "file": "auth/store.py",
+     "line": 108,
+     "severity": "medium",
+     "suggestion": "Take the lock in get and all, or document and accept the snapshot semantics. Prefer a store-level delete_by_user operation that runs atomically under the lock.",
+     "title": "Unlocked reads race with non-atomic temp-file writes"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "take_by_refresh removes the record before the expiry and active checks. If the refresh token is expired, or the user is deactivated, the session is already deleted. More importantly, if _issue then fails with a StoreError on save, the old session is gone and no new one exists, so the user is logged out with no way to retry.",
+     "end_line": 85,
+     "file": "auth/sessions.py",
+     "line": 78,
+     "severity": "medium",
+     "suggestion": "Handle failure of _issue by restoring the old record, or perform the take and the save in a single store transaction.",
+     "title": "Refresh token consumed before validation; failed refresh destroys the session"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.35,
+     "description": "purge_expired calls delete in a loop without handling StoreError. One failed write aborts the purge after some deletions, and the caller gets an exception instead of a count. On FileSessionStore each delete re-reads and rewrites the whole file, so purging N sessions costs O(N²) I/O.",
+     "end_line": 114,
+     "file": "auth/sessions.py",
+     "line": 109,
+     "severity": "medium",
+     "suggestion": "Add a bulk delete to the store, or catch StoreError per record as sign_out_everywhere does.",
+     "title": "purge_expired aborts on the first store error and stays quadratic on the file store"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"auth/sessions.py\",\"line\":104,\"end_line\":107,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"change_password silently leaves sessions alive when revocation fails\",\"description\":\"sign_out_everywhere catches StoreError per record, logs a warning and carries on, so it only returns a smaller count. change_password ignores whether every session was ended, even though its docstring promises that. If the file store fails to write, the old sessions stay valid after a password change (for example a stolen access or refresh token) and the caller is never told. The count returned does not reveal this, since the caller does not know how many sessions existed.\",\"suggestion\":\"Re-raise or aggregate failures from sign_out_everywhere, or have it report failures to the caller, so change_password fails loudly when any session could not be revoked.\",\"confidence\":0.6},{\"file\":\"auth/store.py\",\"line\":135,\"end_line\":140,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"Corrupt or unreadable session file is treated as empty and then overwritten\",\"description\":\"_read_all catches OSError, ValueError and KeyError and returns {}. A corrupt file, a transient read error, or a record missing a field makes the store look empty. The next save, delete or take_by_refresh then rewrites the file from that empty dict, permanently wiping every other session. A single malformed record also discards all valid ones.\",\"suggestion\":\"Treat only FileNotFoundError as empty. Raise StoreError for other read or parse failures, and skip or quarantine individual bad records instead of dropping the whole file.\",\"confidence\":0.6},{\"file\":\"auth/store.py\",\"line\":108,\"end_line\":109,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Unlocked reads race with non-atomic temp-file writes\",\"description\":\"FileSessionStore.get and all read the file without taking self._lock. The writer uses a fixed temp name and os.replace, so reads never see a partial file. However, sign_out_everywhere and purge_expired iterate over a snapshot from all() and delete records afterwards, and a concurrent refresh can have already rotated the record, so the delete targets a stale hash. Separately, MemorySessionStore.get reads the dict without the lock.\",\"suggestion\":\"Take the lock in get and all, or document and accept the snapshot semantics. Prefer a store-level delete_by_user operation that runs atomically under the lock.\",\"confidence\":0.25},{\"file\":\"auth/sessions.py\",\"line\":78,\"end_line\":85,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Refresh token consumed before validation; failed refresh destroys the session\",\"description\":\"take_by_refresh removes the record before the expiry and active checks. If the refresh token is expired, or the user is deactivated, the session is already deleted. More importantly, if _issue then fails with a StoreError on save, the old session is gone and no new one exists, so the user is logged out with no way to retry.\",\"suggestion\":\"Handle failure of _issue by restoring the old record, or perform the take and the save in a single store transaction.\",\"confidence\":0.3},{\"file\":\"auth/sessions.py\",\"line\":109,\"end_line\":114,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"purge_expired aborts on the first store error and stays quadratic on the file store\",\"description\":\"purge_expired calls delete in a loop without handling StoreError. One failed write aborts the purge after some deletions, and the caller gets an exception instead of a count. On FileSessionStore each delete re-reads and rewrites the whole file, so purging N sessions costs O(N²) I/O.\",\"suggestion\":\"Add a bulk delete to the store, or catch StoreError per record as sign_out_everywhere does.\",\"confidence\":0.35}]}",
+  "request_id": "req_011CgRJU5fi4Fa3SgcLY4xmA",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.031063,
+   "input_tokens": 9127,
+   "latency_ms": 10500,
+   "output_tokens": 1229
+  }
+ }
+}

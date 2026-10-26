@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:19+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a52200e12134ed929d7929fb18792a9a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2276,
+  "user_sha256": "43369524037653819ccbb27843f80f02bcf069f684ac280c9bf27179e7816b3b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A is about per-recipient SMTP connection setup cost (a new session and login for every message) causing slowness and throttling. Description B is about uncaught non-RecipientRefused exceptions aborting the loop, losing the report and enabling duplicate sends on re-run. Different root causes and failures, even though both touch the same send loop.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A is about per-recipient SMTP connection setup cost (a new session and login for every message) causing slowness and throttling. Description B is about uncaught non-RecipientRefused exceptions aborting the loop, losing the report and enabling duplicate sends on re-run. Different root causes and failures, even though both touch the same send loop.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJdQkfFHBRBf9PiwqXk",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015914000000000002,
+   "input_tokens": 839,
+   "latency_ms": 1390,
+   "output_tokens": 126
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:04+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e3f3d89f577000ddab9afff3fc989cbc",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2547,
+  "user_sha256": "1ce2241ccb9966aada7168200e30e7e8de10c2d21e5b6454852b3268f8d83e94"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: sign_out_everywhere catches StoreError from delete, logs and continues, so change_password returns normally while some sessions remain valid after the password change, with no failure signal to the caller. Different wording and emphasis, same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: sign_out_everywhere catches StoreError from delete, logs and continues, so change_password returns normally while some sessions remain valid after the password change, with no failure signal to the caller. Different wording and emphasis, same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcH9k2uXfYhqvLADnm",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015294,
+   "input_tokens": 877,
+   "latency_ms": 1438,
+   "output_tokens": 106
+  }
+ }
+}

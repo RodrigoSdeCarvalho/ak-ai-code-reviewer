@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0004bacb9cf91977211742fb5c118bb6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2475,
+  "user_sha256": "e6c35c9170ff2d58169cc9e6422679ceeafd3b51804cbc0c48a0d852947eeb81"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both describe the same change: per-key catalog.exists plus catalog.get calls across the fallback chain replacing a batched get_many, causing N+1-style extra lookups/round trips. Description B adds Redis specifics and a race condition, but the core defect at lines 43-44 is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both describe the same change: per-key catalog.exists plus catalog.get calls across the fallback chain replacing a batched get_many, causing N+1-style extra lookups/round trips. Description B adds Redis specifics and a race condition, but the core defect at lines 43-44 is the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdjPqFyhHvAJ4MCJeu",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016074,
+   "input_tokens": 925,
+   "latency_ms": 1640,
+   "output_tokens": 112
+  }
+ }
+}

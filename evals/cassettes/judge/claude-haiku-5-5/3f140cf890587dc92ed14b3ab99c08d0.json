@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3f140cf890587dc92ed14b3ab99c08d0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2516,
+  "user_sha256": "b8d0fbe40b73769104c93f8d31852db030aeee865a2682cc2b435b843242e475"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment accurately describes that json.loads and read_text on the metadata file are unguarded, so corrupt metadata raises JSONDecodeError and a non-dict JSON value raises AttributeError on .pop. The write path (lines 83-86) writes metadata via temp file and replace, so corruption is unlikely in normal operation, but the unguarded failure modes are real and would surface as raw exceptions from head(). This is a concrete failure mode, not merely speculative hardening."
+  },
+  "raw_text": "{\"reason\": \"The comment accurately describes that json.loads and read_text on the metadata file are unguarded, so corrupt metadata raises JSONDecodeError and a non-dict JSON value raises AttributeError on .pop. The write path (lines 83-86) writes metadata via temp file and replace, so corruption is unlikely in normal operation, but the unguarded failure modes are real and would surface as raw exceptions from head(). This is a concrete failure mode, not merely speculative hardening.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKtbXbSxWqDsNruypL4",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00019506,
+   "input_tokens": 1004,
+   "latency_ms": 2311,
+   "output_tokens": 176
+  }
+ }
+}

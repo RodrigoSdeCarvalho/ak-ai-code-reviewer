@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:59+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5ca5ef1db222f40097da943b4a5cb169",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2023,
+  "user_sha256": "4c7c162cae6f7a77e02f6999f4c7ab68b3a6a52d4e1e8330e46de749d2f4a76e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The code only catches RecipientRefused, so other mailer exceptions (connection, timeout) do propagate out of send_campaign and stop the loop, discarding the report. The comment's described failure (remaining subscribers unmailed, report lost, duplicate sends on retry) follows directly from the shown code, making it a real defect."
+  },
+  "raw_text": "{\"reason\": \"The code only catches RecipientRefused, so other mailer exceptions (connection, timeout) do propagate out of send_campaign and stop the loop, discarding the report. The comment's described failure (remaining subscribers unmailed, report lost, duplicate sends on retry) follows directly from the shown code, making it a real defect.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKu3Ms92Lk3Cn59sPi2",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00014846,
+   "input_tokens": 793,
+   "latency_ms": 2469,
+   "output_tokens": 125
+  }
+ }
+}

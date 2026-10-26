@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:44+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "89e35747979d85f2aa42ea893eef7c65",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1711,
+  "user_sha256": "01b586242db87a0340a042dbbce6fcc065ea0482ac3d7c1e5863d17d62f08fab"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The exponent is only reached on failure paths and the job is disabled at max_failures, so in normal configuration it stays small. The overflow claim is speculative: it requires an unrealistically large max_failures or externally set counter, and Python's big integers do not overflow on 2**n, though timedelta multiplication could raise OverflowError for huge values. Since the code shown does not establish a concrete failing configuration, this is at most speculative hardening."
+  },
+  "raw_text": "{\"reason\": \"The exponent is only reached on failure paths and the job is disabled at max_failures, so in normal configuration it stays small. The overflow claim is speculative: it requires an unrealistically large max_failures or externally set counter, and Python's big integers do not overflow on 2**n, though timedelta multiplication could raise OverflowError for huge values. Since the code shown does not establish a concrete failing configuration, this is at most speculative hardening.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKsuTKzKnPCVGqNPtTj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00014966,
+   "input_tokens": 640,
+   "latency_ms": 2640,
+   "output_tokens": 158
+  }
+ }
+}

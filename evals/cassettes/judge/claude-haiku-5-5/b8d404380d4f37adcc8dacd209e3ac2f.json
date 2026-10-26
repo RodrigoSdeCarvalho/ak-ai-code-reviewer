@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b8d404380d4f37adcc8dacd209e3ac2f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2543,
+  "user_sha256": "ebe575e1ddba979531f8e633517a6e20daf2c7585aa18127cdc42f423bf1efac"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says cancel() lacks rollback and crashes on a missing stock row, leaving a dirty connection released to the pool. Description B says reserve() re-raises from its except branch without calling pool.release, leaking connections on every rejected reservation. These are different functions and different failures (partial-commit/dirty-connection in cancel versus connection leak in reserve).",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says cancel() lacks rollback and crashes on a missing stock row, leaving a dirty connection released to the pool. Description B says reserve() re-raises from its except branch without calling pool.release, leaking connections on every rejected reservation. These are different functions and different failures (partial-commit/dirty-connection in cancel versus connection leak in reserve).\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJeZXHb1Zc1RbCNCPhZ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016894,
+   "input_tokens": 892,
+   "latency_ms": 1905,
+   "output_tokens": 135
+  }
+ }
+}

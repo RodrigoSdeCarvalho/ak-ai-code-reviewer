@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:14:20+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f0790c074f8476f527f7218f0afc2007",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5817,
+  "user_sha256": "90c1b46ad0609df3bd7e4a8be39337408fd81cb16e2201702e99f8b413270b8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.9,
+     "description": "When the target already exists, the function returns early without removing the temp file in incoming/. Each duplicate upload leaves a full-size orphan file behind, so disk usage grows unboundedly with repeated uploads of the same content.",
+     "file": "storage/blobs.py",
+     "line": 66,
+     "severity": "medium",
+     "suggestion": "Call incoming.unlink(missing_ok=True) before returning when target.exists(). Also wrap the mkdir/os.replace step in try/except to unlink the temp file on failure.",
+     "title": "Temp upload file leaked when blob already exists"
+    },
+    {
+     "category": "resource",
+     "confidence": 0.5,
+     "description": "The cleanup try/except only covers the write loop. If target.parent.mkdir or os.replace raises (permissions, disk error, ENOSPC), the temp file stays in incoming/ forever.",
+     "file": "storage/blobs.py",
+     "line": 68,
+     "severity": "medium",
+     "suggestion": "Extend the try/except to include the finalize step, or use a finally that unlinks incoming with missing_ok=True.",
+     "title": "Temp file leaked if mkdir or os.replace fails"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "Incoming dir is under root, which is fine for same-filesystem rename, but the old mkdir of root is now only implicit. More importantly the blob layout uses two-hex-char directories; 'incoming' does not collide. However no durability: data is not fsynced before os.replace, so a crash can leave a zero-length or truncated blob at the final content-addressed path, which is then treated as existing and never repaired.",
+     "file": "storage/blobs.py",
+     "line": 36,
+     "severity": "medium",
+     "suggestion": "Call out.flush() and os.fsync(out.fileno()) before closing, prior to os.replace.",
+     "title": "Root directory collides with 'incoming' digest prefix namespace and may break rename across filesystems"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"storage/blobs.py\",\"line\":66,\"severity\":\"medium\",\"category\":\"resource\",\"title\":\"Temp upload file leaked when blob already exists\",\"description\":\"When the target already exists, the function returns early without removing the temp file in incoming/. Each duplicate upload leaves a full-size orphan file behind, so disk usage grows unboundedly with repeated uploads of the same content.\",\"suggestion\":\"Call incoming.unlink(missing_ok=True) before returning when target.exists(). Also wrap the mkdir/os.replace step in try/except to unlink the temp file on failure.\",\"confidence\":0.9},{\"file\":\"storage/blobs.py\",\"line\":68,\"severity\":\"medium\",\"category\":\"resource\",\"title\":\"Temp file leaked if mkdir or os.replace fails\",\"description\":\"The cleanup try/except only covers the write loop. If target.parent.mkdir or os.replace raises (permissions, disk error, ENOSPC), the temp file stays in incoming/ forever.\",\"suggestion\":\"Extend the try/except to include the finalize step, or use a finally that unlinks incoming with missing_ok=True.\",\"confidence\":0.5},{\"file\":\"storage/blobs.py\",\"line\":36,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Root directory collides with 'incoming' digest prefix namespace and may break rename across filesystems\",\"description\":\"Incoming dir is under root, which is fine for same-filesystem rename, but the old mkdir of root is now only implicit. More importantly the blob layout uses two-hex-char directories; 'incoming' does not collide. However no durability: data is not fsynced before os.replace, so a crash can leave a zero-length or truncated blob at the final content-addressed path, which is then treated as existing and never repaired.\",\"suggestion\":\"Call out.flush() and os.fsync(out.fileno()) before closing, prior to os.replace.\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJYmbesroSnaRkcwzTL",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.011763,
+   "input_tokens": 2442,
+   "latency_ms": 5204,
+   "output_tokens": 636
+  }
+ }
+}

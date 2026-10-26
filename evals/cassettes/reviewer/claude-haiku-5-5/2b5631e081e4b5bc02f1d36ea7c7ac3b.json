@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "2b5631e081e4b5bc02f1d36ea7c7ac3b",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 20158,
+  "user_sha256": "dc8a27e6f55becb8700a56250673ef972fb55a5e77b4af373a8443194f48595f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.35,
+     "description": "Events are sorted by absolute timestamp, then grouped by consecutive (account, metric, timestamp.date()) keys. The date is taken from each timestamp's own tzinfo. If the events for one account and metric carry different UTC offsets, the local dates are not monotonic in sort order, so events for the same day can be non-adjacent. The loop then yields that day more than once. monthly_usage counts each yielded group as an active day, so active_days and average_per_active_day are overstated, and peak_day may be computed from a partial total. The docstring promises UTC days, but the code does not convert to UTC before calling .date().",
+     "end_line": 62,
+     "file": "metering/rollup.py",
+     "line": 56,
+     "severity": "medium",
+     "suggestion": "Convert each timestamp to UTC before taking .date() (for example event.timestamp.astimezone(timezone.utc).date()), or group with a dict keyed by (account, metric, day) instead of relying on adjacency.",
+     "title": "Daily grouping can split one day into several totals when timestamps have mixed offsets"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "The pattern uses $, which matches before a trailing newline. An argument such as \"2024-01\\n\" passes validation, but build_report compares it to the stored month strings and finds no rows, so the report silently prints \"(no usage)\" instead of reporting a bad argument.",
+     "end_line": null,
+     "file": "metering/cli.py",
+     "line": 16,
+     "severity": "low",
+     "suggestion": "Use \\Z instead of $, or compare with fullmatch, e.g. MONTH_RE.fullmatch(value).",
+     "title": "MONTH_RE accepts a trailing newline in --month"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"metering/rollup.py\",\"line\":56,\"end_line\":62,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Daily grouping can split one day into several totals when timestamps have mixed offsets\",\"description\":\"Events are sorted by absolute timestamp, then grouped by consecutive (account, metric, timestamp.date()) keys. The date is taken from each timestamp's own tzinfo. If the events for one account and metric carry different UTC offsets, the local dates are not monotonic in sort order, so events for the same day can be non-adjacent. The loop then yields that day more than once. monthly_usage counts each yielded group as an active day, so active_days and average_per_active_day are overstated, and peak_day may be computed from a partial total. The docstring promises UTC days, but the code does not convert to UTC before calling .date().\",\"suggestion\":\"Convert each timestamp to UTC before taking .date() (for example event.timestamp.astimezone(timezone.utc).date()), or group with a dict keyed by (account, metric, day) instead of relying on adjacency.\",\"confidence\":0.35},{\"file\":\"metering/cli.py\",\"line\":16,\"end_line\":null,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"MONTH_RE accepts a trailing newline in --month\",\"description\":\"The pattern uses $, which matches before a trailing newline. An argument such as \\\"2024-01\\\\n\\\" passes validation, but build_report compares it to the stored month strings and finds no rows, so the report silently prints \\\"(no usage)\\\" instead of reporting a bad argument.\",\"suggestion\":\"Use \\\\Z instead of $, or compare with fullmatch, e.g. MONTH_RE.fullmatch(value).\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0010399749999999998,
+   "input_tokens": 8315,
+   "latency_ms": null,
+   "output_tokens": 2445
+  }
+ }
+}

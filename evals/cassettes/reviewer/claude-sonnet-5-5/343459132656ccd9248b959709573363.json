@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:12:21+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "343459132656ccd9248b959709573363",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15679,
+  "user_sha256": "cf802054654e78df9139881001360b19106db38c2060e8d401cf047ee6f214b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "urlsplit(\"//[::1]:5000\") correctly yields hostname \"::1\" and port 5000. partition(\":\") splits at the first colon, so sn_host becomes \"[\" and sn_port becomes \":1]:5000\". The later int(sn_port) then raises ValueError, or the server binds to a bogus host. Any SERVER_NAME with an IPv6 address now breaks app.run().",
+     "file": "src/flask/app.py",
+     "line": 724,
+     "severity": "medium",
+     "suggestion": "Keep the urlsplit-based parsing, or use rpartition(\":\") and handle bracketed IPv6 hosts explicitly.",
+     "title": "SERVER_NAME parsing with partition(\":\") breaks IPv6 literals"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "ctx.request.host.partition(\":\")[0] returns \"[\" for an IPv6 host such as \"[::1]:5000\", and an empty string if the host is empty. The previous code used urlsplit(...).hostname with a \"localhost\" fallback. The session cookie is now stored under the wrong domain, so session_transaction changes are not sent on later requests. The empty-host case no longer falls back to \"localhost\".",
+     "file": "src/flask/testing.py",
+     "line": 180,
+     "severity": "medium",
+     "suggestion": "Restore urlsplit(ctx.request.host_url).hostname or \"localhost\" (urlsplit is still imported in testing.py).",
+     "title": "Cookie domain computed by splitting host on first colon"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/flask/app.py\",\"line\":724,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"SERVER_NAME parsing with partition(\\\":\\\") breaks IPv6 literals\",\"description\":\"urlsplit(\\\"//[::1]:5000\\\") correctly yields hostname \\\"::1\\\" and port 5000. partition(\\\":\\\") splits at the first colon, so sn_host becomes \\\"[\\\" and sn_port becomes \\\":1]:5000\\\". The later int(sn_port) then raises ValueError, or the server binds to a bogus host. Any SERVER_NAME with an IPv6 address now breaks app.run().\",\"suggestion\":\"Keep the urlsplit-based parsing, or use rpartition(\\\":\\\") and handle bracketed IPv6 hosts explicitly.\",\"confidence\":0.6},{\"file\":\"src/flask/testing.py\",\"line\":180,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Cookie domain computed by splitting host on first colon\",\"description\":\"ctx.request.host.partition(\\\":\\\")[0] returns \\\"[\\\" for an IPv6 host such as \\\"[::1]:5000\\\", and an empty string if the host is empty. The previous code used urlsplit(...).hostname with a \\\"localhost\\\" fallback. The session cookie is now stored under the wrong domain, so session_transaction changes are not sent on later requests. The empty-host case no longer falls back to \\\"localhost\\\".\",\"suggestion\":\"Restore urlsplit(ctx.request.host_url).hostname or \\\"localhost\\\" (urlsplit is still imported in testing.py).\",\"confidence\":0.5}]}",
+  "request_id": "req_011CgRJQ5MVYnCBYVCG1tynq",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.018627,
+   "input_tokens": 6364,
+   "latency_ms": 4296,
+   "output_tokens": 538
+  }
+ }
+}

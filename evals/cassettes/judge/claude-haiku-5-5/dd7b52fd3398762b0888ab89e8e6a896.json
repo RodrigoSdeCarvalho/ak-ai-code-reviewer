@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "dd7b52fd3398762b0888ab89e8e6a896",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2163,
+  "user_sha256": "ba658895088c792f4561ab5e690e921c0bd5174877f712c0cd8b4401adb1b537"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: days = (until - since).days combined with range(days) excludes the until day, so its sales are omitted and a single-day report is empty. Both point at lines 42-43 and give the same failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: days = (until - since).days combined with range(days) excludes the until day, so its sales are omitted and a single-day report is empty. Both point at lines 42-43 and give the same failure.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.012e-05,
+   "input_tokens": 830,
+   "latency_ms": null,
+   "output_tokens": 90
+  }
+ }
+}

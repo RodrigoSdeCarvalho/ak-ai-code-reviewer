@@ -1,0 +1,82 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "538f5745e69beb16cebb56ab6d8056c7",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7773,
+  "user_sha256": "861a2e980ea6e1734631e17f54e9da5627aeefec07ca990c97db0151d6f8de04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.9,
+     "description": "In reserve(), the except InventoryError branch calls conn.rollback() and then re-raises. The self._pool.release(conn) call sits after the try/except, so it is skipped on every InventoryError path (DuplicateReservation, UnknownSku, InsufficientStock). Each rejected order leaks a pooled connection. Once the pool is exhausted, later acquire() calls block or fail, so the whole inventory service stops responding.",
+     "end_line": 96,
+     "file": "inventory/service.py",
+     "line": 93,
+     "severity": "high",
+     "suggestion": "Move the release into a finally block that wraps the whole try, for example: try: ... except InventoryError: conn.rollback(); raise finally: self._pool.release(conn).",
+     "title": "Connection is never released when reserve() rejects an order"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "reserve() rolls back only on InventoryError. If conn.put or conn.commit raises a database error or any other exception mid-loop (for example a connection drop or a serialization failure), the partial reserved-count updates are not rolled back. Since the connection is also not released on that path, the open transaction may later be committed by another caller or stay half-applied.",
+     "end_line": 95,
+     "file": "inventory/service.py",
+     "line": 93,
+     "severity": "medium",
+     "suggestion": "Catch BaseException (or use try/except/else) so that rollback runs for every failure, then re-raise. Combine this with releasing the connection in a finally block.",
+     "title": "Non-inventory exceptions skip rollback, leaving an open transaction on the connection"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.45,
+     "description": "cancel() decrements reserved counts per SKU and then deletes the reservation. If conn.get, conn.put or conn.delete raises partway through, there is no rollback. The finally block releases the connection with uncommitted writes still pending. Depending on the pool, those writes can leak into a later transaction, leaving stock reserved counts out of step with the reservation record.",
+     "end_line": 110,
+     "file": "inventory/service.py",
+     "line": 105,
+     "severity": "medium",
+     "suggestion": "Wrap the body in try/except that calls conn.rollback() and re-raises on failure, and commit only on success.",
+     "title": "cancel() does not roll back when a mid-loop failure occurs"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.3,
+     "description": "If a reservation references a SKU whose stock row is absent, conn.get returns None and row['reserved'] raises TypeError. The caller sees a generic TypeError with no SKU context, and the whole cancel is aborted without a clear error.",
+     "end_line": 107,
+     "file": "inventory/service.py",
+     "line": 107,
+     "severity": "low",
+     "suggestion": "Check for None and raise UnknownSku(sku) with a clear message, or document why this state cannot occur.",
+     "title": "Missing stock row in cancel() raises an unhelpful TypeError"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/service.py\",\"line\":93,\"end_line\":96,\"severity\":\"high\",\"category\":\"resource\",\"title\":\"Connection is never released when reserve() rejects an order\",\"description\":\"In reserve(), the except InventoryError branch calls conn.rollback() and then re-raises. The self._pool.release(conn) call sits after the try/except, so it is skipped on every InventoryError path (DuplicateReservation, UnknownSku, InsufficientStock). Each rejected order leaks a pooled connection. Once the pool is exhausted, later acquire() calls block or fail, so the whole inventory service stops responding.\",\"suggestion\":\"Move the release into a finally block that wraps the whole try, for example: try: ... except InventoryError: conn.rollback(); raise finally: self._pool.release(conn).\",\"confidence\":0.9},{\"file\":\"inventory/service.py\",\"line\":93,\"end_line\":95,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Non-inventory exceptions skip rollback, leaving an open transaction on the connection\",\"description\":\"reserve() rolls back only on InventoryError. If conn.put or conn.commit raises a database error or any other exception mid-loop (for example a connection drop or a serialization failure), the partial reserved-count updates are not rolled back. Since the connection is also not released on that path, the open transaction may later be committed by another caller or stay half-applied.\",\"suggestion\":\"Catch BaseException (or use try/except/else) so that rollback runs for every failure, then re-raise. Combine this with releasing the connection in a finally block.\",\"confidence\":0.6},{\"file\":\"inventory/service.py\",\"line\":105,\"end_line\":110,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"cancel() does not roll back when a mid-loop failure occurs\",\"description\":\"cancel() decrements reserved counts per SKU and then deletes the reservation. If conn.get, conn.put or conn.delete raises partway through, there is no rollback. The finally block releases the connection with uncommitted writes still pending. Depending on the pool, those writes can leak into a later transaction, leaving stock reserved counts out of step with the reservation record.\",\"suggestion\":\"Wrap the body in try/except that calls conn.rollback() and re-raises on failure, and commit only on success.\",\"confidence\":0.45},{\"file\":\"inventory/service.py\",\"line\":107,\"end_line\":107,\"severity\":\"low\",\"category\":\"error_handling\",\"title\":\"Missing stock row in cancel() raises an unhelpful TypeError\",\"description\":\"If a reservation references a SKU whose stock row is absent, conn.get returns None and row['reserved'] raises TypeError. The caller sees a generic TypeError with no SKU context, and the whole cancel is aborted without a clear error.\",\"suggestion\":\"Check for None and raise UnknownSku(sku) with a clear message, or document why this state cannot occur.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0006141750000000001,
+   "input_tokens": 3054,
+   "latency_ms": null,
+   "output_tokens": 1794
+  }
+ }
+}

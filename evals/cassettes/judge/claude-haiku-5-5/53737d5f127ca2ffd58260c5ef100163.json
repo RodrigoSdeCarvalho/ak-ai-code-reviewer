@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "53737d5f127ca2ffd58260c5ef100163",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1986,
+  "user_sha256": "9fc9378206f8f9533c4cfbe92023036993f1a914fd729b88ebfff92093f0a975"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the early return when the digest already exists (lines 65-66) skips deleting the staged incoming file, so every duplicate upload leaks a full copy. Description B says the staged temp file leaks if mkdir or os.replace (lines 67-68) raises, since the cleanup only covers the write loop. Both concern the incoming staging file not being cleaned up, but they point at different code paths (early-return duplicate case versus exception path during rename) with different triggers and consequences.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the early return when the digest already exists (lines 65-66) skips deleting the staged incoming file, so every duplicate upload leaks a full copy. Description B says the staged temp file leaks if mkdir or os.replace (lines 67-68) raises, since the cleanup only covers the write loop. Both concern the incoming staging file not being cleaned up, but they point at different code paths (early-return duplicate case versus exception path during rename) with different triggers and consequences.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJf1RX6wCRUdGktACh6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017184000000000004,
+   "input_tokens": 736,
+   "latency_ms": 1625,
+   "output_tokens": 172
+  }
+ }
+}

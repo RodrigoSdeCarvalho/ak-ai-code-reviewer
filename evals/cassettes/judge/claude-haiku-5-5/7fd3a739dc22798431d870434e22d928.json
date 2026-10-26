@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:47+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7fd3a739dc22798431d870434e22d928",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1667,
+  "user_sha256": "dfc091305d16e9518b76ff65647d1f9ab789be592080763221f646b4eb32223d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The backoff is computed as timedelta * 2**(consecutive_failures-1) before the min() cap, so a large max_failures (roughly above 47 with a 1s retry_delay) makes the timedelta multiplication raise OverflowError. That exception is raised inside the except handler with no guard, so the RunRecord is never appended and it escapes _run. The exact effect on tick depends on the caller, which isn't shown."
+  },
+  "raw_text": "{\"reason\": \"The backoff is computed as timedelta * 2**(consecutive_failures-1) before the min() cap, so a large max_failures (roughly above 47 with a 1s retry_delay) makes the timedelta multiplication raise OverflowError. That exception is raised inside the except handler with no guard, so the RunRecord is never appended and it escapes _run. The exact effect on tick depends on the caller, which isn't shown.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKstPb37ii3dcCejMyV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00050606,
+   "input_tokens": 629,
+   "latency_ms": 5750,
+   "output_tokens": 873
+  }
+ }
+}

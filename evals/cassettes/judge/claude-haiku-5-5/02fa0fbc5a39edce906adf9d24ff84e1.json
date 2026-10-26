@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "02fa0fbc5a39edce906adf9d24ff84e1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2068,
+  "user_sha256": "0f50693e9f11d21bd63d46d5600d53f23ea92dab660096dcda97891c53500b8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the retry loop catches all GatewayError subclasses, so permanent errors like CardDeclined are retried unnecessarily. Description B says that after retries are exhausted the function falls off the loop and returns None, which callers mistake for success. These are different failures: one is retrying non-transient errors, the other is the missing return/raise after exhaustion.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the retry loop catches all GatewayError subclasses, so permanent errors like CardDeclined are retried unnecessarily. Description B says that after retries are exhausted the function falls off the loop and returns None, which callers mistake for success. These are different failures: one is retrying non-transient errors, the other is the missing return/raise after exhaustion.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJbs1BYgTz4g6tNY6mJ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015384000000000003,
+   "input_tokens": 751,
+   "latency_ms": 1405,
+   "output_tokens": 133
+  }
+ }
+}

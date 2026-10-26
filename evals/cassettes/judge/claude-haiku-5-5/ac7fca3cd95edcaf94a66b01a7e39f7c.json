@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:25+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ac7fca3cd95edcaf94a66b01a7e39f7c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2870,
+  "user_sha256": "c049ff369c1e57ebbf411f5215cde3f3e67a59f2a19abd9fceb5384905431da6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: UploadFile.read() in _extract_form_body (lines 1070-1078) consumes the stream without restoring the file position, so a later consumer of the same shared UploadFile gets empty bytes. Description A adds the list-field branch, which Description B also covers, and both propose saving and restoring the position.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: UploadFile.read() in _extract_form_body (lines 1070-1078) consumes the stream without restoring the file position, so a later consumer of the same shared UploadFile gets empty bytes. Description A adds the list-field branch, which Description B also covers, and both propose saving and restoring the position.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKnCMuB7piMqrEpiid8",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018163999999999998,
+   "input_tokens": 1047,
+   "latency_ms": 1422,
+   "output_tokens": 128
+  }
+ }
+}

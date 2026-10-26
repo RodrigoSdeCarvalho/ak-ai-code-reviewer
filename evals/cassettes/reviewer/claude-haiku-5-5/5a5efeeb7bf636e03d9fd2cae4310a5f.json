@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5a5efeeb7bf636e03d9fd2cae4310a5f",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6003,
+  "user_sha256": "48f3ca5db8f5b1be2502b8d083419ccac396f468a61413d242d63cb609af8b82"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.9,
+     "description": "The try block wraps both parse_row and self._flush. If self._sink.write(pending) raises (for example a database outage, a disk error, or a constraint violation), the exception is caught by the broad except below. The whole pending batch is already detached from `batch` at line 65, so up to batch_size successfully parsed transactions are silently lost. The sink error is then recorded as a single Rejection for the current data row, which is misleading. Loading continues with the next rows, so the report can look mostly clean while data is missing. If the sink keeps failing, each batch is dropped and only the rejection cap eventually raises TooManyRejected, which hides the real cause. Flush calls should sit outside the per-row try, and sink exceptions should propagate.",
+     "end_line": 66,
+     "file": "pipeline/load.py",
+     "line": 66,
+     "severity": "critical",
+     "suggestion": "Move the flush out of the try block: keep the try only around parse_row(row), append to batch in the non-raising path, then after the try/except check the batch size and call self._flush outside the exception handler so sink errors propagate unchanged.",
+     "title": "Sink write failures are recorded as rejected rows and the batch is dropped"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.5,
+     "description": "The docstring previously stated that the first malformed row aborts the load. Now up to DEFAULT_MAX_REJECTED (1000) malformed rows are skipped silently, and load() returns normally. Existing callers that relied on an exception to detect bad input will now get a successful return with partial data unless they inspect report.rejected. This is a behaviour change to the default path, not just an addition.",
+     "end_line": 70,
+     "file": "pipeline/load.py",
+     "line": 68,
+     "severity": "medium",
+     "suggestion": "If this is intentional, document it in the changelog and consider making the default max_rejected=0 so existing callers keep fail-fast behaviour and opt in to skipping.",
+     "title": "Malformed rows no longer abort the load; callers must check report.clean"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/load.py\",\"line\":66,\"end_line\":66,\"severity\":\"critical\",\"category\":\"error_handling\",\"title\":\"Sink write failures are recorded as rejected rows and the batch is dropped\",\"description\":\"The try block wraps both parse_row and self._flush. If self._sink.write(pending) raises (for example a database outage, a disk error, or a constraint violation), the exception is caught by the broad except below. The whole pending batch is already detached from `batch` at line 65, so up to batch_size successfully parsed transactions are silently lost. The sink error is then recorded as a single Rejection for the current data row, which is misleading. Loading continues with the next rows, so the report can look mostly clean while data is missing. If the sink keeps failing, each batch is dropped and only the rejection cap eventually raises TooManyRejected, which hides the real cause. Flush calls should sit outside the per-row try, and sink exceptions should propagate.\",\"suggestion\":\"Move the flush out of the try block: keep the try only around parse_row(row), append to batch in the non-raising path, then after the try/except check the batch size and call self._flush outside the exception handler so sink errors propagate unchanged.\",\"confidence\":0.9},{\"file\":\"pipeline/load.py\",\"line\":68,\"end_line\":70,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Malformed rows no longer abort the load; callers must check report.clean\",\"description\":\"The docstring previously stated that the first malformed row aborts the load. Now up to DEFAULT_MAX_REJECTED (1000) malformed rows are skipped silently, and load() returns normally. Existing callers that relied on an exception to detect bad input will now get a successful return with partial data unless they inspect report.rejected. This is a behaviour change to the default path, not just an addition.\",\"suggestion\":\"If this is intentional, document it in the changelog and consider making the default max_rejected=0 so existing callers keep fail-fast behaviour and opt in to skipping.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00047047500000000004,
+   "input_tokens": 2460,
+   "latency_ms": null,
+   "output_tokens": 1338
+  }
+ }
+}

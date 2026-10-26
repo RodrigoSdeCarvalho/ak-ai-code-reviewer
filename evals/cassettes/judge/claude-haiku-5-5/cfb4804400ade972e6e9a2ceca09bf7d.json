@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "cfb4804400ade972e6e9a2ceca09bf7d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2057,
+  "user_sha256": "85222e1076fb5a4c5a6b8ab492ff7816d0aa380f511d1d16e79420a2fdb022ca"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the finally block unconditionally sets job.next_run = now + job.interval, overwriting the retry backoff value set in the except branch, so failed jobs wait a full interval and the retry feature has no effect. The locations (finally at line 76, and the except assignment at line 65) match, and the wording and extra details differ only superficially.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the finally block unconditionally sets job.next_run = now + job.interval, overwriting the retry backoff value set in the except branch, so failed jobs wait a full interval and the retry feature has no effect. The locations (finally at line 76, and the except assignment at line 65) match, and the wording and extra details differ only superficially.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKogfHNp83rdSSbXeEZ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015464,
+   "input_tokens": 742,
+   "latency_ms": 1437,
+   "output_tokens": 135
+  }
+ }
+}

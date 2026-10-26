@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:01+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "edb9bf6953533953533902f6ff55bce7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2096,
+  "user_sha256": "3b69abe1d6236ee859930bac909047043c4caa8f18519299667eadc9f56273e6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the retry catches all GatewayError, including permanent errors like CardDeclined, so declined cards are retried needlessly. Description B says that after retries are exhausted the method breaks out of the loop and implicitly returns None, swallowing the final error so callers crash later. These are different defects: one concerns which exceptions are retried, the other the return value after exhaustion.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the retry catches all GatewayError, including permanent errors like CardDeclined, so declined cards are retried needlessly. Description B says that after retries are exhausted the method breaks out of the loop and implicitly returns None, swallowing the final error so callers crash later. These are different defects: one concerns which exceptions are retried, the other the return value after exhaustion.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJc4aCc183Vtx3ij1F8",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015714,
+   "input_tokens": 759,
+   "latency_ms": 1485,
+   "output_tokens": 138
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:42+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7486a7bfb6269aba4d15f83099a211f1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1887,
+  "user_sha256": "bb8b5268bf6dcf29ca179eb759dc89674e72b6061624112105c87a46ae0d50e3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the final GatewayError retry, the loop breaks and charge() returns None instead of re-raising, so settle_invoice dereferences charge.id on None, raising AttributeError that aborts settle_open_invoices. Description B adds a note about declined cards tied to another item (b1), but the core failure matches A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the final GatewayError retry, the loop breaks and charge() returns None instead of re-raising, so settle_invoice dereferences charge.id on None, raising AttributeError that aborts settle_open_invoices. Description B adds a note about declined cards tied to another item (b1), but the core failure matches A.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKoNe4SmpeKeUjZJqkM",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014484,
+   "input_tokens": 664,
+   "latency_ms": 2485,
+   "output_tokens": 131
+  }
+ }
+}

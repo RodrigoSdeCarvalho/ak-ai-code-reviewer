@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "75ce604f46b79d04ff90c43e272d0746",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2025,
+  "user_sha256": "d10b5648b3e57946185aa479a2dbcd38aa4bc37ffbc6e9a09291970176ed8787"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 107: the eviction loop condition uses len(self._keys_by_country) (number of countries) instead of the number of cached entries, so max_entries is not honored and the cache grows unbounded. Description A adds the suggested fix (use len(self._entries)) and an extra max_entries=1 remark, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 107: the eviction loop condition uses len(self._keys_by_country) (number of countries) instead of the number of cached entries, so max_entries is not honored and the cache grows unbounded. Description A adds the suggested fix (use len(self._entries)) and an extra max_entries=1 remark, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJf2VGpjWF1pPQ1PPB6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015524,
+   "input_tokens": 745,
+   "latency_ms": 1265,
+   "output_tokens": 137
+  }
+ }
+}

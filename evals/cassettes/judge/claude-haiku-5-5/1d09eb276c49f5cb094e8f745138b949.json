@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:49+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1d09eb276c49f5cb094e8f745138b949",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2505,
+  "user_sha256": "86dba87cfc0c89545449b8f485b96632d5996924596d8a309a6b0a0dd0f6227f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: _read_all swallows OSError/ValueError/KeyError and returns an empty dict, so a failed or corrupt read is treated as an empty store, and the subsequent read-modify-write in save/delete writes back that empty dict, erasing all other sessions. Both also note reads then see sessions as missing. Same root cause, same location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: _read_all swallows OSError/ValueError/KeyError and returns an empty dict, so a failed or corrupt read is treated as an empty store, and the subsequent read-modify-write in save/delete writes back that empty dict, erasing all other sessions. Both also note reads then see sessions as missing. Same root cause, same location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKoxYFU4inhoaVvAB4o",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017274,
+   "input_tokens": 908,
+   "latency_ms": 1389,
+   "output_tokens": 138
+  }
+ }
+}

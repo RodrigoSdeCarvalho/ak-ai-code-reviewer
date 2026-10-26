@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:06+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "af55068f414fb94d380c12ee67c779ff",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2630,
+  "user_sha256": "cc4d98a0c7c3e8547bd5dcda3a1b578ea168bb72d7cac3e70e252bf9088c7170"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: can_bid at line 72 calls self.spend, which re-reads and parses the entire day's impression log on every bid check for every campaign, making per-request cost grow with campaigns and log size, replacing the earlier O(1) running totals. Description A adds detail about quadratic growth and a proposed incremental fix, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: can_bid at line 72 calls self.spend, which re-reads and parses the entire day's impression log on every bid check for every campaign, making per-request cost grow with campaigns and log size, replacing the earlier O(1) running totals. Description A adds detail about quadratic growth and a proposed incremental fix, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKq9zs2CkGC8aY6gevZ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017874,
+   "input_tokens": 958,
+   "latency_ms": 1405,
+   "output_tokens": 140
+  }
+ }
+}

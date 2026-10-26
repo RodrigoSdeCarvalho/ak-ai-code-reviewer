@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:26+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0ff3170a0c65b86ea132e7c5d26b43fd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2959,
+  "user_sha256": "e551100c068db491711798e32eac9fce187ffa82b9b4b109326f60e718ea2371"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: `_extract_form_body` calls `await value.read()` (lines 1070-1078) without saving and restoring the file position, so the shared UploadFile is left at EOF and a later consumer of the same upload reads empty bytes. Description A frames it via shared fields across dependencies and endpoints, and Description B via the removed position-restore logic and a second consumer, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: `_extract_form_body` calls `await value.read()` (lines 1070-1078) without saving and restoring the file position, so the shared UploadFile is left at EOF and a later consumer of the same upload reads empty bytes. Description A frames it via shared fields across dependencies and endpoints, and Description B via the removed position-restore logic and a second consumer, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKnC7mpiv7iq7TCUPEE",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019904000000000002,
+   "input_tokens": 1081,
+   "latency_ms": 2046,
+   "output_tokens": 156
+  }
+ }
+}

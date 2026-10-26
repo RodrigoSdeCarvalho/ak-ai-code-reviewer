@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f3fb0dcde545225de6275fc194571e73",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2658,
+  "user_sha256": "08fe5ac79ca00fef01afd2949d2feac91fd2fe34126821b84e176e6297fb7e41"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the try block wraps self._flush, so sink failures are caught by the broad except and treated as row rejections, while the already-detached batch is silently dropped and the load continues. Same root cause and location, different wording and emphasis.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the try block wraps self._flush, so sink failures are caught by the broad except and treated as row rejections, while the already-detached batch is silently dropped and the load continues. Same root cause and location, different wording and emphasis.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJboxdLVT37hYjo2hZh",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015524,
+   "input_tokens": 925,
+   "latency_ms": 1813,
+   "output_tokens": 101
+  }
+ }
+}

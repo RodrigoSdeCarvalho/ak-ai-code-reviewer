@@ -39,6 +39,16 @@ class Provenance(BaseModel):
     created: str  # ISO date
 
 
+class Location(BaseModel):
+    """A place in the post-change tree: `file` plus an inclusive after/ line range."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    file: str
+    line_start: int = Field(ge=1)
+    line_end: int = Field(ge=1)
+
+
 class Bug(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -51,6 +61,18 @@ class Bug(BaseModel):
     description: str
     must_find: bool = True
     tags: list[BugTag] = Field(default_factory=list)
+    # Other places a careful reviewer could legitimately report the same defect (the callee doing the work,
+    # the stale call site, the other half of a check-then-act). A finding at any of them can match the bug.
+    alt_locations: list[Location] = Field(default_factory=list)
+
+    @property
+    def primary(self) -> Location:
+        return Location(file=self.file, line_start=self.line_start, line_end=self.line_end)
+
+    @property
+    def locations(self) -> list[Location]:
+        """The labelled location first, then the alternatives."""
+        return [self.primary, *self.alt_locations]
 
 
 class Case(BaseModel):
@@ -84,6 +106,8 @@ class ReviewerConfig(BaseModel):
     prompt_version: str | None = None
     effort: str | None = None
     max_tokens: int = 16000
+    # Findings the model rates below this confidence are dropped (kept in suppressed_findings); None = keep all.
+    min_confidence: float | None = Field(default=None, ge=0, le=1)
 
 
 # ---------------------------------------------------------------- run rows
@@ -97,6 +121,7 @@ class ReviewRow(BaseModel):
     status: ReviewStatus
     findings: list[Finding] = Field(default_factory=list)
     out_of_scope_findings: list[Finding] = Field(default_factory=list)
+    suppressed_findings: list[Finding] = Field(default_factory=list)
     usage: Usage = Field(default_factory=Usage)
     served_model: str | None = None
     cassette_key: str | None = None

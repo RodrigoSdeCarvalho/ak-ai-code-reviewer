@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f8a48a42324039e60ec27e907780fa2a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2941,
+  "user_sha256": "bee82c9ce6360c469620631612c04bc20ef5875e73c1a44faded9ebc32fa153f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: the purge/expiry logic reads the timestamp of the heap head at lines 633-634 without accounting for stale heap entries left by discard/re-add, so expiry decisions are wrong. Description A gives a broader account including pop() and re-add effects, while Description B focuses on the stale-head expiry check; the core defect matches.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: the purge/expiry logic reads the timestamp of the heap head at lines 633-634 without accounting for stale heap entries left by discard/re-add, so expiry decisions are wrong. Description A gives a broader account including pop() and re-add effects, while Description B focuses on the stale-head expiry check; the core defect matches.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 9.352000000000001e-05,
+   "input_tokens": 1058,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}

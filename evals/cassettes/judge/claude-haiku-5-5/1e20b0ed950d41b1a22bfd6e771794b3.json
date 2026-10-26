@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:07+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1e20b0ed950d41b1a22bfd6e771794b3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2741,
+  "user_sha256": "1584a48686440c98604a36112bca1eb75f68e13269ec1252301f472260dfac40"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The while loop in candidate_slots already checks start + length <= free.end after rounding, so a rounded start that overshoots simply yields nothing for that gap, which is correct behaviour rather than a defect. The comment also references first_slot and NoCommonSlot, which do not appear in the shown code, so the claimed regression cannot be confirmed from what is visible."
+  },
+  "raw_text": "{\"reason\": \"The while loop in candidate_slots already checks start + length <= free.end after rounding, so a rounded start that overshoots simply yields nothing for that gap, which is correct behaviour rather than a defect. The comment also references first_slot and NoCommonSlot, which do not appear in the shown code, so the claimed regression cannot be confirmed from what is visible.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRKkrBBpw5u3Q8wjpNgQ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00018156,
+   "input_tokens": 1074,
+   "latency_ms": 1655,
+   "output_tokens": 135
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:34+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f951425ae9124f76647cca15d68b477a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2411,
+  "user_sha256": "f1cd4a51fa8244d13e3777a0dee51094a569f2d7ccf2b86b99ff1e1bbb0627e5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies the suffix-match flaw at line 42: `host.endswith(domain)` without a dot boundary lets unrelated domains like bluekettle.example match partner kettle.example. Description B instead says the port and userinfo are not constrained for partner matching, which is a different concern about origin components. Different root causes and places.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies the suffix-match flaw at line 42: `host.endswith(domain)` without a dot boundary lets unrelated domains like bluekettle.example match partner kettle.example. Description B instead says the port and userinfo are not constrained for partner matching, which is a different concern about origin components. Different root causes and places.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJeVwyzzfyNSm4QvXFC",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016314,
+   "input_tokens": 889,
+   "latency_ms": 1594,
+   "output_tokens": 124
+  }
+ }
+}

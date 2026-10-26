@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b20c8c4d3589463fb30c28ee98f57786",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2185,
+  "user_sha256": "afda23b923f2458d3ec6f5022ab2b84d014443e7a473f4c90b13ac47d3ae879d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: the magic-link sign-in token at line 53 is generated with non-cryptographic random.choices (Mersenne Twister), making tokens predictable and allowing account takeover. Description B adds a specific attack path and a fix suggestion, but the defect is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: the magic-link sign-in token at line 53 is generated with non-cryptographic random.choices (Mersenne Twister), making tokens predictable and allowing account takeover. Description B adds a specific attack path and a fix suggestion, but the defect is the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.487e-05,
+   "input_tokens": 795,
+   "latency_ms": null,
+   "output_tokens": 116
+  }
+ }
+}

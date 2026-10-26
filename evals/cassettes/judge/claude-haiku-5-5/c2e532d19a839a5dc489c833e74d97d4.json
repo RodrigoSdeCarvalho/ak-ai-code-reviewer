@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c2e532d19a839a5dc489c833e74d97d4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2866,
+  "user_sha256": "2bbc3eaa81f9da30359d64d0b3a74caea93f116a3505aca6fca3780be9213d83"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment is accurate: sign_out_everywhere swallows StoreError per record and returns a smaller count, and change_password discards that count while its docstring promises all sessions are ended. A failed revocation would leave a stolen token valid after a password change without the caller being told, which is a concrete security risk."
+  },
+  "raw_text": "{\"reason\": \"The comment is accurate: sign_out_everywhere swallows StoreError per record and returns a smaller count, and change_password discards that count while its docstring promises all sessions are ended. A failed revocation would leave a stolen token valid after a password change without the caller being told, which is a concrete security risk.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKtJygZWNrCZo2yPWvx",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00016546,
+   "input_tokens": 1013,
+   "latency_ms": 1375,
+   "output_tokens": 115
+  }
+ }
+}

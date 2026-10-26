@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c63f3eb51a8efaef9e1d0ab0e42e79e3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2208,
+  "user_sha256": "84bf8f4afdd01a41affeed4d06c136ba058e2a4adf9113ea1904f1cc313d8db2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: days = (until - since).days with range(days) omits the until day from the emitted rows, so the final day's sales are dropped and a single-day range yields an empty result. Same place (lines 42-43) and same failure mode, differing only in wording and framing.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: days = (until - since).days with range(days) omits the until day from the emitted rows, so the final day's sales are dropped and a single-day range yields an empty result. Same place (lines 42-43) and same failure mode, differing only in wording and framing.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjCCtwZKwFjHQGrEaP",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015184,
+   "input_tokens": 839,
+   "latency_ms": 1579,
+   "output_tokens": 110
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5af6b8e36b24fab03e386c3c14214fdd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2620,
+  "user_sha256": "d17d7cacbd9f4326696c28ed70c4fab068bc5c73cb1d7a648b5a37dd5f18a7e7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The code at line 189 calls req.reject(requeue=False) after logging the ETA conversion error, and no mark_as_failure call appears in the shown code. The comment claims the removal of a call that is not visible in the post-change code, and rejecting without requeue does not by itself imply a missing result-backend record in this snippet. The described behaviour is not supported by the code shown, so the claim is incorrect."
+  },
+  "raw_text": "{\"reason\": \"The code at line 189 calls req.reject(requeue=False) after logging the ETA conversion error, and no mark_as_failure call appears in the shown code. The comment claims the removal of a call that is not visible in the post-change code, and rejecting without requeue does not by itself imply a missing result-backend record in this snippet. The described behaviour is not supported by the code shown, so the claim is incorrect.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRKsWf8HrjFkLb5kR2Cx",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00018056,
+   "input_tokens": 999,
+   "latency_ms": 2172,
+   "output_tokens": 148
+  }
+ }
+}

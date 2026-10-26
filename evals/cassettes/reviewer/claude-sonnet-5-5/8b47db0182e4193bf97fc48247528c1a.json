@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:13:44+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "8b47db0182e4193bf97fc48247528c1a",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 13344,
+  "user_sha256": "717f445f727c7a575b89d7154d7d35caf251d4606f48e7b0e28ba97f13ab6d30"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.9,
+     "description": "The old summarize() loaded each distinct sensor's calibration once and reused it. The new code calls calibrated() for every reading, and that calls source.load(), which runs a SQL query each time. For a batch with N readings from a few sensors this becomes N queries instead of a handful.",
+     "file": "greenhouse/readings.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Cache calibrations per sensor_id in summarize(), for example in a dict, and pass the cached Calibration to calibrated().",
+     "title": "Calibration loaded from the database once per reading instead of once per sensor"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "The inspect branch always reports \"N readings out of range\". When summary.mean is None only because the zone has no readings, rejected is 0, so the reason reads \"0 readings out of range\". That does not explain why the zone needs inspection.",
+     "file": "greenhouse/irrigation.py",
+     "line": 35,
+     "severity": "low",
+     "suggestion": "Build the reason from the actual cause: no valid readings, or the rejected share above the threshold.",
+     "title": "Inspect reason is misleading when the zone was not rejected"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"greenhouse/readings.py\",\"line\":58,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Calibration loaded from the database once per reading instead of once per sensor\",\"description\":\"The old summarize() loaded each distinct sensor's calibration once and reused it. The new code calls calibrated() for every reading, and that calls source.load(), which runs a SQL query each time. For a batch with N readings from a few sensors this becomes N queries instead of a handful.\",\"suggestion\":\"Cache calibrations per sensor_id in summarize(), for example in a dict, and pass the cached Calibration to calibrated().\",\"confidence\":0.9},{\"file\":\"greenhouse/irrigation.py\",\"line\":35,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Inspect reason is misleading when the zone was not rejected\",\"description\":\"The inspect branch always reports \\\"N readings out of range\\\". When summary.mean is None only because the zone has no readings, rejected is 0, so the reason reads \\\"0 readings out of range\\\". That does not explain why the zone needs inspection.\",\"suggestion\":\"Build the reason from the actual cause: no valid readings, or the rejected share above the threshold.\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJWFvuQ5vsmafRWWNTu",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.016015,
+   "input_tokens": 5733,
+   "latency_ms": 3546,
+   "output_tokens": 403
+  }
+ }
+}

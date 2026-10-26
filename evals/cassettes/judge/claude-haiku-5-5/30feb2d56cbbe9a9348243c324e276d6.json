@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:13+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "30feb2d56cbbe9a9348243c324e276d6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2116,
+  "user_sha256": "a88bd2a5ba6f90525a6b96ac86219532188a3ba835b3810f79f81a499b5720ea"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: in daily_totals, quantity is not reset to 0 after yielding a finished group, so each DailyTotal carries over the running sum of earlier groups, inflating monthly rollups. Description B adds a concrete example but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: in daily_totals, quantity is not reset to 0 after yielding a finished group, so each DailyTotal carries over the running sum of earlier groups, inflating monthly rollups. Description B adds a concrete example but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcsjMX6CDG53Qu4L4v",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014794,
+   "input_tokens": 812,
+   "latency_ms": 2655,
+   "output_tokens": 109
+  }
+ }
+}

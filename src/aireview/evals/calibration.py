@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any
 
 from aireview.evals.dataset import load_dataset, resolve_root, select
-from aireview.evals.judge import CONTEXT_LINES, Judge, JudgeItem, code_context
+from aireview.evals.judge import CONTEXT_LINES, Judge, JudgeItem, bug_spans, code_context
 from aireview.evals.matching import finding_span, line_distance
 from aireview.evals.report import load_judgments, load_reviews, md_table, read_json, read_jsonl, write_json
 from aireview.evals.schema import Bug, Case
@@ -153,13 +153,13 @@ def render_pair(pair: Pair) -> str:
     """What the rater sees: code around both, the labelled defect and the finding. Never the verdict."""
     start, end = finding_span(pair.finding)
     code = code_context(
-        pair.case_dir,
-        [(pair.bug.file, pair.bug.line_start, pair.bug.line_end), (pair.finding.file, start, end)],
-        CONTEXT_LINES,
+        pair.case_dir, [*bug_spans(pair.bug, pair.finding), (pair.finding.file, start, end)], CONTEXT_LINES
     )
+    alts = "".join(f", also {loc.file}:{loc.line_start}-{loc.line_end}" for loc in pair.bug.alt_locations)
     return (
         f"{code}\n\n"
-        f"LABELLED DEFECT ({pair.bug.file}:{pair.bug.line_start}-{pair.bug.line_end})\n{pair.bug.description.strip()}\n\n"
+        f"LABELLED DEFECT ({pair.bug.file}:{pair.bug.line_start}-{pair.bug.line_end}{alts})\n"
+        f"{pair.bug.description.strip()}\n\n"
         f"REVIEW FINDING ({pair.finding.file}:{start}-{end})\n{pair.finding.title.strip()}\n"
         f"{pair.finding.description.strip()}\n"
     )

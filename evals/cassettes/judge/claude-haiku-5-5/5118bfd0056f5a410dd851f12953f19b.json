@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:32+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5118bfd0056f5a410dd851f12953f19b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2142,
+  "user_sha256": "8d7c3bada0f468a1b4206d1646d2588363786d7001254206c84ec37bfe187cf7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 713: `only_field.data_key or self.field_name` treats an empty-string data_key as unset and falls back to field_name, so Pluck reads/writes the wrong key for data_key=\"\". Description A gives a more detailed failure mode (KeyError on dump, wrong handling on load) and a fix, while Description B names the same root cause with less detail; the substance matches.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 713: `only_field.data_key or self.field_name` treats an empty-string data_key as unset and falls back to field_name, so Pluck reads/writes the wrong key for data_key=\\\"\\\". Description A gives a more detailed failure mode (KeyError on dump, wrong handling on load) and a fix, while Description B names the same root cause with less detail; the substance matches.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiGxcWaJ4gSrWKjMne",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017044,
+   "input_tokens": 810,
+   "latency_ms": 1531,
+   "output_tokens": 153
+  }
+ }
+}

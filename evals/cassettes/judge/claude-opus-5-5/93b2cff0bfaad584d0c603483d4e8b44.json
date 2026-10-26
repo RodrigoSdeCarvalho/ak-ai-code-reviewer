@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "93b2cff0bfaad584d0c603483d4e8b44",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2250,
+  "user_sha256": "70562f62a3e19e29b88db83e847f9e226eb6163996e828859966dfbb651a995b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A is about `quantity` never being reset after a day is yielded, so each total becomes a cumulative running sum. Description B is about timestamps not being converted to UTC before `.date()`, and naive and aware datetimes possibly being sorted together. These are different root causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"Description A is about `quantity` never being reset after a day is yielded, so each total becomes a cumulative running sum. Description B is about timestamps not being converted to UTC before `.date()`, and naive and aware datetimes possibly being sorted together. These are different root causes.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLFx3igtzodLwSkRcHh",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.012094,
+   "input_tokens": 886,
+   "latency_ms": 2483,
+   "output_tokens": 104
+  }
+ }
+}

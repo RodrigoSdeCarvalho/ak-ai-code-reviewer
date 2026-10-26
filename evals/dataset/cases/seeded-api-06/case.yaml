@@ -25,6 +25,10 @@ bugs:
     is inverted: every report with a violation is auto-approved and every compliant report is sent to
     a manager.
   must_find: true
+  alt_locations:
+  - file: expenses/policy.py
+    line_start: 30
+    line_end: 30
 - id: b2
   file: expenses/policy.py
   line_start: 22

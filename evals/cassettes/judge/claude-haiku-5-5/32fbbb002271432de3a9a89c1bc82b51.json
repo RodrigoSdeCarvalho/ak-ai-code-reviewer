@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:05+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "32fbbb002271432de3a9a89c1bc82b51",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2622,
+  "user_sha256": "a609ffa3dd440ed212230c238d8ddcf05db27c21c1a704dfc9e9c34449f213fe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: can_bid calls self.spend(...) on line 72, which rereads and parses the entire day's impression log on every bid decision, so eligible() makes the hot path scale with campaigns times impressions served today, replacing a previous O(1) running-total counter. Description A adds the proposed fix and more detail, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: can_bid calls self.spend(...) on line 72, which rereads and parses the entire day's impression log on every bid decision, so eligible() makes the hot path scale with campaigns times impressions served today, replacing a previous O(1) running-total counter. Description A adds the proposed fix and more detail, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKq8Z3ndNAqc5pydxDJ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017754,
+   "input_tokens": 961,
+   "latency_ms": 1485,
+   "output_tokens": 137
+  }
+ }
+}

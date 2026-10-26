@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:06+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c6351a81de4ba1ca7efd240564058872",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2637,
+  "user_sha256": "fafbc2c331eefe7bc8f459c6314e41c19e857a3175660ed5c854f466fe1a6c6c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: sign_out_everywhere swallows StoreError per record and continues, so change_password returns normally while some sessions remain valid after a password change, and the caller cannot detect the incomplete revocation. Description B adds detail about the docstring promise and the count, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: sign_out_everywhere swallows StoreError per record and continues, so change_password returns normally while some sessions remain valid after a password change, and the caller cannot detect the incomplete revocation. Description B adds detail about the docstring promise and the count, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcPBtJXFLJU9NZEk9q",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016404,
+   "input_tokens": 903,
+   "latency_ms": 1577,
+   "output_tokens": 123
+  }
+ }
+}

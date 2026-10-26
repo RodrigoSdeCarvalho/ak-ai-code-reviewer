@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:10+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7b6dbcaf5aa6b3788c99896240f1f856",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1945,
+  "user_sha256": "a1092e09c24cc793ccbc22d7b9f9c548f9aa656eed6a06470cc8ab1c7b9b71c0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment's premise is plausible: build_invoice calls sub.take_pending_lines(), which by its name drains the queue, so repeated calls for the same period would lose adjustment lines. The shown code does not include take_pending_lines to confirm it clears state, but the name and usage strongly suggest a destructive read with real data-loss risk if a later persistence step fails."
+  },
+  "raw_text": "{\"reason\": \"The comment's premise is plausible: build_invoice calls sub.take_pending_lines(), which by its name drains the queue, so repeated calls for the same period would lose adjustment lines. The shown code does not include take_pending_lines to confirm it clears state, but the name and usage strongly suggest a destructive read with real data-loss risk if a later persistence step fails.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKkzoMJ1ChT5STsAQY3",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00015716,
+   "input_tokens": 815,
+   "latency_ms": 1875,
+   "output_tokens": 138
+  }
+ }
+}

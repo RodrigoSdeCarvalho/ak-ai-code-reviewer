@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:14:25+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "025412cc03a2765be3ce2c8e120f0360",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11903,
+  "user_sha256": "cfc2f3501d8fe7c0a41da90034a1eab84024c8f13527a5cb546e1a98063edbbb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "`total = sum(1 for _ in lines)` iterates `lines` once to count it. The CLI passes an open file object, which is a one-shot iterator. After the count, the `for line in lines` loop at line 54 sees an exhausted file and reads nothing. Every run therefore reports read=0 and writes an empty output file, while progress shows 0/N lines.",
+     "file": "pipeline/runner.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Do not pre-count a generic iterable. Either materialise it with `lines = list(lines)` (which costs memory), or report progress without a total. If a total is needed, count in a separate pass over a re-openable source, such as the path.",
+     "title": "Counting lines consumes a one-shot iterator, so nothing is processed"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "In the `except LookupTimeout` branch, `return enrich(event, geo)` is missing `await`. `enrich_one` returns a coroutine object, not an `Event`. The retry never runs, and a coroutine ends up in the gather results and is passed to `sink`. `to_json` then fails or emits garbage, with a 'coroutine was never awaited' warning. The documented behaviour (retry once, abort on a second timeout) is not implemented.",
+     "file": "pipeline/runner.py",
+     "line": 51,
+     "severity": "high",
+     "suggestion": "Use `return await enrich(event, geo)` so the retry actually runs and a second LookupTimeout propagates.",
+     "title": "Retry returns an un-awaited coroutine instead of an Event"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/runner.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Counting lines consumes a one-shot iterator, so nothing is processed\",\"description\":\"`total = sum(1 for _ in lines)` iterates `lines` once to count it. The CLI passes an open file object, which is a one-shot iterator. After the count, the `for line in lines` loop at line 54 sees an exhausted file and reads nothing. Every run therefore reports read=0 and writes an empty output file, while progress shows 0/N lines.\",\"suggestion\":\"Do not pre-count a generic iterable. Either materialise it with `lines = list(lines)` (which costs memory), or report progress without a total. If a total is needed, count in a separate pass over a re-openable source, such as the path.\",\"confidence\":0.95},{\"file\":\"pipeline/runner.py\",\"line\":51,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Retry returns an un-awaited coroutine instead of an Event\",\"description\":\"In the `except LookupTimeout` branch, `return enrich(event, geo)` is missing `await`. `enrich_one` returns a coroutine object, not an `Event`. The retry never runs, and a coroutine ends up in the gather results and is passed to `sink`. `to_json` then fails or emits garbage, with a 'coroutine was never awaited' warning. The documented behaviour (retry once, abort on a second timeout) is not implemented.\",\"suggestion\":\"Use `return await enrich(event, geo)` so the retry actually runs and a second LookupTimeout propagates.\",\"confidence\":0.95}]}",
+  "request_id": "req_011CgRJZ9u6NuLo3sNjiJ8xS",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.016115,
+   "input_tokens": 5098,
+   "latency_ms": 4670,
+   "output_tokens": 540
+  }
+ }
+}

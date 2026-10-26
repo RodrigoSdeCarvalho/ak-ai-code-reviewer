@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:49+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7808b26854c525b76bab1df0ca10a1ad",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2551,
+  "user_sha256": "7c6300792db8e9da992631ba939ae4f972cd639feeb17828769676cbb27db85c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: sign_out_everywhere catches StoreError from delete, logs and continues, so sessions remain valid while the caller cannot detect incomplete revocation. Description B frames it via change_password, which delegates to sign_out_everywhere, but the root cause and failure are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: sign_out_everywhere catches StoreError from delete, logs and continues, so sessions remain valid while the caller cannot detect incomplete revocation. Description B frames it via change_password, which delegates to sign_out_everywhere, but the root cause and failure are identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKowQHqH7V2Y2pzdY5e",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016104000000000002,
+   "input_tokens": 886,
+   "latency_ms": 1405,
+   "output_tokens": 119
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:01+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b653b85bf95dd7582b25b84139279a22",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1915,
+  "user_sha256": "7b8fc2a4de4dba3e18568f7d37e21b04ef46f3495f3bb575f84dd671e839e903"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the final GatewayError, the loop breaks and charge() falls through returning None instead of re-raising, causing settle_invoice to hit AttributeError on charge.id and the invoice never being marked payment_failed. The line numbers differ slightly (61-62 vs 61) but both point at the same break/fall-through failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the final GatewayError, the loop breaks and charge() falls through returning None instead of re-raising, causing settle_invoice to hit AttributeError on charge.id and the invoice never being marked payment_failed. The line numbers differ slightly (61-62 vs 61) but both point at the same break/fall-through failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJc4ZhkwnJM6JeMC2dK",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014694,
+   "input_tokens": 672,
+   "latency_ms": 1515,
+   "output_tokens": 135
+  }
+ }
+}

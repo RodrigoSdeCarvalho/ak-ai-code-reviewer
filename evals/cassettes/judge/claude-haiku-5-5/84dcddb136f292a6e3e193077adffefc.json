@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:33+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "84dcddb136f292a6e3e193077adffefc",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2271,
+  "user_sha256": "2be4b900b85aa625505173e4fa65e9e6dc2f6cfbf928e03b89a9677c89781468"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: parse_rows now returns a generator, and import_csv iterates rows once at line 35 to build rejected, exhausting it so the upsert loop at line 39 never runs, yielding zero created/updated and no writes. Description A adds the parsing.py location as an alternative, which is still the same root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: parse_rows now returns a generator, and import_csv iterates rows once at line 35 to build rejected, exhausting it so the upsert loop at line 39 never runs, yielding zero created/updated and no writes. Description A adds the parsing.py location as an alternative, which is still the same root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiKfqaqda7QLQFsGWP",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016224000000000002,
+   "input_tokens": 858,
+   "latency_ms": 1703,
+   "output_tokens": 127
+  }
+ }
+}

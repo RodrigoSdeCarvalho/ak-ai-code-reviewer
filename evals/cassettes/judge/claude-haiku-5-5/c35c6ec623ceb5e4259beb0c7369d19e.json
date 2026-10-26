@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c35c6ec623ceb5e4259beb0c7369d19e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2358,
+  "user_sha256": "f5af7e6138026c96ce40796e13da5e42a53bd939831a63313b4b87daed7f98e9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: find() returns the cached list object by reference on hit and miss, so caller mutation (such as in-place sorting) corrupts the cache for later calls. Description A gives a concrete instance (search_products sorting in place for price/rating), while Description B states the general mutation hazard; both point at lines 63-68 and the same failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: find() returns the cached list object by reference on hit and miss, so caller mutation (such as in-place sorting) corrupts the cache for later calls. Description A gives a concrete instance (search_products sorting in place for price/rating), while Description B states the general mutation hazard; both point at lines 63-68 and the same failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJatxUULffqnZp5MBmF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016234000000000002,
+   "input_tokens": 826,
+   "latency_ms": 1422,
+   "output_tokens": 135
+  }
+ }
+}

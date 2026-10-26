@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "857ad1d53f1ab03ba87099073315b081",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2351,
+  "user_sha256": "310fe923edbc96192bc4ebb3d5cd79851e36505c54bdec4040d54869632c319e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: the `host.endswith(domain)` partner check lacks a dot/label boundary, so unrelated look-alike domains (e.g., bluekettle.example, evilshop.example) are treated as partners and receive credentialed CORS headers. Both describe the same consequence of reading balances and redeeming points with session cookies, differing only in example domains and wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: the `host.endswith(domain)` partner check lacks a dot/label boundary, so unrelated look-alike domains (e.g., bluekettle.example, evilshop.example) are treated as partners and receive credentialed CORS headers. Both describe the same consequence of reading balances and redeeming points with session cookies, differing only in example domains and wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKqxkDn1LFn36dn2msL",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017504000000000003,
+   "input_tokens": 876,
+   "latency_ms": 1389,
+   "output_tokens": 149
+  }
+ }
+}

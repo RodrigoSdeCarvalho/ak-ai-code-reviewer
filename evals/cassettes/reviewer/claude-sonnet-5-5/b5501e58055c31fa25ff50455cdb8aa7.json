@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "b5501e58055c31fa25ff50455cdb8aa7",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3712,
+  "user_sha256": "25f802477a132bbc00276014033fb682c85405d677406634525ab65b3f851803"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "start = min(hit - width // 2, len(tokens) - width) is never clamped at 0. If the match is within the first width//2 words (e.g. hit=3, width=24), hit - 12 is negative, so start is negative. tokens[start:end] then uses negative slice indices: with start=-9 and end=15 the slice is tokens[-9:15], which is empty or wrong for longer bodies. The snippet is empty or wrong, and start > 0 is False, so no leading ellipsis is shown. The same happens for bodies shorter than width, where len(tokens) - width is negative.",
+     "file": "docsearch/snippets.py",
+     "line": 44,
+     "severity": "medium",
+     "suggestion": "Clamp the start at zero: start = max(0, min(hit - width // 2, len(tokens) - width)).",
+     "title": "Start index can be negative when a match is near the beginning"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"docsearch/snippets.py\",\"line\":44,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Start index can be negative when a match is near the beginning\",\"description\":\"start = min(hit - width // 2, len(tokens) - width) is never clamped at 0. If the match is within the first width//2 words (e.g. hit=3, width=24), hit - 12 is negative, so start is negative. tokens[start:end] then uses negative slice indices: with start=-9 and end=15 the slice is tokens[-9:15], which is empty or wrong for longer bodies. The snippet is empty or wrong, and start > 0 is False, so no leading ellipsis is shown. The same happens for bodies shorter than width, where len(tokens) - width is negative.\",\"suggestion\":\"Clamp the start at zero: start = max(0, min(hit - width // 2, len(tokens) - width)).\",\"confidence\":0.93}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0033615,
+   "input_tokens": 1557,
+   "latency_ms": null,
+   "output_tokens": 309
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "00645c37fbea7c9e1d989e813ba33b84",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2328,
+  "user_sha256": "44068f03aba1ece4acb1272fe3f41f53e7e457c07d618fc88c600ebad2bd312b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both identify the non-atomic check-then-act in login(): current() and _issue() each take the lock separately, so a concurrent operation can slip between them. Description A centers on concurrent sign-ins minting duplicate tokens (with the revoke-resurrection as a secondary note), while Description B centers on a concurrent revoke being undone and the revoked token being re-registered. The shared root cause and location match, and A explicitly names the logout/revoke resurrection case, so they describe the same defect.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both identify the non-atomic check-then-act in login(): current() and _issue() each take the lock separately, so a concurrent operation can slip between them. Description A centers on concurrent sign-ins minting duplicate tokens (with the revoke-resurrection as a secondary note), while Description B centers on a concurrent revoke being undone and the revoked token being re-registered. The shared root cause and location match, and A explicitly names the logout/revoke resurrection case, so they describe the same defect.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.877e-05,
+   "input_tokens": 768,
+   "latency_ms": null,
+   "output_tokens": 177
+  }
+ }
+}

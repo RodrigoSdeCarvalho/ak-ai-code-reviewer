@@ -1,0 +1,78 @@
+{
+ "recorded_at": "2026-10-26T18:14:25+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "d00413a27de3f8e39bc3be90fb546957",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 17887,
+  "user_sha256": "d2733e4831686f934b3c7f7a64cf87d5e8943f27036f3992a878ed1a8974fac2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "The loop condition uses len(self._keys_by_country), which is the number of distinct countries, not the number of cached entries. The cache is therefore effectively unbounded: with a few countries and many postal codes it never evicts, so memory grows without limit and max_entries is not honored. The comparison should use len(self._entries). The current check also fails to give the intended LRU bound when max_entries=1 with many postal codes.",
+     "file": "billing/ratecache.py",
+     "line": 107,
+     "severity": "high",
+     "suggestion": "Use `while len(self._entries) > self._max_entries:`.",
+     "title": "Eviction bound counts countries, not entries"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "invalidate_country and clear remove entries without incrementing counters, which is fine, but the main defect is in the eviction path: _evict_oldest assumes _keys_by_country and _entries stay in sync. After the bound is fixed to count entries, this stays consistent. As written, clear() keeps hit/miss counters, so hit_ratio after clear mixes pre- and post-clear lookups. Minor, but it can mislead admins.",
+     "file": "billing/ratecache.py",
+     "line": 94,
+     "severity": "medium",
+     "suggestion": "Document or reset counters in clear(), or leave as is deliberately.",
+     "title": "clear() does not reset stats, and the invalidation/eviction bookkeeping is inconsistent"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.35,
+     "description": "The loader runs while holding a non-reentrant threading.Lock. A slow loader blocks all lookups, including hits for other keys. If the loader ever calls back into the cache, it deadlocks. Misses for unknown jurisdictions raise after _misses was incremented, which is acceptable, but the global serialization of loads is a real throughput hazard.",
+     "file": "billing/ratecache.py",
+     "line": 82,
+     "severity": "medium",
+     "suggestion": "Load outside the lock and use a per-country generation counter to avoid storing superseded rates.",
+     "title": "Loader exception path counts a miss and holds a non-reentrant lock during I/O"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.3,
+     "description": "source.replace_country runs first, and rates_changed runs afterward. Between the two calls, concurrent lookups can still hit cached old rates. A concurrent miss in that window can also load the new rate and then be dropped. The rate seen by invoices may be stale for a short time. TableRateSource is also mutated without any lock while rate_for reads it from the cache thread.",
+     "file": "billing/admin.py",
+     "line": 37,
+     "severity": "medium",
+     "suggestion": "Do the replace and invalidate under a shared lock, or accept and document the window.",
+     "title": "Table replaced before cache invalidation leaves a stale window"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/ratecache.py\",\"line\":107,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Eviction bound counts countries, not entries\",\"description\":\"The loop condition uses len(self._keys_by_country), which is the number of distinct countries, not the number of cached entries. The cache is therefore effectively unbounded: with a few countries and many postal codes it never evicts, so memory grows without limit and max_entries is not honored. The comparison should use len(self._entries). The current check also fails to give the intended LRU bound when max_entries=1 with many postal codes.\",\"suggestion\":\"Use `while len(self._entries) > self._max_entries:`.\",\"confidence\":0.95},{\"file\":\"billing/ratecache.py\",\"line\":94,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"clear() does not reset stats, and the invalidation/eviction bookkeeping is inconsistent\",\"description\":\"invalidate_country and clear remove entries without incrementing counters, which is fine, but the main defect is in the eviction path: _evict_oldest assumes _keys_by_country and _entries stay in sync. After the bound is fixed to count entries, this stays consistent. As written, clear() keeps hit/miss counters, so hit_ratio after clear mixes pre- and post-clear lookups. Minor, but it can mislead admins.\",\"suggestion\":\"Document or reset counters in clear(), or leave as is deliberately.\",\"confidence\":0.2},{\"file\":\"billing/ratecache.py\",\"line\":82,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Loader exception path counts a miss and holds a non-reentrant lock during I/O\",\"description\":\"The loader runs while holding a non-reentrant threading.Lock. A slow loader blocks all lookups, including hits for other keys. If the loader ever calls back into the cache, it deadlocks. Misses for unknown jurisdictions raise after _misses was incremented, which is acceptable, but the global serialization of loads is a real throughput hazard.\",\"suggestion\":\"Load outside the lock and use a per-country generation counter to avoid storing superseded rates.\",\"confidence\":0.35},{\"file\":\"billing/admin.py\",\"line\":37,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Table replaced before cache invalidation leaves a stale window\",\"description\":\"source.replace_country runs first, and rates_changed runs afterward. Between the two calls, concurrent lookups can still hit cached old rates. A concurrent miss in that window can also load the new rate and then be dropped. The rate seen by invoices may be stale for a short time. TableRateSource is also mutated without any lock while rate_for reads it from the cache thread.\",\"suggestion\":\"Do the replace and invalidate under a shared lock, or accept and document the window.\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJYsC1TF82NaGaYvLDf",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.024791,
+   "input_tokens": 7491,
+   "latency_ms": 8546,
+   "output_tokens": 929
+  }
+ }
+}

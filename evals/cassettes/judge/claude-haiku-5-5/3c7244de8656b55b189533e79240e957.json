@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3c7244de8656b55b189533e79240e957",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2032,
+  "user_sha256": "83560333f3318f00bf81e9b74c6200af6adc8486e97007abdb16662ccefbf285"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the unbounded exponent in _retry_delay can overflow timedelta multiplication and abort the tick. Description B says the finally block overwrites the backoff next_run with the full interval, so failed jobs never retry early. Different failures at different places, so not the same defect.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the unbounded exponent in _retry_delay can overflow timedelta multiplication and abort the tick. Description B says the finally block overwrites the backoff next_run with the full interval, so failed jobs never retry early. Different failures at different places, so not the same defect.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKoqcHsgiTLGNnz6vnr",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014193999999999999,
+   "input_tokens": 755,
+   "latency_ms": 1625,
+   "output_tokens": 107
+  }
+ }
+}

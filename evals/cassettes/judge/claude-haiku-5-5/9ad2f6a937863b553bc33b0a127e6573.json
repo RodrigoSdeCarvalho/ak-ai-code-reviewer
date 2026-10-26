@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9ad2f6a937863b553bc33b0a127e6573",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2754,
+  "user_sha256": "2233d76ab7e6a6314eee88bb00d9883e834a5a940673cefa2f7b0a13041e7281"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the metadata file is written before the blob, causing inconsistent state on failure or overwrite windows. Description B says the mutable default dict `{}` is shared across calls and mutated via setdefault, so content-type leaks between uploads. Different root causes (write ordering vs. mutable default argument), though both touch the same lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the metadata file is written before the blob, causing inconsistent state on failure or overwrite windows. Description B says the mutable default dict `{}` is shared across calls and mutated via setdefault, so content-type leaks between uploads. Different root causes (write ordering vs. mutable default argument), though both touch the same lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKpavmbe6o8bAmjoaEP",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018334000000000002,
+   "input_tokens": 1079,
+   "latency_ms": 1250,
+   "output_tokens": 125
+  }
+ }
+}

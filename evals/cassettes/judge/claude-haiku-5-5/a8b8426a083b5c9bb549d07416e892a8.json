@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:03+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a8b8426a083b5c9bb549d07416e892a8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1979,
+  "user_sha256": "10a9173f603d73e628065a87f828b0a614271a3489e200c3947a16e284a14ae3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the backoff exponent computation can overflow before the min cap, raising OverflowError. Description B says the finally block overwrites the backoff next_run with the full interval, so retries never happen early. Different failures: one is an overflow in _retry_delay, the other is a scheduling overwrite at lines 75-76.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the backoff exponent computation can overflow before the min cap, raising OverflowError. Description B says the finally block overwrites the backoff next_run with the full interval, so retries never happen early. Different failures: one is an overflow in _retry_delay, the other is a scheduling overwrite at lines 75-76.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJcBCoogLbM1Duq3fbq",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014584000000000003,
+   "input_tokens": 731,
+   "latency_ms": 2015,
+   "output_tokens": 121
+  }
+ }
+}

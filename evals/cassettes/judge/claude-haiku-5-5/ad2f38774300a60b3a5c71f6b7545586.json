@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:03+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ad2f38774300a60b3a5c71f6b7545586",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1774,
+  "user_sha256": "14e99a356019028f38d94776bd03ebe389e95a36756869e538f48751b161155c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment's claims about behaviour are accurate: a bare '-' yields an empty sort key, and 'placed' without prefix sorts ascending while the default is descending. However, these are documented, intentional semantics and the failure mode (a confusing error message for a malformed parameter) is minor usability rather than wrong behaviour, a crash, or a security issue, so it is a nit."
+  },
+  "raw_text": "{\"reason\": \"The comment's claims about behaviour are accurate: a bare '-' yields an empty sort key, and 'placed' without prefix sorts ascending while the default is descending. However, these are documented, intentional semantics and the failure mode (a confusing error message for a malformed parameter) is minor usability rather than wrong behaviour, a crash, or a security issue, so it is a nit.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKkQkjAzzWSwwji8LZb",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 666,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00022335000000000004,
+   "input_tokens": 706,
+   "latency_ms": 2829,
+   "output_tokens": 139
+  }
+ }
+}

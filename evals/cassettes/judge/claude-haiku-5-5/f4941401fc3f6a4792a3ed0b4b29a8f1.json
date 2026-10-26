@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:00+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f4941401fc3f6a4792a3ed0b4b29a8f1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2728,
+  "user_sha256": "110f68b7b5b695483977cc09f76360d359add4ac7def427b008ceb09b2c3c3f6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies the mutable default argument `metadata: dict = {}` being shared and mutated by setdefault, causing content-type leakage across calls. Description B identifies the ordering problem where metadata is replaced before the blob is written, causing inconsistent state on failure. Different root causes at different lines of logic.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies the mutable default argument `metadata: dict = {}` being shared and mutated by setdefault, causing content-type leakage across calls. Description B identifies the ordering problem where metadata is replaced before the blob is written, causing inconsistent state on failure. Different root causes at different lines of logic.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKpkBdcbR5tSBsCk1Gs",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017994,
+   "input_tokens": 1075,
+   "latency_ms": 1186,
+   "output_tokens": 119
+  }
+ }
+}

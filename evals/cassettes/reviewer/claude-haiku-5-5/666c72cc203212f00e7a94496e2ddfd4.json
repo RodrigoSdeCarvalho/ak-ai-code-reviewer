@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "666c72cc203212f00e7a94496e2ddfd4",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15451,
+  "user_sha256": "caeecd29e2cd9a527ca4f343a253254325a029280b00725ebfde768ed52420e0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.8,
+     "description": "comp_tickets only calls require_login, so any authenticated attendee can call tickets.comp and receive free tickets for any event and any holder_id. Comp issuance is a staff or admin function, as the attendee list endpoint's role check shows, so this bypasses the intended access control and lets ordinary users take unpaid capacity.",
+     "end_line": 96,
+     "file": "boxoffice/handlers.py",
+     "line": 96,
+     "severity": "high",
+     "suggestion": "Call require_role(request.user, Role.STAFF, Role.ADMIN) in comp_tickets, as attendee_list does, before issuing comps.",
+     "title": "Any logged-in user can issue complimentary tickets"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"boxoffice/handlers.py\",\"line\":96,\"end_line\":96,\"severity\":\"high\",\"category\":\"security\",\"title\":\"Any logged-in user can issue complimentary tickets\",\"description\":\"comp_tickets only calls require_login, so any authenticated attendee can call tickets.comp and receive free tickets for any event and any holder_id. Comp issuance is a staff or admin function, as the attendee list endpoint's role check shows, so this bypasses the intended access control and lets ordinary users take unpaid capacity.\",\"suggestion\":\"Call require_role(request.user, Role.STAFF, Role.ADMIN) in comp_tickets, as attendee_list does, before issuing comps.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0005946250000000001,
+   "input_tokens": 6538,
+   "latency_ms": null,
+   "output_tokens": 1019
+  }
+ }
+}

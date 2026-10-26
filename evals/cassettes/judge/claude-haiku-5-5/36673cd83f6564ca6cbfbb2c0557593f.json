@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:23+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "36673cd83f6564ca6cbfbb2c0557593f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1938,
+  "user_sha256": "12993a4ffcf27bac62e3b5fb3c4fe6512bd4721c13866793a6510bc5ffbddf0c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the temp file is orphaned when _path_for, mkdir, or os.replace raises after the write loop. Description B says that when the digest already exists the function returns early without deleting the staged incoming file, so duplicate uploads leak a full copy each time. These are different failure paths: A concerns exceptions in later steps, while B concerns the normal early-return branch at lines 65-66 that skips cleanup on success.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the temp file is orphaned when _path_for, mkdir, or os.replace raises after the write loop. Description B says that when the digest already exists the function returns early without deleting the staged incoming file, so duplicate uploads leak a full copy each time. These are different failure paths: A concerns exceptions in later steps, while B concerns the normal early-return branch at lines 65-66 that skips cleanup on success.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKrRiSZst1xGBa81vev",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016104000000000002,
+   "input_tokens": 716,
+   "latency_ms": 1608,
+   "output_tokens": 153
+  }
+ }
+}

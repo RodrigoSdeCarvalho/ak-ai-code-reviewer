@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:23+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "65170c353748e7c06248d0fe637c4b0d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1972,
+  "user_sha256": "2937986cbc5bc659a347b54122f5988488a89ca8cd059d230e5ce0000bcda2c1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the temp file leaks when mkdir or os.replace raises (line 68). Description B says that when the digest already exists the function returns early at lines 65-66 without deleting the staged incoming file, so duplicate uploads leak a copy each time. These are different failure paths: A is an exception during final placement, while B is the normal early-return path for duplicate content.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the temp file leaks when mkdir or os.replace raises (line 68). Description B says that when the digest already exists the function returns early at lines 65-66 without deleting the staged incoming file, so duplicate uploads leak a copy each time. These are different failure paths: A is an exception during final placement, while B is the normal early-return path for duplicate content.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKrSb2i5VkPZbdtmLww",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015294,
+   "input_tokens": 730,
+   "latency_ms": 1563,
+   "output_tokens": 134
+  }
+ }
+}

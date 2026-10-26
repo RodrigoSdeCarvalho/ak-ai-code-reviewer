@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:25+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e0fb22474b6dc1e8ee76980706d7c0bc",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1946,
+  "user_sha256": "9f214d06edac87ad3c2b3c363eacc1af7f3039b51c6b74fdbbac1711fba4c173"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify delete_entry at line 76 authorizing with _require_reader instead of _require_owner, letting any shared reader permanently delete the owner's entry. Same root cause and location, different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify delete_entry at line 76 authorizing with _require_reader instead of _require_owner, letting any shared reader permanently delete the owner's entry. Same root cause and location, different wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdrx1ZDB1e2YXRUgEy",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013064,
+   "input_tokens": 754,
+   "latency_ms": 1110,
+   "output_tokens": 86
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "13103531854d1cbb0a07b044a709077a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2003,
+  "user_sha256": "cda06b46fe964b77060c7b331d72b301d2f2ea088a9658cd8f469708cb6a7c34"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: store.project(entry.project_id) is called inside the per-entry loop at line 67, causing N+1 lookups instead of a batched fetch. Description A adds the batched projects(ids) alternative and the employee batching comparison, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: store.project(entry.project_id) is called inside the per-entry loop at line 67, causing N+1 lookups instead of a batched fetch. Description A adds the batched projects(ids) alternative and the employee batching comparison, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.107000000000001e-05,
+   "input_tokens": 734,
+   "latency_ms": null,
+   "output_tokens": 113
+  }
+ }
+}

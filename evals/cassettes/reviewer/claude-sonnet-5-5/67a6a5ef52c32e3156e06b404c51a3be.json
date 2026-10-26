@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:12:43+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "67a6a5ef52c32e3156e06b404c51a3be",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10296,
+  "user_sha256": "cb6fdce9cabf623c22098602529370956ac328182e46fb741060744e33c50439"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "The `return` after `req.reject(requeue=False)` was removed. When ETA conversion raises OverflowError/ValueError, `eta` stays None and execution continues. The request has already been rejected, but it then falls through to `task_reserved(req)`, the callbacks and `handle(req)` (or `limit_task`), so the task is executed immediately even though it was rejected and dropped from the queue. It also leaves the worker's bookkeeping inconsistent, since the message is both rejected and reserved or run, and its ack/reject will be handled twice.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "high",
+     "suggestion": "Restore the `return` right after `req.reject(requeue=False)`.",
+     "title": "Missing return after rejecting task with unparseable ETA"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The `mark_as_failure` call was removed, so a task rejected because of an invalid ETA never gets a FAILURE state in the result backend. Clients waiting on the result will hang or see PENDING forever, because the message is dropped without any record of the failure.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "medium",
+     "suggestion": "Restore the `req.task.backend.mark_as_failure(...)` call before the reject.",
+     "title": "Task failure no longer recorded in result backend for invalid ETA"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Missing return after rejecting task with unparseable ETA\",\"description\":\"The `return` after `req.reject(requeue=False)` was removed. When ETA conversion raises OverflowError/ValueError, `eta` stays None and execution continues. The request has already been rejected, but it then falls through to `task_reserved(req)`, the callbacks and `handle(req)` (or `limit_task`), so the task is executed immediately even though it was rejected and dropped from the queue. It also leaves the worker's bookkeeping inconsistent, since the message is both rejected and reserved or run, and its ack/reject will be handled twice.\",\"suggestion\":\"Restore the `return` right after `req.reject(requeue=False)`.\",\"confidence\":0.9},{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Task failure no longer recorded in result backend for invalid ETA\",\"description\":\"The `mark_as_failure` call was removed, so a task rejected because of an invalid ETA never gets a FAILURE state in the result backend. Clients waiting on the result will hang or see PENDING forever, because the message is dropped without any record of the failure.\",\"suggestion\":\"Restore the `req.task.backend.mark_as_failure(...)` call before the reject.\",\"confidence\":0.6}]}",
+  "request_id": "req_011CgRJRbR2xaBkCemd9MCPZ",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.013633,
+   "input_tokens": 4162,
+   "latency_ms": 5750,
+   "output_tokens": 479
+  }
+ }
+}

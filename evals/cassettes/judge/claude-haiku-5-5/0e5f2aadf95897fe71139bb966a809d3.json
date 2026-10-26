@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:30+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0e5f2aadf95897fe71139bb966a809d3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1871,
+  "user_sha256": "f14e0537f37fdb113d02a77097218c6d9d20169d82056c07b004291676a840ca"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: `sum(1 for _ in lines)` consumes the one-shot iterator passed by the CLI, so the subsequent loop reads nothing and the output is empty with zero events processed. The wording and extra detail differ (A mentions progress 0/N and generators; B mentions reporting success), but the root cause and failure are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: `sum(1 for _ in lines)` consumes the one-shot iterator passed by the CLI, so the subsequent loop reads nothing and the output is empty with zero events processed. The wording and extra detail differ (A mentions progress 0/N and generators; B mentions reporting success), but the root cause and failure are identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKrtorN6gpQhn1pHzxh",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015424000000000001,
+   "input_tokens": 713,
+   "latency_ms": 2594,
+   "output_tokens": 140
+  }
+ }
+}

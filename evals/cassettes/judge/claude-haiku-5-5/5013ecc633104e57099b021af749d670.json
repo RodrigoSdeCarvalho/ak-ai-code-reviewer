@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:39+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5013ecc633104e57099b021af749d670",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1972,
+  "user_sha256": "2937986cbc5bc659a347b54122f5988488a89ca8cd059d230e5ce0000bcda2c1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the temp file leaks if mkdir/os.replace/_path_for raises (lines 67-68). Description B says that on the early return when the digest already exists (lines 65-66), the staged file in incoming/ is never deleted, so duplicate uploads accumulate. These are different failure paths: one is an exception during final placement, the other is the normal duplicate-return path that skips cleanup.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the temp file leaks if mkdir/os.replace/_path_for raises (lines 67-68). Description B says that on the early return when the digest already exists (lines 65-66), the staged file in incoming/ is never deleted, so duplicate uploads accumulate. These are different failure paths: one is an exception during final placement, the other is the normal duplicate-return path that skips cleanup.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJesyojpRnP6nWY7NiA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015824,
+   "input_tokens": 730,
+   "latency_ms": 1375,
+   "output_tokens": 146
+  }
+ }
+}

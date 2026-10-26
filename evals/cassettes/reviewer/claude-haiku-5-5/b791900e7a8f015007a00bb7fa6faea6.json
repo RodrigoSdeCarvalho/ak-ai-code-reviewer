@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "b791900e7a8f015007a00bb7fa6faea6",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14880,
+  "user_sha256": "384b2052fd605e0c58f30baaf691c257a8d68dedc18e7d36a6cc618fd773b574"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.9,
+     "description": "move_card fetches the card by id and then checks editor role only on to_board_id. It never checks the card's current board (card.board_id). An editor of board B can therefore move any card from board A, where they are a non-member or viewer, into board B by passing its id. Card ids are sequential and enumerable. edit_card and archive_card both check editor rights on card.board_id, so this path bypasses the access rule the rest of the service enforces. The result is unauthorised relocation of cards between boards, and the card's data becomes visible to the attacker's board.",
+     "end_line": 103,
+     "file": "kanban/service.py",
+     "line": 102,
+     "severity": "high",
+     "suggestion": "Call self._require_editor(card.board_id, actor_id) on the source board as well as on the target board before moving the card. Consider raising NotFound for non-members on the source board, to match _require_role.",
+     "title": "move_card checks only the target board, so a card can be pulled from a board the actor cannot edit"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"kanban/service.py\",\"line\":102,\"end_line\":103,\"severity\":\"high\",\"category\":\"security\",\"title\":\"move_card checks only the target board, so a card can be pulled from a board the actor cannot edit\",\"description\":\"move_card fetches the card by id and then checks editor role only on to_board_id. It never checks the card's current board (card.board_id). An editor of board B can therefore move any card from board A, where they are a non-member or viewer, into board B by passing its id. Card ids are sequential and enumerable. edit_card and archive_card both check editor rights on card.board_id, so this path bypasses the access rule the rest of the service enforces. The result is unauthorised relocation of cards between boards, and the card's data becomes visible to the attacker's board.\",\"suggestion\":\"Call self._require_editor(card.board_id, actor_id) on the source board as well as on the target board before moving the card. Consider raising NotFound for non-members on the source board, to match _require_role.\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0006258750000000001,
+   "input_tokens": 5713,
+   "latency_ms": null,
+   "output_tokens": 1309
+  }
+ }
+}

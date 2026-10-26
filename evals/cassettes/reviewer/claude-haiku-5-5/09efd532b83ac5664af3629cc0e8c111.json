@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "09efd532b83ac5664af3629cc0e8c111",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8463,
+  "user_sha256": "192eedb2d694f43fa7ade5ca58a0688e8081225ff2a8d87b274351179b790bbe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.5,
+     "description": "fallback_chain calls parents(locale), which calls normalise(). normalise raises ValueError for an empty or whitespace-only tag. Before this change, build_bundle accepted any string and simply returned the key-as-message bundle. Any caller that passes an empty locale, such as a missing or blank Accept-Language value or an unset user preference, now gets an exception on the request path where it previously rendered a page.",
+     "end_line": null,
+     "file": "i18n/bundles.py",
+     "line": 37,
+     "severity": "high",
+     "suggestion": "Catch ValueError around fallback_chain and fall back to default_locale only, or validate the locale at the boundary and substitute DEFAULT_LOCALE for empty input.",
+     "title": "Empty locale tag now raises ValueError from build_bundle"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.35,
+     "description": "The Bundle is built with locale=chain[0], so a request for 'pt_br' now yields bundle.locale 'pt-BR' instead of 'pt_br'. That value feeds to_json() and missing_report() keys, which changes output that callers may compare or key on. The catalog is also now queried with the normalised tag, so a catalog stored under raw tags would miss lookups.",
+     "end_line": null,
+     "file": "i18n/bundles.py",
+     "line": 50,
+     "severity": "low",
+     "suggestion": "If the rename is not intended, keep the requested locale in Bundle.locale and use the normalised value only for lookups. If it is intended, document the change and check consumers of to_json() and missing_report().",
+     "title": "Bundle.locale is now the normalised chain head, not the requested locale"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"i18n/bundles.py\", \"line\": 37, \"end_line\": null, \"severity\": \"high\", \"category\": \"error_handling\", \"title\": \"Empty locale tag now raises ValueError from build_bundle\", \"description\": \"fallback_chain calls parents(locale), which calls normalise(). normalise raises ValueError for an empty or whitespace-only tag. Before this change, build_bundle accepted any string and simply returned the key-as-message bundle. Any caller that passes an empty locale, such as a missing or blank Accept-Language value or an unset user preference, now gets an exception on the request path where it previously rendered a page.\", \"suggestion\": \"Catch ValueError around fallback_chain and fall back to default_locale only, or validate the locale at the boundary and substitute DEFAULT_LOCALE for empty input.\", \"confidence\": 0.5}, {\"file\": \"i18n/bundles.py\", \"line\": 50, \"end_line\": null, \"severity\": \"low\", \"category\": \"api_contract\", \"title\": \"Bundle.locale is now the normalised chain head, not the requested locale\", \"description\": \"The Bundle is built with locale=chain[0], so a request for 'pt_br' now yields bundle.locale 'pt-BR' instead of 'pt_br'. That value feeds to_json() and missing_report() keys, which changes output that callers may compare or key on. The catalog is also now queried with the normalised tag, so a catalog stored under raw tags would miss lookups.\", \"suggestion\": \"If the rename is not intended, keep the requested locale in Bundle.locale and use the normalised value only for lookups. If it is intended, document the change and check consumers of to_json() and missing_report().\", \"confidence\": 0.35}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000607325,
+   "input_tokens": 3617,
+   "latency_ms": null,
+   "output_tokens": 1654
+  }
+ }
+}

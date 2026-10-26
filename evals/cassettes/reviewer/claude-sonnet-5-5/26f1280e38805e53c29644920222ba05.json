@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:12:39+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "26f1280e38805e53c29644920222ba05",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 12177,
+  "user_sha256": "3a425d7c5988b4f1f0010cbf1221e41b4151d2519a25b7f85601b9cbfecd5552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.7,
+     "description": "The old code gave each waiter its own Deferred and chained it onto the shared parser Deferred via a callback that returned the result unchanged. The new code awaits the shared Deferred directly. maybe_deferred_to_future adds callbacks to that Deferred, and the callback it adds does not pass the result through. Once the first waiter consumes the result, later waiters (concurrent requests to the same netloc) get None or a stale result, so the parser is treated as missing and robots.txt rules are skipped. If the Deferred has already fired by the time a waiter awaits it, it is also unclear what value it holds. Requests that should be denied may therefore be allowed.",
+     "file": "scrapy/downloadermiddlewares/robotstxt.py",
+     "line": 208,
+     "severity": "high",
+     "suggestion": "Restore a per-waiter Deferred, with a callback chained onto the shared one that passes the result through, and await that Deferred. Alternatively, store a future or event that is resolved once and awaited by every waiter.",
+     "title": "Multiple waiters share one Deferred whose result is not preserved"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scrapy/downloadermiddlewares/robotstxt.py\",\"line\":208,\"severity\":\"high\",\"category\":\"concurrency\",\"title\":\"Multiple waiters share one Deferred whose result is not preserved\",\"description\":\"The old code gave each waiter its own Deferred and chained it onto the shared parser Deferred via a callback that returned the result unchanged. The new code awaits the shared Deferred directly. maybe_deferred_to_future adds callbacks to that Deferred, and the callback it adds does not pass the result through. Once the first waiter consumes the result, later waiters (concurrent requests to the same netloc) get None or a stale result, so the parser is treated as missing and robots.txt rules are skipped. If the Deferred has already fired by the time a waiter awaits it, it is also unclear what value it holds. Requests that should be denied may therefore be allowed.\",\"suggestion\":\"Restore a per-waiter Deferred, with a callback chained onto the shared one that passes the result through, and await that Deferred. Alternatively, store a future or event that is resolved once and awaited by every waiter.\",\"confidence\":0.7}]}",
+  "request_id": "req_011CgRJRRNXub3d7QoZgRgU7",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.014225,
+   "input_tokens": 4948,
+   "latency_ms": 4046,
+   "output_tokens": 381
+  }
+ }
+}

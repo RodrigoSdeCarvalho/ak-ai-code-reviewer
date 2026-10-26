@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:19+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0b98e16a5c033c5b3b219a41777508bd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2303,
+  "user_sha256": "cf5e54fe260b4a4c2ef54e2ce49ef85913af513e3d702699f3c5fe05732bf710"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The shown code keeps the entries and the country index in sync, and clear() empties both, so the claimed stale state is not visible. The KeyError risk depends on _evict_oldest, which is not shown, so the concern is speculative and at most a hardening suggestion."
+  },
+  "raw_text": "{\"reason\": \"The shown code keeps the entries and the country index in sync, and clear() empties both, so the claimed stale state is not visible. The KeyError risk depends on _evict_oldest, which is not shown, so the concern is speculative and at most a hardening suggestion.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKvRKjZPBhBScxUHh5C",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00028086,
+   "input_tokens": 867,
+   "latency_ms": 3140,
+   "output_tokens": 375
+  }
+ }
+}

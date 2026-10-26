@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e3c76c53943fa8e411d5c81c206303a6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2277,
+  "user_sha256": "8ef4e23923698bc8f9d35f1d70767cff6e9360a06ff58aecf2a21326047a3fde"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that in reserve() the connection is not released on the InventoryError path: the except branch rolls back and re-raises, skipping self._pool.release(conn) at line 96, so repeated rejections leak connections and exhaust the pool. Description A additionally mentions other exceptions skipping rollback, but the core failure matches Description B.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that in reserve() the connection is not released on the InventoryError path: the except branch rolls back and re-raises, skipping self._pool.release(conn) at line 96, so repeated rejections leak connections and exhaust the pool. Description A additionally mentions other exceptions skipping rollback, but the core failure matches Description B.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJekKgJHdcH4KLdkm6p",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015854,
+   "input_tokens": 808,
+   "latency_ms": 1422,
+   "output_tokens": 131
+  }
+ }
+}

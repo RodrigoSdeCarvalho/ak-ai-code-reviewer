@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "fb1ff1a66d6d1b56ab720bb057ef8c75",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2498,
+  "user_sha256": "d8ef59daf0bf71ab1c39e9636ed2653704a86206b98c91dfbe1419daa3832c89"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: calibration is loaded via source.load() per reading rather than once per distinct sensor, causing N queries instead of S with SqlCalibrationSource. They differ only in line reference (49 vs 58, the call chain through calibrated()) and added detail about magnitude, which does not change the root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: calibration is loaded via source.load() per reading rather than once per distinct sensor, causing N queries instead of S with SqlCalibrationSource. They differ only in line reference (49 vs 58, the call chain through calibrated()) and added detail about magnitude, which does not change the root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdZ5ibUzNpeye4FW6X",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017064,
+   "input_tokens": 959,
+   "latency_ms": 2092,
+   "output_tokens": 125
+  }
+ }
+}

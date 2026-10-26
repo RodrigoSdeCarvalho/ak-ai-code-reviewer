@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8bae7c0f7c498115dafa2e05464557d6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2426,
+  "user_sha256": "efb462e712f4eeb8daa7c97973f494b77aa142c9bcff6198b094696df4312b80"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that add_replace passes the shared module-level evolve function to _add_method_dunders, which mutates its __module__, __qualname__ and __doc__ in place, corrupting the global evolve for all classes. Description B adds detail about Python 3.13+ and a suggested fix, but the root cause and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that add_replace passes the shared module-level evolve function to _add_method_dunders, which mutates its __module__, __qualname__ and __doc__ in place, corrupting the global evolve for all classes. Description B adds detail about Python 3.13+ and a suggested fix, but the root cause and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.332000000000001e-05,
+   "input_tokens": 914,
+   "latency_ms": null,
+   "output_tokens": 126
+  }
+ }
+}

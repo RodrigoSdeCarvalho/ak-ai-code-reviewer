@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "ce74aa53224b2faccf53129b78986504",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8990,
+  "user_sha256": "b7dca955942ddc919ca38fae78345f45440711009e7b139138f0084d6de30dff"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "The default argument `metadata: dict[str, str] = {}` is one dict shared by every call that omits `metadata`. Line 80 calls `setdefault` on it, so the first put without metadata stores its guessed content type in the shared default. Later calls that omit metadata keep that stale value because `setdefault` does not overwrite it. For example, put('a.pdf', ...) followed by put('b.png', ...) stores b.png with content-type application/pdf. The same `setdefault` also writes into a caller-supplied dict, so callers see their argument changed. Both are wrong results on a common path.",
+     "end_line": 80,
+     "file": "blobstore/store.py",
+     "line": 73,
+     "severity": "high",
+     "suggestion": "Use `metadata: dict[str, str] | None = None`, then build a fresh dict: `meta = dict(metadata or {})` and `meta.setdefault(\"content-type\", guess_content_type(key))`. Serialise `meta` instead of the argument.",
+     "title": "Mutable default dict leaks content-type between unrelated puts and mutates caller's dict"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The metadata file is atomically replaced at line 83 before the blob is written at lines 84-86. If `tmp.write_bytes` or `os.replace` fails (for example disk full or permission error), the old blob stays on disk with the new metadata, so head() reports a content type and metadata that do not match the stored bytes. A crash between the two replaces leaves the same mismatch.",
+     "end_line": 86,
+     "file": "blobstore/store.py",
+     "line": 83,
+     "severity": "medium",
+     "suggestion": "Write and replace the blob first, then the metadata. If the metadata write fails after the blob has been replaced, remove or roll back the blob, or accept that a stale-metadata window exists and document it.",
+     "title": "Metadata is replaced before the blob, so a failed blob write leaves inconsistent state"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"blobstore/store.py\",\"line\":73,\"end_line\":80,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Mutable default dict leaks content-type between unrelated puts and mutates caller's dict\",\"description\":\"The default argument `metadata: dict[str, str] = {}` is one dict shared by every call that omits `metadata`. Line 80 calls `setdefault` on it, so the first put without metadata stores its guessed content type in the shared default. Later calls that omit metadata keep that stale value because `setdefault` does not overwrite it. For example, put('a.pdf', ...) followed by put('b.png', ...) stores b.png with content-type application/pdf. The same `setdefault` also writes into a caller-supplied dict, so callers see their argument changed. Both are wrong results on a common path.\",\"suggestion\":\"Use `metadata: dict[str, str] | None = None`, then build a fresh dict: `meta = dict(metadata or {})` and `meta.setdefault(\\\"content-type\\\", guess_content_type(key))`. Serialise `meta` instead of the argument.\",\"confidence\":0.9},{\"file\":\"blobstore/store.py\",\"line\":83,\"end_line\":86,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Metadata is replaced before the blob, so a failed blob write leaves inconsistent state\",\"description\":\"The metadata file is atomically replaced at line 83 before the blob is written at lines 84-86. If `tmp.write_bytes` or `os.replace` fails (for example disk full or permission error), the old blob stays on disk with the new metadata, so head() reports a content type and metadata that do not match the stored bytes. A crash between the two replaces leaves the same mismatch.\",\"suggestion\":\"Write and replace the blob first, then the metadata. If the metadata write fails after the blob has been replaced, remove or roll back the blob, or accept that a stale-metadata window exists and document it.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000652775,
+   "input_tokens": 3936,
+   "latency_ms": null,
+   "output_tokens": 1772
+  }
+ }
+}

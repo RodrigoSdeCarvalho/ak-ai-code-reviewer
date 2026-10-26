@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:32+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5b713ded5c754ab83233286702421986",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2358,
+  "user_sha256": "f5af7e6138026c96ce40796e13da5e42a53bd939831a63313b4b87daed7f98e9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: find() returns the cached list object by reference on both hit and miss paths, so caller mutation (A's in-place sort in handlers.py, B's generic sort/append/clear) corrupts the cache for later same-query calls until TTL expiry. A is a more specific instance of the same root cause (the in-place sort) while B states the general mutation hazard, so they match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: find() returns the cached list object by reference on both hit and miss paths, so caller mutation (A's in-place sort in handlers.py, B's generic sort/append/clear) corrupts the cache for later same-query calls until TTL expiry. A is a more specific instance of the same root cause (the in-place sort) while B states the general mutation hazard, so they match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKnfKP5iNYa5XyJp6Yj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016854,
+   "input_tokens": 826,
+   "latency_ms": 1625,
+   "output_tokens": 146
+  }
+ }
+}

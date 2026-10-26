@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:23+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3eef0b08bddb8470225ccdee98e0f882",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1962,
+  "user_sha256": "2621b54573b9baeaa9d2448c2a7e543adf4cd58462ee58fc4cf6086084d5f183"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same line 180 where ctx.request.host.partition(':')[0] mis-derives the cookie domain for IPv6 hosts like [::1]:8000, yielding '[' so the session cookie is stored under the wrong domain and not sent on later requests. Description B additionally mentions empty host fallback and lowercasing, but its core defect matches Description A's IPv6 cookie-domain failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same line 180 where ctx.request.host.partition(':')[0] mis-derives the cookie domain for IPv6 hosts like [::1]:8000, yielding '[' so the session cookie is stored under the wrong domain and not sent on later requests. Description B additionally mentions empty host fallback and lowercasing, but its core defect matches Description A's IPv6 cookie-domain failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKmxWiJufashjx6UaqW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016584,
+   "input_tokens": 749,
+   "latency_ms": 1985,
+   "output_tokens": 156
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:07+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2b0c9ecaab2774bf8bc01eef12d6cde7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2771,
+  "user_sha256": "7a59823e95cafd4dc6f416a95c08175d438b3d24c27fa5d1dc802af71be34d3a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says sign_out_everywhere swallows StoreError and continues, so sessions silently remain valid after a password change. Description B concerns purge_expired lacking StoreError handling and its O(N^2) file-store cost. Different functions and different failures (incomplete revocation vs. aborted purge and performance).",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says sign_out_everywhere swallows StoreError and continues, so sessions silently remain valid after a password change. Description B concerns purge_expired lacking StoreError handling and its O(N^2) file-store cost. Different functions and different failures (incomplete revocation vs. aborted purge and performance).\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJcVYck5GWRVXUXheDF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017044,
+   "input_tokens": 987,
+   "latency_ms": 1422,
+   "output_tokens": 119
+  }
+ }
+}

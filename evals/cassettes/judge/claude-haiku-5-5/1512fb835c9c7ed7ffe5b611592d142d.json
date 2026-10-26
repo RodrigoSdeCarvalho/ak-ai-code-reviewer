@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:40+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1512fb835c9c7ed7ffe5b611592d142d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1938,
+  "user_sha256": "12993a4ffcf27bac62e3b5fb3c4fe6512bd4721c13866793a6510bc5ffbddf0c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the temp file is orphaned when _path_for, mkdir, or os.replace raises after the write loop. Description B says that when the digest already exists the function returns early without deleting the staged incoming file, so duplicates leak copies. These are different failure paths: A concerns exceptions after the try block, while B concerns the early return at lines 65-66 that skips cleanup in a normal, non-error flow.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the temp file is orphaned when _path_for, mkdir, or os.replace raises after the write loop. Description B says that when the digest already exists the function returns early without deleting the staged incoming file, so duplicates leak copies. These are different failure paths: A concerns exceptions after the try block, while B concerns the early return at lines 65-66 that skips cleanup in a normal, non-error flow.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJetq9S7aDqX5PyxvXi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015834000000000003,
+   "input_tokens": 716,
+   "latency_ms": 1827,
+   "output_tokens": 149
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "cd6c15bf0a8cd01b2239c0bded8ce9bd",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5080,
+  "user_sha256": "e75724073edb444c154176ec5f855fdaed183b7a2c78ecef9a577b268d22ad54"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.35,
+     "description": "send_campaign only catches RecipientRefused. Any other exception from mailer.send, such as a dropped SMTP connection or a timeout, propagates out of the loop. The CampaignReport built so far, which records who was already sent to, is lost. A caller retrying the campaign cannot tell which subscribers already received the message, so they may be emailed twice or skipped.",
+     "end_line": 86,
+     "file": "newsletter/campaign.py",
+     "line": 80,
+     "severity": "medium",
+     "suggestion": "Catch the broader error at the send call, record it in the report (for example in a failed map), and decide explicitly whether to continue or stop. Alternatively, attach the partial report to the re-raised exception.",
+     "title": "Non-refusal send errors discard the partial campaign report"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"newsletter/campaign.py\",\"line\":80,\"end_line\":86,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Non-refusal send errors discard the partial campaign report\",\"description\":\"send_campaign only catches RecipientRefused. Any other exception from mailer.send, such as a dropped SMTP connection or a timeout, propagates out of the loop. The CampaignReport built so far, which records who was already sent to, is lost. A caller retrying the campaign cannot tell which subscribers already received the message, so they may be emailed twice or skipped.\",\"suggestion\":\"Catch the broader error at the send call, record it in the report (for example in a failed map), and decide explicitly whether to continue or stop. Alternatively, attach the partial report to the re-raised exception.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000347175,
+   "input_tokens": 2179,
+   "latency_ms": null,
+   "output_tokens": 901
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9f31b14e230fe350cbb3c4ff606b9df6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2397,
+  "user_sha256": "aaacac407564949fc27192cb7b964a6dc315b0bbbe8ceb4f53cc78d5a39b057e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both describe reschedule() acquiring the scheduler lock and returning False early (unknown or non-pending job) without releasing it, so all later _acquire calls time out with SchedulerBusy. Description B points at the early return line 77 and adds the missing try/finally concern, but the root cause and effect are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both describe reschedule() acquiring the scheduler lock and returning False early (unknown or non-pending job) without releasing it, so all later _acquire calls time out with SchedulerBusy. Description B points at the early return line 77 and adds the missing try/finally concern, but the root cause and effect are the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.122e-05,
+   "input_tokens": 912,
+   "latency_ms": null,
+   "output_tokens": 118
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2a86ba035a03566f0ff59c9b534d1c1c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 3118,
+  "user_sha256": "c09e4a1a5e31b17635a090fb84f468f3d3e1573173cf2b2762dc747b37f40c04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the connection is never released on the InventoryError path (lines 93-96), leaking pool connections. Description B concerns duplicate SKUs being checked against possibly stale stock data, a different failure entirely (over-reservation), at different lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the connection is never released on the InventoryError path (lines 93-96), leaking pool connections. Description B concerns duplicate SKUs being checked against possibly stale stock data, a different failure entirely (over-reservation), at different lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJeZATLutUNqMmVKZV5",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017184000000000004,
+   "input_tokens": 1106,
+   "latency_ms": 1407,
+   "output_tokens": 98
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:27+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "09274f72fa28ebb4a978f49e4a69be27",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2954,
+  "user_sha256": "f9610c08172bc13d56b5937a4c2fa69052694ecff20c06eacc34117da4f767c1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both describe the shared parser Deferred being awaited by multiple concurrent waiters via maybe_deferred_to_future, where later waiters lose the parser (get None) and robots.txt rules are skipped, letting disallowed requests through. Description A gives a more specific mechanism (callback consumes result, passes None, only first waiter gets parser, cancellation propagates), while Description B describes the same result-not-preserved failure at the same line with a vaguer mechanism. Same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both describe the shared parser Deferred being awaited by multiple concurrent waiters via maybe_deferred_to_future, where later waiters lose the parser (get None) and robots.txt rules are skipped, letting disallowed requests through. Description A gives a more specific mechanism (callback consumes result, passes None, only first waiter gets parser, cancellation propagates), while Description B describes the same result-not-preserved failure at the same line with a vaguer mechanism. Same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKnHYwhRRGYEPKyeVSN",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00020844,
+   "input_tokens": 1060,
+   "latency_ms": 2234,
+   "output_tokens": 179
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:47+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "939f837e4f44d76192a4ef53a1dc424c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2260,
+  "user_sha256": "56d879445c7fef9e4d81a428e798551035d062dafd67070506aa53385e89292f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a missing await on the retry call at line 51, so the retry returns a coroutine. Description B identifies line 42, where counting the one-shot iterator `lines` exhausts it before the main loop. These are different root causes at different lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a missing await on the retry call at line 51, so the retry returns a coroutine. Description B identifies line 42, where counting the one-shot iterator `lines` exhausts it before the main loop. These are different root causes at different lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJfTi5AW3wJ4PVoocDp",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014654000000000002,
+   "input_tokens": 858,
+   "latency_ms": 1342,
+   "output_tokens": 97
+  }
+ }
+}

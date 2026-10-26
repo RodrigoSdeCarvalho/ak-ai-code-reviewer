@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:11+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "13f181be4796f7c62606f4acbdd6461e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1992,
+  "user_sha256": "403c24bb039ca4624a6b8bdd44cd9aa29d932a11f3f3523bc367a522afb14a91"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that quantity is not reset to 0 after yielding a DailyTotal when the group key changes, so each subsequent group carries over the previous group's running total. Same root cause at the same lines; B adds a concrete example but the defect is identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that quantity is not reset to 0 after yielding a DailyTotal when the group key changes, so each subsequent group carries over the previous group's running total. Same root cause at the same lines; B adds a concrete example but the defect is identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcjPZqP8gEaFHAnUDD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014024,
+   "input_tokens": 775,
+   "latency_ms": 1937,
+   "output_tokens": 101
+  }
+ }
+}

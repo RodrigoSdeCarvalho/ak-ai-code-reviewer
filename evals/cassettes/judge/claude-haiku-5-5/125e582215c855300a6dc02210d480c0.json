@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:03+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "125e582215c855300a6dc02210d480c0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2280,
+  "user_sha256": "7289ea0768e6dea1779e60923804e0d35867cbd1f353ef050b0b641331229088"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says non-RecipientRefused exceptions escape the loop, aborting the send and losing the report so retries double-send. Description B says each message opens a new SMTP connection, causing per-recipient connection overhead and throttling. Different failures (error handling vs. performance/connection reuse) at overlapping lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says non-RecipientRefused exceptions escape the loop, aborting the send and losing the report so retries double-send. Description B says each message opens a new SMTP connection, causing per-recipient connection overhead and throttling. Different failures (error handling vs. performance/connection reuse) at overlapping lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKpy14v5GkhtUs2imtD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015764,
+   "input_tokens": 847,
+   "latency_ms": 1359,
+   "output_tokens": 120
+  }
+ }
+}

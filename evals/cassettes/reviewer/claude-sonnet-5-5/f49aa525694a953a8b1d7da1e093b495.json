@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:14:08+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f49aa525694a953a8b1d7da1e093b495",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 16549,
+  "user_sha256": "9eba1959628d89ea6fd0a4155b84791ccc779490023b0a80c7b1f920c61d921f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.97,
+     "description": "`host.endswith(domain)` has no label boundary. With partner domain `shop.example`, an origin such as `https://evilshop.example` or `https://attacker-shop.example` passes. The policy then reflects that origin with `Access-Control-Allow-Credentials: true`. A hostile site can then read the member's balance and POST redemptions using the member's session cookie.",
+     "file": "loyalty/cors.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Accept only an exact match or a true subdomain: `host == domain or host.endswith('.' + domain)`.",
+     "title": "Partner domain suffix match lacks a dot boundary, so attacker-controlled domains are allowed with credentials"
+    },
+    {
+     "category": "security",
+     "confidence": 0.4,
+     "description": "`parts.hostname` drops the port and userinfo. An origin like `https://user@partner.example:8443` or one with an arbitrary port is accepted as a partner origin, and the raw string is reflected back. This is looser than the exact-origin matching and widens the trusted set to any port on the partner host.",
+     "file": "loyalty/cors.py",
+     "line": 39,
+     "severity": "medium",
+     "suggestion": "Reject origins where `parts.username`, `parts.password` or `parts.port` are set, or compare the netloc to the hostname.",
+     "title": "Origin with port or userinfo is not validated beyond hostname"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"loyalty/cors.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Partner domain suffix match lacks a dot boundary, so attacker-controlled domains are allowed with credentials\",\"description\":\"`host.endswith(domain)` has no label boundary. With partner domain `shop.example`, an origin such as `https://evilshop.example` or `https://attacker-shop.example` passes. The policy then reflects that origin with `Access-Control-Allow-Credentials: true`. A hostile site can then read the member's balance and POST redemptions using the member's session cookie.\",\"suggestion\":\"Accept only an exact match or a true subdomain: `host == domain or host.endswith('.' + domain)`.\",\"confidence\":0.97},{\"file\":\"loyalty/cors.py\",\"line\":39,\"severity\":\"medium\",\"category\":\"security\",\"title\":\"Origin with port or userinfo is not validated beyond hostname\",\"description\":\"`parts.hostname` drops the port and userinfo. An origin like `https://user@partner.example:8443` or one with an arbitrary port is accepted as a partner origin, and the raw string is reflected back. This is looser than the exact-origin matching and widens the trusted set to any port on the partner host.\",\"suggestion\":\"Reject origins where `parts.username`, `parts.password` or `parts.port` are set, or compare the netloc to the hostname.\",\"confidence\":0.4}]}",
+  "request_id": "req_011CgRJXvEY3SFcmZbBbz2cd",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.018657,
+   "input_tokens": 6709,
+   "latency_ms": 4545,
+   "output_tokens": 472
+  }
+ }
+}

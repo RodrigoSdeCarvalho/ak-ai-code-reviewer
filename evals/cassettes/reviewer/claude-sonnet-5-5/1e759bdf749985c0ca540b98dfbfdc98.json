@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:12:17+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "1e759bdf749985c0ca540b98dfbfdc98",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 17958,
+  "user_sha256": "cce546341049a92b04341f0fa1eefbab96f8a306b2992103f4931bb54412f67f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "product() caches the full Product row (including inactive ones) under the sku key, which is fine, but a loader that raises UnknownProduct is never cached, so repeated lookups of nonexistent SKUs always hit the repository. This is a degraded-performance edge path (cache-miss amplification for bad SKUs).",
+     "file": "catalog/service.py",
+     "line": 53,
+     "severity": "medium",
+     "suggestion": "Cache a sentinel for missing SKUs (with TTL) or accept the cost explicitly.",
+     "title": "Missing/inactive product lookups are not negatively cached, and exceptions bypass cache; but inactive stale result returned after deactivate by other writers"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.05,
+     "description": "The write path saves to the repository and then invalidates. A reader that loaded the old row before save and stores it after save but before invalidate is protected by the generation check only if invalidate occurs after store. Since invalidate bumps generation after the save, a loader that began after the generation snapshot but read the old row before save will have its store rejected only if the store happens after invalidate; if it stores between save and invalidate, invalidate then removes the key, so this is safe. No defect here.",
+     "file": "catalog/service.py",
+     "line": 75,
+     "severity": "medium",
+     "suggestion": null,
+     "title": "Writes in the service can race with in-flight loads that were started before the write but invalidate happens after save"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.3,
+     "description": "Previously remove() raised UnknownProduct when delete returned False. Now it fetches first and ignores delete's return value; if another writer removes the product between _fetch and delete, the delete silently does nothing and no error is raised, whereas the old code reported it as unknown. Also an extra repository read is added.",
+     "file": "catalog/service.py",
+     "line": 94,
+     "severity": "medium",
+     "suggestion": "Keep the original `if not self._repository.delete(sku): raise UnknownProduct(sku)` and fetch the product only to know the category for invalidation (tolerating a missing row).",
+     "title": "remove() now has a check-then-delete race and ignores delete result"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":53,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Missing/inactive product lookups are not negatively cached, and exceptions bypass cache; but inactive stale result returned after deactivate by other writers\",\"description\":\"product() caches the full Product row (including inactive ones) under the sku key, which is fine, but a loader that raises UnknownProduct is never cached, so repeated lookups of nonexistent SKUs always hit the repository. This is a degraded-performance edge path (cache-miss amplification for bad SKUs).\",\"suggestion\":\"Cache a sentinel for missing SKUs (with TTL) or accept the cost explicitly.\",\"confidence\":0.2},{\"file\":\"catalog/service.py\",\"line\":75,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Writes in the service can race with in-flight loads that were started before the write but invalidate happens after save\",\"description\":\"The write path saves to the repository and then invalidates. A reader that loaded the old row before save and stores it after save but before invalidate is protected by the generation check only if invalidate occurs after store. Since invalidate bumps generation after the save, a loader that began after the generation snapshot but read the old row before save will have its store rejected only if the store happens after invalidate; if it stores between save and invalidate, invalidate then removes the key, so this is safe. No defect here.\",\"suggestion\":null,\"confidence\":0.05},{\"file\":\"catalog/service.py\",\"line\":94,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"remove() now has a check-then-delete race and ignores delete result\",\"description\":\"Previously remove() raised UnknownProduct when delete returned False. Now it fetches first and ignores delete's return value; if another writer removes the product between _fetch and delete, the delete silently does nothing and no error is raised, whereas the old code reported it as unknown. Also an extra repository read is added.\",\"suggestion\":\"Keep the original `if not self._repository.delete(sku): raise UnknownProduct(sku)` and fetch the product only to know the category for invalidation (tolerating a missing row).\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJPcUE6y1atgoqMaKPJ",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.021311,
+   "input_tokens": 6856,
+   "latency_ms": 6500,
+   "output_tokens": 708
+  }
+ }
+}

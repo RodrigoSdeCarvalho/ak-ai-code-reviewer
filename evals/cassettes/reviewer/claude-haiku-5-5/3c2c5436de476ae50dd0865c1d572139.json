@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "3c2c5436de476ae50dd0865c1d572139",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 13344,
+  "user_sha256": "717f445f727c7a575b89d7154d7d35caf251d4606f48e7b0e28ba97f13ab6d30"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.8,
+     "description": "The previous summarize() loaded one calibration per distinct sensor_id. The new loop calls calibrated(), which calls source.load(reading.sensor_id), for every reading. With a SQL-backed CalibrationSource this issues one query per reading, so a batch of N readings costs N database round trips where it previously cost one per sensor. On large batches this slows summarization sharply and adds load on the database.",
+     "end_line": 62,
+     "file": "greenhouse/readings.py",
+     "line": 57,
+     "severity": "high",
+     "suggestion": "Load calibrations once per distinct sensor before the loop, for example calibrations = {s: source.load(s) for s in {r.sensor_id for r in batch}}, then apply them per reading. This requires materialising the iterable, as the old code did.",
+     "title": "Calibration is loaded once per reading instead of once per sensor"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.3,
+     "description": "`rejected` is inserted between `count` and `mean`, and `mean`, `low` and `high` become Optional. Any caller that constructs ZoneSummary positionally, or that reads a field by index, will now bind values to the wrong fields or fail. Callers that use keyword arguments are unaffected.",
+     "end_line": null,
+     "file": "greenhouse/readings.py",
+     "line": 24,
+     "severity": "low",
+     "suggestion": "Add `rejected` as the last field with a default of 0, or keep the original field order and append the new field at the end.",
+     "title": "New positional field inserted in ZoneSummary shifts existing positional arguments"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"greenhouse/readings.py\",\"line\":57,\"end_line\":62,\"severity\":\"high\",\"category\":\"performance\",\"title\":\"Calibration is loaded once per reading instead of once per sensor\",\"description\":\"The previous summarize() loaded one calibration per distinct sensor_id. The new loop calls calibrated(), which calls source.load(reading.sensor_id), for every reading. With a SQL-backed CalibrationSource this issues one query per reading, so a batch of N readings costs N database round trips where it previously cost one per sensor. On large batches this slows summarization sharply and adds load on the database.\",\"suggestion\":\"Load calibrations once per distinct sensor before the loop, for example calibrations = {s: source.load(s) for s in {r.sensor_id for r in batch}}, then apply them per reading. This requires materialising the iterable, as the old code did.\",\"confidence\":0.8},{\"file\":\"greenhouse/readings.py\",\"line\":24,\"end_line\":null,\"severity\":\"low\",\"category\":\"api_contract\",\"title\":\"New positional field inserted in ZoneSummary shifts existing positional arguments\",\"description\":\"`rejected` is inserted between `count` and `mean`, and `mean`, `low` and `high` become Optional. Any caller that constructs ZoneSummary positionally, or that reads a field by index, will now bind values to the wrong fields or fail. Callers that use keyword arguments are unaffected.\",\"suggestion\":\"Add `rejected` as the last field with a default of 0, or keep the original field order and append the new field at the end.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0006383750000000002,
+   "input_tokens": 5733,
+   "latency_ms": null,
+   "output_tokens": 1355
+  }
+ }
+}

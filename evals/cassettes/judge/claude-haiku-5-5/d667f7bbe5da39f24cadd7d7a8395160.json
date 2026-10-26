@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:03+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d667f7bbe5da39f24cadd7d7a8395160",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1855,
+  "user_sha256": "676d11b3c6e31b851dc2b38f154841c6f535a2879d367766832cef8bc38179f7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment's central claim is muddled: the code's documented contract is that a missing '-' means ascending, so the 'breaks' framing is wrong, and the '+' decoding issue is a caller/URL-encoding matter not shown to cause a defect in this code. The default-direction discrepancy with orders_panel is not verified from the shown code and amounts to a minor contract inconsistency, so this is at most a nit."
+  },
+  "raw_text": "{\"reason\": \"The comment's central claim is muddled: the code's documented contract is that a missing '-' means ascending, so the 'breaks' framing is wrong, and the '+' decoding issue is a caller/URL-encoding matter not shown to cause a defect in this code. The default-direction discrepancy with orders_panel is not verified from the shown code and amounts to a minor contract inconsistency, so this is at most a nit.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKkQnDZTdoSLbcBB6Go",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 666,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00023105,
+   "input_tokens": 728,
+   "latency_ms": 3297,
+   "output_tokens": 150
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e485440ed0d4fcbe69eabb51260fbc1d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2304,
+  "user_sha256": "d212a118d94c5a3cb0b91b40c2aa161e496635f580df01a697a7e82b7229dc29"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A claims a concurrency issue with dict mutation during await and KeyError risk around lines 46-48. Description B identifies a missing await on the coroutine call `deliver(...)` at line 45, causing it to always be truthy and never run, so digests are silently lost. These are different defects with different causes and failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A claims a concurrency issue with dict mutation during await and KeyError risk around lines 46-48. Description B identifies a missing await on the coroutine call `deliver(...)` at line 45, causing it to always be truthy and never run, so digests are silently lost. These are different defects with different causes and failures.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKnqyLiA9NBGCtRNeCk",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014924,
+   "input_tokens": 773,
+   "latency_ms": 1937,
+   "output_tokens": 118
+  }
+ }
+}

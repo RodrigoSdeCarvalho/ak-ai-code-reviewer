@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2f529b7b090bfccedffb997f95488aba",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2039,
+  "user_sha256": "1eb7fb5b764cc0ea1073fab67e21de57a05de0ab7c5995d792b6766fe0c4a6bb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: calling store.project(entry.project_id) inside the per-entry loop at line 67 causes N+1 lookups, slowing report generation for large periods. Description B adds detail about a batched projects(ids) API, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: calling store.project(entry.project_id) inside the per-entry loop at line 67 causes N+1 lookups, slowing report generation for large periods. Description B adds detail about a batched projects(ids) API, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjH5bEQVvoabJ3ukp6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014084000000000001,
+   "input_tokens": 744,
+   "latency_ms": 1764,
+   "output_tokens": 107
+  }
+ }
+}

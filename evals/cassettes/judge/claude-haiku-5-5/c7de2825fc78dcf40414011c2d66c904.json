@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:37+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c7de2825fc78dcf40414011c2d66c904",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2014,
+  "user_sha256": "196beb3c67d18c7111e58f3fcd02b79a93fb2d5817b7f4a5345a0399565755e3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the except OSError block in put() at lines 55-56 swallows the write failure without re-raising, so put() returns BlobInfo as if stored while no blob exists, causing later get() to raise BlobNotFound. Description B adds the AttachmentService downstream impact, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the except OSError block in put() at lines 55-56 swallows the write failure without re-raising, so put() returns BlobInfo as if stored while no blob exists, causing later get() to raise BlobNotFound. Description B adds the AttachmentService downstream impact, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKibvdPeFdConbA5hWb",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015284,
+   "input_tokens": 769,
+   "latency_ms": 1500,
+   "output_tokens": 126
+  }
+ }
+}

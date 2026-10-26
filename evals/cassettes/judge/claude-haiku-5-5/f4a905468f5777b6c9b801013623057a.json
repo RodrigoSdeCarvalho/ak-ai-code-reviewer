@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f4a905468f5777b6c9b801013623057a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2869,
+  "user_sha256": "287272a3172a01be138a4acbf3e1525cf7f92e15edfe3043132cc055892b7ab1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The code does write metadata via atomic replace before the blob, so a failed blob write (e.g., disk full in tmp.write_bytes) would leave the old blob with new metadata, a real consistency defect that causes wrong metadata to be served. The leftover temp files on failure are also a genuine, if minor, issue."
+  },
+  "raw_text": "{\"reason\": \"The code does write metadata via atomic replace before the blob, so a failed blob write (e.g., disk full in tmp.write_bytes) would leave the old blob with new metadata, a real consistency defect that causes wrong metadata to be served. The leftover temp files on failure are also a genuine, if minor, issue.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKteTxwk5YypcUs563U",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00018296,
+   "input_tokens": 1158,
+   "latency_ms": 1438,
+   "output_tokens": 121
+  }
+ }
+}

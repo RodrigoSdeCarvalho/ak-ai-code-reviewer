@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "358b8cb4bcbfe33abcb6bb877c06efd5",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9321,
+  "user_sha256": "c2631e91ac6022bf993757c5ccb6111183d4adc9897906b707fe1e4cb73f0cd9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "inbound_by_sku only skips CANCELLED orders. The OrderBook holds every PO ever raised, so received/closed orders are also counted as inbound. Their units are already in on_hand, so they are counted twice. Over time the available position is inflated, SKUs stop hitting the reorder point, and reorder quantities shrink or drop to zero, leading to stock-outs.",
+     "end_line": 39,
+     "file": "stock/replenish.py",
+     "line": 38,
+     "severity": "high",
+     "suggestion": "Count only orders that are still outstanding (for example DRAFT/SENT/CONFIRMED), and exclude RECEIVED as well as CANCELLED. An explicit allow-list of open statuses is safer than a deny-list.",
+     "title": "Inbound count includes already-received purchase orders"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"stock/replenish.py\",\"line\":38,\"end_line\":39,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Inbound count includes already-received purchase orders\",\"description\":\"inbound_by_sku only skips CANCELLED orders. The OrderBook holds every PO ever raised, so received/closed orders are also counted as inbound. Their units are already in on_hand, so they are counted twice. Over time the available position is inflated, SKUs stop hitting the reorder point, and reorder quantities shrink or drop to zero, leading to stock-outs.\",\"suggestion\":\"Count only orders that are still outstanding (for example DRAFT/SENT/CONFIRMED), and exclude RECEIVED as well as CANCELLED. An explicit allow-list of open statuses is safer than a deny-list.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0069015,
+   "input_tokens": 3972,
+   "latency_ms": null,
+   "output_tokens": 534
+  }
+ }
+}

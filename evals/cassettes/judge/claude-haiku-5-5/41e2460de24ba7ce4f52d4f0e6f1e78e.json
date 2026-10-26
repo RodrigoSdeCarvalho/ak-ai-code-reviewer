@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:15+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "41e2460de24ba7ce4f52d4f0e6f1e78e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1869,
+  "user_sha256": "4ce9fc7215542b3658eb6365074ce1bf47f7756bdfaa9c1156616c75a0c051ed"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The shown code cannot confirm the claim: the diff context does not include the prior signature or the from_env prefix behaviour, so the claimed breakage of keyword callers using config= and the MAILER_RELAY_ prefix requirement are unverifiable from this snippet. Given the rule to prefer nit when the code is insufficient, this is labelled nit rather than valid_issue."
+  },
+  "raw_text": "{\"reason\": \"The shown code cannot confirm the claim: the diff context does not include the prior signature or the from_env prefix behaviour, so the claimed breakage of keyword callers using config= and the MAILER_RELAY_ prefix requirement are unverifiable from this snippet. Given the rule to prefer nit when the code is insufficient, this is labelled nit rather than valid_issue.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKmR3ct59oBa7wWiynK",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00014646,
+   "input_tokens": 698,
+   "latency_ms": 1688,
+   "output_tokens": 140
+  }
+ }
+}

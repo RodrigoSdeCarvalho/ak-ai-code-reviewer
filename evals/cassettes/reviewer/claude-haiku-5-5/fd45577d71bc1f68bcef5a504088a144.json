@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "fd45577d71bc1f68bcef5a504088a144",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 13260,
+  "user_sha256": "d08a0960d46d19ffc8aef7477a04861a87310a1e1650745783daed5c24e7668b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.5,
+     "description": "The previous get() deleted a session once it was found expired. The new version only returns None, so an expired session stays in the dict until purge_expired() is called. Nothing in this change schedules purge_expired(), so a process that issues many logins and never purges will hold every expired session in memory, and FileSessionStore will keep persisting them to disk.",
+     "end_line": 45,
+     "file": "sessions/store.py",
+     "line": 43,
+     "severity": "medium",
+     "suggestion": "Restore lazy eviction: when the session is expired, drop it under the write lock (for example by calling revoke with the raw token or by a digest-based removal), or document and enforce a periodic purge_expired() call.",
+     "title": "get() no longer evicts expired sessions, so expired entries accumulate"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.35,
+     "description": "The bare except catches BaseException, and os.unlink(tmp_name) runs without a guard. If the failure happened after os.replace moved the file, or if the temp file is already gone, unlink raises FileNotFoundError and replaces the real exception. If fdopen fails before the fd is wrapped, the descriptor is also left open.",
+     "end_line": 105,
+     "file": "sessions/store.py",
+     "line": 103,
+     "severity": "low",
+     "suggestion": "Use `except BaseException:` at minimum, wrap the unlink in `contextlib.suppress(FileNotFoundError)`, and close fd if os.fdopen raises before it takes ownership.",
+     "title": "Bare except and unguarded unlink can mask the original write error"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.3,
+     "description": "create() builds a new dict from all sessions, and FileSessionStore._commit then serialises all of them and fsyncs the file. Each login therefore costs O(n) memory and O(n) disk I/O with an fsync, so login latency and write amplification grow with the number of live sessions.",
+     "end_line": 37,
+     "file": "sessions/store.py",
+     "line": 37,
+     "severity": "medium",
+     "suggestion": "Persist incremental changes (for example an append-only log with periodic compaction) or batch writes, instead of rewriting the full snapshot on every create.",
+     "title": "Every create() copies the whole session map and rewrites the entire file"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"sessions/store.py\",\"line\":43,\"end_line\":45,\"severity\":\"medium\",\"category\":\"resource\",\"title\":\"get() no longer evicts expired sessions, so expired entries accumulate\",\"description\":\"The previous get() deleted a session once it was found expired. The new version only returns None, so an expired session stays in the dict until purge_expired() is called. Nothing in this change schedules purge_expired(), so a process that issues many logins and never purges will hold every expired session in memory, and FileSessionStore will keep persisting them to disk.\",\"suggestion\":\"Restore lazy eviction: when the session is expired, drop it under the write lock (for example by calling revoke with the raw token or by a digest-based removal), or document and enforce a periodic purge_expired() call.\",\"confidence\":0.5},{\"file\":\"sessions/store.py\",\"line\":103,\"end_line\":105,\"severity\":\"low\",\"category\":\"error_handling\",\"title\":\"Bare except and unguarded unlink can mask the original write error\",\"description\":\"The bare except catches BaseException, and os.unlink(tmp_name) runs without a guard. If the failure happened after os.replace moved the file, or if the temp file is already gone, unlink raises FileNotFoundError and replaces the real exception. If fdopen fails before the fd is wrapped, the descriptor is also left open.\",\"suggestion\":\"Use `except BaseException:` at minimum, wrap the unlink in `contextlib.suppress(FileNotFoundError)`, and close fd if os.fdopen raises before it takes ownership.\",\"confidence\":0.35},{\"file\":\"sessions/store.py\",\"line\":37,\"end_line\":37,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Every create() copies the whole session map and rewrites the entire file\",\"description\":\"create() builds a new dict from all sessions, and FileSessionStore._commit then serialises all of them and fsyncs the file. Each login therefore costs O(n) memory and O(n) disk I/O with an fsync, so login latency and write amplification grow with the number of live sessions.\",\"suggestion\":\"Persist incremental changes (for example an append-only log with periodic compaction) or batch writes, instead of rewriting the full snapshot on every create.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000775525,
+   "input_tokens": 5191,
+   "latency_ms": null,
+   "output_tokens": 2012
+  }
+ }
+}

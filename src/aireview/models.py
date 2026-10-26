@@ -104,5 +104,6 @@ class Review(BaseModel):
     status: ReviewStatus = ReviewStatus.ok
     findings: list[Finding] = Field(default_factory=list)
     out_of_scope_findings: list[Finding] = Field(default_factory=list)
+    suppressed_findings: list[Finding] = Field(default_factory=list)  # below the config's min_confidence
     usage: Usage = Field(default_factory=Usage)
     error: str | None = None

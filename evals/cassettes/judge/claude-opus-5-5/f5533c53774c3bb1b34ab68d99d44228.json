@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:59+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f5533c53774c3bb1b34ab68d99d44228",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2304,
+  "user_sha256": "d212a118d94c5a3cb0b91b40c2aa161e496635f580df01a697a7e82b7229dc29"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A raises concurrency and dict-mutation concerns that assume deliver is awaited, mainly that the defaultdict could re-create keys. Description B says deliver is called without await, so the coroutine is always truthy and never runs, and every digest is lost. These are different root causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"Description A raises concurrency and dict-mutation concerns that assume deliver is awaited, mainly that the defaultdict could re-create keys. Description B says deliver is called without await, so the coroutine is always truthy and never runs, and every digest is lost. These are different root causes.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLHAxsyFE2tYieGWHAn",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0054908000000000005,
+   "input_tokens": 773,
+   "latency_ms": 2343,
+   "output_tokens": 107
+  }
+ }
+}

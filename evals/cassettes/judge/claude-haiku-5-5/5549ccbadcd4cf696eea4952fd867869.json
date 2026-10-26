@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5549ccbadcd4cf696eea4952fd867869",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2010,
+  "user_sha256": "09e4bcdc1c6af8f14ea8321ae05d9d16a4fef056e537fe5c3b531a83557a50c9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the except OSError block in put() at lines 55-56 swallows write failures without re-raising, so put() falls through to return success while no blob was stored, causing silent data loss and later BlobNotFound on get(). The extra detail about AttachmentService in B does not change the root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the except OSError block in put() at lines 55-56 swallows write failures without re-raising, so put() falls through to return success while no blob was stored, causing silent data loss and later BlobNotFound on get(). The extra detail about AttachmentService in B does not change the root cause.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.422e-05,
+   "input_tokens": 767,
+   "latency_ms": null,
+   "output_tokens": 119
+  }
+ }
+}

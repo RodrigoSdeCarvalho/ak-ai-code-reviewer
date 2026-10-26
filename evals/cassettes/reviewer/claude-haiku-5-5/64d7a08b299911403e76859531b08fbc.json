@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "64d7a08b299911403e76859531b08fbc",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8985,
+  "user_sha256": "0e40d466f2f4d76ca94500ee6ef6445e761898c411ea05c9423b289812aabab5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "In _run, the except branch sets job.next_run = now + self._retry_delay(job) (line 65), but the finally block then unconditionally sets job.next_run = now + job.interval (line 76). finally runs after except, so the retry schedule is always discarded. A failing job is rescheduled after its full interval instead of the intended retry_delay, and the exponential backoff is dead code. Failures that would be retried within a minute are delayed by a whole interval, for example a day for daily_at jobs.",
+     "end_line": 76,
+     "file": "scheduler/runner.py",
+     "line": 76,
+     "severity": "high",
+     "suggestion": "Remove the finally block and restore a single assignment after the try/except/else, for example set job.next_run = now + job.interval in the else branch and now + self._retry_delay(job) in the except branch.",
+     "title": "finally overwrites the retry delay, so failed jobs never back off"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "consecutive_failures is unbounded and max_failures can be set arbitrarily high. With 2 ** (consecutive_failures - 1) growing, job.retry_delay * 2**n eventually exceeds timedelta's maximum (around 2**41 minutes-scale multiples), raising OverflowError. That exception is raised inside the except block of _run, so it escapes tick() and prevents the remaining due jobs in that tick from running, and the job is never disabled.",
+     "end_line": 81,
+     "file": "scheduler/runner.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Cap the exponent or cap the result before multiplying, for example compare consecutive_failures against a bound derived from interval/retry_delay or compute the delay in seconds with a clamped exponent.",
+     "title": "Backoff exponent can overflow timedelta and raise from inside the failure handler"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduler/runner.py\",\"line\":76,\"end_line\":76,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"finally overwrites the retry delay, so failed jobs never back off\",\"description\":\"In _run, the except branch sets job.next_run = now + self._retry_delay(job) (line 65), but the finally block then unconditionally sets job.next_run = now + job.interval (line 76). finally runs after except, so the retry schedule is always discarded. A failing job is rescheduled after its full interval instead of the intended retry_delay, and the exponential backoff is dead code. Failures that would be retried within a minute are delayed by a whole interval, for example a day for daily_at jobs.\",\"suggestion\":\"Remove the finally block and restore a single assignment after the try/except/else, for example set job.next_run = now + job.interval in the else branch and now + self._retry_delay(job) in the except branch.\",\"confidence\":0.9},{\"file\":\"scheduler/runner.py\",\"line\":81,\"end_line\":81,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Backoff exponent can overflow timedelta and raise from inside the failure handler\",\"description\":\"consecutive_failures is unbounded and max_failures can be set arbitrarily high. With 2 ** (consecutive_failures - 1) growing, job.retry_delay * 2**n eventually exceeds timedelta's maximum (around 2**41 minutes-scale multiples), raising OverflowError. That exception is raised inside the except block of _run, so it escapes tick() and prevents the remaining due jobs in that tick from running, and the job is never disabled.\",\"suggestion\":\"Cap the exponent or cap the result before multiplying, for example compare consecutive_failures against a bound derived from interval/retry_delay or compute the delay in seconds with a clamped exponent.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000566625,
+   "input_tokens": 3698,
+   "latency_ms": null,
+   "output_tokens": 1475
+  }
+ }
+}

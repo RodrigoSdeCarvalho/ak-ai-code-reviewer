@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:31+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9ab7b7f91dc500f1f077ee0fdd82cf52",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2171,
+  "user_sha256": "a23778199a89e061ba6fbf49a8cac8950b3e984d89b495f034eb11d84d82afa3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: `del conn._message_formatter` at line 145 raises AttributeError when no instance attribute exists (e.g., clearing logging_token on a connection that never set one or a second reset), and both suggest assigning None instead. Description B adds more detail about the class-level default, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: `del conn._message_formatter` at line 145 raises AttributeError when no instance attribute exists (e.g., clearing logging_token on a connection that never set one or a second reset), and both suggest assigning None instead. Description B adds more detail about the class-level default, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiACozFu7PVodKcpCS",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015534000000000001,
+   "input_tokens": 799,
+   "latency_ms": 1593,
+   "output_tokens": 125
+  }
+ }
+}

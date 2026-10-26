@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f8c4220a56f625d34b91934c214d7185",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5468,
+  "user_sha256": "5e4639dc0b932da7ace6ed4ab8d7f4fb809ca882728d374c3f9e2fe23d3b0d86"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.97,
+     "description": "reschedule acquires the lock, but the early `return False` (unknown job or non-pending status) leaves it held. The lock is a non-reentrant threading.Lock, so every later call to _acquire blocks for the timeout and then raises SchedulerBusy, which wedges the whole scheduler. Any exception raised between acquire and release has the same effect, because there is no try/finally.",
+     "file": "scheduler/jobs.py",
+     "line": 77,
+     "severity": "critical",
+     "suggestion": "Wrap the body in try/finally, as the other methods do, and release the lock in the finally block. Remove the explicit release before `return True`.",
+     "title": "Lock not released on early return in reschedule"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduler/jobs.py\",\"line\":77,\"severity\":\"critical\",\"category\":\"concurrency\",\"title\":\"Lock not released on early return in reschedule\",\"description\":\"reschedule acquires the lock, but the early `return False` (unknown job or non-pending status) leaves it held. The lock is a non-reentrant threading.Lock, so every later call to _acquire blocks for the timeout and then raises SchedulerBusy, which wedges the whole scheduler. Any exception raised between acquire and release has the same effect, because there is no try/finally.\",\"suggestion\":\"Wrap the body in try/finally, as the other methods do, and release the lock in the finally block. Remove the explicit release before `return True`.\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0037635,
+   "input_tokens": 2259,
+   "latency_ms": null,
+   "output_tokens": 249
+  }
+ }
+}

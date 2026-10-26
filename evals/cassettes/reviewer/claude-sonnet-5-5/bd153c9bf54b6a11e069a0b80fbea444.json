@@ -1,0 +1,59 @@
+{
+ "recorded_at": "2026-10-26T18:13:05+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "bd153c9bf54b6a11e069a0b80fbea444",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6003,
+  "user_sha256": "48f3ca5db8f5b1be2502b8d083419ccac396f468a61413d242d63cb609af8b82"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.9,
+     "description": "The try block wraps both parse_row and self._flush, and the handler catches Exception. If sink.write raises (DB outage, constraint error), the exception is swallowed and logged as a rejection of the row that happened to fill the batch. Because `pending, batch = batch, []` runs before the flush, the whole batch of up to batch_size already-parsed rows is dropped without being written. Nothing is retried and nothing is surfaced as a sink failure. The load continues, and the report shows only one rejected row, so up to 500 rows are lost silently. After repeated failures it raises a misleading TooManyRejected.",
+     "end_line": 68,
+     "file": "pipeline/load.py",
+     "line": 67,
+     "severity": "high",
+     "suggestion": "Only wrap parse_row in the try/except, and perform the batch flush outside it so sink errors propagate. For example: try: tx = parse_row(row) except ValueError as exc: record rejection; continue. Then batch.append(tx) and flush if the batch is full.",
+     "title": "Sink write failures are recorded as a rejection of the current row"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.35,
+     "description": "Catching every Exception treats programming errors such as TypeError or KeyError bugs, and a None row, as data rejections. These get hidden in the report instead of failing fast. A DictReader row with a missing column can also yield None values and trigger AttributeError. That is arguably a data problem, but it is indistinguishable from a bug.",
+     "file": "pipeline/load.py",
+     "line": 67,
+     "severity": "low",
+     "suggestion": "Catch the specific exception type parse_row raises for malformed input (e.g. ValueError or a ParseError).",
+     "title": "Overly broad except Exception around parsing"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/load.py\",\"line\":67,\"end_line\":68,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"Sink write failures are recorded as a rejection of the current row\",\"description\":\"The try block wraps both parse_row and self._flush, and the handler catches Exception. If sink.write raises (DB outage, constraint error), the exception is swallowed and logged as a rejection of the row that happened to fill the batch. Because `pending, batch = batch, []` runs before the flush, the whole batch of up to batch_size already-parsed rows is dropped without being written. Nothing is retried and nothing is surfaced as a sink failure. The load continues, and the report shows only one rejected row, so up to 500 rows are lost silently. After repeated failures it raises a misleading TooManyRejected.\",\"suggestion\":\"Only wrap parse_row in the try/except, and perform the batch flush outside it so sink errors propagate. For example: try: tx = parse_row(row) except ValueError as exc: record rejection; continue. Then batch.append(tx) and flush if the batch is full.\",\"confidence\":0.9},{\"file\":\"pipeline/load.py\",\"line\":67,\"severity\":\"low\",\"category\":\"error_handling\",\"title\":\"Overly broad except Exception around parsing\",\"description\":\"Catching every Exception treats programming errors such as TypeError or KeyError bugs, and a None row, as data rejections. These get hidden in the report instead of failing fast. A DictReader row with a missing column can also yield None values and trigger AttributeError. That is arguably a data problem, but it is indistinguishable from a bug.\",\"suggestion\":\"Catch the specific exception type parse_row raises for malformed input (e.g. ValueError or a ParseError).\",\"confidence\":0.35}]}",
+  "request_id": "req_011CgRJTDwmLKrsYvnvEoMZn",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.011309,
+   "input_tokens": 2460,
+   "latency_ms": 4890,
+   "output_tokens": 587
+  }
+ }
+}

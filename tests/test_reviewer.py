@@ -301,3 +301,37 @@ def test_cli_dispatches_claude_cli(tmp_path: Path, monkeypatch: pytest.MonkeyPat
     monkeypatch.setattr(claude_cli, "claude_cli_review", fake)
     assert reviewer.cli_review(_args(tmp_path, backend="claude-cli")) == 0
     assert seen[0].backend == "claude-cli"
+
+
+def test_min_confidence_suppresses_low_confidence_findings_without_changing_the_request():
+    from aireview.evals.schema import ReviewerConfig
+    from aireview.reviewer.reviewer import build_request, review_from_output
+
+    diff = "diff --git a/app/x.py b/app/x.py\n--- a/app/x.py\n+++ b/app/x.py\n@@ -1,1 +1,2 @@\n a = 1\n+b = 2\n"
+    v1 = ReviewerConfig(name="v1", backend="anthropic", model="claude-sonnet-5-5", prompt_version="v1")
+    v2 = v1.model_copy(update={"name": "v2", "min_confidence": 0.5})
+    assert build_request(diff, None, v1).key() == build_request(diff, None, v2).key()
+
+    def finding(conf):
+        return {
+            "file": "app/x.py",
+            "line": 2,
+            "severity": "medium",
+            "category": "logic",
+            "title": "t",
+            "description": "d",
+            "confidence": conf,
+        }
+
+    data = {"findings": [finding(0.9), finding(0.3), finding(0.5)]}
+    kept = review_from_output(data, diff, v2, Usage())
+    assert [f.confidence for f in kept.findings] == [0.9, 0.5]
+    assert [f.confidence for f in kept.suppressed_findings] == [0.3]
+    assert len(review_from_output(data, diff, v1, Usage()).findings) == 3
+
+
+def test_claude_cli_child_env_drops_parent_session_variables():
+    env = claude_cli.child_env(
+        {"PATH": "/bin", "ANTHROPIC_API_KEY": "k", "CLAUDECODE": "1", "CLAUDE_CODE_ENTRYPOINT": "sdk"}
+    )
+    assert env == {"PATH": "/bin", "ANTHROPIC_API_KEY": "k"}

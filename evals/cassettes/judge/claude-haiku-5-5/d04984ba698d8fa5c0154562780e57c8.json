@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d04984ba698d8fa5c0154562780e57c8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2180,
+  "user_sha256": "794940bbe74bd91480f83be76c17fc5e915c392ec03bc3a52bc753fa02240be9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a missing `await` on the retry branch at line 51, so the retried enrich coroutine is returned unawaited. Description B identifies line 42, where `sum(1 for _ in lines)` exhausts a one-shot iterator so the later loop sees no lines. These are different defects at different lines with different failure modes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a missing `await` on the retry branch at line 51, so the retried enrich coroutine is returned unawaited. Description B identifies line 42, where `sum(1 for _ in lines)` exhausts a one-shot iterator so the later loop sees no lines. These are different defects at different lines with different failure modes.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJfGU9T757GCxSK36EG",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015764000000000002,
+   "input_tokens": 834,
+   "latency_ms": 1390,
+   "output_tokens": 124
+  }
+ }
+}

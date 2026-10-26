@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:26+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9cf164dba0cc83891fd45b23f521a6f2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2260,
+  "user_sha256": "84f6ac2332732d2042295c9d0f0fb1ecfbdbb8a2cd4cee6556169e8d1616bfff"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the line-42 count exhausts a one-shot iterator so the main loop reads nothing. Description B says the retry at line 51 returns an un-awaited coroutine instead of the enriched event. These are different defects at different lines with different failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the line-42 count exhausts a one-shot iterator so the main loop reads nothing. Description B says the retry at line 51 returns an un-awaited coroutine instead of the enriched event. These are different defects at different lines with different failures.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKreYMs9xbGLFEYnQbH",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014774000000000002,
+   "input_tokens": 858,
+   "latency_ms": 1360,
+   "output_tokens": 98
+  }
+ }
+}

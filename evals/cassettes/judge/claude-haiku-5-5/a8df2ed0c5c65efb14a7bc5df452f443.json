@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:30+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a8df2ed0c5c65efb14a7bc5df452f443",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2401,
+  "user_sha256": "6eff39e8328926497dd766eb17f0022041d3724563887b669cd97ef6ec53f769"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after an ETA conversion failure (OverflowError/ValueError) the code logs and calls req.reject(requeue=False) but lacks a return, so eta stays None and the task falls through to rate-limit/handle and runs immediately despite being rejected. Description B adds a point about the result backend not storing the failure, but the core root cause and location match A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after an ETA conversion failure (OverflowError/ValueError) the code logs and calls req.reject(requeue=False) but lacks a return, so eta stays None and the task falls through to rate-limit/handle and runs immediately despite being rejected. Description B adds a point about the result backend not storing the failure, but the core root cause and location match A.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKnWnvCNT12DsihpwEp",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017084,
+   "input_tokens": 869,
+   "latency_ms": 1953,
+   "output_tokens": 142
+  }
+ }
+}

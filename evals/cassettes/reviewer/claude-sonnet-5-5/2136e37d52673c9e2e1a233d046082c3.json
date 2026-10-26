@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "2136e37d52673c9e2e1a233d046082c3",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7748,
+  "user_sha256": "8c98a0911582c128835492f82164049e060ea6d7efdaf4f7db3396620d926bc3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "reserve_order reserves lines one at a time. If a later line raises UnknownSku or OutOfStock, the earlier lines stay reserved. place_order then returns 404 or 409, so the client sees a failed order while stock for the earlier lines is held and never released. The old code checked every line before reserving any, so this change introduces the leak.",
+     "end_line": 60,
+     "file": "inventory/warehouse.py",
+     "line": 57,
+     "severity": "high",
+     "suggestion": "Validate all lines first (check each SKU exists and has enough available stock), then apply the reservations. Alternatively, roll back the reservations already made when an exception occurs, using release.",
+     "title": "reserve_order is not atomic: partial reservations leak on failure"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/warehouse.py\",\"line\":57,\"end_line\":60,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"reserve_order is not atomic: partial reservations leak on failure\",\"description\":\"reserve_order reserves lines one at a time. If a later line raises UnknownSku or OutOfStock, the earlier lines stay reserved. place_order then returns 404 or 409, so the client sees a failed order while stock for the earlier lines is held and never released. The old code checked every line before reserving any, so this change introduces the leak.\",\"suggestion\":\"Validate all lines first (check each SKU exists and has enough available stock), then apply the reservations. Alternatively, roll back the reservations already made when an exception occurs, using release.\",\"confidence\":0.93}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0048405,
+   "input_tokens": 3286,
+   "latency_ms": null,
+   "output_tokens": 259
+  }
+ }
+}

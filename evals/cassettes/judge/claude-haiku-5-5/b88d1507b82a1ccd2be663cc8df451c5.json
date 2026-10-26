@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b88d1507b82a1ccd2be663cc8df451c5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2027,
+  "user_sha256": "72c0b072610e030e62526117b4417f4e4a8c0dcc2457dd4c717a2cbb7a0a1bc7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 107: the eviction loop bounds on len(self._keys_by_country), the number of distinct countries, rather than the number of cached entries, so the cache grows unbounded with postal codes. Description A adds the LRU regression detail, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 107: the eviction loop bounds on len(self._keys_by_country), the number of distinct countries, rather than the number of cached entries, so the cache grows unbounded with postal codes. Description A adds the LRU regression detail, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKrZM5UqBcdHCi6j2Hc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014584,
+   "input_tokens": 754,
+   "latency_ms": 1217,
+   "output_tokens": 115
+  }
+ }
+}

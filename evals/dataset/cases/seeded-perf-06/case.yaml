@@ -26,6 +26,10 @@ bugs:
     so the summary (and the irrigation plan built from it) slows down by orders of magnitude and loads
     the database.
   must_find: true
+  alt_locations:
+  - file: greenhouse/readings.py
+    line_start: 57
+    line_end: 58
 notes: >
   PR purpose: add per-sensor valid ranges to calibrations, count out-of-range readings as rejected instead
   of averaging them, stream readings instead of materialising the batch, and add an irrigation plan that

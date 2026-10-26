@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "11fde84d689222288c2e5f5b1ef3dcc8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2780,
+  "user_sha256": "b5d73553b6e2f593932556362fc1c5321f70836cb5e57a664729531375c9cc21"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment is accurate: sign_out_everywhere catches StoreError per record and continues, so a failed delete leaves a session valid after change_password, and the returned count does not signal incomplete revocation. This is a real security risk (old sessions survive a password change) visible in the shown code."
+  },
+  "raw_text": "{\"reason\": \"The comment is accurate: sign_out_everywhere catches StoreError per record and continues, so a failed delete leaves a session valid after change_password, and the returned count does not signal incomplete revocation. This is a real security risk (old sessions survive a password change) visible in the shown code.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKt6mDjCMruFzoqixez",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00016126,
+   "input_tokens": 996,
+   "latency_ms": 1219,
+   "output_tokens": 110
+  }
+ }
+}

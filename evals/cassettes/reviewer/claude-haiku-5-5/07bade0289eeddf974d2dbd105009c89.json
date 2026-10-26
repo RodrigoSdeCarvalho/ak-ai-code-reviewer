@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "07bade0289eeddf974d2dbd105009c89",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5817,
+  "user_sha256": "90c1b46ad0609df3bd7e4a8be39337408fd81cb16e2201702e99f8b413270b8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.9,
+     "description": "put_stream writes every upload to a unique file under incoming/ and only renames it when the blob is new. When target.exists() is true (the common deduplication case), the function returns without removing incoming, so each duplicate upload leaves a full copy of the blob on disk. Disk usage grows with every repeated upload, and the incoming directory is never cleaned up. The same leak happens if mkdir or os.replace fails after the file is written, because those calls are outside the try/except.",
+     "end_line": 66,
+     "file": "storage/blobs.py",
+     "line": 66,
+     "severity": "high",
+     "suggestion": "On the already-exists path, call incoming.unlink(missing_ok=True) before returning. Also move the parent mkdir and os.replace inside a try that unlinks incoming on failure.",
+     "title": "Duplicate uploads leave their temporary file in incoming/"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"storage/blobs.py\",\"line\":66,\"end_line\":66,\"severity\":\"high\",\"category\":\"resource\",\"title\":\"Duplicate uploads leave their temporary file in incoming/\",\"description\":\"put_stream writes every upload to a unique file under incoming/ and only renames it when the blob is new. When target.exists() is true (the common deduplication case), the function returns without removing incoming, so each duplicate upload leaves a full copy of the blob on disk. Disk usage grows with every repeated upload, and the incoming directory is never cleaned up. The same leak happens if mkdir or os.replace fails after the file is written, because those calls are outside the try/except.\",\"suggestion\":\"On the already-exists path, call incoming.unlink(missing_ok=True) before returning. Also move the parent mkdir and os.replace inside a try that unlinks incoming on failure.\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00041507500000000005,
+   "input_tokens": 2442,
+   "latency_ms": null,
+   "output_tokens": 1120
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:44+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "39fdcb361588844353473cad0c0082d1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2245,
+  "user_sha256": "e13cd1036d2fd14c9b15bc453111a44fc8e7774c9f3e7203204422adc0fe3b19"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: create_ticket still passes the old keyword `attempts=1` after `request` was renamed to `max_attempts`, so it lands in `**fields` as a stray body field, the retry limit silently falls back to 3, and non-idempotent POST /tickets can create duplicate tickets on timeout or 5xx. Description B additionally notes the alternative location in client.py, which is consistent with the same root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: create_ticket still passes the old keyword `attempts=1` after `request` was renamed to `max_attempts`, so it lands in `**fields` as a stray body field, the retry limit silently falls back to 3, and non-idempotent POST /tickets can create duplicate tickets on timeout or 5xx. Description B additionally notes the alternative location in client.py, which is consistent with the same root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKo8sLH7ymgcwrnzJsw",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018034,
+   "input_tokens": 869,
+   "latency_ms": 7407,
+   "output_tokens": 161
+  }
+ }
+}

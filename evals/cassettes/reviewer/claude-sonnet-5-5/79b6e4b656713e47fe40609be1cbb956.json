@@ -1,0 +1,70 @@
+{
+ "recorded_at": "2026-10-26T18:14:15+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "79b6e4b656713e47fe40609be1cbb956",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7773,
+  "user_sha256": "861a2e980ea6e1734631e17f54e9da5627aeefec07ca990c97db0151d6f8de04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.95,
+     "description": "The release is not in a finally block. When an InventoryError is raised, the code rolls back and re-raises, so line 96 is skipped and the connection leaks. Any other exception (e.g. a DB error) skips both rollback and release, leaving uncommitted writes on a connection that is never returned. Repeated InsufficientStock or UnknownSku failures will exhaust the pool.",
+     "end_line": 96,
+     "file": "inventory/service.py",
+     "line": 93,
+     "severity": "high",
+     "suggestion": "Use try/except/finally: roll back on any exception (except Exception: conn.rollback(); raise) and call self._pool.release(conn) in finally.",
+     "title": "Connection never released on error paths in reserve()"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "Non-InventoryError exceptions (e.g. connection or KeyError from malformed rows) occurring after some conn.put calls are not rolled back. The partially updated reservation state may remain pending on the connection, which is then reused by the pool, breaking the all-or-nothing guarantee.",
+     "file": "inventory/service.py",
+     "line": 93,
+     "severity": "medium",
+     "suggestion": "Catch Exception (or use BaseException) for rollback and re-raise.",
+     "title": "Rollback only for InventoryError, not other exceptions"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "If the same SKU appears in multiple lines, each iteration re-reads the row via conn.get. If the connection returns a cached/shared dict or the read isn't from pending writes, the second line may overwrite the first reservation, under-reserving. Also, cancel later subtracts both quantities, driving reserved negative.",
+     "end_line": 90,
+     "file": "inventory/service.py",
+     "line": 82,
+     "severity": "high",
+     "suggestion": "Aggregate quantities per SKU before checking and updating, or reject duplicate SKUs.",
+     "title": "Duplicate SKUs in lines bypass stock check or use stale rows"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/service.py\",\"line\":93,\"end_line\":96,\"severity\":\"high\",\"category\":\"resource\",\"title\":\"Connection never released on error paths in reserve()\",\"description\":\"The release is not in a finally block. When an InventoryError is raised, the code rolls back and re-raises, so line 96 is skipped and the connection leaks. Any other exception (e.g. a DB error) skips both rollback and release, leaving uncommitted writes on a connection that is never returned. Repeated InsufficientStock or UnknownSku failures will exhaust the pool.\",\"suggestion\":\"Use try/except/finally: roll back on any exception (except Exception: conn.rollback(); raise) and call self._pool.release(conn) in finally.\",\"confidence\":0.95},{\"file\":\"inventory/service.py\",\"line\":93,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Rollback only for InventoryError, not other exceptions\",\"description\":\"Non-InventoryError exceptions (e.g. connection or KeyError from malformed rows) occurring after some conn.put calls are not rolled back. The partially updated reservation state may remain pending on the connection, which is then reused by the pool, breaking the all-or-nothing guarantee.\",\"suggestion\":\"Catch Exception (or use BaseException) for rollback and re-raise.\",\"confidence\":0.6},{\"file\":\"inventory/service.py\",\"line\":82,\"end_line\":90,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Duplicate SKUs in lines bypass stock check or use stale rows\",\"description\":\"If the same SKU appears in multiple lines, each iteration re-reads the row via conn.get. If the connection returns a cached/shared dict or the read isn't from pending writes, the second line may overwrite the first reservation, under-reserving. Also, cancel later subtracts both quantities, driving reserved negative.\",\"suggestion\":\"Aggregate quantities per SKU before checking and updating, or reject duplicate SKUs.\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJYNaZjW2QMR3HPTYah",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.013267,
+   "input_tokens": 3054,
+   "latency_ms": 5437,
+   "output_tokens": 664
+  }
+ }
+}

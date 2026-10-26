@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:08+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "79cab2eb458f651205f305bb3d696529",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1939,
+  "user_sha256": "3a40903dcf0ea10cc17c2df044303a3543369ed322215d327e47eb70efce026a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: delete_entry at line 76 uses _require_reader rather than an owner check, so any shared reader can permanently delete the owner's journal entry. The wording and emphasis differ, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: delete_entry at line 76 uses _require_reader rather than an owner check, so any shared reader can permanently delete the owner's journal entry. The wording and emphasis differ, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKqMmHfXpLcJgV4y1tj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013624,
+   "input_tokens": 748,
+   "latency_ms": 1516,
+   "output_tokens": 97
+  }
+ }
+}

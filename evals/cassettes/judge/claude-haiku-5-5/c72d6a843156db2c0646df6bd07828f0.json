@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c72d6a843156db2c0646df6bd07828f0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2259,
+  "user_sha256": "ae28d0940fe65af62f4e5d2ea559f7cd4e4791ce5eb0aad9c5fb13e6ea85e540"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: create_ticket still passes the old `attempts=1` keyword after the client renamed it to `max_attempts`, so the keyword lands in **fields as a body field and retries stay at the default of 3, causing duplicate ticket creation on non-idempotent POST. Description A points at tickets.py lines 39-40 with a listed alternative in client.py, and Description B points at line 40, which is within the same location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: create_ticket still passes the old `attempts=1` keyword after the client renamed it to `max_attempts`, so the keyword lands in **fields as a body field and retries stay at the default of 3, causing duplicate ticket creation on non-idempotent POST. Description A points at tickets.py lines 39-40 with a listed alternative in client.py, and Description B points at line 40, which is within the same location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKo8BfUvLNMc7hj51z2",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017994,
+   "input_tokens": 865,
+   "latency_ms": 1875,
+   "output_tokens": 161
+  }
+ }
+}

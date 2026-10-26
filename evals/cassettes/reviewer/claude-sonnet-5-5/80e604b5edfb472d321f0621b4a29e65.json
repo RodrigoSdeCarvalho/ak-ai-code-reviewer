@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "80e604b5edfb472d321f0621b4a29e65",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3186,
+  "user_sha256": "37e07d35c2fa1f41ebcac267c0bb04b903d60e0edcce2f3d672e4b22178c0552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The removed `_is_current` check detected heap entries that were superseded when an item was re-added. Now `self._heap[0][0]` is used directly, even if that entry is stale. A stale head with an old timestamp makes the loop call `pop()` on a re-added, still-fresh item (and `pop()` then discards the stale entry and removes the live item). A stale head with a newer timestamp can instead stop the loop early. Either way, expiry is wrong and live items can be evicted prematurely.",
+     "end_line": 636,
+     "file": "celery/utils/collections.py",
+     "line": 633,
+     "severity": "medium",
+     "suggestion": "Keep the `_is_current` check (compare the heap entry with `self._data.get(item)`), and discard stale heap entries before comparing timestamps.",
+     "title": "Stale heap entries are no longer skipped, so expiry can use the wrong timestamp"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "`pop()` now removes `item` from `_data` whenever the key exists, without checking that the popped heap entry is the current one. If an item was re-added, its old entry is still in the heap. Popping that old entry deletes the newer live item from `_data` and returns it as the oldest item. The newer heap entry then becomes stale. This breaks the ordering guarantee, and items can be evicted early.",
+     "end_line": 647,
+     "file": "celery/utils/collections.py",
+     "line": 641,
+     "severity": "medium",
+     "suggestion": "Verify that `self._data.get(item) is entry` before deleting. Otherwise skip the stale entry.",
+     "title": "pop() removes a live item when it pops a stale heap entry"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/utils/collections.py\",\"line\":633,\"end_line\":636,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Stale heap entries are no longer skipped, so expiry can use the wrong timestamp\",\"description\":\"The removed `_is_current` check detected heap entries that were superseded when an item was re-added. Now `self._heap[0][0]` is used directly, even if that entry is stale. A stale head with an old timestamp makes the loop call `pop()` on a re-added, still-fresh item (and `pop()` then discards the stale entry and removes the live item). A stale head with a newer timestamp can instead stop the loop early. Either way, expiry is wrong and live items can be evicted prematurely.\",\"suggestion\":\"Keep the `_is_current` check (compare the heap entry with `self._data.get(item)`), and discard stale heap entries before comparing timestamps.\",\"confidence\":0.6},{\"file\":\"celery/utils/collections.py\",\"line\":641,\"end_line\":647,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"pop() removes a live item when it pops a stale heap entry\",\"description\":\"`pop()` now removes `item` from `_data` whenever the key exists, without checking that the popped heap entry is the current one. If an item was re-added, its old entry is still in the heap. Popping that old entry deletes the newer live item from `_data` and returns it as the oldest item. The newer heap entry then becomes stale. This breaks the ordering guarantee, and items can be evicted early.\",\"suggestion\":\"Verify that `self._data.get(item) is entry` before deleting. Otherwise skip the stale entry.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0041605,
+   "input_tokens": 1131,
+   "latency_ms": null,
+   "output_tokens": 554
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b98530e07bc22e2be33e528b457b4a37",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2001,
+  "user_sha256": "9bc146112357ada72a3890fdf3bd491faefcba3e35ce87f0f2dbc4a6ef3ecf8f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: after the final failed attempt the loop breaks and charge() returns None instead of re-raising GatewayError, so the caller reads charge.id on None and raises AttributeError, aborting settlement. Description B adds detail about the PAID status being set before the failure, but the defect and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: after the final failed attempt the loop breaks and charge() returns None instead of re-raising GatewayError, so the caller reads charge.id on None and raises AttributeError, aborting settlement. Description B adds detail about the PAID status being set before the failure, but the defect and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKoUDv4zPBb2XcSP6eu",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014554000000000002,
+   "input_tokens": 706,
+   "latency_ms": 1593,
+   "output_tokens": 124
+  }
+ }
+}

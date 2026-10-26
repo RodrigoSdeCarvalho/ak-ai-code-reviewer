@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:13+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d1b9c58ab868d484835e9dabf45138f4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1876,
+  "user_sha256": "3a8bf9dc493161229ef3c7e9460d86e0c816f6eec6afaddbe3929cf51c801afd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 69: the previous-month lookup uses key order (account_id, prior, metric) while UsageKey is (account_id, metric, month), so the lookup never matches and previous_total/change are always empty/n/a.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 69: the previous-month lookup uses key order (account_id, prior, metric) while UsageKey is (account_id, metric, month), so the lookup never matches and previous_total/change are always empty/n/a.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcy5KxrSQrmPyxjFyf",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00012953999999999998,
+   "input_tokens": 678,
+   "latency_ms": 1359,
+   "output_tokens": 99
+  }
+ }
+}

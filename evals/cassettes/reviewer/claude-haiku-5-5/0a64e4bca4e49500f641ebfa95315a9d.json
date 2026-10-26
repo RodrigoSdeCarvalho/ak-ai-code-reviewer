@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "0a64e4bca4e49500f641ebfa95315a9d",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 16549,
+  "user_sha256": "9eba1959628d89ea6fd0a4155b84791ccc779490023b0a80c7b1f920c61d921f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.93,
+     "description": "`host.endswith(domain)` has no label boundary, so with partner domain `shop.example` an attacker-controlled origin such as `https://evilshop.example` or `https://attackershop.example` passes `is_allowed`. `response_headers` and `preflight_headers` then echo that origin in `Access-Control-Allow-Origin` with `Access-Control-Allow-Credentials: true`, so a malicious site can make credentialed cross-origin requests to `/v1/balance` and `/v1/redeem` using a logged-in member's session cookie and read the responses.",
+     "end_line": 42,
+     "file": "loyalty/cors.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Match on a label boundary: accept when `host == domain or host.endswith('.' + domain)`, and add a test with a lookalike host such as `evilshop.example`.",
+     "title": "Partner-domain check matches any host that merely ends with the domain string"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"loyalty/cors.py\",\"line\":42,\"end_line\":42,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Partner-domain check matches any host that merely ends with the domain string\",\"description\":\"`host.endswith(domain)` has no label boundary, so with partner domain `shop.example` an attacker-controlled origin such as `https://evilshop.example` or `https://attackershop.example` passes `is_allowed`. `response_headers` and `preflight_headers` then echo that origin in `Access-Control-Allow-Origin` with `Access-Control-Allow-Credentials: true`, so a malicious site can make credentialed cross-origin requests to `/v1/balance` and `/v1/redeem` using a logged-in member's session cookie and read the responses.\",\"suggestion\":\"Match on a label boundary: accept when `host == domain or host.endswith('.' + domain)`, and add a test with a lookalike host such as `evilshop.example`.\",\"confidence\":0.93}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000534175,
+   "input_tokens": 6709,
+   "latency_ms": null,
+   "output_tokens": 743
+  }
+ }
+}

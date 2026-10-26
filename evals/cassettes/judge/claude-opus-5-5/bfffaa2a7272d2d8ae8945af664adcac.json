@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:37:13+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "bfffaa2a7272d2d8ae8945af664adcac",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1885,
+  "user_sha256": "eaf13da8b621b773489cd92f941c66eaafae12e04e41388a6a002ecb7b85e88f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions say that `partition(\":\")` on line 180 turns an IPv6 host such as `[::1]:8000` into `[`. The session cookie then gets the wrong domain and is not sent on later requests. B's extra point about the lost localhost fallback does not change the shared root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\":\"Both descriptions say that `partition(\\\":\\\")` on line 180 turns an IPv6 host such as `[::1]:8000` into `[`. The session cookie then gets the wrong domain and is not sent on later requests. B's extra point about the lost localhost fallback does not change the shared root cause.\",\"verdict\":\"same\"}",
+  "request_id": "req_011CgRLJAjm1m7zZDw2b483q",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0054308,
+   "input_tokens": 728,
+   "latency_ms": 2547,
+   "output_tokens": 113
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "384431fd971190ff6db8a9971dd48322",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2702,
+  "user_sha256": "a137eaf1d15a28a4d416483f3c54c213e4bb3b45d509338b4196efc454f0dcb8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that RootModel.__copy__ shares the private-attributes dict between the copy and the original because the shallow __dict__ copy keeps the same __pydantic_private__ object, so setting a private attribute on one affects the other. Description B frames it as a regression from a removed block, and adds a note about PydanticUndefined placeholders, but the core failure and location (lines 104-106/106) are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that RootModel.__copy__ shares the private-attributes dict between the copy and the original because the shallow __dict__ copy keeps the same __pydantic_private__ object, so setting a private attribute on one affects the other. Description B frames it as a regression from a removed block, and adds a note about PydanticUndefined placeholders, but the core failure and location (lines 104-106/106) are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKn6Go98NSRVsAoVZ6C",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019584,
+   "input_tokens": 1064,
+   "latency_ms": 1420,
+   "output_tokens": 153
+  }
+ }
+}

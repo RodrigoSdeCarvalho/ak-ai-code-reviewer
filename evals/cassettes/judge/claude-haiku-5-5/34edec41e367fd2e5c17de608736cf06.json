@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:04+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "34edec41e367fd2e5c17de608736cf06",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2836,
+  "user_sha256": "219296f8407b45c1e17452f6029b73cd37faa3db931c07c7fd080be95ae64022"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment's claim that the port/userinfo is dropped and the origin is echoed is accurate: parts.hostname ignores port and userinfo, and the original origin is returned. However, browsers never send such origins and the response only grants CORS to the caller's own request without credential theft against other users, so the practical risk is speculative hardening with no concrete failure shown."
+  },
+  "raw_text": "{\"reason\": \"The comment's claim that the port/userinfo is dropped and the origin is echoed is accurate: parts.hostname ignores port and userinfo, and the original origin is returned. However, browsers never send such origins and the response only grants CORS to the caller's own request without credential theft against other users, so the practical risk is speculative hardening with no concrete failure shown.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKuTQyPXCfZXpLeJeR9",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00018026,
+   "input_tokens": 1081,
+   "latency_ms": 1562,
+   "output_tokens": 131
+  }
+ }
+}

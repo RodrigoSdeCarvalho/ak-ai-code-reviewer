@@ -5,8 +5,8 @@ from pathlib import Path
 import pytest
 
 from aireview.evals.matching import MAX_JUDGE_TOL, location_candidates
-from aireview.evals.metrics import METRIC_NAMES, compute_scores, metric_fn, paired_metric_delta
-from aireview.evals.schema import Bug, BugTag, Case, Judgment, ReviewRow, Verdict
+from aireview.evals.metrics import METRIC_NAMES, compute_scores, line_error, metric_fn, paired_metric_delta
+from aireview.evals.schema import Bug, BugTag, Case, Judgment, Location, ReviewRow, Verdict
 from aireview.models import Category, Finding, ReviewStatus, Severity, Usage
 
 K = 3
@@ -399,3 +399,14 @@ def test_precision_high_ignores_medium_nits_on_clean_cases():
     assert value(s, "precision", "location") < 1.0
     assert value(s, "precision_high", "location") == 1.0
     assert value(s, "clean_false_alarm_rate", "location") == 0.0
+
+
+def test_line_error_uses_the_nearest_bug_location():
+    b = make_bug("b1", 10).model_copy(
+        update={"alt_locations": [Location(file="app/callee.py", line_start=40, line_end=42)]}
+    )
+    assert line_error(finding_for(b, line=13), b) == 2  # label is 10-11
+    callee = finding_for(b, line=45).model_copy(update={"file": "app/callee.py"})
+    assert line_error(callee, b) == 3  # against 40-42 in its own file, not 10 in app/m.py
+    inside = callee.model_copy(update={"line": 41})
+    assert line_error(inside, b) == 0

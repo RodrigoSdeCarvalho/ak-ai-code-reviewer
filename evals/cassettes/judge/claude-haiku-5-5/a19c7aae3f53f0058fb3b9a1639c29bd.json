@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:33+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a19c7aae3f53f0058fb3b9a1639c29bd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2443,
+  "user_sha256": "9de47cb1c6bb7c890d2f805de1b056a4f7d49c4378045fb020db9b9ac6f9c032"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A concerns port/userinfo being dropped by parts.hostname so origins with ports are treated as partner hosts and the non-normalised origin is echoed. Description B concerns the suffix check host.endswith(domain) matching unrelated domains like bluekettle.example for partner kettle.example. These are different root causes (userinfo/port handling versus missing dot-boundary in suffix matching).",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A concerns port/userinfo being dropped by parts.hostname so origins with ports are treated as partner hosts and the non-normalised origin is echoed. Description B concerns the suffix check host.endswith(domain) matching unrelated domains like bluekettle.example for partner kettle.example. These are different root causes (userinfo/port handling versus missing dot-boundary in suffix matching).\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJeM9f6hoCpRyytjXYB",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017624,
+   "input_tokens": 905,
+   "latency_ms": 2077,
+   "output_tokens": 147
+  }
+ }
+}

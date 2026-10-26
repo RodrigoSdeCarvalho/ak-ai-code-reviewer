@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:37:11+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "82570f4a1cbbcc33ea8e466efe518280",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2752,
+  "user_sha256": "8bfb91d1db39ef3bfa0ab2d6f0c79d968fe7e28e47b86b4766c0a3396b3e3bce"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A is about non-atomic upserts and checkpoint saves. It also says other ApiErrors are not caught and abort the whole run. Description B is about quadratic API requests caused by episode_page re-walking the cursor chain for each page number. These are different defects.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"Description A is about non-atomic upserts and checkpoint saves. It also says other ApiErrors are not caught and abort the whole run. Description B is about quadratic API requests caused by episode_page re-walking the cursor chain for each page number. These are different defects.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLJ37Ny9kcA72ZEvXcC",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0063028,
+   "input_tokens": 1006,
+   "latency_ms": 1780,
+   "output_tokens": 101
+  }
+ }
+}

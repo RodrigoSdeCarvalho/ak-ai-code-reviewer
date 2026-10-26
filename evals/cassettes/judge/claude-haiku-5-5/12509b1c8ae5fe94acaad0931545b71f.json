@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:07+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "12509b1c8ae5fe94acaad0931545b71f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2765,
+  "user_sha256": "a91727fdeb024abdf63c2f911472c689aad7de69883f560136e7f5d88a9b1240"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The code confirms the claim: `parts.hostname` discards port and userinfo, so `https://partner.example:8443` passes the partner-domain check. The raw origin is then reflected with `Access-Control-Allow-Credentials: true`, which trusts any port on the partner host, a concrete widening of the exact-origin policy."
+  },
+  "raw_text": "{\"reason\": \"The code confirms the claim: `parts.hostname` discards port and userinfo, so `https://partner.example:8443` passes the partner-domain check. The raw origin is then reflected with `Access-Control-Allow-Credentials: true`, which trusts any port on the partner host, a concrete widening of the exact-origin policy.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKuWo7X1FgJfecyBwWd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00044996000000000006,
+   "input_tokens": 1058,
+   "latency_ms": 3936,
+   "output_tokens": 675
+  }
+ }
+}

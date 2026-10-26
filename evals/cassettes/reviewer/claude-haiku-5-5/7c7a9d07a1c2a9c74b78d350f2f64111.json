@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "7c7a9d07a1c2a9c74b78d350f2f64111",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15679,
+  "user_sha256": "cf802054654e78df9139881001360b19106db38c2060e8d401cf047ee6f214b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.55,
+     "description": "The old urlsplit-based code parsed bracketed IPv6 hosts correctly, so SERVER_NAME=\"[::1]:5000\" gave hostname \"::1\" and port 5000. partition(\":\") splits at the first colon, so sn_host becomes \"[\" and sn_port becomes \":1]:5000\". When host is not given, run() then binds to \"[\", and int(sn_port) raises ValueError on \":1]:5000\". The server fails to start for that configuration.",
+     "end_line": 724,
+     "file": "src/flask/app.py",
+     "line": 724,
+     "severity": "medium",
+     "suggestion": "Keep urlsplit-style parsing, for example urlsplit(f\"//{server_name}\") and use .hostname and .port, or use rpartition/bracket-aware parsing that handles a leading '[' .",
+     "title": "server_name.partition(\":\") breaks IPv6 literal server names"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.4,
+     "description": "The previous urlsplit(host_url).hostname handled bracketed IPv6 hosts. ctx.request.host.partition(\":\")[0] returns \"[\" for a host like \"[::1]:80\". Cookies set by responses from such a host are stored under the wrong domain, so they are not sent on later requests from the test client.",
+     "end_line": 180,
+     "file": "src/flask/testing.py",
+     "line": 180,
+     "severity": "low",
+     "suggestion": "Restore hostname extraction that understands brackets, for example urlsplit(f\"//{ctx.request.host}\").hostname or \"localhost\", or strip the port with a bracket-aware helper.",
+     "title": "Host split on first colon breaks IPv6 cookie domain"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/flask/app.py\",\"line\":724,\"end_line\":724,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"server_name.partition(\\\":\\\") breaks IPv6 literal server names\",\"description\":\"The old urlsplit-based code parsed bracketed IPv6 hosts correctly, so SERVER_NAME=\\\"[::1]:5000\\\" gave hostname \\\"::1\\\" and port 5000. partition(\\\":\\\") splits at the first colon, so sn_host becomes \\\"[\\\" and sn_port becomes \\\":1]:5000\\\". When host is not given, run() then binds to \\\"[\\\", and int(sn_port) raises ValueError on \\\":1]:5000\\\". The server fails to start for that configuration.\",\"suggestion\":\"Keep urlsplit-style parsing, for example urlsplit(f\\\"//{server_name}\\\") and use .hostname and .port, or use rpartition/bracket-aware parsing that handles a leading '[' .\",\"confidence\":0.55},{\"file\":\"src/flask/testing.py\",\"line\":180,\"end_line\":180,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Host split on first colon breaks IPv6 cookie domain\",\"description\":\"The previous urlsplit(host_url).hostname handled bracketed IPv6 hosts. ctx.request.host.partition(\\\":\\\")[0] returns \\\"[\\\" for a host like \\\"[::1]:80\\\". Cookies set by responses from such a host are stored under the wrong domain, so they are not sent on later requests from the test client.\",\"suggestion\":\"Restore hostname extraction that understands brackets, for example urlsplit(f\\\"//{ctx.request.host}\\\").hostname or \\\"localhost\\\", or strip the port with a bracket-aware helper.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0006931750000000001,
+   "input_tokens": 6364,
+   "latency_ms": null,
+   "output_tokens": 1448
+  }
+ }
+}

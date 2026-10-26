@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:47+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "64b57d16c6e9091d97c76d2f30abfb8e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1982,
+  "user_sha256": "b2f3c2f2bb26d4d2e730989a2199720c80112fdece136799bd1ab0e0180ec110"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says concurrent add()/flush during an await can break iteration or cause KeyError and double-sends. Description B says deliver is now a coroutine but is called without await, so the coroutine is always truthy and never run, causing silent loss of digests. These are different defects with different failure mechanisms (concurrency race versus missing await), though both touch the deliver call region.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says concurrent add()/flush during an await can break iteration or cause KeyError and double-sends. Description B says deliver is now a coroutine but is called without await, so the coroutine is always truthy and never run, causing silent loss of digests. These are different defects with different failure mechanisms (concurrency race versus missing await), though both touch the deliver call region.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJb15aasyG2MHYXqzXz",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014684000000000002,
+   "input_tokens": 676,
+   "latency_ms": 2000,
+   "output_tokens": 134
+  }
+ }
+}

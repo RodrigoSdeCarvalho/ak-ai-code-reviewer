@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:05+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "54e7d7589cef33b63a988da775672269",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2505,
+  "user_sha256": "86dba87cfc0c89545449b8f485b96632d5996924596d8a309a6b0a0dd0f6227f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: _read_all in auth/store.py swallows OSError/ValueError/KeyError and returns {}, so read failures are treated as an empty store, and the subsequent read-modify-write erases all other sessions. Both also note reads then treat sessions as missing. The wording and level of detail differ, but the defect and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: _read_all in auth/store.py swallows OSError/ValueError/KeyError and returns {}, so read failures are treated as an empty store, and the subsequent read-modify-write erases all other sessions. Both also note reads then treat sessions as missing. The wording and level of detail differ, but the defect and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcMBprKg6TTSAyP8hS",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016954000000000003,
+   "input_tokens": 908,
+   "latency_ms": 1936,
+   "output_tokens": 133
+  }
+ }
+}

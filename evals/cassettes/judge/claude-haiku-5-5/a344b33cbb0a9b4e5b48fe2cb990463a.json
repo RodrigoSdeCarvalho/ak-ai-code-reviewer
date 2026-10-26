@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:27+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a344b33cbb0a9b4e5b48fe2cb990463a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2455,
+  "user_sha256": "d19acecb0862ec2228aac02175e9366130323dd4fb0826fd250481314520297f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that add_replace passes the shared global evolve function to _add_method_dunders, which mutates its __module__, __qualname__ and __doc__ in place, so every class overwrites the shared metadata and breaks introspection. Description B adds Python 3.13+ detail and a suggested fix (fresh wrapper per class), but these are the same root cause at the same line.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that add_replace passes the shared global evolve function to _add_method_dunders, which mutates its __module__, __qualname__ and __doc__ in place, so every class overwrites the shared metadata and breaks introspection. Description B adds Python 3.13+ detail and a suggested fix (fresh wrapper per class), but these are the same root cause at the same line.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKhu7i6jPmyc2CU4wWW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00032365,
+   "input_tokens": 909,
+   "latency_ms": 1828,
+   "output_tokens": 142
+  }
+ }
+}

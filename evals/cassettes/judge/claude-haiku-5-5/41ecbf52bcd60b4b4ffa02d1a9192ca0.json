@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:39+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "41ecbf52bcd60b4b4ffa02d1a9192ca0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2378,
+  "user_sha256": "34928dfe902d57b12c481875a8b2ea37c5d191f2887a597242999c0069d7fc49"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: create_ticket still passes the renamed keyword `attempts=1` instead of `max_attempts`, so it falls into **fields as a stray JSON body field and the POST falls back to the default of 3 attempts, enabling duplicate ticket creation on retry. Description B additionally notes the client.py location, which is an allowed alternative location for the same failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: create_ticket still passes the renamed keyword `attempts=1` instead of `max_attempts`, so it falls into **fields as a stray JSON body field and the POST falls back to the default of 3 attempts, enabling duplicate ticket creation on retry. Description B additionally notes the client.py location, which is an allowed alternative location for the same failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKo8TXx8EAazAzmnxac",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017694,
+   "input_tokens": 915,
+   "latency_ms": 1952,
+   "output_tokens": 145
+  }
+ }
+}

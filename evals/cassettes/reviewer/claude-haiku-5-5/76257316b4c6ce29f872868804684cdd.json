@@ -1,0 +1,80 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "76257316b4c6ce29f872868804684cdd",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 23355,
+  "user_sha256": "df7bb34c04a9b2c7693a0486418b684071580fd17e07d2daef1abdad4cb49822"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.85,
+     "description": "_read_all catches OSError, ValueError and KeyError and returns an empty dict. A transient read error, a truncated or corrupt file, or one malformed record makes every session look absent. save(), delete() and take_by_refresh() then call _write_all with that near-empty dict, which permanently overwrites the file and logs out all users. A single bad record causes the same loss.",
+     "end_line": 140,
+     "file": "auth/store.py",
+     "line": 139,
+     "severity": "critical",
+     "suggestion": "Distinguish a missing file (return empty) from a corrupt or unreadable one (raise StoreError), and never write back after a failed read.",
+     "title": "Read failures are treated as an empty store, so the next write wipes every session"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "sign_out_everywhere swallows StoreError per record and keeps going, and change_password returns the count of successful revocations. If the store fails to delete a session of the user, that session keeps working after the password was changed. The caller only sees a smaller number and a log line, so an attacker holding a stolen session keeps access.",
+     "end_line": 100,
+     "file": "auth/sessions.py",
+     "line": 99,
+     "severity": "high",
+     "suggestion": "Do not swallow the error in change_password. Let StoreError propagate, or retry and fail the whole operation so the caller knows sessions may still be live.",
+     "title": "Failed revocations after a password change are only logged, so old sessions stay valid"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.45,
+     "description": "take_by_refresh removes the old record first. If _issue's save then raises StoreError, the old tokens are already gone and no new session exists, so the user is silently logged out. The client gets an unexpected StoreError instead of a clear result.",
+     "file": "auth/sessions.py",
+     "line": 85,
+     "severity": "medium",
+     "suggestion": "Save the new session before removing the old one, or make the take and save a single atomic store operation.",
+     "title": "Refresh consumes the old session before the new one is saved"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.4,
+     "description": "FileSessionStore.get calls _read_all, which reads and JSON-decodes the whole file. authenticate runs on every request, so the cost grows with the number of live sessions and the file is rewritten on each change.",
+     "file": "auth/store.py",
+     "line": 109,
+     "severity": "medium",
+     "suggestion": "Keep an in-memory index loaded once and updated on writes, or move session storage to a database keyed by access_hash.",
+     "title": "Every authentication reads and parses the entire session file"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"auth/store.py\",\"line\":139,\"end_line\":140,\"severity\":\"critical\",\"category\":\"error_handling\",\"title\":\"Read failures are treated as an empty store, so the next write wipes every session\",\"description\":\"_read_all catches OSError, ValueError and KeyError and returns an empty dict. A transient read error, a truncated or corrupt file, or one malformed record makes every session look absent. save(), delete() and take_by_refresh() then call _write_all with that near-empty dict, which permanently overwrites the file and logs out all users. A single bad record causes the same loss.\",\"suggestion\":\"Distinguish a missing file (return empty) from a corrupt or unreadable one (raise StoreError), and never write back after a failed read.\",\"confidence\":0.85},{\"file\":\"auth/sessions.py\",\"line\":99,\"end_line\":100,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"Failed revocations after a password change are only logged, so old sessions stay valid\",\"description\":\"sign_out_everywhere swallows StoreError per record and keeps going, and change_password returns the count of successful revocations. If the store fails to delete a session of the user, that session keeps working after the password was changed. The caller only sees a smaller number and a log line, so an attacker holding a stolen session keeps access.\",\"suggestion\":\"Do not swallow the error in change_password. Let StoreError propagate, or retry and fail the whole operation so the caller knows sessions may still be live.\",\"confidence\":0.6},{\"file\":\"auth/sessions.py\",\"line\":85,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Refresh consumes the old session before the new one is saved\",\"description\":\"take_by_refresh removes the old record first. If _issue's save then raises StoreError, the old tokens are already gone and no new session exists, so the user is silently logged out. The client gets an unexpected StoreError instead of a clear result.\",\"suggestion\":\"Save the new session before removing the old one, or make the take and save a single atomic store operation.\",\"confidence\":0.45},{\"file\":\"auth/store.py\",\"line\":109,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Every authentication reads and parses the entire session file\",\"description\":\"FileSessionStore.get calls _read_all, which reads and JSON-decodes the whole file. authenticate runs on every request, so the cost grows with the number of live sessions and the file is rewritten on each change.\",\"suggestion\":\"Keep an in-memory index loaded once and updated on writes, or move session storage to a database keyed by access_hash.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0010690749999999998,
+   "input_tokens": 9127,
+   "latency_ms": null,
+   "output_tokens": 2399
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:12:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "4dcaf31ea5c73bbd0da66484803e61ca",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3078,
+  "user_sha256": "a87a34e18b78cf5b40dd4ad81e2577b7a19ff50b715a130cbbb521cb04973daf"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "The deleted `_read_file_bytes` recorded the file position, read the whole file, then seeked back. Now `value.read()` is called directly, so the underlying `UploadFile` stays at EOF. The same `UploadFile` in the parsed form can be consumed again, for example by an `UploadFile` parameter with the same field name in another dependency or body field, or by a second `_extract_form_body` pass over the same form data. That second consumer then reads empty content. The same applies to the list-of-bytes branch at line 1078.",
+     "end_line": 1078,
+     "file": "fastapi/dependencies/utils.py",
+     "line": 1070,
+     "severity": "medium",
+     "suggestion": "Restore the helper that saves the position and seeks back after the read (`position = file.file.tell(); try: return await file.read() finally: await file.seek(position)`), and use it in both places.",
+     "title": "Removing the file-position restore leaves the upload at EOF after bytes extraction"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"fastapi/dependencies/utils.py\",\"line\":1070,\"end_line\":1078,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Removing the file-position restore leaves the upload at EOF after bytes extraction\",\"description\":\"The deleted `_read_file_bytes` recorded the file position, read the whole file, then seeked back. Now `value.read()` is called directly, so the underlying `UploadFile` stays at EOF. The same `UploadFile` in the parsed form can be consumed again, for example by an `UploadFile` parameter with the same field name in another dependency or body field, or by a second `_extract_form_body` pass over the same form data. That second consumer then reads empty content. The same applies to the list-of-bytes branch at line 1078.\",\"suggestion\":\"Restore the helper that saves the position and seeks back after the read (`position = file.file.tell(); try: return await file.read() finally: await file.seek(position)`), and use it in both places.\",\"confidence\":0.5}]}",
+  "request_id": "req_011CgRJQZgpyLMc9HQwVCgtE",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.008311,
+   "input_tokens": 1131,
+   "latency_ms": 5264,
+   "output_tokens": 553
+  }
+ }
+}

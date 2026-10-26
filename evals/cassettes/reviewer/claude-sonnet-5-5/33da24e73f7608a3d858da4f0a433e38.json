@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "33da24e73f7608a3d858da4f0a433e38",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3186,
+  "user_sha256": "37e07d35c2fa1f41ebcac267c0bb04b903d60e0edcce2f3d672e4b22178c0552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The removed `_is_current` check compared the heap entry with the one stored in `_data`. It is replaced with a check on key presence alone. If an item is discarded or re-added (for example via `add` after `discard`/`update`), the old heap entry stays in the heap. `pop()` now accepts that stale entry whenever the key exists in `_data`, so it evicts the newly re-added item based on the old timestamp and position. Expiry and size-limit eviction therefore remove items too early and in the wrong order.",
+     "end_line": 647,
+     "file": "celery/utils/collections.py",
+     "line": 641,
+     "severity": "high",
+     "suggestion": "Restore the identity check, `self._data.get(item) is entry`, before deleting from `_data`, and skip stale entries.",
+     "title": "Stale heap entries are treated as current, so re-added items are evicted early"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "Stale entries are no longer skipped before `self._heap[0][0]` is read. A stale head with an old timestamp can trigger `pop()` for a fresher live item. Conversely, a stale head with a recent timestamp can break the loop while genuinely expired items remain behind it. Either way the expiry decision is wrong.",
+     "end_line": 634,
+     "file": "celery/utils/collections.py",
+     "line": 633,
+     "severity": "medium",
+     "suggestion": "Pop stale heap heads before reading the timestamp, as the removed code did.",
+     "title": "Expiry check uses the timestamp of a possibly stale heap head"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/utils/collections.py\",\"line\":641,\"end_line\":647,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Stale heap entries are treated as current, so re-added items are evicted early\",\"description\":\"The removed `_is_current` check compared the heap entry with the one stored in `_data`. It is replaced with a check on key presence alone. If an item is discarded or re-added (for example via `add` after `discard`/`update`), the old heap entry stays in the heap. `pop()` now accepts that stale entry whenever the key exists in `_data`, so it evicts the newly re-added item based on the old timestamp and position. Expiry and size-limit eviction therefore remove items too early and in the wrong order.\",\"suggestion\":\"Restore the identity check, `self._data.get(item) is entry`, before deleting from `_data`, and skip stale entries.\",\"confidence\":0.6},{\"file\":\"celery/utils/collections.py\",\"line\":633,\"end_line\":634,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Expiry check uses the timestamp of a possibly stale heap head\",\"description\":\"Stale entries are no longer skipped before `self._heap[0][0]` is read. A stale head with an old timestamp can trigger `pop()` for a fresher live item. Conversely, a stale head with a recent timestamp can break the loop while genuinely expired items remain behind it. Either way the expiry decision is wrong.\",\"suggestion\":\"Pop stale heap heads before reading the timestamp, as the removed code did.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0039605,
+   "input_tokens": 1131,
+   "latency_ms": null,
+   "output_tokens": 514
+  }
+ }
+}

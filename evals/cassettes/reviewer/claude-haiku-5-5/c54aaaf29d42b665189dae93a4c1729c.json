@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c54aaaf29d42b665189dae93a4c1729c",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8985,
+  "user_sha256": "0e40d466f2f4d76ca94500ee6ef6445e761898c411ea05c9423b289812aabab5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "The new `finally` block unconditionally sets `job.next_run = now + job.interval`, which runs after the except branch has set `job.next_run = now + self._retry_delay(job)`. On every failure the retry time is overwritten, so a failed job waits a full `interval` (for example a day for `daily_at`) before retrying instead of the intended `retry_delay` with exponential backoff. The Job docstring and the `retry_delay` field become misleading, and transient failures recover far more slowly than designed.",
+     "end_line": 76,
+     "file": "scheduler/runner.py",
+     "line": 76,
+     "severity": "high",
+     "suggestion": "Remove the `finally` and set `job.next_run = now + job.interval` only in the success branch, or compute the next run once in each branch so the failure path keeps the retry time.",
+     "title": "Failed jobs are rescheduled at the full interval, so retry backoff never takes effect"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.5,
+     "description": "`2 ** (job.consecutive_failures - 1)` grows without bound, and `max_failures` can be set arbitrarily high. Once `retry_delay * 2**n` exceeds timedelta's maximum (around n=41 with the default one-minute retry_delay), the multiplication raises OverflowError. That exception escapes `_run` from the except branch, so `tick` aborts, the run is not recorded in `history`, and other due jobs in the same tick are skipped.",
+     "end_line": 81,
+     "file": "scheduler/runner.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Cap the exponent before multiplying, for example compute the cap as `job.interval` and return it when `consecutive_failures` is large enough that the delay would exceed `job.interval`, or clamp the exponent to a small maximum.",
+     "title": "Backoff exponent can overflow timedelta and raise from inside the failure handler"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduler/runner.py\",\"line\":76,\"end_line\":76,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Failed jobs are rescheduled at the full interval, so retry backoff never takes effect\",\"description\":\"The new `finally` block unconditionally sets `job.next_run = now + job.interval`, which runs after the except branch has set `job.next_run = now + self._retry_delay(job)`. On every failure the retry time is overwritten, so a failed job waits a full `interval` (for example a day for `daily_at`) before retrying instead of the intended `retry_delay` with exponential backoff. The Job docstring and the `retry_delay` field become misleading, and transient failures recover far more slowly than designed.\",\"suggestion\":\"Remove the `finally` and set `job.next_run = now + job.interval` only in the success branch, or compute the next run once in each branch so the failure path keeps the retry time.\",\"confidence\":0.9},{\"file\":\"scheduler/runner.py\",\"line\":81,\"end_line\":81,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Backoff exponent can overflow timedelta and raise from inside the failure handler\",\"description\":\"`2 ** (job.consecutive_failures - 1)` grows without bound, and `max_failures` can be set arbitrarily high. Once `retry_delay * 2**n` exceeds timedelta's maximum (around n=41 with the default one-minute retry_delay), the multiplication raises OverflowError. That exception escapes `_run` from the except branch, so `tick` aborts, the run is not recorded in `history`, and other due jobs in the same tick are skipped.\",\"suggestion\":\"Cap the exponent before multiplying, for example compute the cap as `job.interval` and return it when `consecutive_failures` is large enough that the delay would exceed `job.interval`, or clamp the exponent to a small maximum.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000596875,
+   "input_tokens": 3698,
+   "latency_ms": null,
+   "output_tokens": 1596
+  }
+ }
+}

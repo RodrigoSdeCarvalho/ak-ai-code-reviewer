@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2314489c7c4199e4e9c0c90da90eafff",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2053,
+  "user_sha256": "5622141dfc76f77998dcd920e7ec86a57192d8e7df163d87c75ceffc92aee824"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that the finally block's assignment `job.next_run = now + job.interval` overwrites the retry-delay next_run set on failure at line 65, so failed jobs wait a full interval instead of the backoff. Description B additionally mentions BaseException handling, but the core defect matches.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that the finally block's assignment `job.next_run = now + job.interval` overwrites the retry-delay next_run set on failure at line 65, so failed jobs wait a full interval instead of the backoff. Description B additionally mentions BaseException handling, but the core defect matches.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKoqcngKEWpZX8NnaVd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014504,
+   "input_tokens": 746,
+   "latency_ms": 1375,
+   "output_tokens": 115
+  }
+ }
+}

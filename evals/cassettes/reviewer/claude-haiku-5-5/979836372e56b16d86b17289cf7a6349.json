@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "979836372e56b16d86b17289cf7a6349",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3078,
+  "user_sha256": "a87a34e18b78cf5b40dd4ad81e2577b7a19ff50b715a130cbbb521cb04973daf"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "The removed _read_file_bytes helper restored the file position after reading. Now value.read() leaves the shared UploadFile at EOF. If the same UploadFile object is bound to another field in the same request (for example two parameters sharing one form alias, one typed bytes and one UploadFile), the second read returns b'' silently. This is an edge case, so the impact is limited.",
+     "end_line": null,
+     "file": "fastapi/dependencies/utils.py",
+     "line": 1070,
+     "severity": "low",
+     "suggestion": "Keep position restore around the read, or confirm each form key maps to one consumer and document that a file is consumed by its first read.",
+     "title": "Removed position restore leaves the UploadFile at EOF after reading"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"fastapi/dependencies/utils.py\",\"line\":1070,\"end_line\":null,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Removed position restore leaves the UploadFile at EOF after reading\",\"description\":\"The removed _read_file_bytes helper restored the file position after reading. Now value.read() leaves the shared UploadFile at EOF. If the same UploadFile object is bound to another field in the same request (for example two parameters sharing one form alias, one typed bytes and one UploadFile), the second read returns b'' silently. This is an edge case, so the impact is limited.\",\"suggestion\":\"Keep position restore around the read, or confirm each form key maps to one consumer and document that a file is consumed by its first read.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000419525,
+   "input_tokens": 1131,
+   "latency_ms": null,
+   "output_tokens": 1400
+  }
+ }
+}

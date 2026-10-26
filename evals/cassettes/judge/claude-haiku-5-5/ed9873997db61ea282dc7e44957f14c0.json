@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:34+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ed9873997db61ea282dc7e44957f14c0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1831,
+  "user_sha256": "842fb74ddec18f52fa765551821b97c1e7d73b3564ba5ca8a7153eb46bf64cd8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: at line 45 the call to deliver() lacks await, so the truthy coroutine object is treated as success, nothing is sent, lines are deleted from the queue, and failed stays empty. The wording and extra details differ, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: at line 45 the call to deliver() lacks await, so the truthy coroutine object is treated as success, nothing is sent, lines are deleted from the queue, and failed stays empty. The wording and extra details differ, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKnrW5ofXnbPPxz1DwM",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013014000000000002,
+   "input_tokens": 627,
+   "latency_ms": 1344,
+   "output_tokens": 109
+  }
+ }
+}

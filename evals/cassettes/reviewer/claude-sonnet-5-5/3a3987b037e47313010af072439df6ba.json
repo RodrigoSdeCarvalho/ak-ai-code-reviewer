@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:14:28+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "3a3987b037e47313010af072439df6ba",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11903,
+  "user_sha256": "cfc2f3501d8fe7c0a41da90034a1eab84024c8f13527a5cb546e1a98063edbbb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "`total = sum(1 for _ in lines)` exhausts `lines`. The CLI passes an open file object, which is a one-shot iterator. The later `for line in lines` loop then sees no lines. The run reads 0 lines and writes an empty output file, and progress reports 0/N.",
+     "file": "pipeline/runner.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Do not pre-count a generic iterable. Pass the total separately, or materialize with `lines = list(lines)` (costly for large files). Alternatively, report progress without a total.",
+     "title": "Counting lines consumes a one-shot iterator, so nothing is processed"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "In the `except LookupTimeout` branch, `return enrich(event, geo)` lacks `await`. `enrich` is now async, so `enrich_one` returns a coroutine object. The sink then receives a coroutine instead of an Event, and `to_json` fails or the coroutine is never run. The retry never actually happens. A second timeout cannot abort the run as documented. It also runs outside the try block and semantics are lost.",
+     "file": "pipeline/runner.py",
+     "line": 51,
+     "severity": "high",
+     "suggestion": "Use `return await enrich(event, geo)` in the retry branch.",
+     "title": "Retry returns an un-awaited coroutine instead of an Event"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/runner.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Counting lines consumes a one-shot iterator, so nothing is processed\",\"description\":\"`total = sum(1 for _ in lines)` exhausts `lines`. The CLI passes an open file object, which is a one-shot iterator. The later `for line in lines` loop then sees no lines. The run reads 0 lines and writes an empty output file, and progress reports 0/N.\",\"suggestion\":\"Do not pre-count a generic iterable. Pass the total separately, or materialize with `lines = list(lines)` (costly for large files). Alternatively, report progress without a total.\",\"confidence\":0.95},{\"file\":\"pipeline/runner.py\",\"line\":51,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Retry returns an un-awaited coroutine instead of an Event\",\"description\":\"In the `except LookupTimeout` branch, `return enrich(event, geo)` lacks `await`. `enrich` is now async, so `enrich_one` returns a coroutine object. The sink then receives a coroutine instead of an Event, and `to_json` fails or the coroutine is never run. The retry never actually happens. A second timeout cannot abort the run as documented. It also runs outside the try block and semantics are lost.\",\"suggestion\":\"Use `return await enrich(event, geo)` in the retry branch.\",\"confidence\":0.97}]}",
+  "request_id": "req_011CgRJZRYvjAkCHXxCvez32",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.015475,
+   "input_tokens": 5098,
+   "latency_ms": 4079,
+   "output_tokens": 476
+  }
+ }
+}

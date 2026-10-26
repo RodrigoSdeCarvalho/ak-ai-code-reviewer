@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8b4d1e4f8ddbdb2ae3d8e348b0021d7c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1970,
+  "user_sha256": "a68e21a2e96263766d90969db346d683a07a3c9df106dabfd6f26fa46fd23efd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: _live_entries() is called inside the per-object loop at line 80, re-reading and re-parsing the whole append-only index for every object file, yielding O(objects × index records) cost. The wording and emphasis differ slightly (A mentions the linear any-scan, B quantifies I/O and parsing), but the root cause and location are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: _live_entries() is called inside the per-object loop at line 80, re-reading and re-parsing the whole append-only index for every object file, yielding O(objects × index records) cost. The wording and emphasis differ slightly (A mentions the linear any-scan, B quantifies I/O and parsing), but the root cause and location are identical.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.602000000000001e-05,
+   "input_tokens": 708,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}

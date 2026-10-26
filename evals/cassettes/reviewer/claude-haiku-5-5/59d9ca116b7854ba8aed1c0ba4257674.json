@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "59d9ca116b7854ba8aed1c0ba4257674",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5817,
+  "user_sha256": "90c1b46ad0609df3bd7e4a8be39337408fd81cb16e2201702e99f8b413270b8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.9,
+     "description": "put_stream writes every upload to incoming/upload-<uuid>. When the digest already exists (target.exists() is true), the function returns early without unlinking that temp file, so the data stays on disk. Only the success path (os.replace) and the exception path remove it. Every duplicate upload, which is common for content-addressed storage, leaks a full copy of the blob, so disk usage grows without bound.",
+     "end_line": 66,
+     "file": "storage/blobs.py",
+     "line": 66,
+     "severity": "high",
+     "suggestion": "Unlink the incoming file before returning on the duplicate path, for example incoming.unlink(missing_ok=True) before the return, or restructure so cleanup runs in a finally block whenever the file was not moved into place.",
+     "title": "Duplicate upload leaves its temp file in incoming/ forever"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"storage/blobs.py\", \"line\": 66, \"end_line\": 66, \"severity\": \"high\", \"category\": \"resource\", \"title\": \"Duplicate upload leaves its temp file in incoming/ forever\", \"description\": \"put_stream writes every upload to incoming/upload-<uuid>. When the digest already exists (target.exists() is true), the function returns early without unlinking that temp file, so the data stays on disk. Only the success path (os.replace) and the exception path remove it. Every duplicate upload, which is common for content-addressed storage, leaks a full copy of the blob, so disk usage grows without bound.\", \"suggestion\": \"Unlink the incoming file before returning on the duplicate path, for example incoming.unlink(missing_ok=True) before the return, or restructure so cleanup runs in a finally block whenever the file was not moved into place.\", \"confidence\": 0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00038232500000000004,
+   "input_tokens": 2442,
+   "latency_ms": null,
+   "output_tokens": 989
+  }
+ }
+}

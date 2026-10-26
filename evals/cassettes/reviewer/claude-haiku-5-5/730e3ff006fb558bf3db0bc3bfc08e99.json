@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "730e3ff006fb558bf3db0bc3bfc08e99",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 18307,
+  "user_sha256": "d2962b301a52e00a14d9a2968b4bc6cf2d5af1cc5be9ad5b1fddc56d61b1ec9a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.85,
+     "description": "The per-year holiday cache was removed. is_business_day calls holidays(day.year) on every call, and holidays() now calls the source each time. With JsonHolidaySource, each call re-reads and re-parses the whole JSON file. add_business_days and business_days_between call is_business_day once per calendar day, so a single due-date computation can trigger many file reads and parses. Computing overdue tickets for a batch becomes very slow.",
+     "end_line": 38,
+     "file": "scheduling/calendar.py",
+     "line": 38,
+     "severity": "high",
+     "suggestion": "Restore caching per (region, year) inside BusinessCalendar, or cache the parsed data in JsonHolidaySource so the file is read once.",
+     "title": "Holidays are re-fetched on every business-day check"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.55,
+     "description": "overdue previously returned list[tuple[Ticket, date]]. It now returns list[OverdueTicket]. Existing callers that unpack pairs, such as `for ticket, due in policy.overdue(...)`, or index with pair[1], will raise TypeError or read the wrong values. Callers are not updated in this change.",
+     "end_line": 63,
+     "file": "scheduling/sla.py",
+     "line": 63,
+     "severity": "high",
+     "suggestion": "Keep returning (ticket, due) tuples from overdue() and add a separate method for OverdueTicket records, or update every caller in the same change.",
+     "title": "overdue() return type changed from tuples to OverdueTicket objects"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "due_date calls for_region, which raises KeyError for any region not configured in CalendarSet. overdue() iterates all tickets without catching this, so a single ticket with a stray or misspelled region code makes the entire overdue computation fail. overdue_by_region only groups by configured codes, so it does not help here.",
+     "end_line": 57,
+     "file": "scheduling/sla.py",
+     "line": 57,
+     "severity": "medium",
+     "suggestion": "Validate ticket regions at ingestion, or have overdue() catch the error per ticket, report those tickets separately, and keep processing the rest.",
+     "title": "One ticket with an unconfigured region aborts the whole overdue report"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduling/calendar.py\",\"line\":38,\"end_line\":38,\"severity\":\"high\",\"category\":\"performance\",\"title\":\"Holidays are re-fetched on every business-day check\",\"description\":\"The per-year holiday cache was removed. is_business_day calls holidays(day.year) on every call, and holidays() now calls the source each time. With JsonHolidaySource, each call re-reads and re-parses the whole JSON file. add_business_days and business_days_between call is_business_day once per calendar day, so a single due-date computation can trigger many file reads and parses. Computing overdue tickets for a batch becomes very slow.\",\"suggestion\":\"Restore caching per (region, year) inside BusinessCalendar, or cache the parsed data in JsonHolidaySource so the file is read once.\",\"confidence\":0.85},{\"file\":\"scheduling/sla.py\",\"line\":63,\"end_line\":63,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"overdue() return type changed from tuples to OverdueTicket objects\",\"description\":\"overdue previously returned list[tuple[Ticket, date]]. It now returns list[OverdueTicket]. Existing callers that unpack pairs, such as `for ticket, due in policy.overdue(...)`, or index with pair[1], will raise TypeError or read the wrong values. Callers are not updated in this change.\",\"suggestion\":\"Keep returning (ticket, due) tuples from overdue() and add a separate method for OverdueTicket records, or update every caller in the same change.\",\"confidence\":0.55},{\"file\":\"scheduling/sla.py\",\"line\":57,\"end_line\":57,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"One ticket with an unconfigured region aborts the whole overdue report\",\"description\":\"due_date calls for_region, which raises KeyError for any region not configured in CalendarSet. overdue() iterates all tickets without catching this, so a single ticket with a stray or misspelled region code makes the entire overdue computation fail. overdue_by_region only groups by configured codes, so it does not help here.\",\"suggestion\":\"Validate ticket regions at ingestion, or have overdue() catch the error per ticket, report those tickets separately, and keep processing the rest.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000926225,
+   "input_tokens": 7605,
+   "latency_ms": null,
+   "output_tokens": 2132
+  }
+ }
+}

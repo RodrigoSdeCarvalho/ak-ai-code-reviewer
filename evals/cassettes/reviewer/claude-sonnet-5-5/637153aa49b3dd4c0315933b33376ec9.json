@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "637153aa49b3dd4c0315933b33376ec9",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3712,
+  "user_sha256": "25f802477a132bbc00276014033fb682c85405d677406634525ab65b3f851803"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "start = min(hit - width // 2, len(tokens) - width) is not clamped at 0. If the match is near the beginning (hit < width // 2), the first term is negative, so start is negative. If the body has fewer than `width` tokens, len(tokens) - width is negative too. tokens[start:end] with a negative start counts from the end of the list, so the slice is wrong (often empty or a few trailing words). For example, with 30 tokens, width 24 and hit 3, start = -9 and end = 15, so tokens[-9:15] is empty. Also start > 0 is false, so the snippet looks like an empty, untruncated string.",
+     "file": "docsearch/snippets.py",
+     "line": 44,
+     "severity": "high",
+     "suggestion": "Clamp the start at 0: start = max(0, min(hit - width // 2, len(tokens) - width)).",
+     "title": "Window start can be negative, producing wrong slice"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"docsearch/snippets.py\",\"line\":44,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Window start can be negative, producing wrong slice\",\"description\":\"start = min(hit - width // 2, len(tokens) - width) is not clamped at 0. If the match is near the beginning (hit < width // 2), the first term is negative, so start is negative. If the body has fewer than `width` tokens, len(tokens) - width is negative too. tokens[start:end] with a negative start counts from the end of the list, so the slice is wrong (often empty or a few trailing words). For example, with 30 tokens, width 24 and hit 3, start = -9 and end = 15, so tokens[-9:15] is empty. Also start > 0 is false, so the snippet looks like an empty, untruncated string.\",\"suggestion\":\"Clamp the start at 0: start = max(0, min(hit - width // 2, len(tokens) - width)).\",\"confidence\":0.95}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0034265,
+   "input_tokens": 1557,
+   "latency_ms": null,
+   "output_tokens": 322
+  }
+ }
+}

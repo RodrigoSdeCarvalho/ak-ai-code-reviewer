@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f0aca211b7574c70bdcc5b976249188b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1355,
+  "user_sha256": "73d810d2e3912772451e66c20f064cb8e952ea7450b4b2953d1f8da936bdf26e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 66: logging the whole RelaySettings dataclass with %s, whose generated repr includes the SMTP password, so credentials are written to the info log. Wording and detail differ, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 66: logging the whole RelaySettings dataclass with %s, whose generated repr includes the SMTP password, so credentials are written to the info log. Wording and detail differ, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 5.632e-05,
+   "input_tokens": 514,
+   "latency_ms": null,
+   "output_tokens": 98
+  }
+ }
+}

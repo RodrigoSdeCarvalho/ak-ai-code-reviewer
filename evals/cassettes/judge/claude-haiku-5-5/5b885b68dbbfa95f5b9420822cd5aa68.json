@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5b885b68dbbfa95f5b9420822cd5aa68",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2344,
+  "user_sha256": "898eb87dd2cdc2626bbb02ad391fbd8384d8b7a2a24abb07d8036e3451b11b1c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 88: parse_duration's millisecond value is stored in ZoneConfig.duration, which consumers expect in seconds, so every zone waters 1000x longer than configured. Description B adds detail about plan_day and timedelta, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 88: parse_duration's millisecond value is stored in ZoneConfig.duration, which consumers expect in seconds, so every zone waters 1000x longer than configured. Description B adds detail about plan_day and timedelta, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.187e-05,
+   "input_tokens": 925,
+   "latency_ms": null,
+   "output_tokens": 118
+  }
+ }
+}

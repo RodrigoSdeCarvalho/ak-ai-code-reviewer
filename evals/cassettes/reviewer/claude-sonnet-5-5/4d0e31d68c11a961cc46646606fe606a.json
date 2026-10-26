@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "4d0e31d68c11a961cc46646606fe606a",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8473,
+  "user_sha256": "70fda1e1274ab532c0bf412683a671610642005f9017b75edb4e4be0b59b7e1e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "The docstring promises rows from `since` to `until` inclusive, but `days = (until - since).days` and `range(days)` generate only `days` rows, covering `since` through `until - 1`. The last day is always dropped, even though sales on it were counted. When since == until, the result is an empty list. The report and its totals therefore omit the final day's sales.",
+     "end_line": 43,
+     "file": "salesreport/daily.py",
+     "line": 42,
+     "severity": "high",
+     "suggestion": "Use `range(days + 1)`, e.g. `days = (until - since).days + 1`.",
+     "title": "Off-by-one: `until` day is excluded from the report"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "When the export is empty but both dates are given, the code proceeds to a zero-row report, while a missing bound prints \"no sales in export\". That inconsistency is intentional enough, but the guard is also hit when sales exist but all are filtered out by --store, which is not handled. In that case, if --since/--until are omitted, the min/max is taken over unfiltered sales, so the range reflects other stores' days and not the selected store's. The result is zero rows for days the selected store never traded.",
+     "end_line": 34,
+     "file": "salesreport/cli.py",
+     "line": 30,
+     "severity": "low",
+     "suggestion": "Compute default bounds from the store-filtered sales, or document that the bounds come from the whole export.",
+     "title": "Empty export with both --since and --until falls through, and `or` is used for optional dates"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"salesreport/daily.py\",\"line\":42,\"end_line\":43,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Off-by-one: `until` day is excluded from the report\",\"description\":\"The docstring promises rows from `since` to `until` inclusive, but `days = (until - since).days` and `range(days)` generate only `days` rows, covering `since` through `until - 1`. The last day is always dropped, even though sales on it were counted. When since == until, the result is an empty list. The report and its totals therefore omit the final day's sales.\",\"suggestion\":\"Use `range(days + 1)`, e.g. `days = (until - since).days + 1`.\",\"confidence\":0.97},{\"file\":\"salesreport/cli.py\",\"line\":30,\"end_line\":34,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Empty export with both --since and --until falls through, and `or` is used for optional dates\",\"description\":\"When the export is empty but both dates are given, the code proceeds to a zero-row report, while a missing bound prints \\\"no sales in export\\\". That inconsistency is intentional enough, but the guard is also hit when sales exist but all are filtered out by --store, which is not handled. In that case, if --since/--until are omitted, the min/max is taken over unfiltered sales, so the range reflects other stores' days and not the selected store's. The result is zero rows for days the selected store never traded.\",\"suggestion\":\"Compute default bounds from the store-filtered sales, or document that the bounds come from the whole export.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0062875,
+   "input_tokens": 3508,
+   "latency_ms": null,
+   "output_tokens": 504
+  }
+ }
+}

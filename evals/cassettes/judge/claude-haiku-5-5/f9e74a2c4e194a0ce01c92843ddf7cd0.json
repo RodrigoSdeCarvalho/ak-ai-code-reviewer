@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f9e74a2c4e194a0ce01c92843ddf7cd0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2092,
+  "user_sha256": "11058837d849dce095fcebb28afbfc0fc5f00271ce7732e2191ef9a35eb9d3a4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: `active_skus` is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is a linear scan causing O(scans x catalog) cost, fixable with a set. Description A cites lines 51-54 and Description B cites line 54, but both point at the same membership check.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: `active_skus` is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is a linear scan causing O(scans x catalog) cost, fixable with a set. Description A cites lines 51-54 and Description B cites line 54, but both point at the same membership check.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdBKY88WWeVfwq3pQ4",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016054000000000003,
+   "input_tokens": 858,
+   "latency_ms": 1311,
+   "output_tokens": 125
+  }
+ }
+}

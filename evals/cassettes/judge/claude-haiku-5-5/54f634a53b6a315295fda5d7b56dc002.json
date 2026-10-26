@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "54f634a53b6a315295fda5d7b56dc002",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2528,
+  "user_sha256": "d1abcf24525552650c07013750f6eaf27d1de61e14ba4f00a9da2bc0777d9068"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: self.plan is reassigned to new_plan on line 71 before plan_change_lines reads sub.plan as the old plan, so the unused-credit proration uses the new plan's price. Both also mention the mutation-before-failure consequence, so they match on substance despite differing in wording and emphasis.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: self.plan is reassigned to new_plan on line 71 before plan_change_lines reads sub.plan as the old plan, so the unused-credit proration uses the new plan's price. Both also mention the mutation-before-failure consequence, so they match on substance despite differing in wording and emphasis.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKj4JP7aDnd813tzEQV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016934,
+   "input_tokens": 929,
+   "latency_ms": 1842,
+   "output_tokens": 127
+  }
+ }
+}

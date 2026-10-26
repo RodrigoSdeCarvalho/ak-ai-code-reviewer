@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "71250c8cd0340bce8ed2343358323e69",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2116,
+  "user_sha256": "a88bd2a5ba6f90525a6b96ac86219532188a3ba835b3810f79f81a499b5720ea"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: in daily_totals, quantity is not reset to 0 after yielding a group when the key changes, so each DailyTotal becomes a running sum of earlier groups. Both point at the same lines (57-58 / 58) and the same failure mode, differing only in detail and an example.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: in daily_totals, quantity is not reset to 0 after yielding a group when the key changes, so each DailyTotal becomes a running sum of earlier groups. Both point at the same lines (57-58 / 58) and the same failure mode, differing only in detail and an example.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpUAyH9jjbLS4m4X5b",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015314,
+   "input_tokens": 812,
+   "latency_ms": 1344,
+   "output_tokens": 118
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:13:04+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "83060e57e4b74f8eaaf61fa28bdb19b7",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6003,
+  "user_sha256": "48f3ca5db8f5b1be2502b8d083419ccac396f468a61413d242d63cb609af8b82"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.9,
+     "description": "The try block also wraps self._flush(), so an exception from sink.write (I/O or DB error) is caught by `except Exception`. The whole batch of up to batch_size rows is dropped because `batch` was already reset to []. Only the single row that triggered the flush is reported as rejected, with the sink's error message. The load then continues and returns a report that looks mostly successful. Rows are lost silently and sink outages are treated like bad data.",
+     "end_line": 68,
+     "file": "pipeline/load.py",
+     "line": 67,
+     "severity": "high",
+     "suggestion": "Only wrap parse_row in the try/except, and call self._flush outside it so sink errors propagate. For example: try: tx = parse_row(row) except ValueError/parse error as exc: record rejection; continue; then batch.append(tx) and flush when full.",
+     "title": "Sink write failures are recorded as a rejection of the current row"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/load.py\",\"line\":67,\"end_line\":68,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"Sink write failures are recorded as a rejection of the current row\",\"description\":\"The try block also wraps self._flush(), so an exception from sink.write (I/O or DB error) is caught by `except Exception`. The whole batch of up to batch_size rows is dropped because `batch` was already reset to []. Only the single row that triggered the flush is reported as rejected, with the sink's error message. The load then continues and returns a report that looks mostly successful. Rows are lost silently and sink outages are treated like bad data.\",\"suggestion\":\"Only wrap parse_row in the try/except, and call self._flush outside it so sink errors propagate. For example: try: tx = parse_row(row) except ValueError/parse error as exc: record rejection; continue; then batch.append(tx) and flush when full.\",\"confidence\":0.9}]}",
+  "request_id": "req_011CgRJTJZ4xZEuyHbMq1qyg",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.008599,
+   "input_tokens": 2460,
+   "latency_ms": 3281,
+   "output_tokens": 316
+  }
+ }
+}

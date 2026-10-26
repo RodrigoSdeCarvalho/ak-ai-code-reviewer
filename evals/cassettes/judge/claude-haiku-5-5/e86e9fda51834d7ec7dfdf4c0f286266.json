@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e86e9fda51834d7ec7dfdf4c0f286266",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2304,
+  "user_sha256": "ac7f804f6c8e5ef97a332474ab6d29f20fa81fbe89c9d301eb5bf316dda80c74"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: on the denial path, bucket.updated_at is not advanced after tokens were refilled, so the next check re-adds the same elapsed interval and clients are over-refilled when retrying. Both point at the same lines (71-73) and the same consequence of exceeding the configured rate; B's numeric example is just a different level of detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: on the denial path, bucket.updated_at is not advanced after tokens were refilled, so the next check re-adds the same elapsed interval and clients are over-refilled when retrying. Both point at the same lines (71-73) and the same consequence of exceeding the configured rate; B's numeric example is just a different level of detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpFhP5n5wefBw6CsVh",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016774000000000002,
+   "input_tokens": 878,
+   "latency_ms": 1546,
+   "output_tokens": 134
+  }
+ }
+}

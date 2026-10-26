@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "e78af90ac2895f5321e3e7a3c7f19649",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 12177,
+  "user_sha256": "3a425d7c5988b4f1f0010cbf1221e41b4151d2519a25b7f85601b9cbfecd5552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.7,
+     "description": "The removed code wrapped the pending Deferred in a callback that returned the result, so the shared Deferred kept its value for other waiters. Now the shared Deferred is passed directly to maybe_deferred_to_future, which goes through Deferred.asFuture. That adapter adds a callback that sets the future result and returns None. The first waiter therefore resets the shared Deferred's result to None, and every later waiter for the same netloc gets None. process_request_2 treats a None parser as 'allowed', so requests queued behind the first one skip the robots.txt check and are downloaded even when disallowed.",
+     "end_line": 208,
+     "file": "scrapy/downloadermiddlewares/robotstxt.py",
+     "line": 208,
+     "severity": "high",
+     "suggestion": "Restore the pass-through wrapper: create a new Deferred waiter and add a callback to the shared parser that calls waiter.callback(result) and returns result, then await the waiter. Alternatively, use a Deferred-to-future adapter that does not consume the result.",
+     "title": "Concurrent requests to the same host can receive None and bypass robots.txt"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"scrapy/downloadermiddlewares/robotstxt.py\", \"line\": 208, \"end_line\": 208, \"severity\": \"high\", \"category\": \"security\", \"title\": \"Concurrent requests to the same host can receive None and bypass robots.txt\", \"description\": \"The removed code wrapped the pending Deferred in a callback that returned the result, so the shared Deferred kept its value for other waiters. Now the shared Deferred is passed directly to maybe_deferred_to_future, which goes through Deferred.asFuture. That adapter adds a callback that sets the future result and returns None. The first waiter therefore resets the shared Deferred's result to None, and every later waiter for the same netloc gets None. process_request_2 treats a None parser as 'allowed', so requests queued behind the first one skip the robots.txt check and are downloaded even when disallowed.\", \"suggestion\": \"Restore the pass-through wrapper: create a new Deferred waiter and add a callback to the shared parser that calls waiter.callback(result) and returns result, then await the waiter. Alternatively, use a Deferred-to-future adapter that does not consume the result.\", \"confidence\": 0.7}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000589125,
+   "input_tokens": 4948,
+   "latency_ms": null,
+   "output_tokens": 1315
+  }
+ }
+}

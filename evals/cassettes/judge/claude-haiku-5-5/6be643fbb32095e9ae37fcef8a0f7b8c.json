@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:40+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6be643fbb32095e9ae37fcef8a0f7b8c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2344,
+  "user_sha256": "8d1bb4256821682f4ff80a954b4c8bf44f31b7202864f682ba66a87ad02ebc46"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "When the key is an expired entry, the pop frees a slot, so the cache length drops below max_entries and the size check does not evict. When the key is absent, the pop does nothing and eviction is a normal capacity response, not a wasted slot. The described unnecessary eviction of a live entry does not occur."
+  },
+  "raw_text": "{\"reason\": \"When the key is an expired entry, the pop frees a slot, so the cache length drops below max_entries and the size check does not evict. When the key is absent, the pop does nothing and eviction is a normal capacity response, not a wasted slot. The described unnecessary eviction of a live entry does not occur.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRKsccofgop8iuNtKNhg",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00027636,
+   "input_tokens": 882,
+   "latency_ms": 2407,
+   "output_tokens": 363
+  }
+ }
+}

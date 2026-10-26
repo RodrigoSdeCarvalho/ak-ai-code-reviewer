@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:21+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2e7614a6f4bdffba61105fe5896b245d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2877,
+  "user_sha256": "c89c349d17850b2c14d1fc1e9c83c13b139c54b0f40169f4f5018992eb3d3f3c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A claims duplicate SKUs cause stale reads or overwritten reservations at lines 82-90. Description B identifies a different defect: on the exception path, the connection is rolled back and re-raised without being released to the pool (lines 93-96), leaking connections. Different root causes and failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A claims duplicate SKUs cause stale reads or overwritten reservations at lines 82-90. Description B identifies a different defect: on the exception path, the connection is rolled back and re-raised without being released to the pool (lines 93-96), leaking connections. Different root causes and failures.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKrJHTKDq2q7ZuzZsV9",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017404,
+   "input_tokens": 1046,
+   "latency_ms": 1264,
+   "output_tokens": 113
+  }
+ }
+}

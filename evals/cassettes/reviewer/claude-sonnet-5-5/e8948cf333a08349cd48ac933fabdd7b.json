@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:12:39+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "e8948cf333a08349cd48ac933fabdd7b",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 12177,
+  "user_sha256": "3a425d7c5988b4f1f0010cbf1221e41b4151d2519a25b7f85601b9cbfecd5552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.8,
+     "description": "The change drops the per-waiter Deferred and awaits the shared parser Deferred directly. A Deferred holds a single callback chain. When several requests for the same netloc await it at once, maybe_deferred_to_future adds a callback to the shared Deferred that returns None. The first waiter gets the RobotParser, but the next waiter's callback receives None. Any request after the first therefore sees rp=None, so process_request_2 skips the robots.txt check and the request is allowed even if it is disallowed. A second effect is that the shared Deferred can end up holding a non-parser result for anyone who awaits it later.",
+     "file": "scrapy/downloadermiddlewares/robotstxt.py",
+     "line": 208,
+     "severity": "high",
+     "suggestion": "Restore a per-waiter Deferred that is fed from the shared one through a callback that returns the result unchanged, as in the removed code. Alternatively, store an asyncio.Future or an event and give every waiter the same result.",
+     "title": "Multiple waiters share one Deferred, so later waiters get a wrong result"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scrapy/downloadermiddlewares/robotstxt.py\",\"line\":208,\"severity\":\"high\",\"category\":\"concurrency\",\"title\":\"Multiple waiters share one Deferred, so later waiters get a wrong result\",\"description\":\"The change drops the per-waiter Deferred and awaits the shared parser Deferred directly. A Deferred holds a single callback chain. When several requests for the same netloc await it at once, maybe_deferred_to_future adds a callback to the shared Deferred that returns None. The first waiter gets the RobotParser, but the next waiter's callback receives None. Any request after the first therefore sees rp=None, so process_request_2 skips the robots.txt check and the request is allowed even if it is disallowed. A second effect is that the shared Deferred can end up holding a non-parser result for anyone who awaits it later.\",\"suggestion\":\"Restore a per-waiter Deferred that is fed from the shared one through a callback that returns the result unchanged, as in the removed code. Alternatively, store an asyncio.Future or an event and give every waiter the same result.\",\"confidence\":0.8}]}",
+  "request_id": "req_011CgRJRRLoTxVH7sBdz3VuX",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.014155,
+   "input_tokens": 4948,
+   "latency_ms": 3890,
+   "output_tokens": 374
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6f5d9eafb18ca6064870ab4f160a2a04",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2401,
+  "user_sha256": "64daa91c6d16245973fccd4d4e057db154471db38174d30d3e72008faca5a6e9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after req.reject(requeue=False) in the ETA conversion exception handler, there is no return, so eta stays None and the task falls through to be reserved and executed immediately despite already being rejected. Description B adds an extra claim about the result backend not storing the failure, but its core root cause and location match Description A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after req.reject(requeue=False) in the ETA conversion exception handler, there is no return, so eta stays None and the task falls through to be reserved and executed immediately despite already being rejected. Description B adds an extra claim about the result backend not storing the failure, but its core root cause and location match Description A.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJamG8GrZdETtFfQAvQ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016304,
+   "input_tokens": 873,
+   "latency_ms": 1311,
+   "output_tokens": 127
+  }
+ }
+}

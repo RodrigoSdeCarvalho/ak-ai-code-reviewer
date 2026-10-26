@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:31+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "60c4a7798dd14167689bf12261f2bbc6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2196,
+  "user_sha256": "9dccb91e9ffe802723622eac8b195e8438c880bfd11cd9ae61cfe7442b2ad389"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 145: the `del conn._message_formatter` in the else branch raises AttributeError when the instance attribute was never set (e.g., logging_token=None on a fresh connection), and both suggest assigning None instead. Description B adds minor extra speculation about slots, but the root cause and failure match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 145: the `del conn._message_formatter` in the else branch raises AttributeError when the instance attribute was never set (e.g., logging_token=None on a fresh connection), and both suggest assigning None instead. Description B adds minor extra speculation about slots, but the root cause and failure match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiB7PEa7GHaTafrAeD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015734,
+   "input_tokens": 814,
+   "latency_ms": 1421,
+   "output_tokens": 126
+  }
+ }
+}

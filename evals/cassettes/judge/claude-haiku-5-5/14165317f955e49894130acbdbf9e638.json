@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:37+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "14165317f955e49894130acbdbf9e638",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2010,
+  "user_sha256": "09e4bcdc1c6af8f14ea8321ae05d9d16a4fef056e537fe5c3b531a83557a50c9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the except OSError block in put() at lines 55-56 removes the temp file without re-raising, so execution falls through to return BlobInfo as if the blob was stored, causing silent data loss and later BlobNotFound on get(). Description B adds a downstream detail about AttachmentService.upload, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the except OSError block in put() at lines 55-56 removes the temp file without re-raising, so execution falls through to return BlobInfo as if the blob was stored, causing silent data loss and later BlobNotFound on get(). Description B adds a downstream detail about AttachmentService.upload, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiff7a53FCeK6XWivR",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015664,
+   "input_tokens": 767,
+   "latency_ms": 1344,
+   "output_tokens": 134
+  }
+ }
+}

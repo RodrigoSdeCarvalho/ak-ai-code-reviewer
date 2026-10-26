@@ -78,6 +78,22 @@ notes: >
 - `fixed/` must change something within 3 lines of each labelled range. If the fix is elsewhere, the label is in the wrong place.
 - Check numbers with `grep -n` on the `after/` file, never by counting by eye.
 
+### Alternative locations (`alt_locations`)
+
+Some defects have more than one place where a careful reviewer would legitimately comment on the same root cause. List the others under the bug, so a correct finding there is not scored as a miss plus a false positive:
+
+```yaml
+    alt_locations:                 # optional; same line contract as the label
+    - file: shop/catalog.py        # e.g. the callee whose body does the expensive walk
+      line_start: 58
+      line_end: 60
+```
+
+- Use it for two-sided defects only: a loop in the caller and the callee that does the expensive work; a changed callee and the stale call site that now gets the wrong thing; the check and the act of a check-then-act; a value that is set and the code that overwrites it.
+- Be conservative. A comment at the alternative must clearly be about the same root cause. Never add a generic spot (an import, a signature that is merely related, a docstring), a callee that is unchanged and correct for its other callers, or a range widened by a few lines just to be generous: findings within 3 lines of a location already match.
+- Keep the label as the primary location: it is where `fixed/` changes code and what `description` explains. An alternative may be on unchanged lines, but it must be in a file of `change.diff` (findings on other files are out of scope and could never match it).
+- The judge sees the alternatives as "Also reportable at: …" and the code around the one nearest the finding. Decide them from the code and the diff, never from model output.
+
 ## 5. Making a realistic PR
 
 The reviewer is graded on PRs that look like real work. A case where the defect is the whole diff measures nothing.
@@ -148,7 +164,7 @@ aireview eval validate-dataset                            # full check of the da
 aireview eval split                                       # assign dev/test to cases without a split (maintainers only)
 ```
 
-The validator checks: schema; `id` equals the directory name; `change.diff` equals a fresh `before/` to `after/` diff; `size_bucket`; `ground_truth` fits the kind; every bug's file exists in `after/`, its range is within the file and overlaps a changed line; `fixed/` changes something near each label; leakage words in added lines and file names; `fixed/` files exist in `after/` and differ from it; clean cases have no bugs and no `fixed/`; the test behaviour in section 6; no duplicate `after/` trees; and that `manifest.yaml` is up to date. Fix every problem it reports; do not weaken a check to make a case pass.
+The validator checks: schema; `id` equals the directory name; `change.diff` equals a fresh `before/` to `after/` diff; `size_bucket`; `ground_truth` fits the kind; every bug's file exists in `after/`, its range is within the file and overlaps a changed line; every alternative location is within an `after/` file that the diff touches; `fixed/` changes something near each label; leakage words in added lines and file names; `fixed/` files exist in `after/` and differ from it; clean cases have no bugs and no `fixed/`; the test behaviour in section 6; no duplicate `after/` trees; and that `manifest.yaml` is up to date. Fix every problem it reports; do not weaken a check to make a case pass.
 
 ## 11. Checklist before you finish a case
 

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "8b8becc93e6ca9f4ecd38a24bc9115f2",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7748,
+  "user_sha256": "8c98a0911582c128835492f82164049e060ea6d7efdaf4f7db3396620d926bc3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "reserve_order reserves lines one by one. If a later line raises UnknownSku or OutOfStock, the earlier lines stay reserved, and place_order returns 404/409 without rolling them back. The old code checked every line before reserving any, so a rejected order left no stock held. Now a rejected multi-line order permanently leaks reserved stock, making it unavailable to other orders.",
+     "end_line": 60,
+     "file": "inventory/warehouse.py",
+     "line": 57,
+     "severity": "high",
+     "suggestion": "Validate all lines first (existence and availability) before mutating anything, or track the reservations made so far and call release() for each in an except block before re-raising.",
+     "title": "reserve_order is not atomic: partial reservations remain on failure"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/warehouse.py\",\"line\":57,\"end_line\":60,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"reserve_order is not atomic: partial reservations remain on failure\",\"description\":\"reserve_order reserves lines one by one. If a later line raises UnknownSku or OutOfStock, the earlier lines stay reserved, and place_order returns 404/409 without rolling them back. The old code checked every line before reserving any, so a rejected order left no stock held. Now a rejected multi-line order permanently leaks reserved stock, making it unavailable to other orders.\",\"suggestion\":\"Validate all lines first (existence and availability) before mutating anything, or track the reservations made so far and call release() for each in an except block before re-raising.\",\"confidence\":0.93}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0048605,
+   "input_tokens": 3286,
+   "latency_ms": null,
+   "output_tokens": 263
+  }
+ }
+}

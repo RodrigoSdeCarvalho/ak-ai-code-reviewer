@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5f474ddd7c1532bbe40c04c4d6685ba6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2369,
+  "user_sha256": "7773f19688a3869ff42a5f67bb85c0af3c9f0cc17f5c6195d5896deef1de785c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 88: parse_duration returns milliseconds, which is stored in ZoneConfig.duration that consumers treat as seconds, causing zones to water 1000 times longer. They differ only in wording and detail (A mentions Run.seconds and controller sleep; B mentions plan_day timedelta and the 6.9-day example).",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 88: parse_duration returns milliseconds, which is stored in ZoneConfig.duration that consumers treat as seconds, causing zones to water 1000 times longer. They differ only in wording and detail (A mentions Run.seconds and controller sleep; B mentions plan_day timedelta and the 6.9-day example).\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiUAoRJCiiy6LEpApj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017584,
+   "input_tokens": 939,
+   "latency_ms": 1235,
+   "output_tokens": 138
+  }
+ }
+}

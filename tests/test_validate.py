@@ -210,3 +210,37 @@ def test_template_cases_pass_full_validation():
     cases = repo_root() / "evals" / "dataset" / "cases"
     for case_id in ("seeded-template-01", "clean-template-01"):
         assert validate_case(cases / case_id) == [], case_id
+
+
+def test_alt_locations_may_sit_on_unchanged_lines_of_a_diff_file(tmp_path):
+    case = _make_case(tmp_path)
+    _set_bug(case, alt_locations=[{"file": "calc/ops.py", "line_start": 1, "line_end": 3}])  # unchanged `add`
+    assert validate_case(case, run_tests=False) == []
+
+
+@pytest.mark.parametrize(
+    ("alt", "message"),
+    [
+        (
+            {"file": "calc/missing.py", "line_start": 1, "line_end": 1},
+            "alt location (calc/missing.py:1-1): file not found",
+        ),
+        ({"file": "calc/ops.py", "line_start": 7, "line_end": 99}, "beyond end of file (8 lines)"),
+        ({"file": "calc/ops.py", "line_start": 5, "line_end": 4}, "line_end < line_start"),
+        ({"file": "calc/util.py", "line_start": 1, "line_end": 1}, "not part of change.diff"),
+        ({"file": "calc/ops.py", "line_start": 8, "line_end": 8}, "repeats the labelled location"),
+    ],
+)
+def test_alt_location_problems(tmp_path, alt, message):
+    case = _make_case(tmp_path)
+    for side in ("before", "after"):  # an unchanged file: present in after/ but not in the diff
+        _write(case / side / "calc" / "util.py", "HELPER = 1\n")
+    _set_bug(case, alt_locations=[alt])
+    problems = validate_case(case, run_tests=False)
+    assert any(message in p for p in problems), problems
+
+
+def test_alt_location_schema_forbids_unknown_keys(tmp_path):
+    case = _make_case(tmp_path)
+    _set_bug(case, alt_locations=[{"file": "calc/ops.py", "line": 3}])
+    assert any("alt_locations" in p for p in validate_case(case, run_tests=False))

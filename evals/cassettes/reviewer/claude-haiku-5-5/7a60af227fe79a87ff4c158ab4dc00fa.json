@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "7a60af227fe79a87ff4c158ab4dc00fa",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 2060,
+  "user_sha256": "f5accdb1256f132be7ae1a1e95535f8958cf976b88cfb73ec1bfaceb75f530e9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The diff deletes the __copy__, __deepcopy__ and __reduce_ex__ overrides that made copy and pickle return the same singleton member. Without them, copy.copy or copy.deepcopy may not return the same member, and pickling falls back to Enum's default reduce, which serialises the underlying object() value. On unpickling, Sentinel(<new object>) cannot find the original value and raises ValueError, or yields a member that fails identity checks such as 'value is UNSET'. Code that deep-copies Option or Parameter defaults, or sends them across processes, can then crash or silently take the wrong branch.",
+     "end_line": null,
+     "file": "src/click/_utils.py",
+     "line": 19,
+     "severity": "high",
+     "suggestion": "Restore the three methods, or confirm that the Python versions supported by Click already provide equivalent behaviour for Enum members with object() values and add a test that copies and pickles UNSET and FLAG_NEEDS_VALUE.",
+     "title": "Removing Sentinel copy/pickle hooks breaks identity of UNSET and FLAG_NEEDS_VALUE"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/click/_utils.py\",\"line\":19,\"end_line\":null,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Removing Sentinel copy/pickle hooks breaks identity of UNSET and FLAG_NEEDS_VALUE\",\"description\":\"The diff deletes the __copy__, __deepcopy__ and __reduce_ex__ overrides that made copy and pickle return the same singleton member. Without them, copy.copy or copy.deepcopy may not return the same member, and pickling falls back to Enum's default reduce, which serialises the underlying object() value. On unpickling, Sentinel(<new object>) cannot find the original value and raises ValueError, or yields a member that fails identity checks such as 'value is UNSET'. Code that deep-copies Option or Parameter defaults, or sends them across processes, can then crash or silently take the wrong branch.\",\"suggestion\":\"Restore the three methods, or confirm that the Python versions supported by Click already provide equivalent behaviour for Enum members with object() values and add a test that copies and pickles UNSET and FLAG_NEEDS_VALUE.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00032532500000000006,
+   "input_tokens": 1047,
+   "latency_ms": null,
+   "output_tokens": 1040
+  }
+ }
+}

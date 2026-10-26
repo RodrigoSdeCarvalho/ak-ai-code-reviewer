@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:40+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "85706b90c730fdd71391eadf41ac4e72",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2917,
+  "user_sha256": "237d561829018f8831fd4dc976a401b7afdb74134bb6d6fc74df00eab3f55236"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the shared parser Deferred at line 208 is awaited by multiple concurrent waiters via maybe_deferred_to_future, and the callback chain consumes the result so later waiters receive None, causing process_request_2 to skip the robots.txt check and allow disallowed requests. Description A adds details (cancellation propagation, the third-and-later count) but the root cause and place match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the shared parser Deferred at line 208 is awaited by multiple concurrent waiters via maybe_deferred_to_future, and the callback chain consumes the result so later waiters receive None, causing process_request_2 to skip the robots.txt check and allow disallowed requests. Description A adds details (cancellation propagation, the third-and-later count) but the root cause and place match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJaV14hQXrrmnWRsJzj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00019374,
+   "input_tokens": 1050,
+   "latency_ms": 1829,
+   "output_tokens": 153
+  }
+ }
+}

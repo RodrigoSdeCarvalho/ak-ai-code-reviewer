@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:13:59+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "66eff157a13e7e1a2a84df597644e06b",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14062,
+  "user_sha256": "6fa1e0dcc3476b047d0183aca76ff5a8c014de3fb985e0051a98a0edfee8b6a0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.9,
+     "description": "Invite codes are bearer credentials that grant workspace membership. They are generated with `random.choices`, which uses the Mersenne Twister. Its output is predictable once enough outputs are observed, so an attacker who sees a few codes could predict others and join workspaces uninvited.",
+     "file": "workspace/invites.py",
+     "line": 49,
+     "severity": "high",
+     "suggestion": "Use the `secrets` module, e.g. `\"\".join(secrets.choice(CODE_ALPHABET) for _ in range(CODE_LENGTH))`, or `secrets.token_urlsafe`.",
+     "title": "Invite codes generated with non-cryptographic PRNG"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "`accept` rejects revoked links and exhausted links but never checks `now >= link.expires_at`. An expired link can still be used to join the workspace, which defeats the TTL. `is_active` already encodes the full rule but is not used here.",
+     "file": "workspace/invites.py",
+     "line": 98,
+     "severity": "high",
+     "suggestion": "Use `if not link.is_active(now): raise InviteNotUsable(...)`.",
+     "title": "accept() does not check link expiry"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.4,
+     "description": "The `uses >= max_uses` check, `directory.add`, and `link.uses += 1` are separate steps with no lock. Concurrent accepts of a single-use link can all pass the check and all join, exceeding `max_uses`.",
+     "file": "workspace/invites.py",
+     "line": 100,
+     "severity": "medium",
+     "suggestion": "Guard accept (check, add, increment) with a lock, or use an atomic increment-and-check.",
+     "title": "Check-then-act on link usage is not atomic"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"workspace/invites.py\",\"line\":49,\"severity\":\"high\",\"category\":\"security\",\"title\":\"Invite codes generated with non-cryptographic PRNG\",\"description\":\"Invite codes are bearer credentials that grant workspace membership. They are generated with `random.choices`, which uses the Mersenne Twister. Its output is predictable once enough outputs are observed, so an attacker who sees a few codes could predict others and join workspaces uninvited.\",\"suggestion\":\"Use the `secrets` module, e.g. `\\\"\\\".join(secrets.choice(CODE_ALPHABET) for _ in range(CODE_LENGTH))`, or `secrets.token_urlsafe`.\",\"confidence\":0.9},{\"file\":\"workspace/invites.py\",\"line\":98,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"accept() does not check link expiry\",\"description\":\"`accept` rejects revoked links and exhausted links but never checks `now >= link.expires_at`. An expired link can still be used to join the workspace, which defeats the TTL. `is_active` already encodes the full rule but is not used here.\",\"suggestion\":\"Use `if not link.is_active(now): raise InviteNotUsable(...)`.\",\"confidence\":0.93},{\"file\":\"workspace/invites.py\",\"line\":100,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Check-then-act on link usage is not atomic\",\"description\":\"The `uses >= max_uses` check, `directory.add`, and `link.uses += 1` are separate steps with no lock. Concurrent accepts of a single-use link can all pass the check and all join, exceeding `max_uses`.\",\"suggestion\":\"Guard accept (check, add, increment) with a lock, or use an atomic increment-and-check.\",\"confidence\":0.4}]}",
+  "request_id": "req_011CgRJXCmvD8xxBhmH9q1hh",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.018143,
+   "input_tokens": 5862,
+   "latency_ms": 5000,
+   "output_tokens": 590
+  }
+ }
+}

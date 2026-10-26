@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:32+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "bb21c8e6cc3202c187bd8cf6382eb291",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2799,
+  "user_sha256": "148b15ac493697c184e785694975b47d3010a77da9fb23155cdbb507bcbc3f26"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A claims a benign position-miscount issue within the same column and calls it low risk, while Description B identifies a broken authorization check: move_card only authorizes against to_board_id and never checks the card's current board, allowing cross-board theft of cards. Different defects entirely.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A claims a benign position-miscount issue within the same column and calls it low risk, while Description B identifies a broken authorization check: move_card only authorizes against to_board_id and never checks the card's current board, allowing cross-board theft of cards. Different defects entirely.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJeLd9ZLHeekjLsA4L4",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015824,
+   "input_tokens": 935,
+   "latency_ms": 1265,
+   "output_tokens": 105
+  }
+ }
+}

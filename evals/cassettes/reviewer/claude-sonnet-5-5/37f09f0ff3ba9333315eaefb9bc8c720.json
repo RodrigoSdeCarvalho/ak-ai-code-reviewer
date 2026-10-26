@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "37f09f0ff3ba9333315eaefb9bc8c720",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 1148,
+  "user_sha256": "edd3d93381e9e6b2fe0350ca7a2b1db9b240cac6bfaa5b04b6b764c0e427fd12"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.8,
+     "description": "`_add_method_dunders` assigns `__module__`, `__qualname__` and `__doc__` on the function it receives. The old code passed a fresh per-class wrapper. Now it passes the global `attr.evolve` function itself, so every class built with `add_replace` overwrites the metadata of the shared function. `attr.evolve` then reports the last decorated class's module, qualname and a generated docstring. The same function object is also used as `__replace__` on every class, so all of them share one metadata set. This breaks introspection, docs and pickling by qualified name.",
+     "file": "src/attr/_make.py",
+     "line": 1111,
+     "severity": "medium",
+     "suggestion": "Keep a per-class wrapper so the dunder assignment touches a fresh function, for example `def __replace__(*args, **changes): return evolve(*args, **changes)`. Alternatively, skip `_add_method_dunders` and assign `evolve` directly.",
+     "title": "Shared `evolve` function is mutated by `_add_method_dunders`"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/attr/_make.py\",\"line\":1111,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Shared `evolve` function is mutated by `_add_method_dunders`\",\"description\":\"`_add_method_dunders` assigns `__module__`, `__qualname__` and `__doc__` on the function it receives. The old code passed a fresh per-class wrapper. Now it passes the global `attr.evolve` function itself, so every class built with `add_replace` overwrites the metadata of the shared function. `attr.evolve` then reports the last decorated class's module, qualname and a generated docstring. The same function object is also used as `__replace__` on every class, so all of them share one metadata set. This breaks introspection, docs and pickling by qualified name.\",\"suggestion\":\"Keep a per-class wrapper so the dunder assignment touches a fresh function, for example `def __replace__(*args, **changes): return evolve(*args, **changes)`. Alternatively, skip `_add_method_dunders` and assign `evolve` directly.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0040125,
+   "input_tokens": 478,
+   "latency_ms": null,
+   "output_tokens": 655
+  }
+ }
+}

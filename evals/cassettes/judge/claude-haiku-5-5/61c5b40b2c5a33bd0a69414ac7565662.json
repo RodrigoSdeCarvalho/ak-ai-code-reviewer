@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "61c5b40b2c5a33bd0a69414ac7565662",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1767,
+  "user_sha256": "9756dabf3f94a4488cf34824c2317b3025fd78c128ee84893ac669bc63376612"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The call chain is real: overdue() calls due_date(), which calls for_region() at line 57, so one unknown region can abort the computation. However, the code shown does not include for_region(), so the claimed KeyError is unconfirmed, and the heading's 'drops tickets' wording is inaccurate. Per the rules, unverified claims default to nit."
+  },
+  "raw_text": "{\"reason\": \"The call chain is real: overdue() calls due_date(), which calls for_region() at line 57, so one unknown region can abort the computation. However, the code shown does not include for_region(), so the claimed KeyError is unconfirmed, and the heading's 'drops tickets' wording is inaccurate. Per the rules, unverified claims default to nit.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKtsFQ8cRXFadDC7fxg",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00030236,
+   "input_tokens": 707,
+   "latency_ms": 3032,
+   "output_tokens": 450
+  }
+ }
+}

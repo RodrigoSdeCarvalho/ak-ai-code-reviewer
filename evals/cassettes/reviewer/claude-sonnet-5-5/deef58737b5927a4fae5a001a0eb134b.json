@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "deef58737b5927a4fae5a001a0eb134b",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 16275,
+  "user_sha256": "1d40b656af2a751089be8968336cf7e38304422db997e6134487f949c024ae1e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "snapshot() overlays the backend result on DEFAULT_FLAGS. Flags the backend omits now take DEFAULT_FLAGS values, so \"invoice_pdf_export\" and \"search_suggestions\" are on whenever the backend lacks them, including when the backend returns an empty dict for an environment. Before this change, unknown flags were off. require() guards unreleased endpoints, so any flag with a True default is now open by default, and a flag deleted in the backend turns on instead of off. Behaviour changes for all callers, not only those who opted into defaults.",
+     "file": "flags/client.py",
+     "line": 31,
+     "severity": "high",
+     "suggestion": "Keep is_enabled/require fail-closed (use only backend values), or apply defaults only for explicitly opted-in flags and document the behaviour.",
+     "title": "DEFAULT_FLAGS silently merged in, changing is_enabled/require semantics"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.35,
+     "description": "On BackendUnavailable, `now` was captured before the backend call, which may have blocked for a long time (timeouts). The max_stale check at line 115 and checked_at use this pre-call timestamp, so a snapshot that has actually exceeded max_stale by the time the call failed can still be served and re-marked as checked. Staleness is understated by the backend call duration, and the stale window can overrun max_stale by up to ttl plus the call latency.",
+     "file": "flags/cache.py",
+     "line": 118,
+     "severity": "medium",
+     "suggestion": "Re-read self._clock() after the failure and use that value for the max_stale comparison and for checked_at.",
+     "title": "Stale serving extends checked_at but the max_stale bound is checked against a possibly shifted 'now'"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"flags/client.py\",\"line\":31,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"DEFAULT_FLAGS silently merged in, changing is_enabled/require semantics\",\"description\":\"snapshot() overlays the backend result on DEFAULT_FLAGS. Flags the backend omits now take DEFAULT_FLAGS values, so \\\"invoice_pdf_export\\\" and \\\"search_suggestions\\\" are on whenever the backend lacks them, including when the backend returns an empty dict for an environment. Before this change, unknown flags were off. require() guards unreleased endpoints, so any flag with a True default is now open by default, and a flag deleted in the backend turns on instead of off. Behaviour changes for all callers, not only those who opted into defaults.\",\"suggestion\":\"Keep is_enabled/require fail-closed (use only backend values), or apply defaults only for explicitly opted-in flags and document the behaviour.\",\"confidence\":0.5},{\"file\":\"flags/cache.py\",\"line\":118,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Stale serving extends checked_at but the max_stale bound is checked against a possibly shifted 'now'\",\"description\":\"On BackendUnavailable, `now` was captured before the backend call, which may have blocked for a long time (timeouts). The max_stale check at line 115 and checked_at use this pre-call timestamp, so a snapshot that has actually exceeded max_stale by the time the call failed can still be served and re-marked as checked. Staleness is understated by the backend call duration, and the stale window can overrun max_stale by up to ttl plus the call latency.\",\"suggestion\":\"Re-read self._clock() after the failure and use that value for the max_stale comparison and for checked_at.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0096045,
+   "input_tokens": 6385,
+   "latency_ms": null,
+   "output_tokens": 592
+  }
+ }
+}

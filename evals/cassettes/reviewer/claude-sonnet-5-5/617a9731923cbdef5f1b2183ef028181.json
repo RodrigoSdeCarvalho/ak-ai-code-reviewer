@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:13:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "617a9731923cbdef5f1b2183ef028181",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8985,
+  "user_sha256": "0e40d466f2f4d76ca94500ee6ef6445e761898c411ea05c9423b289812aabab5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "The `finally` clause always runs, so on a failure `job.next_run = now + self._retry_delay(job)` (line 65) is immediately replaced by `now + job.interval`. The new backoff/retry_delay feature therefore never takes effect and failed jobs wait a full interval before retrying. The `finally` also runs for BaseException, which would set next_run while the exception propagates.",
+     "end_line": 76,
+     "file": "scheduler/runner.py",
+     "line": 76,
+     "severity": "high",
+     "suggestion": "Remove the `finally` and set `job.next_run = now + job.interval` only in the `else` branch (success path), keeping the retry-delay assignment in the `except` branch.",
+     "title": "finally block overwrites the retry-delay next_run on failure"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.5,
+     "description": "`job.retry_delay * 2 ** (consecutive_failures - 1)` is computed before capping with `min`. If max_failures is large (the constructor only requires >= 1) and a job keeps failing, the huge multiplier makes timedelta multiplication raise OverflowError. This is raised inside the `except` handler in `_run`, so it escapes `tick` and aborts all remaining due jobs.",
+     "end_line": 82,
+     "file": "scheduler/runner.py",
+     "line": 82,
+     "severity": "medium",
+     "suggestion": "Cap the exponent, or compare the multiplier against interval/retry_delay before multiplying, e.g. `factor = min(2 ** min(n-1, 30), ...)`.",
+     "title": "Unbounded exponent in backoff can raise OverflowError"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduler/runner.py\",\"line\":76,\"end_line\":76,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"finally block overwrites the retry-delay next_run on failure\",\"description\":\"The `finally` clause always runs, so on a failure `job.next_run = now + self._retry_delay(job)` (line 65) is immediately replaced by `now + job.interval`. The new backoff/retry_delay feature therefore never takes effect and failed jobs wait a full interval before retrying. The `finally` also runs for BaseException, which would set next_run while the exception propagates.\",\"suggestion\":\"Remove the `finally` and set `job.next_run = now + job.interval` only in the `else` branch (success path), keeping the retry-delay assignment in the `except` branch.\",\"confidence\":0.97},{\"file\":\"scheduler/runner.py\",\"line\":82,\"end_line\":82,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Unbounded exponent in backoff can raise OverflowError\",\"description\":\"`job.retry_delay * 2 ** (consecutive_failures - 1)` is computed before capping with `min`. If max_failures is large (the constructor only requires >= 1) and a job keeps failing, the huge multiplier makes timedelta multiplication raise OverflowError. This is raised inside the `except` handler in `_run`, so it escapes `tick` and aborts all remaining due jobs.\",\"suggestion\":\"Cap the exponent, or compare the multiplier against interval/retry_delay before multiplying, e.g. `factor = min(2 ** min(n-1, 30), ...)`.\",\"confidence\":0.5}]}",
+  "request_id": "req_011CgRJTsZCU9Y9LFTmFREJX",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.013385,
+   "input_tokens": 3698,
+   "latency_ms": 4890,
+   "output_tokens": 547
+  }
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5ac8f2b08dd6caf7fd78c2d12b7bfdb2",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 20158,
+  "user_sha256": "dc8a27e6f55becb8700a56250673ef972fb55a5e77b4af373a8443194f48595f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "Python's `$` matches before a trailing newline, so `MONTH_RE.match` accepts a value such as \"2024-01\\n\". The value then passes validation, `previous_month` parses it because `int()` tolerates whitespace, but `build_report` compares `row_month != month` against keys built by `month_key`, which never contain a newline. The command therefore prints \"(no usage)\" with exit code 0 instead of rejecting the argument.",
+     "end_line": null,
+     "file": "metering/cli.py",
+     "line": 16,
+     "severity": "low",
+     "suggestion": "Use `re.fullmatch` or `\\Z` instead of `$`, e.g. `MONTH_RE = re.compile(r\"\\d{4}-(0[1-9]|1[0-2])\")` used with `fullmatch`.",
+     "title": "Month regex accepts a trailing newline, producing a silent empty report"
+    },
+    {
+     "category": "security",
+     "confidence": 0.3,
+     "description": "`render_csv` writes `account_id` and `metric` verbatim. If an account ID begins with `=`, `+`, `-` or `@`, spreadsheet software that opens the exported CSV may evaluate it as a formula, which can exfiltrate data or trigger external requests when a user opens the report.",
+     "end_line": null,
+     "file": "metering/report.py",
+     "line": 86,
+     "severity": "low",
+     "suggestion": "Prefix cells that begin with one of `=+-@` with a single quote or tab in the CSV output path only, and document the behaviour.",
+     "title": "CSV output does not neutralise spreadsheet formula prefixes in account IDs"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"metering/cli.py\",\"line\":16,\"end_line\":null,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Month regex accepts a trailing newline, producing a silent empty report\",\"description\":\"Python's `$` matches before a trailing newline, so `MONTH_RE.match` accepts a value such as \\\"2024-01\\\\n\\\". The value then passes validation, `previous_month` parses it because `int()` tolerates whitespace, but `build_report` compares `row_month != month` against keys built by `month_key`, which never contain a newline. The command therefore prints \\\"(no usage)\\\" with exit code 0 instead of rejecting the argument.\",\"suggestion\":\"Use `re.fullmatch` or `\\\\Z` instead of `$`, e.g. `MONTH_RE = re.compile(r\\\"\\\\d{4}-(0[1-9]|1[0-2])\\\")` used with `fullmatch`.\",\"confidence\":0.3},{\"file\":\"metering/report.py\",\"line\":86,\"end_line\":null,\"severity\":\"low\",\"category\":\"security\",\"title\":\"CSV output does not neutralise spreadsheet formula prefixes in account IDs\",\"description\":\"`render_csv` writes `account_id` and `metric` verbatim. If an account ID begins with `=`, `+`, `-` or `@`, spreadsheet software that opens the exported CSV may evaluate it as a formula, which can exfiltrate data or trigger external requests when a user opens the report.\",\"suggestion\":\"Prefix cells that begin with one of `=+-@` with a single quote or tab in the CSV output path only, and document the behaviour.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000832975,
+   "input_tokens": 8315,
+   "latency_ms": null,
+   "output_tokens": 1617
+  }
+ }
+}

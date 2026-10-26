@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:28+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e2165bddd75b1aff47144c9964bd0b8d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1786,
+  "user_sha256": "3875ddae69e46bd3dc0b53166e7a2d62954b55893ad8819ca41a1b8ce78bdf3c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: `sum(1 for _ in lines)` exhausts the one-shot iterator passed by the CLI, so the later processing loop sees no lines and the output is empty. The details (progress reporting 0/N versus reporting success with zero events) are consequences of the same root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: `sum(1 for _ in lines)` exhausts the one-shot iterator passed by the CLI, so the later processing loop sees no lines and the output is empty. The details (progress reporting 0/N versus reporting success with zero events) are consequences of the same root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKrnQdwKm1r68Tn5jAg",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014263999999999998,
+   "input_tokens": 687,
+   "latency_ms": 1313,
+   "output_tokens": 122
+  }
+ }
+}

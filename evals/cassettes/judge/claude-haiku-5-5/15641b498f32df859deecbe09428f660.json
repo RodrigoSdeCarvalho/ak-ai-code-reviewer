@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:06+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "15641b498f32df859deecbe09428f660",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2410,
+  "user_sha256": "22e166a5a4f7a644252fc253d6c6412b477d9511dbe02f10470bab81decbb22d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: _read_all swallows OSError/ValueError/KeyError and returns an empty dict, so a corrupt or unreadable session file looks empty and the next save/delete overwrites it, wiping all other sessions. Same location and root cause, different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: _read_all swallows OSError/ValueError/KeyError and returns an empty dict, so a corrupt or unreadable session file looks empty and the next save/delete overwrites it, wiping all other sessions. Same location and root cause, different wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcRrd2byYWf47NsSJ2",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015574,
+   "input_tokens": 880,
+   "latency_ms": 1437,
+   "output_tokens": 111
+  }
+ }
+}

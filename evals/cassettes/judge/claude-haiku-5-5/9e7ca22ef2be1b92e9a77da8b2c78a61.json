@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9e7ca22ef2be1b92e9a77da8b2c78a61",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1970,
+  "user_sha256": "cce8c9820769dba0a9bbd77013475f95e583262726fd1f0c1bf3d14d284ccbbc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: inbound_by_sku only excludes CANCELLED orders, so already-received POs are counted as inbound while their units are already in on_hand, double-counting the position and leading to missed reorders and stockouts. Description A adds detail about receive() and the nightly job, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: inbound_by_sku only excludes CANCELLED orders, so already-received POs are counted as inbound while their units are already in on_hand, double-counting the position and leading to missed reorders and stockouts. Description A adds detail about receive() and the nightly job, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.527000000000002e-05,
+   "input_tokens": 763,
+   "latency_ms": null,
+   "output_tokens": 124
+  }
+ }
+}

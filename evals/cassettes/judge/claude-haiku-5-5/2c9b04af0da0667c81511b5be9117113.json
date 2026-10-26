@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:04+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2c9b04af0da0667c81511b5be9117113",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2388,
+  "user_sha256": "ec452504dbb2e42fe24746c5594e6bfeecadc47a26395adaadbe6cb9b955da11"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment itself concedes the same-column detach-then-insert path works and calls the risk low; it names no concrete failure, and the shown code does not demonstrate miscounted positions. At most it is speculative, so it is a nit rather than a real defect."
+  },
+  "raw_text": "{\"reason\": \"The comment itself concedes the same-column detach-then-insert path works and calls the risk low; it names no concrete failure, and the shown code does not demonstrate miscounted positions. At most it is speculative, so it is a nit rather than a real defect.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKuSpzzRDL31VTiyNrS",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00013816,
+   "input_tokens": 835,
+   "latency_ms": 1453,
+   "output_tokens": 96
+  }
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "23b3e42a9a9f4196207618bd3341b5c5",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "On a cache hit, find returns the same list object stored in the cache. Before this change each call built a fresh list, so callers could mutate the result safely. Now a caller that sorts, appends to, or filters the returned list changes the cached value, and every later call with the same query and tags returns the corrupted result until the TTL expires or a product is added.",
+     "end_line": null,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Return a copy on both hit and miss, for example `return list(entry[1])`, or store and return a tuple.",
+     "title": "Cached result list is shared and returned by reference"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "With max_entries=0 the check `len(self._cache) >= self._max_entries` is always true, including when the cache is empty. `next(iter(self._cache))` then raises StopIteration on an empty dict, so every find call on a cache miss fails.",
+     "end_line": 66,
+     "file": "catalog/service.py",
+     "line": 65,
+     "severity": "medium",
+     "suggestion": "Reject max_entries < 1 in __init__, or skip caching when max_entries is 0 (for example `if self._max_entries <= 0: return hits`) and evict only when the cache is non-empty.",
+     "title": "max_entries=0 makes find raise StopIteration"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":null,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list is shared and returned by reference\",\"description\":\"On a cache hit, find returns the same list object stored in the cache. Before this change each call built a fresh list, so callers could mutate the result safely. Now a caller that sorts, appends to, or filters the returned list changes the cached value, and every later call with the same query and tags returns the corrupted result until the TTL expires or a product is added.\",\"suggestion\":\"Return a copy on both hit and miss, for example `return list(entry[1])`, or store and return a tuple.\",\"confidence\":0.6},{\"file\":\"catalog/service.py\",\"line\":65,\"end_line\":66,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"max_entries=0 makes find raise StopIteration\",\"description\":\"With max_entries=0 the check `len(self._cache) >= self._max_entries` is always true, including when the cache is empty. `next(iter(self._cache))` then raises StopIteration on an empty dict, so every find call on a cache miss fails.\",\"suggestion\":\"Reject max_entries < 1 in __init__, or skip caching when max_entries is 0 (for example `if self._max_entries <= 0: return hits`) and evict only when the cache is non-empty.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00041232500000000006,
+   "input_tokens": 2172,
+   "latency_ms": null,
+   "output_tokens": 1163
+  }
+ }
+}

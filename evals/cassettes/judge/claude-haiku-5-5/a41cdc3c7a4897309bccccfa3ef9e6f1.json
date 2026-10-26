@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a41cdc3c7a4897309bccccfa3ef9e6f1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2433,
+  "user_sha256": "a001f218da153487e788e6c59c76f7b1384190eefb24fbf220df4f9926f8790f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 1111: passing the shared module-level evolve function to _add_method_dunders mutates its __module__, __qualname__ and __doc__ globally, so each class overwrites attr.evolve's metadata. Description B adds Python 3.13+ context and the __replace__ side effect, but these are details of the same root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 1111: passing the shared module-level evolve function to _add_method_dunders mutates its __module__, __qualname__ and __doc__ globally, so each class overwrites attr.evolve's metadata. Description B adds Python 3.13+ context and the __replace__ side effect, but these are details of the same root cause.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1224,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00015615,
+   "input_tokens": 923,
+   "latency_ms": null,
+   "output_tokens": 134
+  }
+ }
+}

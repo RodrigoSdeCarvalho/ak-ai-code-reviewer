@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:33+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a3a7d0975156af4be3aefc77b44469f5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2731,
+  "user_sha256": "8a7f6146d9aec743a78744173b594c7d9be863ee076831d61b4fbb51fe376aca"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a shared-mutable-cache bug: find returns the cached list object itself, so in-place sorting in handlers mutates the cache and leaks price/rating order into later relevance searches. Description B discusses LRU/TTL eviction behavior and stale entries lingering in the cache, with no mention of returning a shared list or mutation. Different defects.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a shared-mutable-cache bug: find returns the cached list object itself, so in-place sorting in handlers mutates the cache and leaks price/rating order into later relevance searches. Description B discusses LRU/TTL eviction behavior and stale entries lingering in the cache, with no mention of returning a shared list or mutation. Different defects.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKnixuZk1o4cCzWVWHY",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017774000000000002,
+   "input_tokens": 973,
+   "latency_ms": 1687,
+   "output_tokens": 135
+  }
+ }
+}

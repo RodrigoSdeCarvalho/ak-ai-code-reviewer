@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a83673add56c3db31150721a8f3fa80d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2013,
+  "user_sha256": "9840ed0728f32f4d6556c4cc39b56b374fad7e84c0aae491a853b82868b57e40"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: store.project(entry.project_id) is called once per time entry at line 67, causing an N+1 lookup pattern that slows report generation linearly with entry count. Description A adds that a batched projects(ids) method exists, but the root cause and location are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: store.project(entry.project_id) is called once per time entry at line 67, causing an N+1 lookup pattern that slows report generation linearly with entry count. Description A adds that a batched projects(ids) method exists, but the root cause and location are identical.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.072e-05,
+   "input_tokens": 737,
+   "latency_ms": null,
+   "output_tokens": 111
+  }
+ }
+}

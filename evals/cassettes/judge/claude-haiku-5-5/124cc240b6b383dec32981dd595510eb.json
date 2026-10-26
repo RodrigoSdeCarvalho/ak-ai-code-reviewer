@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:30+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "124cc240b6b383dec32981dd595510eb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3129,
+  "user_sha256": "1213c9769195e346b7d53d945609feb662a087b67f1340b61f2901cc385f9023"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that stale heap entries left behind by re-adding (or discarding) an item are not validated when popping/purging, so the live item is evicted early using an old timestamp. Description B adds further consequences (discard leftovers making purge expire unrelated items, pop returning items first) but the root cause and location (pop path and heap[0] reads in purge/expiry) are the same as Description A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that stale heap entries left behind by re-adding (or discarding) an item are not validated when popping/purging, so the live item is evicted early using an old timestamp. Description B adds further consequences (discard leftovers making purge expire unrelated items, pop returning items first) but the root cause and location (pop path and heap[0] reads in purge/expiry) are the same as Description A.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKi6r9dvYsgDxpHf1mM",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019664,
+   "input_tokens": 1107,
+   "latency_ms": 1719,
+   "output_tokens": 146
+  }
+ }
+}

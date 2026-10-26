@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9f9f7c91d647b03dfff6ec24ddd48e2e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2144,
+  "user_sha256": "e0301cae09d7e87c56f8585916d7aeec698983ae4f0ae6ca0b62c8d419039b92"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that redeem() never compares link.expires_at to now, so expired magic links still sign the user in until purge_expired runs. Same root cause and same location; only the line numbers cited (65 vs 66) and wording differ.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that redeem() never compares link.expires_at to now, so expired magic links still sign the user in until purge_expired runs. Same root cause and same location; only the line numbers cited (65 vs 66) and wording differ.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 6.802e-05,
+   "input_tokens": 763,
+   "latency_ms": null,
+   "output_tokens": 95
+  }
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "0937ea4ddc58604fcef76de54e4433ff",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 1304,
+  "user_sha256": "b269b97e86a628ac44b1793d654112edb10a09f6d0198fd677bc7c773d000afc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "`only_field.data_key or self.field_name` treats an empty-string data_key as unset, whereas the previous code only fell back when data_key was None. A field declared with data_key=\"\" now resolves to the field name instead of the empty key. The key used for serialization and deserialization elsewhere in marshmallow still honors the empty string, so the Pluck key can disagree with the schema's own key. This is an edge case.",
+     "file": "src/marshmallow/fields.py",
+     "line": 713,
+     "severity": "low",
+     "suggestion": "Restore the explicit check: `return only_field.data_key if only_field.data_key is not None else self.field_name`.",
+     "title": "Truthiness check replaces explicit None check for data_key"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/marshmallow/fields.py\",\"line\":713,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Truthiness check replaces explicit None check for data_key\",\"description\":\"`only_field.data_key or self.field_name` treats an empty-string data_key as unset, whereas the previous code only fell back when data_key was None. A field declared with data_key=\\\"\\\" now resolves to the field name instead of the empty key. The key used for serialization and deserialization elsewhere in marshmallow still honors the empty string, so the Pluck key can disagree with the schema's own key. This is an edge case.\",\"suggestion\":\"Restore the explicit check: `return only_field.data_key if only_field.data_key is not None else self.field_name`.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0020695,
+   "input_tokens": 530,
+   "latency_ms": null,
+   "output_tokens": 256
+  }
+ }
+}

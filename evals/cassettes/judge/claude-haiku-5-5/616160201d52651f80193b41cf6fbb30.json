@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:33+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "616160201d52651f80193b41cf6fbb30",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2372,
+  "user_sha256": "e5bbb69f3083e1c78afda2f47f260aca2f9086903fc4dcfa13346c5e4556b9c4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies the suffix-match flaw at line 42 where host.endswith(domain) lets unrelated domains like bluekettle.example pass as partners. Description B concerns port and userinfo being dropped by parts.hostname, widening trust to any port on a partner host. These are different defects at different aspects of the check.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies the suffix-match flaw at line 42 where host.endswith(domain) lets unrelated domains like bluekettle.example pass as partners. Description B concerns port and userinfo being dropped by parts.hostname, widening trust to any port on a partner host. These are different defects at different aspects of the check.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJeS3LNZNMFC8aYFkBX",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016094,
+   "input_tokens": 882,
+   "latency_ms": 1593,
+   "output_tokens": 121
+  }
+ }
+}

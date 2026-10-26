@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0d5e9d3b0024108a6b09d8b9f606e293",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2702,
+  "user_sha256": "a137eaf1d15a28a4d416483f3c54c213e4bb3b45d509338b4196efc454f0dcb8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both describe RootModel.__copy__ sharing the private-attributes dict between the copy and the original because __dict__ is shallow-copied without rebuilding __pydantic_private__, so setting a private attribute on one affects the other. Description B additionally mentions the removed PydanticUndefined handling and frames it as a regression, but the core failure and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both describe RootModel.__copy__ sharing the private-attributes dict between the copy and the original because __dict__ is shallow-copied without rebuilding __pydantic_private__, so setting a private attribute on one affects the other. Description B additionally mentions the removed PydanticUndefined handling and frames it as a regression, but the core failure and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJaFe9V1CEx3XJ8Q9oQ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00018514,
+   "input_tokens": 1064,
+   "latency_ms": 2438,
+   "output_tokens": 133
+  }
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f362c8879e9caf532dd6f51b93a14883",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14272,
+  "user_sha256": "2173b7e7e9ab4333e9e3977f1a4da4e0318e66b9ebf17d945069438d955069be"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.97,
+     "description": "The surname prefix comes from the search form (`query.get(\"surname\")`) and is f-string interpolated directly into the SQL text. A value containing a single quote, such as `x' OR '1'='1` or a UNION payload, alters the query and can expose or manipulate data. A quote in a legitimate name like O'Brien also causes a syntax error. LIKE wildcards in the input are not escaped either.",
+     "file": "roster/search.py",
+     "line": 82,
+     "severity": "critical",
+     "suggestion": "Use a bound parameter and escape wildcards like the email_domain branch: `clauses.append(\"v.surname LIKE ? ESCAPE '\\\\'\")` and `params.append(_escape_like(flt.surname_prefix.strip()) + \"%\")`.",
+     "title": "SQL injection via surname_prefix interpolated into query"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"roster/search.py\",\"line\":82,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"SQL injection via surname_prefix interpolated into query\",\"description\":\"The surname prefix comes from the search form (`query.get(\\\"surname\\\")`) and is f-string interpolated directly into the SQL text. A value containing a single quote, such as `x' OR '1'='1` or a UNION payload, alters the query and can expose or manipulate data. A quote in a legitimate name like O'Brien also causes a syntax error. LIKE wildcards in the input are not escaped either.\",\"suggestion\":\"Use a bound parameter and escape wildcards like the email_domain branch: `clauses.append(\\\"v.surname LIKE ? ESCAPE '\\\\\\\\'\\\")` and `params.append(_escape_like(flt.surname_prefix.strip()) + \\\"%\\\")`.\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0082945,
+   "input_tokens": 6515,
+   "latency_ms": null,
+   "output_tokens": 304
+  }
+ }
+}

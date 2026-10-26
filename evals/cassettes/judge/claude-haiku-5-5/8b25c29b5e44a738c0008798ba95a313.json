@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8b25c29b5e44a738c0008798ba95a313",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2212,
+  "user_sha256": "77c8ab611aa8b9025df5f7821a483c077ee976fac1ce0f0d2be32ea5735f6d30"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 53: the sign-in token is generated with non-cryptographic random.choices (Mersenne Twister), making it predictable so an attacker can take over other members' accounts. Description B adds a proposed fix using secrets, which does not change the underlying defect.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 53: the sign-in token is generated with non-cryptographic random.choices (Mersenne Twister), making it predictable so an attacker can take over other members' accounts. Description B adds a proposed fix using secrets, which does not change the underlying defect.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjoMFcdAsxoab8WunP",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014924,
+   "input_tokens": 798,
+   "latency_ms": 1922,
+   "output_tokens": 113
+  }
+ }
+}

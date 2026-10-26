@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "71e2e401731fde39d95c843f4b99e1ba",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6793,
+  "user_sha256": "a0f800c55884e344dfa6021920086f2cf0668cec4b037e418c4c8b7f5295585e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "Terms that do not appear in the title are assigned a score of 0.0 instead of their frequency. suggest_tags in tagger.py keeps only keywords with score >= MIN_SCORE (0.05), so every body-only keyword is filtered out and the only suggestions left are words that also appear in the title. For an article whose title does not repeat its key terms, suggest_tags returns an empty list. The score field also no longer means relative frequency for any caller of extract_keywords.",
+     "end_line": 61,
+     "file": "textkit/keywords.py",
+     "line": 61,
+     "severity": "high",
+     "suggestion": "Keep the frequency as the score for every term and add the bonus only when the term is in the title: scores[term] = frequency + (title_bonus if term in title_terms else 0.0).",
+     "title": "Body-only terms get score 0.0, so tagger suggests only title words"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"textkit/keywords.py\",\"line\":61,\"end_line\":61,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Body-only terms get score 0.0, so tagger suggests only title words\",\"description\":\"Terms that do not appear in the title are assigned a score of 0.0 instead of their frequency. suggest_tags in tagger.py keeps only keywords with score >= MIN_SCORE (0.05), so every body-only keyword is filtered out and the only suggestions left are words that also appear in the title. For an article whose title does not repeat its key terms, suggest_tags returns an empty list. The score field also no longer means relative frequency for any caller of extract_keywords.\",\"suggestion\":\"Keep the frequency as the score for every term and add the bonus only when the term is in the title: scores[term] = frequency + (title_bonus if term in title_terms else 0.0).\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00037107500000000006,
+   "input_tokens": 2987,
+   "latency_ms": null,
+   "output_tokens": 835
+  }
+ }
+}

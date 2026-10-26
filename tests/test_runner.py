@@ -12,7 +12,7 @@ from aireview.diffs import diff_dirs
 from aireview.evals import runner
 from aireview.evals.baselines import ExactMatchJudge, null_review, oracle_review, spam_review
 from aireview.evals.dataset import load_dataset
-from aireview.evals.judge import Judge, candidate_items
+from aireview.evals.judge import JUDGE_PROMPT_VERSION, TRIAGE_PROMPT_VERSION, Judge, candidate_items
 from aireview.evals.report import load_reviews, read_jsonl
 from aireview.evals.schema import ReviewerConfig
 from aireview.llm.base import LLMResponse
@@ -262,7 +262,9 @@ def test_anthropic_backend_replays_cassettes(dataset: Path, tmp_path: Path):
     rows = load_reviews(plan.run_dir)
     assert all(r.cassette_key for r in rows)
     assert {r.attempts for r in rows if r.status.value == "ok"} == {1}  # per-row API attempts are recorded
-    assert result.manifest.prompt_hash and result.manifest.judge_prompt_version == "same-defect-v1"
+    assert (
+        result.manifest.prompt_hash and result.manifest.judge_prompt_version == JUDGE_PROMPT_VERSION == "same-defect-v2"
+    )
     assert 0 < judge_client.calls <= result.scores["ops"]["judge_calls"]  # identical pairs are sent once
 
 
@@ -451,3 +453,144 @@ def test_cli_run_record_refuses_to_overwrite_cassettes(dataset: Path, tmp_path: 
     assert runner.cli_run(_record_args(dataset, tmp_path, "--yes", "--budget-usd", "50")) == 3
     assert "write-once" in capsys.readouterr().err
     assert not (tmp_path / "runs").exists()
+
+
+# ---------------------------------------------------------------- eval score: re-judge + FP triage
+
+
+class JudgeAndTriageClient:
+    """Fake judge client: a fixed verdict for same-defect requests, a fixed label for triage requests."""
+
+    def __init__(self, verdict: str = "different", label: str = "nit"):
+        self.verdict, self.label = verdict, label
+        self.judge_calls = self.triage_calls = 0
+
+    def complete(self, request):
+        if request.prompt_version == TRIAGE_PROMPT_VERSION:
+            self.triage_calls += 1
+            parsed = {"reason": "r", "label": self.label}
+        else:
+            self.judge_calls += 1
+            parsed = {"reason": "r", "verdict": self.verdict}
+        return LLMResponse(parsed=parsed, usage=Usage(cost_usd=0.001), served_model=request.model)
+
+    def complete_many(self, requests):
+        return [self.complete(r) for r in requests]
+
+
+def _age_to_v1(run_dir: Path) -> None:
+    """Make a run look judged by the previous prompt: old judgment keys and judge_prompt_version."""
+    path = run_dir / "judgments.jsonl"
+    rows = [
+        json.loads(x) | {"cassette_key": "v1-" + json.loads(x)["cassette_key"]} for x in path.read_text().splitlines()
+    ]
+    path.write_text("".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8")
+    manifest = json.loads((run_dir / "manifest.json").read_text(encoding="utf-8"))
+    manifest["judge_prompt_version"] = "same-defect-v1"
+    (run_dir / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+
+
+def test_score_rejudges_with_the_current_prompt_and_triages_fps(dataset: Path, tmp_path: Path, monkeypatch, capsys):
+    plan = _replayed_run(dataset, tmp_path)
+    _age_to_v1(plan.run_dir)
+    client = JudgeAndTriageClient(verdict="different", label="nit")
+    calls = []
+
+    def fake_make_judge(backend, mode, judge_model, store, **kw):
+        calls.append((mode, kw))
+        return Judge(client, model=judge_model)
+
+    monkeypatch.setattr(runner, "make_judge", fake_make_judge)
+    assert runner.cli_score(_args("score", str(plan.run_dir), "--triage-fp")) == 0
+    assert calls[0][0] == "replay"
+    assert client.judge_calls == 5  # every stale v1 pair is judged again (identical pairs across samples once)
+    for name in ("judgments.jsonl", "triage.jsonl", "scores.json", "report.md", "manifest.json"):
+        assert (plan.run_dir / name).is_file(), name
+    manifest = json.loads((plan.run_dir / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["judge_prompt_version"] == JUDGE_PROMPT_VERSION == "same-defect-v2"
+    assert manifest["extra"]["triage_prompt_version"] == TRIAGE_PROMPT_VERSION
+    judgments = read_jsonl(plan.run_dir / "judgments.jsonl")
+    assert judgments and not any(j["cassette_key"].startswith("v1-") for j in judgments)
+    assert {j["verdict"] for j in judgments} == {"different"}
+    triage = read_jsonl(plan.run_dir / "triage.jsonl")
+    scores = json.loads((plan.run_dir / "scores.json").read_text(encoding="utf-8"))
+    n_fp = sum(
+        o == "fp"
+        for c in scores["per_case"]
+        for s in c["samples"]
+        for o in (s.get("strict") or {}).get("finding_outcomes", [])
+    )
+    assert n_fp > 0 and len(triage) == n_fp and {t["label"] for t in triage} == {"nit"}
+    assert "FP triage (advisory" in (plan.run_dir / "report.md").read_text(encoding="utf-8")
+
+    # A second re-score reuses every judgment and triage row: no calls at all.
+    client.judge_calls = client.triage_calls = 0
+    assert runner.cli_score(_args("score", str(plan.run_dir), "--triage-fp")) == 0
+    assert (client.judge_calls, client.triage_calls) == (0, 0)
+    assert len(read_jsonl(plan.run_dir / "triage.jsonl")) == n_fp
+
+
+def test_score_without_triage_drops_rows_of_findings_that_are_no_longer_fps(dataset: Path, tmp_path: Path, monkeypatch):
+    plan = _replayed_run(dataset, tmp_path)
+    client = JudgeAndTriageClient(verdict="different")
+    monkeypatch.setattr(runner, "make_judge", lambda *a, **kw: Judge(client))
+    _age_to_v1(plan.run_dir)
+    assert runner.cli_score(_args("score", str(plan.run_dir), "--triage-fp")) == 0
+    assert read_jsonl(plan.run_dir / "triage.jsonl")
+    client.verdict = "same"
+    _age_to_v1(plan.run_dir)
+    assert runner.cli_score(_args("score", str(plan.run_dir))) == 0  # every finding now matches: no FP left
+    assert not (plan.run_dir / "triage.jsonl").exists()
+
+
+def test_score_replay_with_missing_cassettes_records_errors_not_labels(dataset: Path, tmp_path: Path, monkeypatch):
+    plan = _replayed_run(dataset, tmp_path)
+    _age_to_v1(plan.run_dir)
+    monkeypatch.setattr(runner, "CassetteStore", lambda: CassetteStore(tmp_path / "empty-cassettes"))
+    assert runner.cli_score(_args("score", str(plan.run_dir), "--triage-fp")) == 0
+    judgments = read_jsonl(plan.run_dir / "judgments.jsonl")
+    assert judgments and all(j["verdict"] is None and "cassette_missing" in j["error"] for j in judgments)
+    triage = read_jsonl(plan.run_dir / "triage.jsonl")
+    assert triage and all(t["label"] is None and "cassette_missing" in t["error"] for t in triage)
+
+
+def test_score_record_refuses_without_a_key(dataset: Path, tmp_path: Path, monkeypatch, capsys):
+    plan = _replayed_run(dataset, tmp_path)
+    before = (plan.run_dir / "scores.json").read_bytes()
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    assert runner.cli_score(_args("score", str(plan.run_dir), "--mode", "record", "--triage-fp", "--yes")) == 3
+    assert "ANTHROPIC_API_KEY" in capsys.readouterr().err
+    assert (plan.run_dir / "scores.json").read_bytes() == before
+
+
+def test_score_record_resumes_judge_cassettes_and_states_the_estimate(
+    dataset: Path, tmp_path: Path, monkeypatch, capsys
+):
+    plan = _replayed_run(dataset, tmp_path)
+    _age_to_v1(plan.run_dir)
+    client = JudgeAndTriageClient()
+    seen = {}
+
+    def fake_make_client(mode, **kw):
+        seen.update(kw, mode=mode)
+        return client
+
+    monkeypatch.setattr(runner, "make_client", fake_make_client)
+    assert runner.cli_score(_args("score", str(plan.run_dir), "--mode", "record", "--triage-fp", "--yes")) == 0
+    assert seen["mode"] == "record" and seen["resume"] is True  # judge cassettes are reused, never overwritten
+    assert seen["budget"] is not None
+    out = capsys.readouterr().out
+    assert out.index("estimate: judge 10 pairs + triage <=") < out.index("re-judged 10 pairs")
+    manifest = json.loads((plan.run_dir / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["extra"]["score_estimate"]["judge_pairs"] == 10 and "score_spent_usd" in manifest["extra"]
+
+
+def test_score_record_refuses_over_budget_before_any_call(dataset: Path, tmp_path: Path, monkeypatch, capsys):
+    plan = _replayed_run(dataset, tmp_path)
+    _age_to_v1(plan.run_dir)
+    client = JudgeAndTriageClient()
+    monkeypatch.setattr(runner, "make_client", lambda mode, **kw: client)
+    args = _args("score", str(plan.run_dir), "--mode", "record", "--triage-fp", "--yes", "--budget-usd", "0.00001")
+    assert runner.cli_score(args) == 1
+    assert "refusing to start" in capsys.readouterr().out
+    assert client.judge_calls == client.triage_calls == 0

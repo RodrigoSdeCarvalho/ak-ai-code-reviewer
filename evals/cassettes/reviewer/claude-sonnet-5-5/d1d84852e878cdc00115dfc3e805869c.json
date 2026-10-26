@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:12:46+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "d1d84852e878cdc00115dfc3e805869c",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "find() returns the same list object that is stored in the cache, on both the hit path (line 63) and the miss path (line 68). Before this change each call produced a fresh list. A caller that sorts, appends to or clears the returned list now corrupts the cached entry, and later callers with the same query get the altered results until the TTL expires or a product is added.",
+     "end_line": 68,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Store a tuple in the cache and return list(entry[1]) on each call, or return a copy of the list on both paths.",
+     "title": "Cached result list is returned by reference and can be mutated by callers"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":68,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list is returned by reference and can be mutated by callers\",\"description\":\"find() returns the same list object that is stored in the cache, on both the hit path (line 63) and the miss path (line 68). Before this change each call produced a fresh list. A caller that sorts, appends to or clears the returned list now corrupts the cached entry, and later callers with the same query get the altered results until the TTL expires or a product is added.\",\"suggestion\":\"Store a tuple in the cache and return list(entry[1]) on each call, or return a copy of the list on both paths.\",\"confidence\":0.6}]}",
+  "request_id": "req_011CgRJS1bL7gHpa7HxXnF8w",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.007233,
+   "input_tokens": 2172,
+   "latency_ms": 2859,
+   "output_tokens": 237
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "87a4b4cd6b62b9f23a5b1679567f0960",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7496,
+  "user_sha256": "23006b4d62590b99ef0d6da5e2f1e62d945b9574b6af6b6255707b6ff3152f11"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "`parse_rows` now returns a generator. Line 35 iterates it to the end to build `rejected`. The loop at line 39 then iterates an exhausted generator, so `book.upsert` is never called. Every import silently returns created=0 and updated=0, with only the rejected list filled in. The previous list return value made two passes safe.",
+     "end_line": 39,
+     "file": "contacts/importer.py",
+     "line": 35,
+     "severity": "critical",
+     "suggestion": "Materialise the rows before the two passes with `rows = list(parse_rows(lines))`. To keep streaming, collect the valid rows in a single pass and only upsert them after the error-count check.",
+     "title": "Generator `rows` is consumed by the rejected-list pass, so no rows are imported"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"contacts/importer.py\",\"line\":35,\"end_line\":39,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Generator `rows` is consumed by the rejected-list pass, so no rows are imported\",\"description\":\"`parse_rows` now returns a generator. Line 35 iterates it to the end to build `rejected`. The loop at line 39 then iterates an exhausted generator, so `book.upsert` is never called. Every import silently returns created=0 and updated=0, with only the rejected list filled in. The previous list return value made two passes safe.\",\"suggestion\":\"Materialise the rows before the two passes with `rows = list(parse_rows(lines))`. To keep streaming, collect the valid rows in a single pass and only upsert them after the error-count check.\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0047185,
+   "input_tokens": 3114,
+   "latency_ms": null,
+   "output_tokens": 269
+  }
+ }
+}

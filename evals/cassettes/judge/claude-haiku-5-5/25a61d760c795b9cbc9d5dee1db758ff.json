@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "25a61d760c795b9cbc9d5dee1db758ff",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2160,
+  "user_sha256": "d551853c41dd07f47a37c3ab88c8da43d76b5d363ec80deb0d830c16ce6e588c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 44: start = min(hit - width // 2, ...) is not clamped at 0, so an early match yields a negative start and tokens[start:end] slices from the end of the list, producing an empty or wrong snippet. Description B adds a concrete example and the short-body case, but the root cause is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 44: start = min(hit - width // 2, ...) is not clamped at 0, so an early match yields a negative start and tokens[start:end] slices from the end of the list, producing an empty or wrong snippet. Description B adds a concrete example and the short-body case, but the root cause is the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.797e-05,
+   "input_tokens": 807,
+   "latency_ms": null,
+   "output_tokens": 126
+  }
+ }
+}

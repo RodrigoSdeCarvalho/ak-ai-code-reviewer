@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:21+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "42d6836ea79820841ec0cf1104ffe342",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2921,
+  "user_sha256": "5b869f2a4c4b32493d6c303ed4348d9d82ad7228b42316f5e95db73f97aef45a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says duplicate SKUs in lines can bypass the stock check, leading to negative reserved or oversubscription. Description B says the connection is not released on the InventoryError path (lines 93-96), leaking pool connections until PoolExhausted. Different failures: one is a stock-accounting race/duplicate-SKU issue, the other is a resource leak on exception.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says duplicate SKUs in lines can bypass the stock check, leading to negative reserved or oversubscription. Description B says the connection is not released on the InventoryError path (lines 93-96), leaking pool connections until PoolExhausted. Different failures: one is a stock-accounting race/duplicate-SKU issue, the other is a resource leak on exception.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKrJGToXVKM4QKDfRc6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018684,
+   "input_tokens": 1049,
+   "latency_ms": 1750,
+   "output_tokens": 138
+  }
+ }
+}

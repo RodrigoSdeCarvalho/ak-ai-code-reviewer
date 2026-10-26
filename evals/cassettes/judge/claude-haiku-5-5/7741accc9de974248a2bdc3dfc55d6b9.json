@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7741accc9de974248a2bdc3dfc55d6b9",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2345,
+  "user_sha256": "e3f436e04a9480ae37b7ac6bcdbddd72855de622b68469185d29df2ab009234c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the value from parse_duration (milliseconds) is stored directly in ZoneConfig.duration at line 88, which consumers treat as seconds, causing zones to water 1000 times longer than configured. Description A adds detail about plan_day and the controller, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the value from parse_duration (milliseconds) is stored directly in ZoneConfig.duration at line 88, which consumers treat as seconds, causing zones to water 1000 times longer than configured. Description A adds detail about plan_day and the controller, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.272e-05,
+   "input_tokens": 927,
+   "latency_ms": null,
+   "output_tokens": 121
+  }
+ }
+}

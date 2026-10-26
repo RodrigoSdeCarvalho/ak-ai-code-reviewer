@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "225445e87e739ae46a6f71e06dad21a7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2579,
+  "user_sha256": "20dd196aeb2668c842fa43ecbd3bd5149a0edb23cb73c734c369e845d6ffbdcb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: can_bid at line 72 calls self.spend, which re-reads and parses the whole day's impression log on every bid check for every campaign, making per-request cost grow with campaigns and log size instead of using incremental running totals. Description A adds detail about quadratic growth and deadline misses, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: can_bid at line 72 calls self.spend, which re-reads and parses the whole day's impression log on every bid check for every campaign, making per-request cost grow with campaigns and log size instead of using incremental running totals. Description A adds detail about quadratic growth and deadline misses, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdcapEvMBmdFBgQDzm",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017114000000000002,
+   "input_tokens": 934,
+   "latency_ms": 1563,
+   "output_tokens": 131
+  }
+ }
+}

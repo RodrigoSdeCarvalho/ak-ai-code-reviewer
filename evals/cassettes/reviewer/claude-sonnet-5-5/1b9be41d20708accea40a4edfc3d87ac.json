@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:14:08+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "1b9be41d20708accea40a4edfc3d87ac",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14880,
+  "user_sha256": "384b2052fd605e0c58f30baaf691c257a8d68dedc18e7d36a6cc618fd773b574"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.9,
+     "description": "move_card loads the card by id and only calls _require_editor on to_board_id. The actor's role on the card's current board is never checked. A user who is an editor on their own board can pass any card id from a board they cannot see and move it into their board. This takes the card away from the victim's board and exposes its contents. A non-member also gets NotFound or success depending on card id, which leaks which ids exist.",
+     "file": "kanban/service.py",
+     "line": 103,
+     "severity": "critical",
+     "suggestion": "Call self._require_editor(card.board_id, actor_id) before touching the card, in addition to the check on the target board.",
+     "title": "Move checks editor rights only on the target board, not the source board"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.25,
+     "description": "archive_card calls detach, which shifts the siblings down, but the card keeps its old position. This is harmless while it stays archived. Still, nothing resets or validates the position, so any later restore path would insert a card with a stale position that duplicates a sibling's. detach also runs before archived is set, so it works only by relying on that order.",
+     "file": "kanban/service.py",
+     "line": 122,
+     "severity": "medium",
+     "suggestion": "Reset the position when archiving, or make insert always recompute the position on restore.",
+     "title": "Archived card keeps its position and can collide when unarchived or listed"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"kanban/service.py\",\"line\":103,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Move checks editor rights only on the target board, not the source board\",\"description\":\"move_card loads the card by id and only calls _require_editor on to_board_id. The actor's role on the card's current board is never checked. A user who is an editor on their own board can pass any card id from a board they cannot see and move it into their board. This takes the card away from the victim's board and exposes its contents. A non-member also gets NotFound or success depending on card id, which leaks which ids exist.\",\"suggestion\":\"Call self._require_editor(card.board_id, actor_id) before touching the card, in addition to the check on the target board.\",\"confidence\":0.9},{\"file\":\"kanban/service.py\",\"line\":122,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Archived card keeps its position and can collide when unarchived or listed\",\"description\":\"archive_card calls detach, which shifts the siblings down, but the card keeps its old position. This is harmless while it stays archived. Still, nothing resets or validates the position, so any later restore path would insert a card with a stale position that duplicates a sibling's. detach also runs before archived is set, so it works only by relying on that order.\",\"suggestion\":\"Reset the position when archiving, or make insert always recompute the position on restore.\",\"confidence\":0.25}]}",
+  "request_id": "req_011CgRJXvB4T9q23qneJXAW9",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.016375,
+   "input_tokens": 5713,
+   "latency_ms": 4328,
+   "output_tokens": 443
+  }
+ }
+}

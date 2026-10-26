@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "04d04e32cf4a5d053907f8472a7c324b",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10296,
+  "user_sha256": "cb6fdce9cabf623c22098602529370956ac328182e46fb741060744e33c50439"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "When to_timestamp fails, the code rejects the request with requeue=False, but the early `return` was removed. Execution then continues with eta still None, so the function reaches task_reserved(req), the callbacks and handle(req). A task the broker has just rejected is therefore still queued for execution. This happens on every message whose ETA cannot be converted, such as an out-of-range timestamp.",
+     "end_line": 190,
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "high",
+     "suggestion": "Restore the `return` immediately after `req.reject(requeue=False)`.",
+     "title": "Rejected task is still dispatched after the ETA conversion failure"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The removed mark_as_failure call was the only place that stored the conversion error on the result backend. Without it, a task that fails ETA conversion is rejected silently, and clients polling its result never see a FAILURE state with the exception.",
+     "end_line": 189,
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "medium",
+     "suggestion": "Restore the mark_as_failure call before the reject, or otherwise record the failure on the result backend.",
+     "title": "Failure result is no longer recorded for the task"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"end_line\":190,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Rejected task is still dispatched after the ETA conversion failure\",\"description\":\"When to_timestamp fails, the code rejects the request with requeue=False, but the early `return` was removed. Execution then continues with eta still None, so the function reaches task_reserved(req), the callbacks and handle(req). A task the broker has just rejected is therefore still queued for execution. This happens on every message whose ETA cannot be converted, such as an out-of-range timestamp.\",\"suggestion\":\"Restore the `return` immediately after `req.reject(requeue=False)`.\",\"confidence\":0.9},{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"end_line\":189,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Failure result is no longer recorded for the task\",\"description\":\"The removed mark_as_failure call was the only place that stored the conversion error on the result backend. Without it, a task that fails ETA conversion is rejected silently, and clients polling its result never see a FAILURE state with the exception.\",\"suggestion\":\"Restore the mark_as_failure call before the reject, or otherwise record the failure on the result backend.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000427575,
+   "input_tokens": 4162,
+   "latency_ms": null,
+   "output_tokens": 826
+  }
+ }
+}

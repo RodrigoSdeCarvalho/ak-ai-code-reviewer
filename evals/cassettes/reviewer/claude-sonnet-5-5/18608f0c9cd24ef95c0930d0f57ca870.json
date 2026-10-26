@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:14:15+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "18608f0c9cd24ef95c0930d0f57ca870",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7773,
+  "user_sha256": "861a2e980ea6e1734631e17f54e9da5627aeefec07ca990c97db0151d6f8de04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.95,
+     "description": "`self._pool.release(conn)` sits after the try/except, so it only runs on success. If an InventoryError is raised, the code rolls back and re-raises without releasing the connection. Any other exception, such as a database error from get, put or commit, skips both the rollback and the release. Every failed reserve (insufficient stock, unknown SKU, duplicate order) leaks a pooled connection, and the pool will eventually be exhausted. A non-Inventory exception also leaves uncommitted partial changes on the connection.",
+     "end_line": 96,
+     "file": "inventory/service.py",
+     "line": 93,
+     "severity": "high",
+     "suggestion": "Use try/except/finally. Roll back on any exception with a bare `except Exception: conn.rollback(); raise`, and call `self._pool.release(conn)` in a `finally` block.",
+     "title": "Connection is not released when reserve fails"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "Each line is checked against the stored row, and the reservation is stored with the lines as given. If the same SKU appears twice, each line checks `free` against the stock after the earlier line's `put`, which is correct only if conn.get returns the updated row. If conn.get returns a copy or a cached snapshot, the second check uses stale data and the order can over-reserve. The stored reservation also keeps the duplicate lines, so cancel will subtract them separately. This is only a risk if the connection does not read its own writes.",
+     "end_line": 91,
+     "file": "inventory/service.py",
+     "line": 82,
+     "severity": "medium",
+     "suggestion": "Aggregate quantities per SKU before checking, for example with a Counter.",
+     "title": "Duplicate SKUs in lines are checked independently against the same free stock"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "If a stock row is missing, `conn.get` returns None and `row[\"reserved\"]` raises TypeError. Earlier puts for the order's other lines are already applied to the connection and are never rolled back. The connection is then released to the pool in that dirty state, so a later user of the connection may commit the partial changes.",
+     "end_line": 108,
+     "file": "inventory/service.py",
+     "line": 106,
+     "severity": "medium",
+     "suggestion": "Wrap the body in try/except that calls `conn.rollback()` on any exception before re-raising, and handle a missing row explicitly.",
+     "title": "cancel has no rollback and does not handle a missing stock row"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/service.py\",\"line\":93,\"end_line\":96,\"severity\":\"high\",\"category\":\"resource\",\"title\":\"Connection is not released when reserve fails\",\"description\":\"`self._pool.release(conn)` sits after the try/except, so it only runs on success. If an InventoryError is raised, the code rolls back and re-raises without releasing the connection. Any other exception, such as a database error from get, put or commit, skips both the rollback and the release. Every failed reserve (insufficient stock, unknown SKU, duplicate order) leaks a pooled connection, and the pool will eventually be exhausted. A non-Inventory exception also leaves uncommitted partial changes on the connection.\",\"suggestion\":\"Use try/except/finally. Roll back on any exception with a bare `except Exception: conn.rollback(); raise`, and call `self._pool.release(conn)` in a `finally` block.\",\"confidence\":0.95},{\"file\":\"inventory/service.py\",\"line\":82,\"end_line\":91,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Duplicate SKUs in lines are checked independently against the same free stock\",\"description\":\"Each line is checked against the stored row, and the reservation is stored with the lines as given. If the same SKU appears twice, each line checks `free` against the stock after the earlier line's `put`, which is correct only if conn.get returns the updated row. If conn.get returns a copy or a cached snapshot, the second check uses stale data and the order can over-reserve. The stored reservation also keeps the duplicate lines, so cancel will subtract them separately. This is only a risk if the connection does not read its own writes.\",\"suggestion\":\"Aggregate quantities per SKU before checking, for example with a Counter.\",\"confidence\":0.2},{\"file\":\"inventory/service.py\",\"line\":106,\"end_line\":108,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"cancel has no rollback and does not handle a missing stock row\",\"description\":\"If a stock row is missing, `conn.get` returns None and `row[\\\"reserved\\\"]` raises TypeError. Earlier puts for the order's other lines are already applied to the connection and are never rolled back. The connection is then released to the pool in that dirty state, so a later user of the connection may commit the partial changes.\",\"suggestion\":\"Wrap the body in try/except that calls `conn.rollback()` on any exception before re-raising, and handle a missing row explicitly.\",\"confidence\":0.4}]}",
+  "request_id": "req_011CgRJYFUuzvxZUfPjjQ8Fg",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.014697,
+   "input_tokens": 3054,
+   "latency_ms": 7045,
+   "output_tokens": 807
+  }
+ }
+}

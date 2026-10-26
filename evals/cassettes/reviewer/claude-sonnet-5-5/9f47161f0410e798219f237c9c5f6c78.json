@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "9f47161f0410e798219f237c9c5f6c78",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10910,
+  "user_sha256": "682f1b1659bf51c9aa4ee19655be679ce462ff6df72b02068d970dd94830a1bc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.8,
+     "description": "Previously `duration` was `minutes * 60`, i.e. seconds. It is now set to `run_time`, which `parse_duration` returns in milliseconds. Consumers such as the scheduler (`Run.seconds`) and the controller's `self._sleep(run.seconds)` treat the value as seconds. Every zone will therefore water for 1000 times its configured time (a 10 minute zone would run for about 167 hours), for both the old `minutes` and the new `duration` formats.",
+     "file": "irrigation/config.py",
+     "line": 88,
+     "severity": "high",
+     "suggestion": "Convert to seconds when building the zone, e.g. `duration=run_time / 1000`, or change the field and all its consumers to milliseconds.",
+     "title": "ZoneConfig.duration changed from seconds to milliseconds"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"irrigation/config.py\",\"line\":88,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"ZoneConfig.duration changed from seconds to milliseconds\",\"description\":\"Previously `duration` was `minutes * 60`, i.e. seconds. It is now set to `run_time`, which `parse_duration` returns in milliseconds. Consumers such as the scheduler (`Run.seconds`) and the controller's `self._sleep(run.seconds)` treat the value as seconds. Every zone will therefore water for 1000 times its configured time (a 10 minute zone would run for about 167 hours), for both the old `minutes` and the new `duration` formats.\",\"suggestion\":\"Convert to seconds when building the zone, e.g. `duration=run_time / 1000`, or change the field and all its consumers to milliseconds.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0083535,
+   "input_tokens": 4724,
+   "latency_ms": null,
+   "output_tokens": 674
+  }
+ }
+}

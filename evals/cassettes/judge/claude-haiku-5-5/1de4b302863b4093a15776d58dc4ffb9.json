@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:36+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1de4b302863b4093a15776d58dc4ffb9",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2349,
+  "user_sha256": "a8dd9e6a5d6147d9cb2755ee1747fe5012b20947928dff849379d98d21ee76c4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both identify that pool.release(conn) at line 96 is skipped when InventoryError is re-raised, leaking pooled connections until the pool is exhausted. Description A additionally covers non-InventoryError exceptions skipping rollback and release, but the core root cause and location match Description B.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both identify that pool.release(conn) at line 96 is skipped when InventoryError is re-raised, leaking pooled connections until the pool is exhausted. Description A additionally covers non-InventoryError exceptions skipping rollback and release, but the core root cause and location match Description B.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJecpUojt1Pu9xsB5TM",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015054000000000003,
+   "input_tokens": 828,
+   "latency_ms": 1719,
+   "output_tokens": 111
+  }
+ }
+}

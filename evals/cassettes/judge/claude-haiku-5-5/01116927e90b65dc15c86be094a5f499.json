@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:02+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "01116927e90b65dc15c86be094a5f499",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1583,
+  "user_sha256": "12e49c2404710f37cf22e77af38b9c50285eee9f26832a2530838219d2dfca3d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment speculates about a future unarchive path that does not exist in the shown code; archive_card detaches the card from its store position, and nothing in the diff reads the stale position. The commenter even admits it is minor and speculative, so it is at most a nit."
+  },
+  "raw_text": "{\"reason\": \"The comment speculates about a future unarchive path that does not exist in the shown code; archive_card detaches the card from its store position, and nothing in the diff reads the stale position. The commenter even admits it is minor and speculative, so it is at most a nit.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKuMVX4AcKdgmZJNKTx",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00011056,
+   "input_tokens": 559,
+   "latency_ms": 1375,
+   "output_tokens": 96
+  }
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:14:33+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "81d3e7ae30f14f66aa7274c882ea55e6",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11903,
+  "user_sha256": "cfc2f3501d8fe7c0a41da90034a1eab84024c8f13527a5cb546e1a98063edbbb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "`total = sum(1 for _ in lines)` iterates `lines` once to count it. The CLI passes an open file object, which is a one-shot iterator. After counting, the `for line in lines` loop at line 54 sees an exhausted file and reads nothing. The output is empty, stats show read=0, and progress shows 0/N. Any generator input behaves the same way.",
+     "file": "pipeline/runner.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Do not pre-count a single-pass iterable. Either materialise it with `lines = list(lines)` (which costs memory), or rewind the file and count separately in the CLI, or report progress without a total.",
+     "title": "Counting lines consumes a one-shot iterator, so nothing is processed"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "In the `except LookupTimeout` branch, `return enrich(event, geo)` is missing `await`. `enrich` is now async, so `enrich_one` returns a coroutine object. The sink then receives a coroutine rather than an Event, and `to_json` fails or the output is corrupted. The retry never actually runs, and a 'coroutine was never awaited' warning is emitted. A second timeout can never abort the run, as the docstring promises.",
+     "file": "pipeline/runner.py",
+     "line": 51,
+     "severity": "high",
+     "suggestion": "Use `return await enrich(event, geo)`, so the retry executes and a second LookupTimeout propagates.",
+     "title": "Retry returns an un-awaited coroutine instead of an Event"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/runner.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Counting lines consumes a one-shot iterator, so nothing is processed\",\"description\":\"`total = sum(1 for _ in lines)` iterates `lines` once to count it. The CLI passes an open file object, which is a one-shot iterator. After counting, the `for line in lines` loop at line 54 sees an exhausted file and reads nothing. The output is empty, stats show read=0, and progress shows 0/N. Any generator input behaves the same way.\",\"suggestion\":\"Do not pre-count a single-pass iterable. Either materialise it with `lines = list(lines)` (which costs memory), or rewind the file and count separately in the CLI, or report progress without a total.\",\"confidence\":0.95},{\"file\":\"pipeline/runner.py\",\"line\":51,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Retry returns an un-awaited coroutine instead of an Event\",\"description\":\"In the `except LookupTimeout` branch, `return enrich(event, geo)` is missing `await`. `enrich` is now async, so `enrich_one` returns a coroutine object. The sink then receives a coroutine rather than an Event, and `to_json` fails or the output is corrupted. The retry never actually runs, and a 'coroutine was never awaited' warning is emitted. A second timeout can never abort the run, as the docstring promises.\",\"suggestion\":\"Use `return await enrich(event, geo)`, so the retry executes and a second LookupTimeout propagates.\",\"confidence\":0.97}]}",
+  "request_id": "req_011CgRJZj1AbW6PSrsWxMh8y",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.016015,
+   "input_tokens": 5098,
+   "latency_ms": 4578,
+   "output_tokens": 530
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ce7283cbad808dfee5e162ebb265a4e8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1915,
+  "user_sha256": "7b8fc2a4de4dba3e18568f7d37e21b04ef46f3495f3bb575f84dd671e839e903"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both identify the same defect: after the final GatewayError the loop breaks and charge() implicitly returns None instead of re-raising, so settle_invoice later dereferences charge.id on None, raising AttributeError and aborting settlement with the invoice never marked failed. Description B points at line 61 (the break) while A cites 61-62, which is the same location within the function.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both identify the same defect: after the final GatewayError the loop breaks and charge() implicitly returns None instead of re-raising, so settle_invoice later dereferences charge.id on None, raising AttributeError and aborting settlement with the invoice never marked failed. Description B points at line 61 (the break) while A cites 61-62, which is the same location within the function.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKoge3K9EhBmHDkKFSe",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014764,
+   "input_tokens": 672,
+   "latency_ms": 2110,
+   "output_tokens": 135
+  }
+ }
+}

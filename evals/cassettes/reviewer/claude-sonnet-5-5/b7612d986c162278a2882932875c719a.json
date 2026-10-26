@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "b7612d986c162278a2882932875c719a",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6582,
+  "user_sha256": "7b460f496f5b22166b8e9e77ebdeff76755122e0e4483b8a47a5718940ce8c46"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "`del conn._message_formatter` removes an instance attribute. If the attribute was never set on the instance (for example `logging_token=None` passed on a connection that never had a token, or a second reset), this raises AttributeError. If it is a class-level default, instance deletion fails the same way. The previous code assigned None, which was always safe. Clearing the token via execution_options can therefore crash.",
+     "file": "lib/sqlalchemy/engine/characteristics.py",
+     "line": 145,
+     "severity": "high",
+     "suggestion": "Restore `conn._message_formatter = None`, or guard the delete with `conn.__dict__.pop('_message_formatter', None)`.",
+     "title": "del of _message_formatter raises AttributeError when no instance attribute is set"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"lib/sqlalchemy/engine/characteristics.py\",\"line\":145,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"del of _message_formatter raises AttributeError when no instance attribute is set\",\"description\":\"`del conn._message_formatter` removes an instance attribute. If the attribute was never set on the instance (for example `logging_token=None` passed on a connection that never had a token, or a second reset), this raises AttributeError. If it is a class-level default, instance deletion fails the same way. The previous code assigned None, which was always safe. Clearing the token via execution_options can therefore crash.\",\"suggestion\":\"Restore `conn._message_formatter = None`, or guard the delete with `conn.__dict__.pop('_message_formatter', None)`.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0044885,
+   "input_tokens": 2874,
+   "latency_ms": null,
+   "output_tokens": 271
+  }
+ }
+}

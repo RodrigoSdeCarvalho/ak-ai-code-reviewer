@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9a3712af42d713fcfaf30f6ea9496407",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2304,
+  "user_sha256": "d212a118d94c5a3cb0b91b40c2aa161e496635f580df01a697a7e82b7229dc29"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A claims a concurrency problem (dict mutation during iteration across an await) with a KeyError risk and calls it mostly safe. Description B identifies a missing await on a coroutine call at line 45, making the truthy coroutine object cause all digests to be dropped as delivered. These are different root causes at different lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A claims a concurrency problem (dict mutation during iteration across an await) with a KeyError risk and calls it mostly safe. Description B identifies a missing await on a coroutine call at line 45, making the truthy coroutine object cause all digests to be dropped as delivered. These are different root causes at different lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJb6gRnVf3GLkeKXFUB",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014954,
+   "input_tokens": 773,
+   "latency_ms": 1890,
+   "output_tokens": 120
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5d14af2f037822b38f57a2140b2201c6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1967,
+  "user_sha256": "a3aa4d26539f1d7f412aa119b48c8852f51bc6382870c651d90025c58a6172bb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 80: self._live_entries() is called inside the per-object loop, re-reading and parsing the whole index on each iteration, giving O(N*M) cost. The wording and proposed emphasis differ slightly but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 80: self._live_entries() is called inside the per-object loop, re-reading and parsing the whole index on each iteration, giving O(N*M) cost. The wording and proposed emphasis differ slightly but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjKFourmwkMsTEjdAN",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013714,
+   "input_tokens": 707,
+   "latency_ms": 1140,
+   "output_tokens": 107
+  }
+ }
+}

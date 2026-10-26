@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:18+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8adaa3db65c7bd5eebe3ad4b150d70ff",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2130,
+  "user_sha256": "fef81315d520b95de71f444c1267a296d57fe0dd952c86d32f6e42d697f8ff65"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the removed per-year holiday cache causes BusinessCalendar.holidays to re-invoke the holiday source (re-reading and re-parsing the JSON file) on every is_business_day check, causing heavy repeated I/O in roll_forward, add_business_days and business_days_between. Different wording and framing (A mentions overdue() batches, B mentions ticket queues) but the same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the removed per-year holiday cache causes BusinessCalendar.holidays to re-invoke the holiday source (re-reading and re-parsing the JSON file) on every is_business_day check, causing heavy repeated I/O in roll_forward, add_business_days and business_days_between. Different wording and framing (A mentions overdue() batches, B mentions ticket queues) but the same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdJJURSfzHdF867eds",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017224000000000002,
+   "input_tokens": 795,
+   "latency_ms": 1687,
+   "output_tokens": 161
+  }
+ }
+}

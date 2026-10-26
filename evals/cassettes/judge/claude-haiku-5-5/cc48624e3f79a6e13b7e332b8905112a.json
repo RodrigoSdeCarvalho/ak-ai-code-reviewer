@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:29+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "cc48624e3f79a6e13b7e332b8905112a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2265,
+  "user_sha256": "91b7d4e283b1c57074b1aa6d305a279c39b15378735159e09f316df8ee542a6a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the retry branch at line 51 omits await, so the retried event is a coroutine object. Description B says the line-42 count exhausts the one-shot iterator, so the main loop reads nothing. These are different failures at different lines with different causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the retry branch at line 51 omits await, so the retried event is a coroutine object. Description B says the line-42 count exhausts the one-shot iterator, so the main loop reads nothing. These are different failures at different lines with different causes.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKrtfAzn8FjGJpemj6v",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014743999999999998,
+   "input_tokens": 860,
+   "latency_ms": 1171,
+   "output_tokens": 97
+  }
+ }
+}

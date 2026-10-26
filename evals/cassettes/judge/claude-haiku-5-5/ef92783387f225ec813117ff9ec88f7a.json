@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ef92783387f225ec813117ff9ec88f7a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1856,
+  "user_sha256": "2cdd341acc6250d3a349b018e1c27e62554700ef3ae3dd474355d928f5b398e3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the retry branch at line 51 returns `enrich(event, geo)` without `await`, so a coroutine object (not an Event) is returned and passed on to the sink, with a 'never awaited' warning. The wording and extra detail differ, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the retry branch at line 51 returns `enrich(event, geo)` without `await`, so a coroutine object (not an Event) is returned and passed on to the sink, with a 'never awaited' warning. The wording and extra detail differ, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJfAJKKUU43Dt2tHJaw",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014054000000000003,
+   "input_tokens": 703,
+   "latency_ms": 1390,
+   "output_tokens": 116
+  }
+ }
+}

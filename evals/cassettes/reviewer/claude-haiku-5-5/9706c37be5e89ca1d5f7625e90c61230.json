@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "9706c37be5e89ca1d5f7625e90c61230",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9095,
+  "user_sha256": "a633dd1b01b38a5b7577a357970c6933f5d3614e9c1e0d4ebbdb2b12632ecba7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "On rejection (lines 70-71), bucket.tokens has already been advanced to the current time by line 69, but bucket.updated_at is not set to now. The early return skips line 73, so the next call computes elapsed from the old timestamp and adds the same refill again. Example with rate 1 token/s and capacity 10: at t=0 the bucket is empty; at t=0.5 a cost-1 request is rejected with tokens=0.5 and updated_at still 0; at t=1 the bucket computes 0.5+1=1.5 tokens when the true value is 1.0. Under sustained over-limit traffic a client gets extra tokens on every rejected call and can exceed the configured rate, potentially up to capacity.",
+     "end_line": 73,
+     "file": "ratelimit/limiter.py",
+     "line": 70,
+     "severity": "high",
+     "suggestion": "Set bucket.updated_at = now before the rejection return, so the refill is credited only once, e.g. move the updated_at assignment above the `if bucket.tokens < cost` check.",
+     "title": "Rejected requests do not advance the bucket timestamp, so refill is credited twice"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"ratelimit/limiter.py\",\"line\":70,\"end_line\":73,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Rejected requests do not advance the bucket timestamp, so refill is credited twice\",\"description\":\"On rejection (lines 70-71), bucket.tokens has already been advanced to the current time by line 69, but bucket.updated_at is not set to now. The early return skips line 73, so the next call computes elapsed from the old timestamp and adds the same refill again. Example with rate 1 token/s and capacity 10: at t=0 the bucket is empty; at t=0.5 a cost-1 request is rejected with tokens=0.5 and updated_at still 0; at t=1 the bucket computes 0.5+1=1.5 tokens when the true value is 1.0. Under sustained over-limit traffic a client gets extra tokens on every rejected call and can exceed the configured rate, potentially up to capacity.\",\"suggestion\":\"Set bucket.updated_at = now before the rejection return, so the refill is credited only once, e.g. move the updated_at assignment above the `if bucket.tokens < cost` check.\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000518625,
+   "input_tokens": 3928,
+   "latency_ms": null,
+   "output_tokens": 1237
+  }
+ }
+}

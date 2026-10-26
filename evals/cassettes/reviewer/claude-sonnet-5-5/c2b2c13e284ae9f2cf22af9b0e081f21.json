@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c2b2c13e284ae9f2cf22af9b0e081f21",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3186,
+  "user_sha256": "37e07d35c2fa1f41ebcac267c0bb04b903d60e0edcce2f3d672e4b22178c0552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The pop path no longer checks that the heap entry is the current one for the item. When an item is re-added, the old heap entry stays in the heap and the newer one is in `_data`. Popping the stale entry removes the live item, so the item is evicted early using the old insertion time, and its newer heap entry becomes stale. The expiry loop at line 633 also reads `self._heap[0][0]` without validating it, so a stale entry's timestamp can wrongly decide that the live item has expired or not.",
+     "end_line": 647,
+     "file": "celery/utils/collections.py",
+     "line": 641,
+     "severity": "high",
+     "suggestion": "Restore the `_is_current(entry)` check in `pop()` and in the expiry loop, and discard stale entries from the heap head before using their timestamps.",
+     "title": "Stale heap entries for re-added items evict the live entry early"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/utils/collections.py\",\"line\":641,\"end_line\":647,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Stale heap entries for re-added items evict the live entry early\",\"description\":\"The pop path no longer checks that the heap entry is the current one for the item. When an item is re-added, the old heap entry stays in the heap and the newer one is in `_data`. Popping the stale entry removes the live item, so the item is evicted early using the old insertion time, and its newer heap entry becomes stale. The expiry loop at line 633 also reads `self._heap[0][0]` without validating it, so a stale entry's timestamp can wrongly decide that the live item has expired or not.\",\"suggestion\":\"Restore the `_is_current(entry)` check in `pop()` and in the expiry loop, and discard stale entries from the heap head before using their timestamps.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0028855,
+   "input_tokens": 1131,
+   "latency_ms": null,
+   "output_tokens": 299
+  }
+ }
+}

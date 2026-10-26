@@ -1,0 +1,89 @@
+{
+ "generated_at": "2026-10-26T18:37:15+00:00",
+ "n_labels": 60,
+ "n_joined": 60,
+ "raters": [
+  "agent-rater:claude-opus-5-5 (simulated human, blind to judge)"
+ ],
+ "target_kappa": 0.7,
+ "primary": {
+  "n": 60,
+  "raw_agreement": 1.0,
+  "kappa_3class": 1.0,
+  "kappa_binary": 1.0,
+  "tpr": 1.0,
+  "tpr_ci": [
+   0.8864866068260312,
+   0.9999999999999999
+  ],
+  "tnr": 1.0,
+  "tnr_ci": [
+   0.8864866068260312,
+   0.9999999999999999
+  ],
+  "lenient_errors": 0,
+  "harsh_errors": 0,
+  "confusion": {
+   "same": {
+    "same": 30,
+    "different": 0,
+    "unsure": 0
+   },
+   "different": {
+    "same": 0,
+    "different": 30,
+    "unsure": 0
+   },
+   "unsure": {
+    "same": 0,
+    "different": 0,
+    "unsure": 0
+   }
+  },
+  "judge_models": [
+   "claude-haiku-5-5"
+  ]
+ },
+ "cross_judge": {
+  "vs_human": {
+   "n": 60,
+   "raw_agreement": 0.95,
+   "kappa_3class": 0.8999999999999999,
+   "kappa_binary": 0.8999999999999999,
+   "tpr": 1.0,
+   "tpr_ci": [
+    0.8864866068260312,
+    0.9999999999999999
+   ],
+   "tnr": 0.9,
+   "tnr_ci": [
+    0.7437891742081593,
+    0.9654001112526658
+   ],
+   "lenient_errors": 3,
+   "harsh_errors": 0,
+   "confusion": {
+    "same": {
+     "same": 30,
+     "different": 0,
+     "unsure": 0
+    },
+    "different": {
+     "same": 3,
+     "different": 27,
+     "unsure": 0
+    },
+    "unsure": {
+     "same": 0,
+     "different": 0,
+     "unsure": 0
+    }
+   }
+  },
+  "kappa_vs_primary_3class": 0.8999999999999999,
+  "kappa_vs_primary_binary": 0.8999999999999999,
+  "n": 60
+ },
+ "judge_metrics_advisory": false,
+ "cross_judge_model": "claude-opus-5-5"
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:40+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "756c1acf29615da5b1edaf06253f53ff",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2954,
+  "user_sha256": "f9610c08172bc13d56b5937a4c2fa69052694ecff20c06eacc34117da4f767c1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 208: multiple concurrent waiters share one parser Deferred via maybe_deferred_to_future, and the callback chain consumes the result so later waiters receive None, causing robots.txt rules to be skipped. Description A gives a more specific mechanism (callback passes None down the chain, third+ waiters get None, cancellation propagates), but the root cause and location match Description B.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 208: multiple concurrent waiters share one parser Deferred via maybe_deferred_to_future, and the callback chain consumes the result so later waiters receive None, causing robots.txt rules to be skipped. Description A gives a more specific mechanism (callback passes None down the chain, third+ waiters get None, cancellation propagates), but the root cause and location match Description B.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJaUpukTXQGF3g41f19",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00019524,
+   "input_tokens": 1060,
+   "latency_ms": 1875,
+   "output_tokens": 154
+  }
+ }
+}

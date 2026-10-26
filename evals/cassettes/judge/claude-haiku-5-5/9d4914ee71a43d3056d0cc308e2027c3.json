@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9d4914ee71a43d3056d0cc308e2027c3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2877,
+  "user_sha256": "c89c349d17850b2c14d1fc1e9c83c13b139c54b0f40169f4f5018992eb3d3f3c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A claims duplicate SKUs in the lines cause stale reads and under-reservation. Description B claims the connection is not released on the InventoryError path because release sits after the try block, leaking pool connections. These are different failures (stock accounting vs. connection leak) at different lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A claims duplicate SKUs in the lines cause stale reads and under-reservation. Description B claims the connection is not released on the InventoryError path because release sits after the try block, leaking pool connections. These are different failures (stock accounting vs. connection leak) at different lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJekKRh662vawiM4hHg",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017084000000000004,
+   "input_tokens": 1046,
+   "latency_ms": 1672,
+   "output_tokens": 108
+  }
+ }
+}

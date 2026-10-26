@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:12:44+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "b200c42efdb87d3abb32fbf95ffc6d37",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10296,
+  "user_sha256": "cb6fdce9cabf623c22098602529370956ac328182e46fb741060744e33c50439"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "The `return` after `req.reject(requeue=False)` was removed. When ETA conversion raises OverflowError/ValueError, `eta` stays None and execution falls through. The request has already been rejected, but it is then reserved and passed to `handle(req)` (or rate-limited) and executed immediately. The task runs without its ETA, and the message is acked or rejected twice.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "high",
+     "suggestion": "Restore the `return` right after `req.reject(requeue=False)`.",
+     "title": "Missing return after rejecting task with invalid ETA"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.55,
+     "description": "The `mark_as_failure` call was removed. A task rejected because of an unconvertible ETA no longer gets a failure state in the backend, so clients waiting on the result never see the error and may hang or see PENDING.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "medium",
+     "suggestion": "Restore the `req.task.backend.mark_as_failure(...)` call before rejecting, or confirm that dropping it is intended.",
+     "title": "Failure no longer recorded in result backend for invalid ETA"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Missing return after rejecting task with invalid ETA\",\"description\":\"The `return` after `req.reject(requeue=False)` was removed. When ETA conversion raises OverflowError/ValueError, `eta` stays None and execution falls through. The request has already been rejected, but it is then reserved and passed to `handle(req)` (or rate-limited) and executed immediately. The task runs without its ETA, and the message is acked or rejected twice.\",\"suggestion\":\"Restore the `return` right after `req.reject(requeue=False)`.\",\"confidence\":0.93},{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Failure no longer recorded in result backend for invalid ETA\",\"description\":\"The `mark_as_failure` call was removed. A task rejected because of an unconvertible ETA no longer gets a failure state in the backend, so clients waiting on the result never see the error and may hang or see PENDING.\",\"suggestion\":\"Restore the `req.task.backend.mark_as_failure(...)` call before rejecting, or confirm that dropping it is intended.\",\"confidence\":0.55}]}",
+  "request_id": "req_011CgRJRfHCpB1UjLo6jFy5f",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.013043,
+   "input_tokens": 4162,
+   "latency_ms": 5546,
+   "output_tokens": 420
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9d8c642916fe7e977718be51271553bf",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2155,
+  "user_sha256": "b1a3b0ffc395ba39145a3fec01e3d8c774d52ac348c0f75e4fd54233a7590730"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: comp_tickets uses require_login instead of require_role. As a result, any logged-in user can issue free tickets.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\":\"Both descriptions identify the same defect: comp_tickets uses require_login instead of require_role. As a result, any logged-in user can issue free tickets.\",\"verdict\":\"same\"}",
+  "request_id": "req_011CgRLG6snR2epHCtbVQ1XB",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0048828000000000005,
+   "input_tokens": 826,
+   "latency_ms": 2295,
+   "output_tokens": 66
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:36+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "398a7b6e28b4942fd9ab0eb37d123b62",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2276,
+  "user_sha256": "9f140e353be6cd7a127ed33165db85e35bb7a9c68547d61393ea932a5f2350be"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: splitting SERVER_NAME with partition(\":\") on the first colon mishandles IPv6 literals like [::1]:port, producing host \"[\" and a bogus port string that makes int(sn_port) raise ValueError. Description A adds extra detail about explicit-port cases and bracketed addresses without port, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: splitting SERVER_NAME with partition(\\\":\\\") on the first colon mishandles IPv6 literals like [::1]:port, producing host \\\"[\\\" and a bogus port string that makes int(sn_port) raise ValueError. Description A adds extra detail about explicit-port cases and bracketed addresses without port, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJaDApfh1qK24EnWwTf",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017384000000000003,
+   "input_tokens": 901,
+   "latency_ms": 1936,
+   "output_tokens": 143
+  }
+ }
+}

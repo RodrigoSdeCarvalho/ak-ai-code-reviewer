@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:09+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5237a2a41b6538ea9754fb9aee975ec7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2804,
+  "user_sha256": "3b379f964ada8b6ab1c9d688baf90fc479415b8bae0686f75034d8105c71074f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The claim is accurate: `parts.hostname` discards port and userinfo, so `https://user@shop.example:8443` passes the partner check and the raw origin is reflected with credentials allowed. Any port on a partner host is therefore accepted, which is broader than the exact-origin intent."
+  },
+  "raw_text": "{\"reason\": \"The claim is accurate: `parts.hostname` discards port and userinfo, so `https://user@shop.example:8443` passes the partner check and the raw origin is reflected with credentials allowed. Any port on a partner host is therefore accepted, which is broader than the exact-origin intent.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKuWrM4DoVYs3EUhuUc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.0005231599999999999,
+   "input_tokens": 1065,
+   "latency_ms": 5655,
+   "output_tokens": 820
+  }
+ }
+}

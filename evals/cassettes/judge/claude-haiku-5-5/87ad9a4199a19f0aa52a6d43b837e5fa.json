@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:29+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "87ad9a4199a19f0aa52a6d43b837e5fa",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1845,
+  "user_sha256": "ff60e86ce115c8f62e961f46e42c98a576e4df33b64bb8514b6f36d0b3154905"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 98 of accept(): the expiry check (now vs expires_at / is_active) is missing, so expired invite links can still admit members. Both name the same root cause and consequence, differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 98 of accept(): the expiry check (now vs expires_at / is_active) is missing, so expired invite links can still admit members. Both name the same root cause and consequence, differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJe5qALpDWuNQMWVfLZ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00012894,
+   "input_tokens": 682,
+   "latency_ms": 1578,
+   "output_tokens": 97
+  }
+ }
+}

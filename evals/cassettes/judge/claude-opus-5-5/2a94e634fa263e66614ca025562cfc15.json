@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:37:08+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2a94e634fa263e66614ca025562cfc15",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1794,
+  "user_sha256": "c966d0482fac807605d680bdc2134bee548831389d014dc900207a37c386d81c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions say the async `deliver` is called without `await` at line 45. Because the coroutine object is always truthy, nothing is sent, lines are dequeued as if delivered, and no failures are reported.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\":\"Both descriptions say the async `deliver` is called without `await` at line 45. Because the coroutine object is always truthy, nothing is sent, lines are dequeued as if delivered, and no failures are reported.\",\"verdict\":\"same\"}",
+  "request_id": "req_011CgRLHqtSUy8Dtqm2evERi",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.004386800000000001,
+   "input_tokens": 612,
+   "latency_ms": 2155,
+   "output_tokens": 84
+  }
+ }
+}

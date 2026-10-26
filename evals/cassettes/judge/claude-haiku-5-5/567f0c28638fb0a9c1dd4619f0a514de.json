@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:59+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "567f0c28638fb0a9c1dd4619f0a514de",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1887,
+  "user_sha256": "bb8b5268bf6dcf29ca179eb759dc89674e72b6061624112105c87a46ae0d50e3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the final GatewayError retry, the loop breaks and charge() falls through returning None instead of re-raising, so settle_invoice reads charge.id on None, raising AttributeError that aborts settle_open_invoices. Differences are only in wording and line range, not the root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the final GatewayError retry, the loop breaks and charge() falls through returning None instead of re-raising, so settle_invoice reads charge.id on None, raising AttributeError that aborts settle_open_invoices. Differences are only in wording and line range, not the root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJbvRZBxxF7YVxsDTKb",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013864000000000001,
+   "input_tokens": 664,
+   "latency_ms": 1405,
+   "output_tokens": 120
+  }
+ }
+}

@@ -28,6 +28,10 @@ bugs:
     and take hours or days to finish instead of minutes; the cursor should be carried forward across pages
     (one walk to the checkpoint, then one request per page).
   must_find: true
+  alt_locations:
+  - file: podsync/client.py
+    line_start: 63
+    line_end: 64
 notes: >
   PR purpose: import a show's full back catalogue (oldest first) from the hosting API with a resumable
   per-show page checkpoint, stopping a multi-show run cleanly when the API rate-limits and marking shows

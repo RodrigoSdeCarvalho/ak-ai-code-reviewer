@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:12+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c903f5ae949bf23454eeaf253ee43ac8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2589,
+  "user_sha256": "cb80264d0365faac6d6fef3ea28002d16e46c502c9295abcb7fcaa51b57e8158"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The code does skip rollback for non-InventoryError exceptions raised after conn.put calls, and it also skips release() because that call sits outside the try block, so the connection leaks. The comment's claim that the dirty connection is reused by the pool is wrong, but the leak is a real defect in practice."
+  },
+  "raw_text": "{\"reason\": \"The code does skip rollback for non-InventoryError exceptions raised after conn.put calls, and it also skips release() because that call sits outside the try block, so the connection leaks. The comment's claim that the dirty connection is reused by the pool is wrong, but the leak is a real defect in practice.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKuotGYfpquhZBBDC9a",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00044126000000000007,
+   "input_tokens": 951,
+   "latency_ms": 4594,
+   "output_tokens": 679
+  }
+ }
+}

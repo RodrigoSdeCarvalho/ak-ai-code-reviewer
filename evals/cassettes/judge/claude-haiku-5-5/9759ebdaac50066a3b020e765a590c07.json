@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:18+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9759ebdaac50066a3b020e765a590c07",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2372,
+  "user_sha256": "e5bbb69f3083e1c78afda2f47f260aca2f9086903fc4dcfa13346c5e4556b9c4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies the suffix-match flaw at line 42 where host.endswith(domain) lets unrelated domains like bluekettle.example pass as partners. Description B concerns port and userinfo being dropped by parts.hostname, widening trust to any port on the partner host. These are different defects: one is a domain-boundary check bypass, the other is about port/userinfo handling.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies the suffix-match flaw at line 42 where host.endswith(domain) lets unrelated domains like bluekettle.example pass as partners. Description B concerns port and userinfo being dropped by parts.hostname, widening trust to any port on the partner host. These are different defects: one is a domain-boundary check bypass, the other is about port/userinfo handling.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKr1KjhyjX9Cb1LTwtD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017114,
+   "input_tokens": 882,
+   "latency_ms": 1905,
+   "output_tokens": 140
+  }
+ }
+}

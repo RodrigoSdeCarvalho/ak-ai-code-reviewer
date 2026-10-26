@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:20+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "46c81f85a46610cacfb9b964c9f0da2a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2349,
+  "user_sha256": "a8dd9e6a5d6147d9cb2755ee1747fe5012b20947928dff849379d98d21ee76c4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that self._pool.release(conn) at line 96 is skipped when InventoryError is re-raised in the except branch, so connections leak and the pool eventually exhausts. Description A additionally mentions other exceptions skipping rollback and release, but its core failure is the same leak on the InventoryError path.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that self._pool.release(conn) at line 96 is skipped when InventoryError is re-raised in the except branch, so connections leak and the pool eventually exhausts. Description A additionally mentions other exceptions skipping rollback and release, but its core failure is the same leak on the InventoryError path.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKrBWAXRL9DesYeQfiP",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015674000000000002,
+   "input_tokens": 828,
+   "latency_ms": 1561,
+   "output_tokens": 122
+  }
+ }
+}

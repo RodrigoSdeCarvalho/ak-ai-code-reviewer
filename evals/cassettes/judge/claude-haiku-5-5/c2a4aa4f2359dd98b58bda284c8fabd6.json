@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:52+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c2a4aa4f2359dd98b58bda284c8fabd6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2111,
+  "user_sha256": "b43cdf583151942cf8b5bc3ef92e79287c1dd7cd1059f6c0f4766d81e49597e9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: redeem() never compares link.expires_at with now, so expired magic links remain usable until purge_expired runs. They point at the same redeem logic (A cites line 65, B line 66, both within the redeem function), and both explain the same consequence of stale links signing users in.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: redeem() never compares link.expires_at with now, so expired magic links remain usable until purge_expired runs. They point at the same redeem logic (A cites line 65, B line 66, both within the redeem function), and both explain the same consequence of stale links signing users in.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjiDg2xDttGWMF8e6k",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014594,
+   "input_tokens": 755,
+   "latency_ms": 1514,
+   "output_tokens": 115
+  }
+ }
+}

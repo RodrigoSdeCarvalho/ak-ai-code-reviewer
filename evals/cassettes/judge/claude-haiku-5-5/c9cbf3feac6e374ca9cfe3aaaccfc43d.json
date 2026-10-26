@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c9cbf3feac6e374ca9cfe3aaaccfc43d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1962,
+  "user_sha256": "2621b54573b9baeaa9d2448c2a7e543adf4cd58462ee58fc4cf6086084d5f183"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 180: partitioning ctx.request.host on the first colon mangles IPv6 hosts (e.g., [::1]:8000 yields '['), so the session cookie is stored under the wrong domain and not sent on later requests. Description B additionally mentions the empty-host fallback and lowercasing changes, but its core failure matches A's.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 180: partitioning ctx.request.host on the first colon mangles IPv6 hosts (e.g., [::1]:8000 yields '['), so the session cookie is stored under the wrong domain and not sent on later requests. Description B additionally mentions the empty-host fallback and lowercasing changes, but its core failure matches A's.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJa6WE7dAKSZe4D82dv",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1224,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.0002984,
+   "input_tokens": 749,
+   "latency_ms": 1937,
+   "output_tokens": 141
+  }
+ }
+}

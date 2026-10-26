@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:13:02+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "325f4ba8d6c252da0a23dec659788ec4",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8705,
+  "user_sha256": "87484cd30e933fedf346753c30dcb8403ea85d2deb72fc6a8ac18c49acb7480e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.97,
+     "description": "The `request` parameter was renamed from `attempts` to `max_attempts`, and `add_comment` was updated, but `create_ticket` still passes `attempts=1`. It is no longer recognised and falls into `**fields`, so `attempts: 1` is sent in the JSON body to the vendor API (it may be rejected or ignored). `max_attempts` stays at the default of 3, so the non-idempotent POST is retried on transport errors and 5xx responses. A retry after a timeout can create duplicate tickets, which `attempts=1` was meant to prevent.",
+     "file": "helpdesk/tickets.py",
+     "line": 40,
+     "severity": "high",
+     "suggestion": "Change `attempts=1` to `max_attempts=1` in the create_ticket call.",
+     "title": "create_ticket still passes the renamed `attempts` kwarg, so it becomes a JSON body field and retries are enabled"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"helpdesk/tickets.py\",\"line\":40,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"create_ticket still passes the renamed `attempts` kwarg, so it becomes a JSON body field and retries are enabled\",\"description\":\"The `request` parameter was renamed from `attempts` to `max_attempts`, and `add_comment` was updated, but `create_ticket` still passes `attempts=1`. It is no longer recognised and falls into `**fields`, so `attempts: 1` is sent in the JSON body to the vendor API (it may be rejected or ignored). `max_attempts` stays at the default of 3, so the non-idempotent POST is retried on transport errors and 5xx responses. A retry after a timeout can create duplicate tickets, which `attempts=1` was meant to prevent.\",\"suggestion\":\"Change `attempts=1` to `max_attempts=1` in the create_ticket call.\",\"confidence\":0.97}]}",
+  "request_id": "req_011CgRJTAyAXQ9vHc6zhYp3B",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.010887,
+   "input_tokens": 3569,
+   "latency_ms": 2937,
+   "output_tokens": 323
+  }
+ }
+}

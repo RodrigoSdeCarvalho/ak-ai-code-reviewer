@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:21+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "14449554c988a5691dae6dc19b09139c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2508,
+  "user_sha256": "287f9dbe59f12dcaa74c33dc422e3fee71c7f5c9e7f53afe90cb3be5a0117164"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both describe the same defect: the new calibrated() path calls source.load() per reading rather than once per sensor (previously cached in a per-batch dict), causing an N+1 query pattern with SqlCalibrationSource. Description A points at line 49 and Description B at line 58, but both locations are part of the same call chain and describe the identical root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both describe the same defect: the new calibrated() path calls source.load() per reading rather than once per sensor (previously cached in a per-batch dict), causing an N+1 query pattern with SqlCalibrationSource. Description A points at line 49 and Description B at line 58, but both locations are part of the same call chain and describe the identical root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdWet37JWhJvL3RGd7",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017334000000000004,
+   "input_tokens": 966,
+   "latency_ms": 1485,
+   "output_tokens": 129
+  }
+ }
+}

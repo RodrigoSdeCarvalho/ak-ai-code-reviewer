@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d0c2521628ccfcc23b46d7bf7a89a220",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1697,
+  "user_sha256": "f34fb7f7e2e89fde1fe93485505d98c533dddad30f57dea2553d1e030640c849"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The multiplier `2 ** (consecutive_failures - 1)` is an unbounded int, and `timedelta * int` raises OverflowError once the product exceeds timedelta's maximum (about 999999999 days). That happens inside the except block, before the max_failures disable check, so a job with a large max_failures that keeps failing would hit it. Whether it aborts the whole tick depends on code not shown, but the overflow itself follows from the shown code."
+  },
+  "raw_text": "{\"reason\": \"The multiplier `2 ** (consecutive_failures - 1)` is an unbounded int, and `timedelta * int` raises OverflowError once the product exceeds timedelta's maximum (about 999999999 days). That happens inside the except block, before the max_failures disable check, so a job with a large max_failures that keeps failing would hit it. Whether it aborts the whole tick depends on code not shown, but the overflow itself follows from the shown code.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKsvnT5oKCHcEUyymas",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00044056,
+   "input_tokens": 644,
+   "latency_ms": 4750,
+   "output_tokens": 739
+  }
+ }
+}

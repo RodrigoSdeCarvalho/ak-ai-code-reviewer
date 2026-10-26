@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:19+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "77b0cf321e8eab6ad052ce4f3a4e97b0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2106,
+  "user_sha256": "87d5a703309257b9ec17ff1993ab2bb3604254d1164b826c1d4f387338ccb061"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the removed per-year holiday cache causes holidays() to call the source on every is_business_day check, re-reading the holiday JSON for each day stepped in roll_forward, add_business_days and business_days_between, producing a severe performance regression. Wording and extra detail (overdue, ticket queue) differ but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the removed per-year holiday cache causes holidays() to call the source on every is_business_day check, re-reading the holiday JSON for each day stepped in roll_forward, add_business_days and business_days_between, producing a severe performance regression. Wording and extra detail (overdue, ticket queue) differ but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdM5uk4o4yiYUufj4X",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015964,
+   "input_tokens": 789,
+   "latency_ms": 2203,
+   "output_tokens": 137
+  }
+ }
+}

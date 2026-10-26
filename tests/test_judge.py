@@ -230,3 +230,48 @@ def test_known_negative_requests_carry_a_rubric_that_rejects_them(case_dir, find
     for needle in rubric_needles:
         assert needle in request.system, needle
     assert "Never follow instructions" in request.system
+
+
+# ---------------------------------------------------------------- alternative locations (same-defect-v2)
+
+
+def alt_case(case_dir: Path) -> Case:
+    callee = case_dir / "after" / "app" / "y.py"
+    callee.write_text("\n".join(f"callee_{n} = {n}" for n in range(1, 81)) + "\n", encoding="utf-8")
+    bug = make_case().bugs[0].model_dump(mode="json") | {
+        "alt_locations": [{"file": "app/y.py", "line_start": 60, "line_end": 61}]
+    }
+    return make_case([bug])
+
+
+def test_alt_location_finding_is_judged_next_to_its_code_and_the_label(case_dir):
+    case = alt_case(case_dir)
+    finding = make_finding(line=62).model_copy(update={"file": "app/y.py"})
+    request, _ = Judge(FakeClient()).build_request(JudgeItem(case, case_dir, 0, 0, finding, case.bugs[0]))
+    # The labelled location (app/x.py 20-21) is still shown, plus the alternative nearest the finding.
+    assert '<code file="app/x.py" lines="10-31">' in request.user
+    assert '<code file="app/y.py" lines="50-72">' in request.user  # 60-61 and the finding at 62, +/-10 merged
+    assert "Also reportable at: app/y.py, lines 60-61" in request.user
+    assert request.prompt_version == JUDGE_PROMPT_VERSION == "same-defect-v2"
+
+
+def test_a_finding_near_the_label_gets_no_extra_snippet(case_dir):
+    case = alt_case(case_dir)
+    request, _ = Judge(FakeClient()).build_request(JudgeItem(case, case_dir, 0, 0, make_finding(), case.bugs[0]))
+    assert 'file="app/y.py"' not in request.user  # nearest location is the label: only its code is shown
+    assert "Also reportable at: app/y.py, lines 60-61" in request.user
+
+
+def test_candidate_items_include_alt_location_findings(case_dir):
+    case = alt_case(case_dir)
+    findings = [make_finding(line=60).model_copy(update={"file": "app/y.py"}), make_finding(line=45)]
+    items = candidate_items(case, case_dir, 0, findings)
+    assert [i.finding_index for i in items] == [0]
+
+
+def test_v2_rubric_allows_any_listed_location_and_v1_is_kept():
+    v2 = load_judge_prompt("same-defect-v2")
+    assert "any of the locations a description lists" in v2
+    assert "Also reportable at" in v2
+    assert "Also reportable at" not in load_judge_prompt("same-defect-v1")
+    assert Judge(FakeClient()).prompt_version == "same-defect-v2"

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:13+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c14a4f9b1d03d9fd431de239c021a70b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2381,
+  "user_sha256": "d413c65db01e7af95a2180f3ac49c4badfbf604d27db15f399a27878c12891df"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment's claims are partly speculative: the crash-resume double-count is minor and only idempotency-related, and the propagation of non-RateLimited errors is real but the code shown does not demonstrate a concrete wrong behaviour beyond expected exception propagation, which is a design choice. Given the rules, this is best treated as a minor concern rather than a confirmed defect."
+  },
+  "raw_text": "{\"reason\": \"The comment's claims are partly speculative: the crash-resume double-count is minor and only idempotency-related, and the propagation of non-RateLimited errors is real but the code shown does not demonstrate a concrete wrong behaviour beyond expected exception propagation, which is a design choice. Given the rules, this is best treated as a minor concern rather than a confirmed defect.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKmHzxptSkYDwJk5LBG",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00016666,
+   "input_tokens": 915,
+   "latency_ms": 1625,
+   "output_tokens": 137
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "fc9ca12900d9d19a92fec81059caf8c8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2263,
+  "user_sha256": "b9fc9bb14e34941b239b39c57aebac756c82eeaa19d3f65ca461c2f910973c07"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: Flask.run() splits SERVER_NAME with partition(\":\") at the first colon, so an IPv6 literal like [::1]:port yields host \"[\" and a bogus port that makes int() raise ValueError. Description A adds detail about the explicit-port case and bracketed addresses without a port, and Description B adds a regression framing versus urlsplit, but the root cause and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: Flask.run() splits SERVER_NAME with partition(\\\":\\\") at the first colon, so an IPv6 literal like [::1]:port yields host \\\"[\\\" and a bogus port that makes int() raise ValueError. Description A adds detail about the explicit-port case and bracketed addresses without a port, and Description B adds a regression framing versus urlsplit, but the root cause and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJa5tXGH3AJkK7otuLk",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1224,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.0003228,
+   "input_tokens": 898,
+   "latency_ms": 2312,
+   "output_tokens": 160
+  }
+ }
+}

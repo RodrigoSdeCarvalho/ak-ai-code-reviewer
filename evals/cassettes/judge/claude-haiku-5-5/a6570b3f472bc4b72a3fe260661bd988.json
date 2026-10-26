@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a6570b3f472bc4b72a3fe260661bd988",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1970,
+  "user_sha256": "3349355b3bdd362295ff7f056e79b5dc83be6abd57e9beee34f404ecb7167696"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: when the target digest already exists, the early return at line 66 skips deleting the staged incoming/ temp file, so every duplicate upload leaves a full-size orphan and disk usage grows unboundedly. The line numbers differ slightly (65-66 vs 66) but both point at the same early-return path.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: when the target digest already exists, the early return at line 66 skips deleting the staged incoming/ temp file, so every duplicate upload leaves a full-size orphan and disk usage grows unboundedly. The line numbers differ slightly (65-66 vs 66) but both point at the same early-return path.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKrWDof75PF2TtbFZBv",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014724,
+   "input_tokens": 708,
+   "latency_ms": 1344,
+   "output_tokens": 127
+  }
+ }
+}

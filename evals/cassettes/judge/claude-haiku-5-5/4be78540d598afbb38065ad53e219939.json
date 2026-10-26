@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:55+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4be78540d598afbb38065ad53e219939",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1716,
+  "user_sha256": "2dcd416defc25b3517290c09b707b8bed035aaabf1349bac059987dc57f1e99e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The comment accurately describes that the returned dict includes every configured region with empty lists for those without overdue tickets, which is the intended behaviour and not a defect. Its claim that overdue() raises KeyError for unconfigured regions is not supported by the shown code: overdue() calls due_date, which uses for_region, and nothing here shows overdue() itself raising a KeyError for an unknown region, and in any case the comment does not identify a wrong result. The comment describes behaviour that is not a defect, so it is best labeled incorrect."
+  },
+  "raw_text": "{\"reason\": \"The comment accurately describes that the returned dict includes every configured region with empty lists for those without overdue tickets, which is the intended behaviour and not a defect. Its claim that overdue() raises KeyError for unconfigured regions is not supported by the shown code: overdue() calls due_date, which uses for_region, and nothing here shows overdue() itself raising a KeyError for an unknown region, and in any case the comment does not identify a wrong result. The comment describes behaviour that is not a defect, so it is best labeled incorrect.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRKtmRfKj36v1rk8X6t1",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00017096,
+   "input_tokens": 688,
+   "latency_ms": 2266,
+   "output_tokens": 191
+  }
+ }
+}

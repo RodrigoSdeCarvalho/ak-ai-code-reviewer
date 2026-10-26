@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:30+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1859cbb246126081ff606e48537ecae4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2257,
+  "user_sha256": "c0321e735fa920a4ad4c372aa553ceea096b5cd44e3ab3dd9cb3079ee6945362"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the handler lacks a return after req.reject, so execution falls through and runs the task immediately ignoring its ETA; it also notes the failure is not stored in the backend. Description B says a mark_as_failure call was removed so the failure is no longer recorded in the result backend. B's root cause (missing backend failure recording) is only a secondary point in A, while A's primary defect is the missing return causing immediate execution. These are different defects, though both touch the same error branch.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the handler lacks a return after req.reject, so execution falls through and runs the task immediately ignoring its ETA; it also notes the failure is not stored in the backend. Description B says a mark_as_failure call was removed so the failure is no longer recorded in the result backend. B's root cause (missing backend failure recording) is only a secondary point in A, while A's primary defect is the missing return causing immediate execution. These are different defects, though both touch the same error branch.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKnWng7VbN2dDWYr3xz",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017984,
+   "input_tokens": 824,
+   "latency_ms": 1561,
+   "output_tokens": 169
+  }
+ }
+}

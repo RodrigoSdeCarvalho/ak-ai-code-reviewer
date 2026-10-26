@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "cd3eff9773aba59195243d4d8c26e171",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8473,
+  "user_sha256": "70fda1e1274ab532c0bf412683a671610642005f9017b75edb4e4be0b59b7e1e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "The docstring says the range is inclusive, and the filter on line 38 keeps sales dated `until`. But `days = (until - since).days` combined with `range(days)` generates only `since` through `until - 1`. The last day is never emitted, so its sales are dropped from the rows and the totals. If since == until, the report is empty.",
+     "end_line": 43,
+     "file": "salesreport/daily.py",
+     "line": 42,
+     "severity": "high",
+     "suggestion": "Use `range(days + 1)`, i.e. `days = (until - since).days + 1`.",
+     "title": "Off-by-one: `until` day is excluded from the report"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "When the export has no sales and both flags are given, the code continues to build the zero-filled report rather than printing 'no sales in export'. The condition is only partly consistent: with one flag missing it prints the message, with both it prints zero rows. This is arguably intended, but the behaviour differs depending on the flags.",
+     "end_line": 34,
+     "file": "salesreport/cli.py",
+     "line": 30,
+     "severity": "low",
+     "suggestion": "Decide on one behaviour for an empty export and apply it regardless of the flags.",
+     "title": "Empty export with both --since and --until falls through to the report"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"salesreport/daily.py\",\"line\":42,\"end_line\":43,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Off-by-one: `until` day is excluded from the report\",\"description\":\"The docstring says the range is inclusive, and the filter on line 38 keeps sales dated `until`. But `days = (until - since).days` combined with `range(days)` generates only `since` through `until - 1`. The last day is never emitted, so its sales are dropped from the rows and the totals. If since == until, the report is empty.\",\"suggestion\":\"Use `range(days + 1)`, i.e. `days = (until - since).days + 1`.\",\"confidence\":0.97},{\"file\":\"salesreport/cli.py\",\"line\":30,\"end_line\":34,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Empty export with both --since and --until falls through to the report\",\"description\":\"When the export has no sales and both flags are given, the code continues to build the zero-filled report rather than printing 'no sales in export'. The condition is only partly consistent: with one flag missing it prints the message, with both it prints zero rows. This is arguably intended, but the behaviour differs depending on the flags.\",\"suggestion\":\"Decide on one behaviour for an empty export and apply it regardless of the flags.\",\"confidence\":0.2}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0058975,
+   "input_tokens": 3508,
+   "latency_ms": null,
+   "output_tokens": 426
+  }
+ }
+}

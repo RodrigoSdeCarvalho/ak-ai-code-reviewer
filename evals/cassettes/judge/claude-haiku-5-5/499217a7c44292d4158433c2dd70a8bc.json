@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "499217a7c44292d4158433c2dd70a8bc",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2799,
+  "user_sha256": "148b15ac493697c184e785694975b47d3010a77da9fb23155cdbb507bcbc3f26"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A discusses a same-column position miscount that it itself calls low risk and works in its analysis, while Description B identifies a missing authorization check on the source board (card.board_id is never checked in move_card). These are different defects.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A discusses a same-column position miscount that it itself calls low risk and works in its analysis, while Description B identifies a missing authorization check on the source board (card.board_id is never checked in move_card). These are different defects.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKqrrW5YL2QvjT4w2rK",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015044,
+   "input_tokens": 935,
+   "latency_ms": 2405,
+   "output_tokens": 88
+  }
+ }
+}

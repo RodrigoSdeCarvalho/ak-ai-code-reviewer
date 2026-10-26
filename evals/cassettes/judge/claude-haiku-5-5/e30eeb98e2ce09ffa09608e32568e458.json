@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:00+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e30eeb98e2ce09ffa09608e32568e458",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2092,
+  "user_sha256": "11058837d849dce095fcebb28afbfc0fc5f00271ce7732e2191ef9a35eb9d3a4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: `active_skus` is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is a linear scan, giving O(scans x catalog) cost. Both point at the same line and propose the same fix (use a set), differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: `active_skus` is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is a linear scan, giving O(scans x catalog) cost. Both point at the same line and propose the same fix (use a set), differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpkErhkoP9pNZg6FxR",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015724,
+   "input_tokens": 858,
+   "latency_ms": 1359,
+   "output_tokens": 117
+  }
+ }
+}

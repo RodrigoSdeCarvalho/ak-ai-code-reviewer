@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:42+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f92ac392d542c5e44faaaceb9b0b1b76",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2061,
+  "user_sha256": "4b401cc660e0165aaf2487ef3759776a3e6365734a2a52c3d4465ed8a1081bee"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 107: the eviction loop bounds len(self._keys_by_country), the number of distinct countries, rather than the total entry count, so max_entries is not enforced and the cache grows without bound. Description B adds detail about eviction not reducing the country count, but the root cause and failure match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 107: the eviction loop bounds len(self._keys_by_country), the number of distinct countries, rather than the total entry count, so max_entries is not enforced and the cache grows without bound. Description B adds detail about eviction not reducing the country count, but the root cause and failure match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJf6pTgJ74gKFdU1331",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014824,
+   "input_tokens": 750,
+   "latency_ms": 1483,
+   "output_tokens": 122
+  }
+ }
+}

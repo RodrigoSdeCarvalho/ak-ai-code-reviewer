@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:44+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "000f1883344710be236840673f12b1b4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2249,
+  "user_sha256": "4462a909c71318c357dbcf1ec74b6c802c75ceb91c59b6ca187fb77b14115a64"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the handler does not return after rejecting an invalid ETA, so execution falls through and the task runs immediately despite the rejection; it also notes the failure is never stored in the result backend. Description B says the mark_as_failure call was removed so no failure state is recorded in the result backend, leaving clients hanging. They overlap on the missing result-backend failure record, but A's primary defect is the missing return causing immediate execution, which B does not mention. B frames the issue as a removed call (a regression), while A frames it as a fall-through. The root cause differs: A is control-flow fall-through, B is missing failure recording.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the handler does not return after rejecting an invalid ETA, so execution falls through and the task runs immediately despite the rejection; it also notes the failure is never stored in the result backend. Description B says the mark_as_failure call was removed so no failure state is recorded in the result backend, leaving clients hanging. They overlap on the missing result-backend failure record, but A's primary defect is the missing return causing immediate execution, which B does not mention. B frames the issue as a removed call (a regression), while A frames it as a fall-through. The root cause differs: A is control-flow fall-through, B is missing failure recording.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJamGd2QShqgSGgewtM",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00020304,
+   "input_tokens": 823,
+   "latency_ms": 1780,
+   "output_tokens": 217
+  }
+ }
+}

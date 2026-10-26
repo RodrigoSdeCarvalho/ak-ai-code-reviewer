@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:12:48+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "17f3bf2eee858d8aa43a568691093087",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "find() returns the same list object that is stored in the cache, on both the hit path (entry[1]) and the miss path (hits). A caller that sorts, appends to or removes from the returned list corrupts the cached value, so later identical queries return the altered results. Before this change each call returned a fresh list.",
+     "end_line": 68,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Store a tuple in the cache and return list(...) copies, or return a copy (list(hits)) on both the hit and miss paths.",
+     "title": "Cached result list returned by reference and can be mutated by callers"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.15,
+     "description": "The code pops the entry and re-inserts it on a hit to maintain LRU order, but the stored timestamp is unchanged, so the entry is evicted by TTL regardless. That is fine. However, when the entry is stale it is popped and then the capacity check runs against a cache that already lost this key. This is correct, but the eviction at line 66 removes the oldest-inserted key, which is LRU only because hits re-insert. This is subtle but works; the real issue is that the TTL-expired entries of other keys are never purged and linger until evicted.",
+     "end_line": 62,
+     "file": "catalog/service.py",
+     "line": 60,
+     "severity": "low",
+     "suggestion": "Optionally purge expired entries when the cache is full, before evicting the LRU entry.",
+     "title": "Expired entries are popped and refreshed handling is inconsistent with LRU eviction"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":68,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list returned by reference and can be mutated by callers\",\"description\":\"find() returns the same list object that is stored in the cache, on both the hit path (entry[1]) and the miss path (hits). A caller that sorts, appends to or removes from the returned list corrupts the cached value, so later identical queries return the altered results. Before this change each call returned a fresh list.\",\"suggestion\":\"Store a tuple in the cache and return list(...) copies, or return a copy (list(hits)) on both the hit and miss paths.\",\"confidence\":0.6},{\"file\":\"catalog/service.py\",\"line\":60,\"end_line\":62,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Expired entries are popped and refreshed handling is inconsistent with LRU eviction\",\"description\":\"The code pops the entry and re-inserts it on a hit to maintain LRU order, but the stored timestamp is unchanged, so the entry is evicted by TTL regardless. That is fine. However, when the entry is stale it is popped and then the capacity check runs against a cache that already lost this key. This is correct, but the eviction at line 66 removes the oldest-inserted key, which is LRU only because hits re-insert. This is subtle but works; the real issue is that the TTL-expired entries of other keys are never purged and linger until evicted.\",\"suggestion\":\"Optionally purge expired entries when the cache is full, before evicting the LRU entry.\",\"confidence\":0.15}]}",
+  "request_id": "req_011CgRJS1nystpHxqebQsmfg",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.010043,
+   "input_tokens": 2172,
+   "latency_ms": 5062,
+   "output_tokens": 518
+  }
+ }
+}

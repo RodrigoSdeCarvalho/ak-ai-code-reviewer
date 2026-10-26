@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:37+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9c5d6979fd3b38bcd9997c8120f9af7b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2656,
+  "user_sha256": "b4d43f234b67c3001ea95d3a35e7094d5baea89c6c779bcd67c5f825d0b1628f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The comment itself concludes 'No defect here' after reasoning through the race, and the shown code does not reveal a generation check or cache internals that would make a concrete failure; the reviewer's own analysis shows the ordering is safe, so it does not identify a real defect."
+  },
+  "raw_text": "{\"reason\": \"The comment itself concludes 'No defect here' after reasoning through the race, and the shown code does not reveal a generation check or cache internals that would make a concrete failure; the reviewer's own analysis shows the ordering is safe, so it does not identify a real defect.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRKsRwc7U35pZTaaUj2b",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00015166,
+   "input_tokens": 935,
+   "latency_ms": 2483,
+   "output_tokens": 103
+  }
+ }
+}

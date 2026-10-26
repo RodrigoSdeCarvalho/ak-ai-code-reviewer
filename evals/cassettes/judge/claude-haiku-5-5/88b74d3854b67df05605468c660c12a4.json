@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:47+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "88b74d3854b67df05605468c660c12a4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1970,
+  "user_sha256": "a68e21a2e96263766d90969db346d683a07a3c9df106dabfd6f26fa46fd23efd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 80: _live_entries() is called inside the per-object loop in collect_garbage, re-reading and re-parsing the whole index for every object, giving O(objects x index records) cost. Description A adds the linear any() scan, but the root cause and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 80: _live_entries() is called inside the per-object loop in collect_garbage, re-reading and re-parsing the whole index for every object, giving O(objects x index records) cost. Description A adds the linear any() scan, but the root cause and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjQ3Hycs9q9nUcgAid",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014074,
+   "input_tokens": 708,
+   "latency_ms": 1327,
+   "output_tokens": 114
+  }
+ }
+}

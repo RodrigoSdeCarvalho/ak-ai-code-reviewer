@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:30+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "bcd47b4698d08325e25681a127257e9a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2322,
+  "user_sha256": "8f5fa0920b3077c4df081324e254497c931fe9311b5080fe13bb1ba7329de6e5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same flaw: move_card authorizes only against the destination board (to_board_id) and never checks the card's current board (card.board_id), letting an editor of their own board move cards out of private boards by id. Same line, same root cause, different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same flaw: move_card authorizes only against the destination board (to_board_id) and never checks the card's current board (card.board_id), letting an editor of their own board move cards out of private boards by id. Same line, same root cause, different wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJeEPbs4sHexKYouFdN",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013904,
+   "input_tokens": 763,
+   "latency_ms": 1281,
+   "output_tokens": 101
+  }
+ }
+}

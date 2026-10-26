@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:28+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9ca8e4b57ee68bab6ad2d0e7fb42fb83",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1935,
+  "user_sha256": "bd108647131b5d3598e5fcb1b6e3d379d2f891d3f6ed9517e7fc28865a342884"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says accept never checks expiry (expires_at vs now), so expired links still admit members. Description B says the uses check and increment are not atomic, so concurrent accepts can exceed max_uses. Different root causes (missing expiry check vs. race condition), even though both are in accept.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says accept never checks expiry (expires_at vs now), so expired links still admit members. Description B says the uses check and increment are not atomic, so concurrent accepts can exceed max_uses. Different root causes (missing expiry check vs. race condition), even though both are in accept.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJe5vcK66edjWHEMPfm",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013834,
+   "input_tokens": 716,
+   "latency_ms": 1313,
+   "output_tokens": 109
+  }
+ }
+}

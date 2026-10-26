@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:13:53+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "36127b91355cf7ab5773a40c472f4152",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8463,
+  "user_sha256": "192eedb2d694f43fa7ade5ca58a0688e8081225ff2a8d87b274351179b790bbe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.5,
+     "description": "The old code fetched all keys with one catalog.get_many call. The new code makes up to two catalog calls (exists, then get) per key per candidate locale. If the catalog is backed by a DB, file or network, this becomes an N+1 pattern, with up to 2*N*len(chain) calls per page bundle.",
+     "file": "i18n/bundles.py",
+     "line": 43,
+     "severity": "medium",
+     "suggestion": "Use catalog.get_many(candidate, remaining_keys) once per locale in the chain, and only look up keys that are still unresolved.",
+     "title": "Per-key exists/get calls replace single batched get_many"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"i18n/bundles.py\",\"line\":43,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Per-key exists/get calls replace single batched get_many\",\"description\":\"The old code fetched all keys with one catalog.get_many call. The new code makes up to two catalog calls (exists, then get) per key per candidate locale. If the catalog is backed by a DB, file or network, this becomes an N+1 pattern, with up to 2*N*len(chain) calls per page bundle.\",\"suggestion\":\"Use catalog.get_many(candidate, remaining_keys) once per locale in the chain, and only look up keys that are still unresolved.\",\"confidence\":0.5}]}",
+  "request_id": "req_011CgRJWugmeQbn9BiBeiqWG",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.010033,
+   "input_tokens": 3617,
+   "latency_ms": 3390,
+   "output_tokens": 228
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:40+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e40f39b5d6a31ee2b5618b136e799b48",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1995,
+  "user_sha256": "dcebd55349abadb3cfb94c9a60a4b73342a979422142f57ca1c7f56bf71de9b8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: when the digest already exists, the function returns early at line 66 without unlinking the staged incoming temp file, so every duplicate upload leaks a full-size copy in incoming/ and disk usage grows unboundedly. Description B adds a note about old behavior but the core failure is identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: when the digest already exists, the function returns early at line 66 without unlinking the staged incoming temp file, so every duplicate upload leaks a full-size copy in incoming/ and disk usage grows unboundedly. Description B adds a note about old behavior but the core failure is identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJerWFYUEoG4SemRH2E",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014504,
+   "input_tokens": 723,
+   "latency_ms": 2250,
+   "output_tokens": 121
+  }
+ }
+}

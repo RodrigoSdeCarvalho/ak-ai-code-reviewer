@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c94de3f1a6489b75b4235f6d9a4d24e5",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15679,
+  "user_sha256": "cf802054654e78df9139881001360b19106db38c2060e8d401cf047ee6f214b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "ctx.request.host includes the port and, for IPv6 literals, brackets. Splitting on the first colon turns \"[::1]:5000\" into \"[\", and \"[::1]\" into \"[\". The previous urlsplit(...).hostname handled this correctly and returned \"::1\". With an IPv6 host, cookies set by the response are saved under the bogus domain \"[\" and are not sent back on later requests, so session and login state silently break in tests. The removed code also lowercased the hostname and fell back to \"localhost\" when it was empty, and the new code does neither.",
+     "end_line": 180,
+     "file": "src/flask/testing.py",
+     "line": 180,
+     "severity": "medium",
+     "suggestion": "Restore hostname parsing that handles brackets, for example urlsplit(f\"//{ctx.request.host}\").hostname or \"localhost\", or use werkzeug's own host splitting helper.",
+     "title": "IPv6 host is split at the first colon, so cookies are stored under the wrong domain"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "urlsplit(f\"//{server_name}\") handled \"[::1]:5000\" by returning hostname \"::1\" and port 5000. partition(\":\") returns sn_host \"[\" and sn_port \":1\"-style garbage, so run() can receive host \"[\" and int() raises ValueError when the port is parsed. Previously this worked. This only triggers when SERVER_NAME is an IPv6 literal with a port.",
+     "end_line": 724,
+     "file": "src/flask/app.py",
+     "line": 724,
+     "severity": "low",
+     "suggestion": "Keep urlsplit-based parsing, or handle a leading '[' by splitting on ']' before taking the port.",
+     "title": "SERVER_NAME parsing with partition() breaks bracketed IPv6 literals"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/flask/testing.py\",\"line\":180,\"end_line\":180,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"IPv6 host is split at the first colon, so cookies are stored under the wrong domain\",\"description\":\"ctx.request.host includes the port and, for IPv6 literals, brackets. Splitting on the first colon turns \\\"[::1]:5000\\\" into \\\"[\\\", and \\\"[::1]\\\" into \\\"[\\\". The previous urlsplit(...).hostname handled this correctly and returned \\\"::1\\\". With an IPv6 host, cookies set by the response are saved under the bogus domain \\\"[\\\" and are not sent back on later requests, so session and login state silently break in tests. The removed code also lowercased the hostname and fell back to \\\"localhost\\\" when it was empty, and the new code does neither.\",\"suggestion\":\"Restore hostname parsing that handles brackets, for example urlsplit(f\\\"//{ctx.request.host}\\\").hostname or \\\"localhost\\\", or use werkzeug's own host splitting helper.\",\"confidence\":0.5},{\"file\":\"src/flask/app.py\",\"line\":724,\"end_line\":724,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"SERVER_NAME parsing with partition() breaks bracketed IPv6 literals\",\"description\":\"urlsplit(f\\\"//{server_name}\\\") handled \\\"[::1]:5000\\\" by returning hostname \\\"::1\\\" and port 5000. partition(\\\":\\\") returns sn_host \\\"[\\\" and sn_port \\\":1\\\"-style garbage, so run() can receive host \\\"[\\\" and int() raises ValueError when the port is parsed. Previously this worked. This only triggers when SERVER_NAME is an IPv6 literal with a port.\",\"suggestion\":\"Keep urlsplit-based parsing, or handle a leading '[' by splitting on ']' before taking the port.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000698425,
+   "input_tokens": 6364,
+   "latency_ms": null,
+   "output_tokens": 1469
+  }
+ }
+}

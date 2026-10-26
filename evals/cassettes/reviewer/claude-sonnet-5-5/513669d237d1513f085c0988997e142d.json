@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:13:41+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "513669d237d1513f085c0988997e142d",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 18307,
+  "user_sha256": "d2962b301a52e00a14d9a2968b4bc6cf2d5af1cc5be9ad5b1fddc56d61b1ec9a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.9,
+     "description": "The `_holidays_by_year` cache was dropped, so `holidays()` now calls `self._source.holidays(...)` on every invocation. `JsonHolidaySource.holidays` reads and parses the entire JSON file each time. `is_business_day` is called once per day in `add_business_days`, `roll_forward` and `business_days_between`, so each SLA computation does many file reads and JSON parses. `overdue()` multiplies that by the number of tickets, which makes large batches very slow.",
+     "file": "scheduling/calendar.py",
+     "line": 38,
+     "severity": "high",
+     "suggestion": "Restore a per-year cache inside BusinessCalendar (keyed by year, since each calendar is bound to one region). Alternatively, cache the parsed file in JsonHolidaySource.",
+     "title": "Per-year holiday cache removed; holidays re-read on every is_business_day call"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "The returned dict is built only from `self._calendars.codes`. `overdue()` raises KeyError for an unconfigured region before this point, so that case is not silent. However, the result is keyed by configured codes only, which is fine. The real problem is that a single ticket with an unknown region makes `for_region` raise from `due_date`, which aborts the whole `overdue()` run and loses all other tickets.",
+     "file": "scheduling/sla.py",
+     "line": 77,
+     "severity": "medium",
+     "suggestion": "Catch the error per ticket and report or skip bad tickets, or validate the region up front, so one bad ticket does not abort the whole batch.",
+     "title": "overdue_by_region silently drops overdue tickets for regions not in codes"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduling/calendar.py\",\"line\":38,\"severity\":\"high\",\"category\":\"performance\",\"title\":\"Per-year holiday cache removed; holidays re-read on every is_business_day call\",\"description\":\"The `_holidays_by_year` cache was dropped, so `holidays()` now calls `self._source.holidays(...)` on every invocation. `JsonHolidaySource.holidays` reads and parses the entire JSON file each time. `is_business_day` is called once per day in `add_business_days`, `roll_forward` and `business_days_between`, so each SLA computation does many file reads and JSON parses. `overdue()` multiplies that by the number of tickets, which makes large batches very slow.\",\"suggestion\":\"Restore a per-year cache inside BusinessCalendar (keyed by year, since each calendar is bound to one region). Alternatively, cache the parsed file in JsonHolidaySource.\",\"confidence\":0.9},{\"file\":\"scheduling/sla.py\",\"line\":77,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"overdue_by_region silently drops overdue tickets for regions not in codes\",\"description\":\"The returned dict is built only from `self._calendars.codes`. `overdue()` raises KeyError for an unconfigured region before this point, so that case is not silent. However, the result is keyed by configured codes only, which is fine. The real problem is that a single ticket with an unknown region makes `for_region` raise from `due_date`, which aborts the whole `overdue()` run and loses all other tickets.\",\"suggestion\":\"Catch the error per ticket and report or skip bad tickets, or validate the region up front, so one bad ticket does not abort the whole batch.\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJVwKE8DMyXk5v2htMn",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.021409,
+   "input_tokens": 7605,
+   "latency_ms": 4328,
+   "output_tokens": 568
+  }
+ }
+}

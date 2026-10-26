@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:07+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9d836cfee70c4f9e877009b32d0c4bb2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1812,
+  "user_sha256": "601fb43bb8fc9a489634c635a1bb7df3daa6299cf61027298d6d66cbdc74907d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same conditional-expression precedence bug on line 61, where non-title terms get 0.0 instead of their frequency, causing alphabetical ordering with no title and suppression of body-only terms in suggest_tags. The wording and details differ slightly but the root cause and failure are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same conditional-expression precedence bug on line 61, where non-title terms get 0.0 instead of their frequency, causing alphabetical ordering with no title and suppression of body-only terms in suggest_tags. The wording and details differ slightly but the root cause and failure are identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcVZsH4TP5ZbYwJuaq",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014014000000000002,
+   "input_tokens": 694,
+   "latency_ms": 1390,
+   "output_tokens": 117
+  }
+ }
+}

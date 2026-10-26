@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:14:08+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "11d219de362670d78a4fa0c7e3729070",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 16549,
+  "user_sha256": "9eba1959628d89ea6fd0a4155b84791ccc779490023b0a80c7b1f920c61d921f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.95,
+     "description": "`host.endswith(domain)` has no label boundary. With partner domain `shop.example`, an attacker-registered `https://evilshop.example` or `https://notshop.example` passes. The response then echoes that origin with `Access-Control-Allow-Credentials: true`, so the attacker's page can call /v1/balance and /v1/redeem with the member's session cookie and read the responses. Redeeming points on the member's behalf is possible too.",
+     "file": "loyalty/cors.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Match the exact domain or a true subdomain: `host == domain or host.endswith('.' + domain)`.",
+     "title": "Partner domain match uses endswith without a dot boundary, allowing look-alike origins with credentials"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "`parts.hostname` drops the port and userinfo, so `https://user@shop.example:8443` is treated as the partner host. The original origin string is then echoed back in Access-Control-Allow-Origin. A browser never sends such an origin, but any non-browser caller can. The exact-origin path compares the full string, so the two paths are inconsistent.",
+     "file": "loyalty/cors.py",
+     "line": 39,
+     "severity": "low",
+     "suggestion": "Reject origins that have a port or userinfo (compare `parts.netloc` to `parts.hostname`) unless explicitly allowed.",
+     "title": "Port in origin not rejected for partner origins, and response echoes non-normalised origin"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"loyalty/cors.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Partner domain match uses endswith without a dot boundary, allowing look-alike origins with credentials\",\"description\":\"`host.endswith(domain)` has no label boundary. With partner domain `shop.example`, an attacker-registered `https://evilshop.example` or `https://notshop.example` passes. The response then echoes that origin with `Access-Control-Allow-Credentials: true`, so the attacker's page can call /v1/balance and /v1/redeem with the member's session cookie and read the responses. Redeeming points on the member's behalf is possible too.\",\"suggestion\":\"Match the exact domain or a true subdomain: `host == domain or host.endswith('.' + domain)`.\",\"confidence\":0.95},{\"file\":\"loyalty/cors.py\",\"line\":39,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Port in origin not rejected for partner origins, and response echoes non-normalised origin\",\"description\":\"`parts.hostname` drops the port and userinfo, so `https://user@shop.example:8443` is treated as the partner host. The original origin string is then echoed back in Access-Control-Allow-Origin. A browser never sends such an origin, but any non-browser caller can. The exact-origin path compares the full string, so the two paths are inconsistent.\",\"suggestion\":\"Reject origins that have a port or userinfo (compare `parts.netloc` to `parts.hostname`) unless explicitly allowed.\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJXvE3PzAkimZF1DsMi",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.019097,
+   "input_tokens": 6709,
+   "latency_ms": 4484,
+   "output_tokens": 516
+  }
+ }
+}

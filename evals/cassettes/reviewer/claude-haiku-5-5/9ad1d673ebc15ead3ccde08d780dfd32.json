@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "9ad1d673ebc15ead3ccde08d780dfd32",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14880,
+  "user_sha256": "384b2052fd605e0c58f30baaf691c257a8d68dedc18e7d36a6cc618fd773b574"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.85,
+     "description": "move_card loads the card by id and checks only that the actor is an editor of the target board. It never checks the card's current board. An actor who is an editor on board B can move a card that lives on a private board A where they are not a member. The card then leaves board A, its title and description become visible on board B, and the card is detached from A's column. Non-members of A should get NotFound for that card, as they do elsewhere.",
+     "end_line": 103,
+     "file": "kanban/service.py",
+     "line": 102,
+     "severity": "high",
+     "suggestion": "Call self._require_editor(card.board_id, actor_id) on the card's current board before moving it, in addition to the target-board check.",
+     "title": "move_card does not check edit rights on the source board"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"kanban/service.py\",\"line\":102,\"end_line\":103,\"severity\":\"high\",\"category\":\"security\",\"title\":\"move_card does not check edit rights on the source board\",\"description\":\"move_card loads the card by id and checks only that the actor is an editor of the target board. It never checks the card's current board. An actor who is an editor on board B can move a card that lives on a private board A where they are not a member. The card then leaves board A, its title and description become visible on board B, and the card is detached from A's column. Non-members of A should get NotFound for that card, as they do elsewhere.\",\"suggestion\":\"Call self._require_editor(card.board_id, actor_id) on the card's current board before moving it, in addition to the target-board check.\",\"confidence\":0.85}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0007536250000000001,
+   "input_tokens": 5713,
+   "latency_ms": null,
+   "output_tokens": 1820
+  }
+ }
+}

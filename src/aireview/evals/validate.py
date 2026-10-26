@@ -27,7 +27,7 @@ from aireview.evals.dataset import (
     update_case_yaml,
     write_manifest,
 )
-from aireview.evals.schema import Case, CaseKind
+from aireview.evals.schema import Bug, Case, CaseKind
 
 TEST_TIMEOUT_S = 60
 FIX_TOLERANCE = 3  # a labelled range must lie within this many lines of a line the fix changes
@@ -149,6 +149,32 @@ def _check_bugs(case: Case, case_dir: Path, diff_text: str) -> list[str]:
                     problems.append(f"{where}: fixed/ changes nothing within {FIX_TOLERANCE} lines of the label")
             else:
                 problems.append(f"{where}: fixed/ has no version of {bug.file}")
+        problems += _check_alt_locations(case, bug, after, set(changed))
+    return problems
+
+
+def _check_alt_locations(case: Case, bug: Bug, after: Path, diff_files: set[str]) -> list[str]:
+    """Each alternative location is a real range in after/. It need not overlap a changed line (the callee
+    doing the work may be unchanged code), but for seeded/real it must be in a file the diff touches:
+    findings on other files are out of scope, so an alternative there could never match."""
+    problems: list[str] = []
+    for loc in bug.alt_locations:
+        where = f"bug {bug.id} alt location ({loc.file}:{loc.line_start}-{loc.line_end})"
+        path = after / loc.file
+        if not path.is_file():
+            problems.append(f"{where}: file not found in after/")
+            continue
+        if loc.line_end < loc.line_start:
+            problems.append(f"{where}: line_end < line_start")
+            continue
+        n_lines = len(path.read_text(encoding="utf-8").splitlines())
+        if loc.line_end > n_lines:
+            problems.append(f"{where}: beyond end of file ({n_lines} lines)")
+            continue
+        if case.kind in (CaseKind.seeded, CaseKind.real) and loc.file not in diff_files:
+            problems.append(f"{where}: file is not part of change.diff, so no in-scope finding can point there")
+        if (loc.file, loc.line_start, loc.line_end) == (bug.file, bug.line_start, bug.line_end):
+            problems.append(f"{where}: repeats the labelled location")
     return problems
 
 

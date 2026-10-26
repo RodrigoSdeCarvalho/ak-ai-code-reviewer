@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:20+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "774f7a5eb225d9092ee37fd7c56369e6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2280,
+  "user_sha256": "7289ea0768e6dea1779e60923804e0d35867cbd1f353ef050b0b641331229088"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says non-RecipientRefused exceptions (connection errors, render errors) propagate out of the loop and discard the CampaignReport, risking duplicate sends on retry. Description B says each send opens a fresh SMTP connection and login, causing performance and rate-limit problems. Both point at the loop around line 78-81 but identify entirely different failures: exception propagation versus per-message connection overhead.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says non-RecipientRefused exceptions (connection errors, render errors) propagate out of the loop and discard the CampaignReport, risking duplicate sends on retry. Description B says each send opens a fresh SMTP connection and login, causing performance and rate-limit problems. Both point at the loop around line 78-81 but identify entirely different failures: exception propagation versus per-message connection overhead.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJdQhCHtq3FVJNXsnEA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017194,
+   "input_tokens": 847,
+   "latency_ms": 1937,
+   "output_tokens": 150
+  }
+ }
+}

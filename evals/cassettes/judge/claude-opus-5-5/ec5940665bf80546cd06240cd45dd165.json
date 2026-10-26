@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ec5940665bf80546cd06240cd45dd165",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2312,
+  "user_sha256": "de1a58c2f1726442ad681a8b651525429622dd7671a025c3e20e1721adc64bc3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "A is about non-RecipientRefused exceptions aborting the loop and losing the report. B is about a new SMTP connection being opened per message instead of reusing one session. These are different root causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"A is about non-RecipientRefused exceptions aborting the loop and losing the report. B is about a new SMTP connection being opened per message instead of reusing one session. These are different root causes.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLFwx1QTrgWSbvadWmg",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.011394,
+   "input_tokens": 846,
+   "latency_ms": 2437,
+   "output_tokens": 77
+  }
+ }
+}

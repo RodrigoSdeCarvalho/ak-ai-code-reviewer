@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:17+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7092a24a29dbf99e7b4e7bfe6f738982",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2075,
+  "user_sha256": "bdc76b7718aabb07643c911b0fccdcbe93d634c8c0580a193cb7ffe4531558a6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: `active_skus` is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is a linear scan per scan, giving quadratic cost. Description A cites lines 51-54 and proposes a set; Description B cites line 54 alone. Same root cause and place, differing only in detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: `active_skus` is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is a linear scan per scan, giving quadratic cost. Description A cites lines 51-54 and proposes a set; Description B cites line 54 alone. Same root cause and place, differing only in detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdBKH9KXYwW5p9DWCk",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016294,
+   "input_tokens": 852,
+   "latency_ms": 2296,
+   "output_tokens": 131
+  }
+ }
+}

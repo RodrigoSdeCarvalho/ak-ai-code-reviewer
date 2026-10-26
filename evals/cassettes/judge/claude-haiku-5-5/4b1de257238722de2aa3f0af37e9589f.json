@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:09+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4b1de257238722de2aa3f0af37e9589f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2304,
+  "user_sha256": "ac7f804f6c8e5ef97a332474ab6d29f20fa81fbe89c9d301eb5bf316dda80c74"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: on the denied path, bucket.updated_at is not advanced after tokens were refilled, so repeated denied checks re-add the same elapsed interval and refill faster than the configured rate. Description A points at line 73 and Description B at lines 69-73, but both explain the same root cause and consequence.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: on the denied path, bucket.updated_at is not advanced after tokens were refilled, so repeated denied checks re-add the same elapsed interval and refill faster than the configured rate. Description A points at line 73 and Description B at lines 69-73, but both explain the same root cause and consequence.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcbZm9nPCgnM8FdYi2",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016254000000000003,
+   "input_tokens": 878,
+   "latency_ms": 1719,
+   "output_tokens": 125
+  }
+ }
+}

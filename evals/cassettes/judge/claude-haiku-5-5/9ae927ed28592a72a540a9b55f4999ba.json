@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:42+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9ae927ed28592a72a540a9b55f4999ba",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2027,
+  "user_sha256": "72c0b072610e030e62526117b4417f4e4a8c0dcc2457dd4c717a2cbb7a0a1bc7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 107: the eviction loop compares len(self._keys_by_country), the count of distinct countries, against max_entries instead of the total entry count, so eviction fails to bound the cache and memory grows unbounded. Description A adds mention of the lost LRU behaviour, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 107: the eviction loop compares len(self._keys_by_country), the count of distinct countries, against max_entries instead of the total entry count, so eviction fails to bound the cache and memory grows unbounded. Description A adds mention of the lost LRU behaviour, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJf1xH3XN41tinhppbf",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015114000000000002,
+   "input_tokens": 754,
+   "latency_ms": 1952,
+   "output_tokens": 127
+  }
+ }
+}

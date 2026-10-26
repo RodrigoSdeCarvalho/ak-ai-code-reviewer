@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:20+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "27bcf82a4ed4e47fa52f291f46b8d4f0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2312,
+  "user_sha256": "de1a58c2f1726442ad681a8b651525429622dd7671a025c3e20e1721adc64bc3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies that non-RecipientRefused exceptions escape the loop, aborting the campaign and losing the report. Description B identifies performance inefficiency from opening a new SMTP connection and login per message instead of reusing one session. Different failures (error handling/aborting vs. connection churn/performance) at the same loop.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies that non-RecipientRefused exceptions escape the loop, aborting the campaign and losing the report. Description B identifies performance inefficiency from opening a new SMTP connection and login per message instead of reusing one session. Different failures (error handling/aborting vs. connection churn/performance) at the same loop.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJdRWJrRWMistD4v72m",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015834000000000003,
+   "input_tokens": 846,
+   "latency_ms": 1858,
+   "output_tokens": 123
+  }
+ }
+}

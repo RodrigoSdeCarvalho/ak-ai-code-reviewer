@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:32+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "799689626b0601829ffaf9e4e2a3509a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2182,
+  "user_sha256": "f65333d22b9f9aff37cbc1d16a917962f27319664b4eddac4cf55bff20417f86"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 713: `only_field.data_key or self.field_name` treats an explicit empty-string data_key as unset, falling back to field_name, while the nested schema keys by data_key when it is not None, so the two disagree. Description A elaborates on the specific KeyError and load failure modes and proposes the `is not None` fix; Description B describes the same falsy-fallback mismatch and round-trip breakage.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 713: `only_field.data_key or self.field_name` treats an explicit empty-string data_key as unset, falling back to field_name, while the nested schema keys by data_key when it is not None, so the two disagree. Description A elaborates on the specific KeyError and load failure modes and proposes the `is not None` fix; Description B describes the same falsy-fallback mismatch and round-trip breakage.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiEMrG39qbURwhZ8sF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017513999999999998,
+   "input_tokens": 817,
+   "latency_ms": 2014,
+   "output_tokens": 161
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:57+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e63d86b8a734983fcbe938a98991bd89",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2693,
+  "user_sha256": "7c2c3c388517f5b85e8a76447b31630cb3a7c59c5dd80c9093933670292070c9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the try/except Exception wraps the batch flush, so sink write failures are caught and treated as row rejections, and the detached pending batch is silently dropped while the load continues. Both point at the same lines and the same failure mode, differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the try/except Exception wraps the batch flush, so sink write failures are caught and treated as row rejections, and the detached pending batch is silently dropped while the load continues. Both point at the same lines and the same failure mode, differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJbk6hrRnLbrxYdda2q",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016204000000000001,
+   "input_tokens": 943,
+   "latency_ms": 1625,
+   "output_tokens": 111
+  }
+ }
+}

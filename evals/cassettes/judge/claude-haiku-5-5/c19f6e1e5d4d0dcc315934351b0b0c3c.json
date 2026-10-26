@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:54+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c19f6e1e5d4d0dcc315934351b0b0c3c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1901,
+  "user_sha256": "2403b5e5bf21d3ceec51caf5db916300623597adbc5ae840c88e0c2c15cfa959"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 48: for_account compares record.get(\"user_id\") after the PR renamed the field to account_id, so the filter never matches and account_timeline returns an empty list. Different wording but same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 48: for_account compares record.get(\\\"user_id\\\") after the PR renamed the field to account_id, so the filter never matches and account_timeline returns an empty list. Different wording but same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJbZkqjeds3PKPqaH1k",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00012434,
+   "input_tokens": 636,
+   "latency_ms": 1140,
+   "output_tokens": 97
+  }
+ }
+}

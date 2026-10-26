@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "aeb09eb7b9bf4fca1d229d1f9676dc14",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2316,
+  "user_sha256": "2bc040f2f09a24a87f768a6a4ac561119d2f7b3cec3e18a0fec363f64c1acea4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The comment's claims are mostly wrong: deliver is synchronous (no await in flush), so no interleaving occurs, and sorted() snapshot iteration is safe. The one point about line 42 creating empty lists via defaultdict is speculative and not a concrete failure, since the snapshot keys come from existing entries and any empty list would simply be deleted or harmless."
+  },
+  "raw_text": "{\"reason\": \"The comment's claims are mostly wrong: deliver is synchronous (no await in flush), so no interleaving occurs, and sorted() snapshot iteration is safe. The one point about line 42 creating empty lists via defaultdict is speculative and not a concrete failure, since the snapshot keys come from existing entries and any empty list would simply be deleted or harmless.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRKsk2o75vW4zq2vKXn1",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00015666,
+   "input_tokens": 810,
+   "latency_ms": 1953,
+   "output_tokens": 138
+  }
+ }
+}

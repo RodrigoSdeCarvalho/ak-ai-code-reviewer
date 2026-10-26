@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:44+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "50d0495f64de3a625665d5ac45c20a51",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2257,
+  "user_sha256": "c0321e735fa920a4ad4c372aa553ceea096b5cd44e3ab3dd9cb3079ee6945362"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the handler lacks a return after req.reject(), so execution falls through and runs the task immediately ignoring its ETA, and also notes the failure is not stored in the backend. Description B says the mark_as_failure call was removed so the failure is no longer recorded in the result backend. B identifies only the missing backend failure state, which A mentions only as a side note; A's primary defect is the fall-through execution bypassing ETA. B does not describe the fall-through, so the specific failure differs.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the handler lacks a return after req.reject(), so execution falls through and runs the task immediately ignoring its ETA, and also notes the failure is not stored in the backend. Description B says the mark_as_failure call was removed so the failure is no longer recorded in the result backend. B identifies only the missing backend failure state, which A mentions only as a side note; A's primary defect is the fall-through execution bypassing ETA. B does not describe the fall-through, so the specific failure differs.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJamPJtPE5NP7EzjwnY",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00018264000000000003,
+   "input_tokens": 824,
+   "latency_ms": 2203,
+   "output_tokens": 176
+  }
+ }
+}

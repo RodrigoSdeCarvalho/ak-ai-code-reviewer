@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "bf8096957b3cdd2a6d37abf69f856eaa",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 3152,
+  "user_sha256": "ca6d5cfdf9d36490dc87e3f9ae7fa625073ff0ed92f4f4bf6651a7a57cf11c52"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify stale heap entries left behind after discard/re-add being treated as current, causing items to be evicted early based on old timestamps in LimitedSet.pop/purge. Description A attributes it to the removed _is_current check in pop(); Description B attributes it to discard() leaving stale heap entries plus purge() and pop() not validating entries, with extra detail on purge and revoked tasks. The core failure (stale heap entry for a re-added item evicts it early) is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify stale heap entries left behind after discard/re-add being treated as current, causing items to be evicted early based on old timestamps in LimitedSet.pop/purge. Description A attributes it to the removed _is_current check in pop(); Description B attributes it to discard() leaving stale heap entries plus purge() and pop() not validating entries, with extra detail on purge and revoked tasks. The core failure (stale heap entry for a re-added item evicts it early) is the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00010617000000000002,
+   "input_tokens": 1116,
+   "latency_ms": null,
+   "output_tokens": 177
+  }
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:13:26+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "509ae73a6f0e38191eec7ea90cb3a802",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 20158,
+  "user_sha256": "dc8a27e6f55becb8700a56250673ef972fb55a5e77b4af373a8443194f48595f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "UsageKey is (account_id, metric, month), but the lookup builds (account_id, prior, metric). It never matches, so previous_total is always None and the change column always shows n/a.",
+     "file": "metering/report.py",
+     "line": 69,
+     "severity": "high",
+     "suggestion": "Use usage.get((account_id, metric, prior)).",
+     "title": "Previous-month lookup uses wrong key order"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "After yielding a DailyTotal when the key changes, `quantity` is not reset to 0. The next group starts from the previous group's total, so all later days, accounts and metrics are inflated by earlier totals.",
+     "file": "metering/rollup.py",
+     "line": 58,
+     "severity": "high",
+     "suggestion": "Set quantity = 0 after yielding when the key changes, before adding the current event's quantity.",
+     "title": "Daily quantity accumulator not reset between groups"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "`if not self.previous_total` is true for 0 as well as None, which is conflated with no previous data. The result is the same n/a, but the intent is mixed up; the zero-baseline case is handled only by accident. The check is imprecise rather than harmful.",
+     "file": "metering/report.py",
+     "line": 40,
+     "severity": "medium",
+     "suggestion": "Check `is None` and `== 0` explicitly if different handling is intended.",
+     "title": "Zero previous total treated as missing"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"metering/report.py\",\"line\":69,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Previous-month lookup uses wrong key order\",\"description\":\"UsageKey is (account_id, metric, month), but the lookup builds (account_id, prior, metric). It never matches, so previous_total is always None and the change column always shows n/a.\",\"suggestion\":\"Use usage.get((account_id, metric, prior)).\",\"confidence\":0.97},{\"file\":\"metering/rollup.py\",\"line\":58,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Daily quantity accumulator not reset between groups\",\"description\":\"After yielding a DailyTotal when the key changes, `quantity` is not reset to 0. The next group starts from the previous group's total, so all later days, accounts and metrics are inflated by earlier totals.\",\"suggestion\":\"Set quantity = 0 after yielding when the key changes, before adding the current event's quantity.\",\"confidence\":0.97},{\"file\":\"metering/report.py\",\"line\":40,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Zero previous total treated as missing\",\"description\":\"`if not self.previous_total` is true for 0 as well as None, which is conflated with no previous data. The result is the same n/a, but the intent is mixed up; the zero-baseline case is handled only by accident. The check is imprecise rather than harmful.\",\"suggestion\":\"Check `is None` and `== 0` explicitly if different handling is intended.\",\"confidence\":0.2}]}",
+  "request_id": "req_011CgRJUrbgCLYQHrQcsQxh6",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.022029,
+   "input_tokens": 8315,
+   "latency_ms": 4515,
+   "output_tokens": 488
+  }
+ }
+}

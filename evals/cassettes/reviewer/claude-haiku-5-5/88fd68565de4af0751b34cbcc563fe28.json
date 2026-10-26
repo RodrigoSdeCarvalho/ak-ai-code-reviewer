@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "88fd68565de4af0751b34cbcc563fe28",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8463,
+  "user_sha256": "192eedb2d694f43fa7ade5ca58a0688e8081225ff2a8d87b274351179b790bbe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.5,
+     "description": "The old code made one catalog.get_many(locale, wanted) call. The new loop calls catalog.exists and then catalog.get for every key and every candidate in the fallback chain, so a page with N keys and a chain of length C makes up to about 2*N*C catalog calls. If the catalog is backed by a database or remote store, this becomes an N+1 query pattern, and it is slower on every page render even when the key is found in the requested locale.",
+     "end_line": 46,
+     "file": "i18n/bundles.py",
+     "line": 43,
+     "severity": "medium",
+     "suggestion": "Fetch each candidate locale once with a batched call (for example get_many per chain entry on the still-unresolved keys), then assign each key from the first locale that has it, so the number of catalog round trips is bounded by the chain length rather than the key count.",
+     "title": "Per-key catalog lookups replace the batched get_many call"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.35,
+     "description": "Previously Bundle.locale was the locale the caller passed in. It is now chain[0], the normalised tag, so a request for 'pt_br' yields locale 'pt-BR' and to_json emits that value. Callers that compare bundle.locale with the requested string, or that key caches or templates on it, will see different values. Note also that a locale with no subtags that is empty now raises ValueError from normalise instead of returning an empty bundle.",
+     "end_line": 50,
+     "file": "i18n/bundles.py",
+     "line": 50,
+     "severity": "low",
+     "suggestion": "If callers depend on the requested tag, keep Bundle.locale as the input value and store the resolved head separately, or document the change and check the callers.",
+     "title": "Bundle.locale now holds the normalised fallback head, not the requested locale"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"i18n/bundles.py\",\"line\":43,\"end_line\":46,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Per-key catalog lookups replace the batched get_many call\",\"description\":\"The old code made one catalog.get_many(locale, wanted) call. The new loop calls catalog.exists and then catalog.get for every key and every candidate in the fallback chain, so a page with N keys and a chain of length C makes up to about 2*N*C catalog calls. If the catalog is backed by a database or remote store, this becomes an N+1 query pattern, and it is slower on every page render even when the key is found in the requested locale.\",\"suggestion\":\"Fetch each candidate locale once with a batched call (for example get_many per chain entry on the still-unresolved keys), then assign each key from the first locale that has it, so the number of catalog round trips is bounded by the chain length rather than the key count.\",\"confidence\":0.5},{\"file\":\"i18n/bundles.py\",\"line\":50,\"end_line\":50,\"severity\":\"low\",\"category\":\"api_contract\",\"title\":\"Bundle.locale now holds the normalised fallback head, not the requested locale\",\"description\":\"Previously Bundle.locale was the locale the caller passed in. It is now chain[0], the normalised tag, so a request for 'pt_br' yields locale 'pt-BR' and to_json emits that value. Callers that compare bundle.locale with the requested string, or that key caches or templates on it, will see different values. Note also that a locale with no subtags that is empty now raises ValueError from normalise instead of returning an empty bundle.\",\"suggestion\":\"If callers depend on the requested tag, keep Bundle.locale as the input value and store the resolved head separately, or document the change and check the callers.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000593575,
+   "input_tokens": 3617,
+   "latency_ms": null,
+   "output_tokens": 1599
+  }
+ }
+}

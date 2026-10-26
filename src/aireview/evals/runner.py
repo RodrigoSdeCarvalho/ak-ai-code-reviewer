@@ -23,7 +23,14 @@ import yaml
 from aireview import __version__
 from aireview.evals.baselines import SYNTHETIC_BACKENDS, ExactMatchJudge, synthetic_review
 from aireview.evals.dataset import dataset_hash, dataset_version, load_dataset, read_case_diff, resolve_root, select
-from aireview.evals.judge import JUDGE_PROMPT_VERSION, Judge, JudgeItem, TriageItem, candidate_items
+from aireview.evals.judge import (
+    JUDGE_PROMPT_VERSION,
+    TRIAGE_PROMPT_VERSION,
+    Judge,
+    JudgeItem,
+    TriageItem,
+    candidate_items,
+)
 from aireview.evals.matching import MAX_JUDGE_TOL
 from aireview.evals.metrics import compute_scores
 from aireview.evals.report import (
@@ -57,6 +64,7 @@ CHARS_PER_TOKEN = 3.5
 REVIEW_OUTPUT_TOKENS = 2500
 JUDGE_PAIRS_PER_REVIEW = 3
 JUDGE_INPUT_TOKENS, JUDGE_OUTPUT_TOKENS = 1500, 300
+DEFAULT_SCORE_BUDGET_USD = 2.0  # `eval score --mode record`: judge + triage calls only
 CHUNK_SIZE = 16  # sync/replay calls per complete_many, so a budget stop keeps the finished chunks
 RUN_FILES = (
     "manifest.json",
@@ -159,6 +167,7 @@ def row_from_review(
         status=review.status,
         findings=review.findings,
         out_of_scope_findings=review.out_of_scope_findings,
+        suppressed_findings=review.suppressed_findings,
         usage=review.usage,
         served_model=served_model,
         cassette_key=key,
@@ -632,25 +641,125 @@ def cli_score(args: argparse.Namespace) -> int:
 
     rows = load_reviews(run_dir)
     judge_model = manifest.judge_model or DEFAULT_JUDGE_MODEL
-    if args.mode == "record" and manifest.config.backend not in SYNTHETIC_BACKENDS:
-        try:
-            cost_usd(judge_model, 0, 0)
-        except KeyError as exc:
-            return _usage(str(exc.args[0]))
-    judge = make_judge(manifest.config.backend, args.mode, judge_model, CassetteStore())
+    mode = getattr(args, "mode", "replay")
+    triage_fp = bool(getattr(args, "triage_fp", False))
+    budget_usd = float(getattr(args, "budget_usd", DEFAULT_SCORE_BUDGET_USD))
+    spends = mode == "record" and manifest.config.backend not in SYNTHETIC_BACKENDS
+    budget = BudgetTracker(budget_usd) if spends else None
+    try:
+        judge = make_judge(manifest.config.backend, mode, judge_model, CassetteStore(), budget=budget)
+    except RuntimeError as exc:  # record mode without ANTHROPIC_API_KEY
+        return _usage(str(exc))
     kept, todo = reusable_judgments(judge, judge_items(cases, rows), load_judgments(run_dir))
-    new, _ = run_judge(judge, todo)
+    stored_triage = read_jsonl(run_dir / "triage.jsonl")
+    if spends:
+        triage_bound = triage_upper_bound(rows, stored_triage) if triage_fp else 0
+        try:
+            estimate = score_estimate(judge_model, len(todo), triage_bound)
+        except KeyError as exc:
+            return _usage(f"{exc.args[0]} (checked before any spend)")
+        manifest.extra["score_estimate"] = estimate
+        print(
+            f"estimate: judge {estimate['judge_pairs']} pairs + triage <= {estimate['triage_items']} findings "
+            f"= ${estimate['total_usd']:.2f} (budget ${budget_usd:.2f})"
+        )
+        if estimate["total_usd"] > budget_usd:
+            print("refusing to start: the estimate exceeds --budget-usd")
+            return EXIT_FAILED
+        if (
+            (todo or triage_bound)
+            and not getattr(args, "yes", False)
+            and not confirm(f"Record judge calls for {run_dir.name}?")
+        ):
+            print("aborted")
+            return EXIT_FAILED
+
+    new, stopped = run_judge(judge, todo)
     judgments = kept + new
     n_boot = int(manifest.extra.get("n_boot", 10000))
     scores = compute_scores(cases, rows, judgments, tolerance=tol, n_boot=n_boot, samples=manifest.samples)
+
+    fp_items = triage_items(cases, rows, scores)
+    n_triaged = 0
+    if triage_fp and isinstance(judge, Judge) and not stopped:
+        kept_triage, triage_todo = reusable_triage(judge, fp_items, stored_triage)
+        try:
+            fresh = judge.triage_many(triage_todo)
+        except BudgetExceeded:
+            fresh, stopped = [], True
+        n_triaged = len(triage_todo)
+        triage = sort_triage(kept_triage + fresh) or None
+        manifest.extra["triage_prompt_version"] = TRIAGE_PROMPT_VERSION
+    else:
+        if triage_fp and not isinstance(judge, Judge):
+            print("note: --triage-fp needs the LLM judge; synthetic runs are not triaged")
+        current = {(item.case.id, item.sample, item.finding_index) for item in fp_items}
+        triage = [t for t in stored_triage if (t["case_id"], t["sample"], t["finding_index"]) in current] or None
+
     manifest.tolerance = tol
+    manifest.judge_model = judge.model
+    manifest.judge_prompt_version = getattr(judge, "prompt_version", JUDGE_PROMPT_VERSION)
     manifest.extra["rescored_at"] = now_utc().isoformat(timespec="seconds")
-    triage = read_jsonl(run_dir / "triage.jsonl") or None
+    if budget is not None:
+        manifest.extra["score_spent_usd"] = budget.spent
+    if stopped:
+        manifest.extra["incomplete"] = True
     write_run(run_dir, manifest, rows, judgments, scores, triage)
     print(f"re-judged {len(todo)} pairs ({sum(1 for j in new if j.verdict is None)} still failing); tolerance {tol}")
+    if triage_fp:
+        failing = sum(1 for t in triage or [] if t.get("label") is None)
+        print(f"triaged {n_triaged} new false positives ({len(triage or [])} rows, {failing} without a label)")
     print("\n".join(summary_lines(scores)))
     if getattr(args, "mlflow", False):
         from aireview.evals.sinks import log_run
 
         log_run(run_dir)
+    if stopped:
+        print(f"INCOMPLETE: budget ${budget_usd:.2f} exhausted (spent ${budget.spent if budget else 0:.4f})")
+        return EXIT_FAILED
     return EXIT_OK
+
+
+def triage_upper_bound(rows: Sequence[ReviewRow], stored: Sequence[dict[str, Any]]) -> int:
+    """Most triage calls a re-score can make: every finding of a scorable row without a labelled triage row."""
+    labelled = {(t["case_id"], t["sample"], t["finding_index"]) for t in stored if t.get("label") is not None}
+    return sum(
+        1
+        for r in rows
+        if r.status == ReviewStatus.ok
+        for i in range(len(r.findings))
+        if (r.case_id, r.sample, i) not in labelled
+    )
+
+
+def score_estimate(judge_model: str, judge_pairs: int, triage_items: int) -> dict[str, Any]:
+    """Judge-only cost estimate for `eval score --mode record` (same per-call constants as `estimate_cost`)."""
+    per_call = cost_usd(judge_model, JUDGE_INPUT_TOKENS, JUDGE_OUTPUT_TOKENS)
+    return {
+        "judge_pairs": judge_pairs,
+        "triage_items": triage_items,
+        "judge_usd": judge_pairs * per_call,
+        "triage_usd": triage_items * per_call,
+        "total_usd": (judge_pairs + triage_items) * per_call,
+    }
+
+
+def reusable_triage(
+    judge: Judge, items: Sequence[TriageItem], stored: Sequence[dict[str, Any]]
+) -> tuple[list[dict[str, Any]], list[TriageItem]]:
+    """(stored triage rows still valid for `items`, items to triage again); like `reusable_judgments`, a row is
+    reused only when it has a label and its cassette key equals the key of the request rebuilt now."""
+    by_finding = {(t["case_id"], t["sample"], t["finding_index"]): t for t in stored if t.get("label") is not None}
+    kept: list[dict[str, Any]] = []
+    todo: list[TriageItem] = []
+    for item in items:
+        row = by_finding.get((item.case.id, item.sample, item.finding_index))
+        if row is not None and row.get("cassette_key") == judge.build_triage_request(item).key():
+            kept.append(row)
+        else:
+            todo.append(item)
+    return kept, todo
+
+
+def sort_triage(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(rows, key=lambda t: (t["case_id"], t["sample"], t["finding_index"]))

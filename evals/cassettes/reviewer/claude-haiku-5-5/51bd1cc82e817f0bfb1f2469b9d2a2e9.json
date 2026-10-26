@@ -1,0 +1,91 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "51bd1cc82e817f0bfb1f2469b9d2a2e9",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 18307,
+  "user_sha256": "d2962b301a52e00a14d9a2968b4bc6cf2d5af1cc5be9ad5b1fddc56d61b1ec9a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.85,
+     "description": "The per-year cache was removed. is_business_day calls holidays(day.year) for every day it tests, and holidays() now calls self._source.holidays() each time. With JsonHolidaySource that re-reads and re-parses the whole JSON file per day, so add_business_days and business_days_between cost one file read and parse per calendar day. Long horizons or many tickets in overdue() make this very slow.",
+     "end_line": 41,
+     "file": "scheduling/calendar.py",
+     "line": 38,
+     "severity": "high",
+     "suggestion": "Cache the frozenset per (region, year) inside BusinessCalendar, or load the holiday data once in the source and reuse it.",
+     "title": "Holiday lookup is no longer cached, so every day check re-reads the holiday source"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "JsonHolidaySource now expects a region-keyed file ({\"PT\": {\"2026\": [...]}}). Files in the previous flat format ({\"2026\": [...]}) have no region keys, so every region lookup raises UnknownRegion. Deployments that still use the old file fail on their first business-day calculation.",
+     "end_line": 30,
+     "file": "scheduling/holidays.py",
+     "line": 28,
+     "severity": "high",
+     "suggestion": "Migrate the existing holiday files to the new shape before deploying, or accept the legacy flat format as a fallback for a single region.",
+     "title": "Holiday file format changed, so existing data files are rejected"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.55,
+     "description": "The return type changed from list[tuple[Ticket, date]] to list[OverdueTicket]. Callers that unpack pairs, index with [0] or [1], or compare against tuples will break at runtime.",
+     "end_line": 69,
+     "file": "scheduling/sla.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Keep the tuple return for overdue(), and add a separate method for the richer OverdueTicket result.",
+     "title": "overdue() now returns OverdueTicket objects instead of (ticket, due) tuples"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.45,
+     "description": "The new region field has no default, so every existing Ticket(id, opened_at, priority) call raises TypeError. Tickets without a region also cannot be placed in any calendar.",
+     "file": "scheduling/sla.py",
+     "line": 34,
+     "severity": "medium",
+     "suggestion": "Give region a default that maps to a known region, or migrate all call sites in the same change.",
+     "title": "Ticket gained a required region field, breaking existing constructors"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.35,
+     "description": "due_date calls CalendarSet.for_region, which raises KeyError for an unknown region. Because overdue() iterates every ticket without catching it, one bad ticket in a batch makes the whole report fail, and overdue_by_region fails with it.",
+     "file": "scheduling/sla.py",
+     "line": 66,
+     "severity": "medium",
+     "suggestion": "Catch the KeyError per ticket and report those tickets separately, or validate regions before building the report.",
+     "title": "One ticket with an unconfigured region aborts the whole overdue report"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduling/calendar.py\",\"line\":38,\"end_line\":41,\"severity\":\"high\",\"category\":\"performance\",\"title\":\"Holiday lookup is no longer cached, so every day check re-reads the holiday source\",\"description\":\"The per-year cache was removed. is_business_day calls holidays(day.year) for every day it tests, and holidays() now calls self._source.holidays() each time. With JsonHolidaySource that re-reads and re-parses the whole JSON file per day, so add_business_days and business_days_between cost one file read and parse per calendar day. Long horizons or many tickets in overdue() make this very slow.\",\"suggestion\":\"Cache the frozenset per (region, year) inside BusinessCalendar, or load the holiday data once in the source and reuse it.\",\"confidence\":0.85},{\"file\":\"scheduling/holidays.py\",\"line\":28,\"end_line\":30,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"Holiday file format changed, so existing data files are rejected\",\"description\":\"JsonHolidaySource now expects a region-keyed file ({\\\"PT\\\": {\\\"2026\\\": [...]}}). Files in the previous flat format ({\\\"2026\\\": [...]}) have no region keys, so every region lookup raises UnknownRegion. Deployments that still use the old file fail on their first business-day calculation.\",\"suggestion\":\"Migrate the existing holiday files to the new shape before deploying, or accept the legacy flat format as a fallback for a single region.\",\"confidence\":0.6},{\"file\":\"scheduling/sla.py\",\"line\":63,\"end_line\":69,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"overdue() now returns OverdueTicket objects instead of (ticket, due) tuples\",\"description\":\"The return type changed from list[tuple[Ticket, date]] to list[OverdueTicket]. Callers that unpack pairs, index with [0] or [1], or compare against tuples will break at runtime.\",\"suggestion\":\"Keep the tuple return for overdue(), and add a separate method for the richer OverdueTicket result.\",\"confidence\":0.55},{\"file\":\"scheduling/sla.py\",\"line\":34,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Ticket gained a required region field, breaking existing constructors\",\"description\":\"The new region field has no default, so every existing Ticket(id, opened_at, priority) call raises TypeError. Tickets without a region also cannot be placed in any calendar.\",\"suggestion\":\"Give region a default that maps to a known region, or migrate all call sites in the same change.\",\"confidence\":0.45},{\"file\":\"scheduling/sla.py\",\"line\":66,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"One ticket with an unconfigured region aborts the whole overdue report\",\"description\":\"due_date calls CalendarSet.for_region, which raises KeyError for an unknown region. Because overdue() iterates every ticket without catching it, one bad ticket in a batch makes the whole report fail, and overdue_by_region fails with it.\",\"suggestion\":\"Catch the KeyError per ticket and report those tickets separately, or validate regions before building the report.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.001176725,
+   "input_tokens": 7605,
+   "latency_ms": null,
+   "output_tokens": 3134
+  }
+ }
+}

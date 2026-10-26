@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f27e44f5cdae80c6397e5a8c89c917db",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2193,
+  "user_sha256": "f91eb3627b3944f3f4b1b427143f1a5cf729036270d39714b0ffc95a652941f6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: create_ticket still passes the old keyword `attempts=1` after `request` renamed it to `max_attempts`, so it falls into `**fields` as a stray body field and retries revert to the default of 3, risking duplicate non-idempotent POST /tickets. Different line attribution (40 vs 39-40) and wording do not change the shared root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: create_ticket still passes the old keyword `attempts=1` after `request` renamed it to `max_attempts`, so it falls into `**fields` as a stray body field and retries revert to the default of 3, risking duplicate non-idempotent POST /tickets. Different line attribution (40 vs 39-40) and wording do not change the shared root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJbhVBhyY7Bwj7Kf9nM",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016874000000000001,
+   "input_tokens": 845,
+   "latency_ms": 1500,
+   "output_tokens": 144
+  }
+ }
+}

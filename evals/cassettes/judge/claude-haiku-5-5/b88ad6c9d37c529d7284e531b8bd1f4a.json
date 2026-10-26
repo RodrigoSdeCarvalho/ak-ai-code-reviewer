@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:31+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b88ad6c9d37c529d7284e531b8bd1f4a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2345,
+  "user_sha256": "581a61dbdaf032362e6fe6551a37f20087f27f4c8335a21fdcfdb105eb6e1125"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same flaw: move_card at line 103 authorizes only against the target board (to_board_id) and never checks the editor rights on the card's current board, letting an attacker pull a card from another board into their own. Description B adds detail (sequential ids, other handlers checking the card's board) but the root cause and place are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same flaw: move_card at line 103 authorizes only against the target board (to_board_id) and never checks the editor rights on the card's current board, letting an attacker pull a card from another board into their own. Description B adds detail (sequential ids, other handlers checking the card's board) but the root cause and place are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJeER677drxNbUtu3WE",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015124000000000002,
+   "input_tokens": 765,
+   "latency_ms": 1562,
+   "output_tokens": 125
+  }
+ }
+}

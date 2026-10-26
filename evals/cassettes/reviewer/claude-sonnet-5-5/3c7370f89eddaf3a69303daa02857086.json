@@ -1,0 +1,78 @@
+{
+ "recorded_at": "2026-10-26T18:14:24+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "3c7370f89eddaf3a69303daa02857086",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 17887,
+  "user_sha256": "d2733e4831686f934b3c7f7a64cf87d5e8943f27036f3992a878ed1a8974fac2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "The loop condition uses len(self._keys_by_country), which is the number of distinct countries. It is not the number of cached entries. The cache therefore only evicts once there are more than max_entries countries, so the number of entries is effectively unbounded. With a few countries and many postal codes, memory grows without limit. The max_entries guarantee is broken. The LRU behaviour that the old lru_cache(maxsize=4096) provided is lost.",
+     "file": "billing/ratecache.py",
+     "line": 107,
+     "severity": "high",
+     "suggestion": "Use `while len(self._entries) > self._max_entries:`.",
+     "title": "Eviction bound counts countries, not entries"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "clear() empties both maps, so those stay consistent. Separately, _store overwrites an expired entry for the same key without removing it from the key set. That is harmless because the set is idempotent. The real problem is in invalidate_country: if _keys_by_country holds a key that eviction or clear removed from _entries, `del self._entries[key]` raises KeyError. Eviction does keep the two maps in sync, so this is only a latent risk.",
+     "file": "billing/ratecache.py",
+     "line": 94,
+     "severity": "medium",
+     "suggestion": "Use self._entries.pop(key, None) in invalidate_country.",
+     "title": "clear() leaves hit, miss and eviction counters unchanged and is inconsistent with the index"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.35,
+     "description": "source.replace_country is called first, then calculator.rates_changed. Between the two calls, a concurrent lookup can miss the cache, load from the new table, or hit a stale entry. A stale entry is served until invalidation. Because replace_country is not under the cache lock, a loader running inside the cache lock can read the table while it is being swapped. The docstring claim that a lookup never stores a superseded rate does not hold for this path.",
+     "file": "billing/admin.py",
+     "line": 37,
+     "severity": "medium",
+     "suggestion": "Perform the replace and the invalidation under the same lock, for example by having the cache expose an operation that runs the replace while holding its lock.",
+     "title": "Table replacement and cache invalidation are not atomic"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.4,
+     "description": "The loader runs inside `with self._lock`, so every lookup on any key (including cache hits) blocks while one slow rate-source call runs. If the source is a remote or database-backed one, this serialises all tax calculations and stats calls.",
+     "file": "billing/ratecache.py",
+     "line": 82,
+     "severity": "medium",
+     "suggestion": "Load outside the lock and use a per-country version or generation counter to discard results superseded by an invalidation.",
+     "title": "Loader runs while holding the global cache lock"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/ratecache.py\",\"line\":107,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Eviction bound counts countries, not entries\",\"description\":\"The loop condition uses len(self._keys_by_country), which is the number of distinct countries. It is not the number of cached entries. The cache therefore only evicts once there are more than max_entries countries, so the number of entries is effectively unbounded. With a few countries and many postal codes, memory grows without limit. The max_entries guarantee is broken. The LRU behaviour that the old lru_cache(maxsize=4096) provided is lost.\",\"suggestion\":\"Use `while len(self._entries) > self._max_entries:`.\",\"confidence\":0.95},{\"file\":\"billing/ratecache.py\",\"line\":94,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"clear() leaves hit, miss and eviction counters unchanged and is inconsistent with the index\",\"description\":\"clear() empties both maps, so those stay consistent. Separately, _store overwrites an expired entry for the same key without removing it from the key set. That is harmless because the set is idempotent. The real problem is in invalidate_country: if _keys_by_country holds a key that eviction or clear removed from _entries, `del self._entries[key]` raises KeyError. Eviction does keep the two maps in sync, so this is only a latent risk.\",\"suggestion\":\"Use self._entries.pop(key, None) in invalidate_country.\",\"confidence\":0.2},{\"file\":\"billing/admin.py\",\"line\":37,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Table replacement and cache invalidation are not atomic\",\"description\":\"source.replace_country is called first, then calculator.rates_changed. Between the two calls, a concurrent lookup can miss the cache, load from the new table, or hit a stale entry. A stale entry is served until invalidation. Because replace_country is not under the cache lock, a loader running inside the cache lock can read the table while it is being swapped. The docstring claim that a lookup never stores a superseded rate does not hold for this path.\",\"suggestion\":\"Perform the replace and the invalidation under the same lock, for example by having the cache expose an operation that runs the replace while holding its lock.\",\"confidence\":0.35},{\"file\":\"billing/ratecache.py\",\"line\":82,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Loader runs while holding the global cache lock\",\"description\":\"The loader runs inside `with self._lock`, so every lookup on any key (including cache hits) blocks while one slow rate-source call runs. If the source is a remote or database-backed one, this serialises all tax calculations and stats calls.\",\"suggestion\":\"Load outside the lock and use a per-country version or generation counter to discard results superseded by an invalidation.\",\"confidence\":0.4}]}",
+  "request_id": "req_011CgRJYmnZj7CZfLkJJqgDb",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.024711,
+   "input_tokens": 7491,
+   "latency_ms": 8827,
+   "output_tokens": 921
+  }
+ }
+}

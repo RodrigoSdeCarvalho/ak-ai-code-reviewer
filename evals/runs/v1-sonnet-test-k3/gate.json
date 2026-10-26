@@ -1,0 +1,90 @@
+{
+ "decision": "PASS",
+ "exit_code": 0,
+ "run_id": "v1-sonnet-test-k3",
+ "baseline_run_id": null,
+ "acceptance": "PENDING",
+ "regression_basis": "none",
+ "comparability_problems": [],
+ "notes": [],
+ "checks": [
+  {
+   "name": "completeness.run_complete",
+   "status": "PASS",
+   "blocking": true,
+   "value": {
+    "incomplete": false,
+    "missing": 0
+   },
+   "bar": "no missing samples",
+   "provenance": "design §7",
+   "detail": null
+  },
+  {
+   "name": "completeness.hard_errors",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0,
+   "bar": "<= 0",
+   "provenance": "design §7",
+   "detail": null
+  },
+  {
+   "name": "completeness.soft_errors",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "<= 0.02",
+   "provenance": "design §7",
+   "detail": "0 truncated/refused of 129"
+  },
+  {
+   "name": "completeness.judge",
+   "status": "PASS",
+   "blocking": true,
+   "value": {
+    "missing": 0,
+    "error_rate": 0.0
+   },
+   "bar": "0 missing, error rate <= 0.02",
+   "provenance": "design §7",
+   "detail": null
+  },
+  {
+   "name": "absolute.recall_high",
+   "status": "PASS",
+   "blocking": false,
+   "value": 0.9012,
+   "bar": ">= 0.75",
+   "provenance": "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.901 [0.793, 1.000]; bar = CI lower bound rounded down",
+   "detail": "advisory: acceptance PENDING"
+  },
+  {
+   "name": "absolute.clean_false_alarm_rate",
+   "status": "PASS",
+   "blocking": false,
+   "value": 0.0,
+   "bar": "<= 0.15",
+   "provenance": "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.000 over 8 clean cases x 3; bar allows one case alarming in every sample (0.125), not two",
+   "detail": "advisory: acceptance PENDING"
+  },
+  {
+   "name": "absolute.precision",
+   "status": "PASS",
+   "blocking": false,
+   "value": 0.561,
+   "bar": ">= 0.45",
+   "provenance": "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.561 [0.468, 0.668]; bar = CI lower bound rounded down",
+   "detail": "advisory: acceptance PENDING"
+  },
+  {
+   "name": "regression",
+   "status": "SKIPPED",
+   "blocking": true,
+   "value": null,
+   "bar": null,
+   "provenance": null,
+   "detail": "no baseline promoted yet"
+  }
+ ]
+}

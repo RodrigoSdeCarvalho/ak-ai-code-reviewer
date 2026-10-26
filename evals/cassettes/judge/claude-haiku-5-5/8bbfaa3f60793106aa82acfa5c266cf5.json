@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:03+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8bbfaa3f60793106aa82acfa5c266cf5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1924,
+  "user_sha256": "f622f0f5893dcb419eb478cace41b5dc7babe8cc514f12661630af717606b247"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment's claims about edit_card and view_card and cards_in_column are not visible in the shown code, so they cannot be confirmed. The stale position after detach is a design/consistency observation without a concrete wrong behaviour shown, making it at most a nit."
+  },
+  "raw_text": "{\"reason\": \"The comment's claims about edit_card and view_card and cards_in_column are not visible in the shown code, so they cannot be confirmed. The stale position after detach is a design/consistency observation without a concrete wrong behaviour shown, making it at most a nit.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKuQRtW5victJHdzjNh",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00012426,
+   "input_tokens": 681,
+   "latency_ms": 1500,
+   "output_tokens": 99
+  }
+ }
+}

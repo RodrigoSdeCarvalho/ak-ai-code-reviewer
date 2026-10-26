@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "33d337c28ce3e9d0314be0a4d8537357",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10910,
+  "user_sha256": "682f1b1659bf51c9aa4ee19655be679ce462ff6df72b02068d970dd94830a1bc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.8,
+     "description": "`duration` used to be `minutes * 60`, i.e. seconds. It is now `run_time`, the millisecond value returned by `parse_duration`. The controller sleeps for `run.seconds`, which is presumably derived from `zone.duration`. Every zone, including those using the legacy `minutes` key, would then water for 1000x its configured time (a 10-minute zone runs about 167 hours). That risks flooding and wasted water.",
+     "file": "irrigation/config.py",
+     "line": 88,
+     "severity": "high",
+     "suggestion": "Convert to seconds when building the zone, e.g. `duration=run_time / 1000`. Alternatively, store `duration_ms` and convert at the consumer.",
+     "title": "ZoneConfig.duration changes unit from seconds to milliseconds"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"irrigation/config.py\",\"line\":88,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"ZoneConfig.duration changes unit from seconds to milliseconds\",\"description\":\"`duration` used to be `minutes * 60`, i.e. seconds. It is now `run_time`, the millisecond value returned by `parse_duration`. The controller sleeps for `run.seconds`, which is presumably derived from `zone.duration`. Every zone, including those using the legacy `minutes` key, would then water for 1000x its configured time (a 10-minute zone runs about 167 hours). That risks flooding and wasted water.\",\"suggestion\":\"Convert to seconds when building the zone, e.g. `duration=run_time / 1000`. Alternatively, store `duration_ms` and convert at the consumer.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0083785,
+   "input_tokens": 4724,
+   "latency_ms": null,
+   "output_tokens": 679
+  }
+ }
+}

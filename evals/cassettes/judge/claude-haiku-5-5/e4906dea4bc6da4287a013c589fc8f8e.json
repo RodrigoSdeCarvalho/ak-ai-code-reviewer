@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e4906dea4bc6da4287a013c589fc8f8e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1866,
+  "user_sha256": "8a4d720e28c8e515d6051cc86578e365026f241fb06a2d29bdc75ce1405ca338"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: line 42 counts `lines` by iterating it, which exhausts the one-shot file iterator, so the later main loop reads nothing and the output is empty. They differ only in extra detail (progress display, reported stats), not in root cause or location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: line 42 counts `lines` by iterating it, which exhausts the one-shot file iterator, so the later main loop reads nothing and the output is empty. They differ only in extra detail (progress display, reported stats), not in root cause or location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJf8K1kNsuUqHtmrr2b",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013684,
+   "input_tokens": 711,
+   "latency_ms": 1328,
+   "output_tokens": 107
+  }
+ }
+}

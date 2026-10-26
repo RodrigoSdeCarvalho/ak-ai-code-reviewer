@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "65ca465932a9c56711000432c91757d5",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3855,
+  "user_sha256": "32887b3404624ed688496e7a7896b08859f59c8e1a7f8d83e1d43ce5eb49ac1d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.7,
+     "description": "active_skus is a list, so each `scan.sku not in active_skus` is a linear scan over every active SKU. For each scan this costs O(number of active SKUs), so reconcile() is O(scans x active SKUs) overall. With a catalog of tens of thousands of SKUs and a similarly large stocktake, this becomes tens of billions of comparisons and reconcile() will take minutes or hours where it previously ran in linear time. The new unknown_locations pass is what introduces this cost.",
+     "end_line": null,
+     "file": "inventory/stocktake.py",
+     "line": 54,
+     "severity": "medium",
+     "suggestion": "Build a set once: active_skus = {item.sku for item in catalog.active()}. Membership tests then become O(1) and the function is linear in the number of scans and SKUs.",
+     "title": "Membership test against a list makes unknown-SKU detection quadratic"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/stocktake.py\",\"line\":54,\"end_line\":null,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Membership test against a list makes unknown-SKU detection quadratic\",\"description\":\"active_skus is a list, so each `scan.sku not in active_skus` is a linear scan over every active SKU. For each scan this costs O(number of active SKUs), so reconcile() is O(scans x active SKUs) overall. With a catalog of tens of thousands of SKUs and a similarly large stocktake, this becomes tens of billions of comparisons and reconcile() will take minutes or hours where it previously ran in linear time. The new unknown_locations pass is what introduces this cost.\",\"suggestion\":\"Build a set once: active_skus = {item.sku for item in catalog.active()}. Membership tests then become O(1) and the function is linear in the number of scans and SKUs.\",\"confidence\":0.7}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000281675,
+   "input_tokens": 1709,
+   "latency_ms": null,
+   "output_tokens": 733
+  }
+ }
+}

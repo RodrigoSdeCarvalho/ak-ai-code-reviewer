@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:31+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7528221e8592a63f984ca26727712f80",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2144,
+  "user_sha256": "ded3a84a48b5bcfdea6747dbb234f23ab0f36cb31a8ee0f76e3b39e4abf754a6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 96: comp_tickets uses only require_login rather than a staff/admin role check, letting any logged-in attendee issue free tickets. The details (up to 50 per request, revenue loss, comparison to other privileged routes) are different framings of the same authorization flaw.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 96: comp_tickets uses only require_login rather than a staff/admin role check, letting any logged-in attendee issue free tickets. The details (up to 50 per request, revenue loss, comparison to other privileged routes) are different framings of the same authorization flaw.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJeENsDcjqFfY8j9eyw",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015384000000000003,
+   "input_tokens": 826,
+   "latency_ms": 1469,
+   "output_tokens": 118
+  }
+ }
+}

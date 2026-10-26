@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:13:56+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "d73f3b101a818ecfbba1a20ee1f74106",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8463,
+  "user_sha256": "192eedb2d694f43fa7ade5ca58a0688e8081225ff2a8d87b274351179b790bbe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "Bundle.locale is set to chain[0], the normalised tag. If a caller passes e.g. 'pt_br' or 'pt-br', the bundle locale becomes 'pt-BR', so this works. But Bundle can also be constructed directly, and more importantly missing_report groups by the normalised locale. The comparison itself is consistent for build_bundle output; the real problem is that the Bundle.locale changes from the requested value to a normalised one, which breaks callers that look up bundles by the original string. The original code kept locale=locale.",
+     "file": "i18n/bundles.py",
+     "line": 23,
+     "severity": "medium",
+     "suggestion": "Keep the caller's locale in Bundle.locale, or document and update callers to use the normalised tag.",
+     "title": "fallback_keys compares source against raw requested locale, not the normalised one"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.5,
+     "description": "The previous code fetched all keys with a single catalog.get_many(locale, wanted). The new code calls catalog.exists and then catalog.get for every key in every locale of the chain, which is up to 2 calls per key per locale. If the catalog is backed by a DB or file, this is an N+1 pattern and doubles the lookups on hits.",
+     "file": "i18n/bundles.py",
+     "line": 43,
+     "severity": "medium",
+     "suggestion": "Use catalog.get_many per locale on the remaining unresolved keys, walking down the chain.",
+     "title": "Per-key catalog lookups replace the batched get_many call"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"i18n/bundles.py\",\"line\":23,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"fallback_keys compares source against raw requested locale, not the normalised one\",\"description\":\"Bundle.locale is set to chain[0], the normalised tag. If a caller passes e.g. 'pt_br' or 'pt-br', the bundle locale becomes 'pt-BR', so this works. But Bundle can also be constructed directly, and more importantly missing_report groups by the normalised locale. The comparison itself is consistent for build_bundle output; the real problem is that the Bundle.locale changes from the requested value to a normalised one, which breaks callers that look up bundles by the original string. The original code kept locale=locale.\",\"suggestion\":\"Keep the caller's locale in Bundle.locale, or document and update callers to use the normalised tag.\",\"confidence\":0.2},{\"file\":\"i18n/bundles.py\",\"line\":43,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Per-key catalog lookups replace the batched get_many call\",\"description\":\"The previous code fetched all keys with a single catalog.get_many(locale, wanted). The new code calls catalog.exists and then catalog.get for every key in every locale of the chain, which is up to 2 calls per key per locale. If the catalog is backed by a DB or file, this is an N+1 pattern and doubles the lookups on hits.\",\"suggestion\":\"Use catalog.get_many per locale on the remaining unresolved keys, walking down the chain.\",\"confidence\":0.5}]}",
+  "request_id": "req_011CgRJX25z9UyiXukFgm6mw",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.012883,
+   "input_tokens": 3617,
+   "latency_ms": 4985,
+   "output_tokens": 513
+  }
+ }
+}

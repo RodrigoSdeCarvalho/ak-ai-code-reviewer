@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:30+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f7ed956d4bcbdef7b62061e3e08368e3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2260,
+  "user_sha256": "56d879445c7fef9e4d81a428e798551035d062dafd67070506aa53385e89292f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a missing await on the retry call at line 51 (coroutine returned instead of Event). Description B identifies that line 42 consumes the one-shot iterator `lines` before the main loop, causing zero events to be processed at line 42. These are different defects at different lines with different failure modes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a missing await on the retry call at line 51 (coroutine returned instead of Event). Description B identifies that line 42 consumes the one-shot iterator `lines` before the main loop, causing zero events to be processed at line 42. These are different defects at different lines with different failure modes.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKryf4SLk8NEj8qZ2SC",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015524,
+   "input_tokens": 858,
+   "latency_ms": 1389,
+   "output_tokens": 113
+  }
+ }
+}

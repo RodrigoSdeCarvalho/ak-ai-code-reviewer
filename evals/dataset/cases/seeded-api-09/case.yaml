@@ -27,6 +27,10 @@ bugs:
     stored it is now sent again, creating duplicate tickets for the customer, and every create request
     carries a stray `attempts` field.
   must_find: true
+  alt_locations:
+  - file: helpdesk/client.py
+    line_start: 36
+    line_end: 36
 notes: >
   PR purpose: add exponential backoff between retries in the helpdesk client, rename the retry option
   to `max_attempts` to match the new semantics, and let callers set a ticket priority on creation.

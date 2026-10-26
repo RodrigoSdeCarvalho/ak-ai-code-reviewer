@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0293a1972ae0d5d1fe5eb0252098d8e2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1819,
+  "user_sha256": "c9851ada1deae6ec92f447ad9a1d32e852ddc987d00400ee4a6e92f25a9b240f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: deliver() became a coroutine but flush calls it without await at line 45, so the always-truthy coroutine object marks every digest as delivered, lines are dropped from the queue, failures are never reported, and nothing is sent.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: deliver() became a coroutine but flush calls it without await at line 45, so the always-truthy coroutine object marks every digest as delivered, lines are dropped from the queue, failures are never reported, and nothing is sent.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJb2nGfAyGcr5DtQLkQ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00012524,
+   "input_tokens": 620,
+   "latency_ms": 2655,
+   "output_tokens": 102
+  }
+ }
+}

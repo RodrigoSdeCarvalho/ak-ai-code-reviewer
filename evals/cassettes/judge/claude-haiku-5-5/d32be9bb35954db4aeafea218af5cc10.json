@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:27+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d32be9bb35954db4aeafea218af5cc10",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1800,
+  "user_sha256": "ef5775d5d7724c61749ff2280e77e09b3284139790ccd61090448cc68a3536f1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause at line 49: invite codes are generated with non-cryptographic random.choices (Mersenne Twister), making them predictable so attackers can guess codes and join workspaces. Description B adds detail about recovering generator state and proposes using secrets, but the defect is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause at line 49: invite codes are generated with non-cryptographic random.choices (Mersenne Twister), making them predictable so attackers can guess codes and join workspaces. Description B adds detail about recovering generator state and proposes using secrets, but the defect is the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdwkjcXcEDLH4fXuio",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013844,
+   "input_tokens": 677,
+   "latency_ms": 1890,
+   "output_tokens": 117
+  }
+ }
+}

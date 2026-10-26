@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "98571fff894dc9e41afb03202b0f28a7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2247,
+  "user_sha256": "a66d1dd406c0e9b225e7b1e193ce8f102bce3a877b98b8aabebaacd7761906f6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the `sum(1 for _ in lines)` consumes a one-shot iterator so the main loop sees no lines, producing an empty output. Description B says the retry branch at line 51 returns an un-awaited coroutine instead of an Event. These are different defects at different lines with different causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the `sum(1 for _ in lines)` consumes a one-shot iterator so the main loop sees no lines, producing an empty output. Description B says the retry branch at line 51 returns an un-awaited coroutine instead of an Event. These are different defects at different lines with different causes.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJfNTotRbjd9QXt2ndo",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015384000000000003,
+   "input_tokens": 851,
+   "latency_ms": 1235,
+   "output_tokens": 113
+  }
+ }
+}

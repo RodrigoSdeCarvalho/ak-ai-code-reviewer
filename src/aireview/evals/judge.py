@@ -19,13 +19,14 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict, ValidationError
 
 from aireview.diffs import normalize_path
-from aireview.evals.matching import MAX_JUDGE_TOL, finding_span, location_candidates
+from aireview.evals.matching import MAX_JUDGE_TOL, finding_span, location_candidates, nearest_location
 from aireview.evals.schema import Bug, Case, Judgment, Verdict
 from aireview.llm.base import LLMClient, LLMRequest, LLMResponse
 from aireview.models import Finding, Usage
 from aireview.settings import DEFAULT_JUDGE_MODEL
 
-JUDGE_PROMPT_VERSION = "same-defect-v1"
+# v2 (2026-10-26): a labelled bug may list alternative locations; same_defect_v1.md is kept for reference.
+JUDGE_PROMPT_VERSION = "same-defect-v2"
 TRIAGE_PROMPT_VERSION = "fp-triage-v1"
 PROMPT_DIR = Path(__file__).parent / "judge_prompts"
 CONTEXT_LINES = 10
@@ -126,7 +127,22 @@ def code_context(case_dir: Path, spans: Sequence[tuple[str, int, int]], radius: 
 
 
 def describe_bug(bug: Bug) -> str:
-    return f"File: {bug.file}, lines {bug.line_start}-{bug.line_end}\n{bug.description.strip()}"
+    """The reference text: labelled location, any alternative locations, then the description."""
+    head = f"File: {bug.file}, lines {bug.line_start}-{bug.line_end}"
+    if bug.alt_locations:
+        alts = "; ".join(f"{loc.file}, lines {loc.line_start}-{loc.line_end}" for loc in bug.alt_locations)
+        head += f"\nAlso reportable at: {alts}"
+    return f"{head}\n{bug.description.strip()}"
+
+
+def bug_spans(bug: Bug, finding: Finding) -> list[tuple[str, int, int]]:
+    """Code spans to show for a (finding, bug) pair: the labelled location and, when it differs, the bug
+    location nearest to the finding, so a finding at an alternative location is judged next to its code."""
+    spans = [(bug.file, bug.line_start, bug.line_end)]
+    near = nearest_location(finding, bug)
+    if near != bug.primary:
+        spans.append((near.file, near.line_start, near.line_end))
+    return spans
 
 
 def describe_finding(finding: Finding) -> str:
@@ -159,6 +175,8 @@ class Judge:
     repeats across chunks gets one verdict and is paid for once.
     """
 
+    prompt_version = JUDGE_PROMPT_VERSION
+
     def __init__(self, client: LLMClient, model: str = DEFAULT_JUDGE_MODEL) -> None:
         self.client = client
         self.model = model
@@ -183,9 +201,7 @@ class Judge:
         swapped = swap_order(item.case.id, item.bug.id, item.finding)
         start, end = finding_span(item.finding)
         code = code_context(
-            item.case_dir,
-            [(item.bug.file, item.bug.line_start, item.bug.line_end), (item.finding.file, start, end)],
-            CONTEXT_LINES,
+            item.case_dir, [*bug_spans(item.bug, item.finding), (item.finding.file, start, end)], CONTEXT_LINES
         )
         first, second = describe_bug(item.bug), describe_finding(item.finding)
         if swapped:

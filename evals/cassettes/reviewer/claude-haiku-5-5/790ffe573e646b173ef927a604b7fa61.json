@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "790ffe573e646b173ef927a604b7fa61",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11903,
+  "user_sha256": "cfc2f3501d8fe7c0a41da90034a1eab84024c8f13527a5cb546e1a98063edbbb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "`total = sum(1 for _ in lines)` exhausts `lines` before the main loop runs. The CLI passes an open file object, which is a one-shot iterator, so the later `for line in lines:` loop sees no lines. The run reports read=0 and writes no events, and the destination file is silently left empty. This affects every run, not only edge cases.",
+     "end_line": 42,
+     "file": "pipeline/runner.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Materialise the input once (for example `lines = list(lines)`) before counting, or obtain the total from a separate pass over the file, or drop the total and report progress without it.",
+     "title": "Counting lines consumes the input iterator, so nothing is enriched or written"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "`enrich` is now async, but the retry branch returns `enrich(event, geo)` without `await`. `enrich_one` therefore returns a coroutine object rather than an Event. When that object reaches `sink`, `to_json` fails on it, or it is written as garbage, and Python emits a 'coroutine was never awaited' warning. Any lookup that times out once crashes or corrupts output on the retry path.",
+     "end_line": 51,
+     "file": "pipeline/runner.py",
+     "line": 51,
+     "severity": "high",
+     "suggestion": "Change the line to `return await enrich(event, geo)`.",
+     "title": "Retry returns an un-awaited coroutine instead of an Event"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"pipeline/runner.py\", \"line\": 42, \"end_line\": 42, \"severity\": \"critical\", \"category\": \"logic\", \"title\": \"Counting lines consumes the input iterator, so nothing is enriched or written\", \"description\": \"`total = sum(1 for _ in lines)` exhausts `lines` before the main loop runs. The CLI passes an open file object, which is a one-shot iterator, so the later `for line in lines:` loop sees no lines. The run reports read=0 and writes no events, and the destination file is silently left empty. This affects every run, not only edge cases.\", \"suggestion\": \"Materialise the input once (for example `lines = list(lines)`) before counting, or obtain the total from a separate pass over the file, or drop the total and report progress without it.\", \"confidence\": 0.95}, {\"file\": \"pipeline/runner.py\", \"line\": 51, \"end_line\": 51, \"severity\": \"high\", \"category\": \"logic\", \"title\": \"Retry returns an un-awaited coroutine instead of an Event\", \"description\": \"`enrich` is now async, but the retry branch returns `enrich(event, geo)` without `await`. `enrich_one` therefore returns a coroutine object rather than an Event. When that object reaches `sink`, `to_json` fails on it, or it is written as garbage, and Python emits a 'coroutine was never awaited' warning. Any lookup that times out once crashes or corrupts output on the retry path.\", \"suggestion\": \"Change the line to `return await enrich(event, geo)`.\", \"confidence\": 0.95}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000533625,
+   "input_tokens": 5098,
+   "latency_ms": null,
+   "output_tokens": 1063
+  }
+ }
+}

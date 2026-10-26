@@ -1,22 +1,22 @@
 # Absolute bars and fixed limits for `aireview eval gate` (design §7).
-# Every bar names its provenance. PLACEHOLDER bars must be replaced with values measured on the first
-# promoted baseline (provenance MEASURED + date) and accepted in policy.yaml before they can block.
+# Every bar names its provenance. Bars are set from the first promoted baseline (MEASURED + date) and only
+# block once accepted in policy.yaml.
 bars:
   recall_high:
     op: ">="
-    value: 0.5
+    value: 0.75
     mode: strict
-    provenance: "PLACEHOLDER — set from first baseline"
+    provenance: "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.901 [0.793, 1.000]; bar = CI lower bound rounded down"
   clean_false_alarm_rate:
     op: "<="
-    value: 0.4
+    value: 0.15
     mode: strict
-    provenance: "PLACEHOLDER — set from first baseline"
+    provenance: "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.000 over 8 clean cases x 3; bar allows one case alarming in every sample (0.125), not two"
   precision:
     op: ">="
-    value: 0.3
+    value: 0.45
     mode: strict
-    provenance: "PLACEHOLDER — set from first baseline"
+    provenance: "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.561 [0.468, 0.668]; bar = CI lower bound rounded down"
 
 completeness:
   max_hard_errors: 0          # api_error + schema_error rows left after retries

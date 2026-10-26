@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "a9ac9feaaf71db8a1fda8b42a5bf3853",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8952,
+  "user_sha256": "964205202c9ebec9d94e06612df248947e0dc2f23f4cb53dadeb9f15508a95e0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.6,
+     "description": "Inside the entries loop, store.project(entry.project_id) is invoked for every entry, although the same project repeats many times. If the store hits the database, this causes one query per entry on a large period.",
+     "file": "timesheets/report.py",
+     "line": 67,
+     "severity": "medium",
+     "suggestion": "Only fetch the project when entry.project_id is not already in the projects dict, or batch-load projects after the loop like employees.",
+     "title": "store.project() called once per entry (N+1 lookups)"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"timesheets/report.py\",\"line\":67,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"store.project() called once per entry (N+1 lookups)\",\"description\":\"Inside the entries loop, store.project(entry.project_id) is invoked for every entry, although the same project repeats many times. If the store hits the database, this causes one query per entry on a large period.\",\"suggestion\":\"Only fetch the project when entry.project_id is not already in the projects dict, or batch-load projects after the loop like employees.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0050625,
+   "input_tokens": 3893,
+   "latency_ms": null,
+   "output_tokens": 182
+  }
+ }
+}

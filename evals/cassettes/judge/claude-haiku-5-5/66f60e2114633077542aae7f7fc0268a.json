@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "66f60e2114633077542aae7f7fc0268a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3768,
+  "user_sha256": "0f1d626537ca3f7b4f4be43a3fe1c91082a32447f6ef69cc40efb3ed6b8b9cb0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies that import_csv iterates the generator twice, so the upsert loop never runs and nothing is written (0 created/updated). Description B identifies that missing-column validation became lazy because parse_rows is a generator, which only affects when the ValueError is raised. Different failures: A is a data-loss/double-iteration bug, B is a timing concern about exception placement that the description itself admits still propagates correctly.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies that import_csv iterates the generator twice, so the upsert loop never runs and nothing is written (0 created/updated). Description B identifies that missing-column validation became lazy because parse_rows is a generator, which only affects when the ValueError is raised. Different failures: A is a data-loss/double-iteration bug, B is a timing concern about exception placement that the description itself admits still propagates correctly.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKiUA4asY63mmdvQzmS",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00023334,
+   "input_tokens": 1444,
+   "latency_ms": 1500,
+   "output_tokens": 152
+  }
+ }
+}

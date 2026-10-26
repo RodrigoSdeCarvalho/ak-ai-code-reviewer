@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:13:51+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "ad471c5a4edca911dc07fe7a35573deb",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 19116,
+  "user_sha256": "75996b75a344646ffad84627b4af46308bca5d11a42ecfe2df622e8a40c6a91b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "mark_invalid writes the invalid record into the file for impression.served_at.date(), and for_day builds its invalid set only from that day's file. This works only if the impression passed to refund() carries the original served_at. Correctness depends on the caller preserving that timestamp. If the impression was re-created with a different timestamp, the marker lands in the wrong file and the refund is silently ignored, so the campaign stays overcharged.",
+     "file": "adserve/ledger.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Validate that the impression was actually appended (or look up its original served_at by id) before writing the marker. Alternatively, store invalid markers in a day-independent file.",
+     "title": "Invalid markers are written to the file of the served day, but the refund day may differ"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.6,
+     "description": "can_bid calls self.spend, which calls log.for_day. That opens and JSON-parses the entire day file for the campaign. eligible() does this for every campaign on every bid request, so each request costs O(campaigns x file size), and the cost grows through the day as the file grows. The removed in-memory counters made this O(1).",
+     "file": "adserve/pacing.py",
+     "line": 72,
+     "severity": "medium",
+     "suggestion": "Keep cached per-campaign hourly spend in memory, rebuilt from the log on startup and updated in record/refund.",
+     "title": "Every bid check re-reads and parses the whole day's log file"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"adserve/ledger.py\",\"line\":58,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Invalid markers are written to the file of the served day, but the refund day may differ\",\"description\":\"mark_invalid writes the invalid record into the file for impression.served_at.date(), and for_day builds its invalid set only from that day's file. This works only if the impression passed to refund() carries the original served_at. Correctness depends on the caller preserving that timestamp. If the impression was re-created with a different timestamp, the marker lands in the wrong file and the refund is silently ignored, so the campaign stays overcharged.\",\"suggestion\":\"Validate that the impression was actually appended (or look up its original served_at by id) before writing the marker. Alternatively, store invalid markers in a day-independent file.\",\"confidence\":0.2},{\"file\":\"adserve/pacing.py\",\"line\":72,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Every bid check re-reads and parses the whole day's log file\",\"description\":\"can_bid calls self.spend, which calls log.for_day. That opens and JSON-parses the entire day file for the campaign. eligible() does this for every campaign on every bid request, so each request costs O(campaigns x file size), and the cost grows through the day as the file grows. The removed in-memory counters made this O(1).\",\"suggestion\":\"Keep cached per-campaign hourly spend in memory, rebuilt from the log on startup and updated in record/refund.\",\"confidence\":0.6}]}",
+  "request_id": "req_011CgRJWiiDCmYQmmeCcSTp5",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.021433,
+   "input_tokens": 7992,
+   "latency_ms": 4030,
+   "output_tokens": 493
+  }
+ }
+}

@@ -24,6 +24,10 @@ bugs:
     after `retry_delay`; it waits a full interval (a failed nightly job waits a whole day), so the new
     retry and backoff behaviour never takes effect.
   must_find: true
+  alt_locations:
+  - file: scheduler/runner.py
+    line_start: 65
+    line_end: 65
 notes: >
   PR purpose: retry failed jobs sooner with exponential backoff (per-job `retry_delay`, doubled per consecutive
   failure, capped at the interval), disable a job after `max_failures` consecutive failures, and add `Scheduler.enable`

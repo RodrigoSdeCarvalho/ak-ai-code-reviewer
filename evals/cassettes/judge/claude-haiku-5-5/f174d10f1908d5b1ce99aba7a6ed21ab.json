@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f174d10f1908d5b1ce99aba7a6ed21ab",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2096,
+  "user_sha256": "3b69abe1d6236ee859930bac909047043c4caa8f18519299667eadc9f56273e6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the except clause retries all GatewayErrors, including permanent ones like CardDeclined, wasting attempts. Description B says that after retries are exhausted the method breaks and implicitly returns None, swallowing the error, which causes an AttributeError downstream. These are different failures: one is over-broad retry classification, the other is the missing raise/return after exhaustion.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the except clause retries all GatewayErrors, including permanent ones like CardDeclined, wasting attempts. Description B says that after retries are exhausted the method breaks and implicitly returns None, swallowing the error, which causes an AttributeError downstream. These are different failures: one is over-broad retry classification, the other is the missing raise/return after exhaustion.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKogdYkMMj8nGsv9Aiv",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015834,
+   "input_tokens": 759,
+   "latency_ms": 2077,
+   "output_tokens": 139
+  }
+ }
+}

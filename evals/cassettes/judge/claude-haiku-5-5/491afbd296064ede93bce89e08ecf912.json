@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:44+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "491afbd296064ede93bce89e08ecf912",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2401,
+  "user_sha256": "6eff39e8328926497dd766eb17f0022041d3724563887b669cd97ef6ec53f769"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the ETA conversion fails and req.reject(requeue=False) is called, the missing return lets execution fall through with eta None, so the task runs immediately despite already being rejected. Description B adds a note about the result backend, but the core root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the ETA conversion fails and req.reject(requeue=False) is called, the missing return lets execution fall through with eta None, so the task runs immediately despite already being rejected. Description B adds a note about the result backend, but the core root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJamGs5S9ZFZazYguEU",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015464000000000002,
+   "input_tokens": 869,
+   "latency_ms": 1546,
+   "output_tokens": 111
+  }
+ }
+}

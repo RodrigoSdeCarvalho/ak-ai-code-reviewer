@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:42+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "37041b63e7343f375648a02d9470477d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2310,
+  "user_sha256": "47e61b4a7880b1073cbfa3eb261a97b3e9e096dc68dd48b1938d6f4ee9f2c098"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the mark_as_failure call was removed so invalid-ETA tasks never record FAILURE in the result backend. Description B says the handler fails to return after rejecting, so the task falls through and executes immediately ignoring its ETA, and also notes no failure is stored in the backend. The root causes differ: A is a missing result-backend record, while B's primary defect is a missing return causing immediate execution. B mentions the backend issue only as a secondary consequence, so they do not share the same specific failure.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the mark_as_failure call was removed so invalid-ETA tasks never record FAILURE in the result backend. Description B says the handler fails to return after rejecting, so the task falls through and executes immediately ignoring its ETA, and also notes no failure is stored in the backend. The root causes differ: A is a missing result-backend record, while B's primary defect is a missing return causing immediate execution. B mentions the backend issue only as a secondary consequence, so they do not share the same specific failure.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJaaUETGCGfg9FYBcfr",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00018604000000000003,
+   "input_tokens": 838,
+   "latency_ms": 2500,
+   "output_tokens": 180
+  }
+ }
+}

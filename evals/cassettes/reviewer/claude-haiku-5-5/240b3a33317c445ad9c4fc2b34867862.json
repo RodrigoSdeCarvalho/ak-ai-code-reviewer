@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "240b3a33317c445ad9c4fc2b34867862",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14062,
+  "user_sha256": "6fa1e0dcc3476b047d0183aca76ff5a8c014de3fb985e0051a98a0edfee8b6a0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "accept() only rejects revoked links and links that have used up max_uses. It never checks expires_at or is_active(now), so an expired invite link still adds new members to the workspace with the link's role. The now argument is passed in but never used for the validity check.",
+     "end_line": 99,
+     "file": "workspace/invites.py",
+     "line": 98,
+     "severity": "high",
+     "suggestion": "Reject the link when not link.is_active(now), or when now >= link.expires_at, before calling directory.add.",
+     "title": "accept() does not check link expiry"
+    },
+    {
+     "category": "security",
+     "confidence": 0.7,
+     "description": "_new_code() uses random.choices, which is the Mersenne Twister PRNG and is predictable once enough output is observed. Invite codes are bearer tokens that grant workspace membership, so an attacker who can infer the generator state can guess valid codes and join workspaces.",
+     "end_line": 49,
+     "file": "workspace/invites.py",
+     "line": 49,
+     "severity": "high",
+     "suggestion": "Generate codes with secrets.choice (or secrets.token_urlsafe) so that they come from a cryptographically secure source.",
+     "title": "Invite codes generated with non-cryptographic random"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"workspace/invites.py\",\"line\":98,\"end_line\":99,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"accept() does not check link expiry\",\"description\":\"accept() only rejects revoked links and links that have used up max_uses. It never checks expires_at or is_active(now), so an expired invite link still adds new members to the workspace with the link's role. The now argument is passed in but never used for the validity check.\",\"suggestion\":\"Reject the link when not link.is_active(now), or when now >= link.expires_at, before calling directory.add.\",\"confidence\":0.9},{\"file\":\"workspace/invites.py\",\"line\":49,\"end_line\":49,\"severity\":\"high\",\"category\":\"security\",\"title\":\"Invite codes generated with non-cryptographic random\",\"description\":\"_new_code() uses random.choices, which is the Mersenne Twister PRNG and is predictable once enough output is observed. Invite codes are bearer tokens that grant workspace membership, so an attacker who can infer the generator state can guess valid codes and join workspaces.\",\"suggestion\":\"Generate codes with secrets.choice (or secrets.token_urlsafe) so that they come from a cryptographically secure source.\",\"confidence\":0.7}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0006150750000000001,
+   "input_tokens": 5862,
+   "latency_ms": null,
+   "output_tokens": 1236
+  }
+ }
+}

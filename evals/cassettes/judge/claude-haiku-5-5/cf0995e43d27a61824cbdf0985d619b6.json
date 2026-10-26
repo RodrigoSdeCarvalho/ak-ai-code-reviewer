@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:28+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "cf0995e43d27a61824cbdf0985d619b6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2180,
+  "user_sha256": "794940bbe74bd91480f83be76c17fc5e915c392ec03bc3a52bc753fa02240be9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the retry branch at line 51 omits `await`, so the sink receives an un-awaited coroutine after a timeout. Description B says line 42 exhausts the one-shot iterator `lines` during counting, so the main loop reads nothing. These are different failures at different lines with different causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the retry branch at line 51 omits `await`, so the sink receives an un-awaited coroutine after a timeout. Description B says line 42 exhausts the one-shot iterator `lines` during counting, so the main loop reads nothing. These are different failures at different lines with different causes.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKrnPQbarso4dfWe1rU",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015284,
+   "input_tokens": 834,
+   "latency_ms": 1469,
+   "output_tokens": 113
+  }
+ }
+}

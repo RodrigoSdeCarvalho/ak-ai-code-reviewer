@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:29+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d9beea0fce78958c552eb43747fc0b33",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2122,
+  "user_sha256": "f4371f504c2cccae98555748876252fb11e9c1e31989d2ba0b9ded125cfa9846"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 96: comp_tickets is guarded only by require_login rather than a staff/admin role check, letting any signed-in attendee issue up to 50 free tickets per request. Their consequences (free inventory, emptied events) and proposed fix (role check) match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 96: comp_tickets is guarded only by require_login rather than a staff/admin role check, letting any signed-in attendee issue up to 50 free tickets per request. Their consequences (free inventory, emptied events) and proposed fix (role check) match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJe6SNjyNzxegqcMSr5",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015124000000000002,
+   "input_tokens": 820,
+   "latency_ms": 1844,
+   "output_tokens": 114
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:14+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "77ce37a91eb1fe5b1dab5e8394a917bd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2345,
+  "user_sha256": "581a61dbdaf032362e6fe6551a37f20087f27f4c8335a21fdcfdb105eb6e1125"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same flaw: move_card at line 103 authorizes only the destination board (to_board_id) and never checks the source board (card.board_id), letting an editor of their own board pull a card from another board by id. Description B adds details (sequential ids, other handlers checking the card's board) but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same flaw: move_card at line 103 authorizes only the destination board (to_board_id) and never checks the source board (card.board_id), letting an editor of their own board pull a card from another board by id. Description B adds details (sequential ids, other handlers checking the card's board) but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKqkewTzK9a5nuFtg7e",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015044,
+   "input_tokens": 765,
+   "latency_ms": 1344,
+   "output_tokens": 122
+  }
+ }
+}

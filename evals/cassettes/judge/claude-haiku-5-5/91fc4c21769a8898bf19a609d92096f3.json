@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:36+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "91fc4c21769a8898bf19a609d92096f3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2345,
+  "user_sha256": "e3f436e04a9480ae37b7ac6bcdbddd72855de622b68469185d29df2ab009234c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 88: parse_duration returns milliseconds, which is stored in ZoneConfig.duration (expected in seconds), so zones water 1000 times longer than configured. Description A adds detail about plan_day and the 6.9-day example, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 88: parse_duration returns milliseconds, which is stored in ZoneConfig.duration (expected in seconds), so zones water 1000 times longer than configured. Description A adds detail about plan_day and the 6.9-day example, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiaZXT7pzTbRugJK62",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016413999999999998,
+   "input_tokens": 927,
+   "latency_ms": 1234,
+   "output_tokens": 117
+  }
+ }
+}

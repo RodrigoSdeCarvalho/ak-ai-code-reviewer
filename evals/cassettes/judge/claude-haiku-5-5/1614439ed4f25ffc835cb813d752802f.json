@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1614439ed4f25ffc835cb813d752802f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2326,
+  "user_sha256": "432757bf623e102f2c8fbbe841f134e46f532c94d7cb06d587564691390e3505"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that create_ticket still passes the old `attempts=1` kwarg after the rename to `max_attempts`, so it falls into `**fields` as a stray JSON body field and the default of 3 attempts applies, enabling retries that can create duplicate tickets. Same root cause at the same line, with different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that create_ticket still passes the old `attempts=1` kwarg after the rename to `max_attempts`, so it falls into `**fields` as a stray JSON body field and the default of 3 attempts applies, enabling retries that can create duplicate tickets. Same root cause at the same line, with different wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJbgWeZtStziStuWGMa",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016334000000000002,
+   "input_tokens": 891,
+   "latency_ms": 1375,
+   "output_tokens": 124
+  }
+ }
+}

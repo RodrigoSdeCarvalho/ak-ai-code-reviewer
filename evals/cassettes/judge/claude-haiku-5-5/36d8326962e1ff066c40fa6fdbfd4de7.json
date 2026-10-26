@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "36d8326962e1ff066c40fa6fdbfd4de7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1835,
+  "user_sha256": "b2a6ac516850675559eb258078d814dc96b18e2beecdf0024ad65b082929e6cd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The comment's headline claim (silently drops overdue tickets) is contradicted by its own body, which says the KeyError is raised rather than silent. The remaining point, that one bad region aborts the whole overdue() run, depends on for_region's behaviour which is not shown, and is a design preference rather than a demonstrated defect in the changed code, so it is at most a nit; the headline claim itself is wrong."
+  },
+  "raw_text": "{\"reason\": \"The comment's headline claim (silently drops overdue tickets) is contradicted by its own body, which says the KeyError is raised rather than silent. The remaining point, that one bad region aborts the whole overdue() run, depends on for_region's behaviour which is not shown, and is a design preference rather than a demonstrated defect in the changed code, so it is at most a nit; the headline claim itself is wrong.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRKtqF7FDMr75nVUwkuB",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00015376000000000002,
+   "input_tokens": 726,
+   "latency_ms": 1639,
+   "output_tokens": 149
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:36+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0b07a73d122ee197e6efd09292281a19",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1856,
+  "user_sha256": "f2464116659aa5fbeec4c5f07692e86ad838b2a42a726066a986d4ad8fa562d6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 48: for_account compares record.get(\"user_id\") while records() no longer yields user_id after the schema upgrade to account_id, so for_account never matches and account_timeline returns empty. Different wording, same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 48: for_account compares record.get(\\\"user_id\\\") while records() no longer yields user_id after the schema upgrade to account_id, so for_account never matches and account_timeline returns empty. Different wording, same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKo2VMSKbUEBdh9DF37",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00012804,
+   "input_tokens": 626,
+   "latency_ms": 1219,
+   "output_tokens": 105
+  }
+ }
+}

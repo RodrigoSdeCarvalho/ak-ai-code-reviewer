@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:28+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6b0864b08427fa83fef254c79585bb9e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3129,
+  "user_sha256": "b7ecba432a663e909206893abd53f1f2daff03d957be4a19fd95337b7434055a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both describe purge() reading self._heap[0][0] without checking whether the heap top is a stale entry left by re-adding or discarding an item, causing live items to expire or be evicted prematurely. Description A adds extra detail about pop() dropping items on any heap entry and maxlen eviction, but the root cause and location are the same as Description B's.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both describe purge() reading self._heap[0][0] without checking whether the heap top is a stale entry left by re-adding or discarding an item, causing live items to expire or be evicted prematurely. Description A adds extra detail about pop() dropping items on any heap entry and maxlen eviction, but the root cause and location are the same as Description B's.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKhuHP565SAcBQcqCtp",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00033805,
+   "input_tokens": 1118,
+   "latency_ms": 2859,
+   "output_tokens": 129
+  }
+ }
+}

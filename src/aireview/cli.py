@@ -84,10 +84,22 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument("--mlflow", action="store_true", help="Also log the finished run to MLflow.")
     p.add_argument("--yes", action="store_true", help="Do not ask before spending (record mode).")
 
-    p = ev.add_parser("score", help="Re-score an existing run dir (no reviewer calls).")
+    p = ev.add_parser(
+        "score", help="Re-score an existing run dir: judge (and triage) only what is missing, no reviewer calls."
+    )
     p.add_argument("run_dir")
     p.add_argument("--tolerance", type=int, default=None)
-    p.add_argument("--mode", choices=["replay", "record"], default="replay", help="Judge mode for missing judgments.")
+    p.add_argument(
+        "--mode",
+        choices=["replay", "record"],
+        default="replay",
+        help="Judge mode for missing judgments and triage rows. Record needs ANTHROPIC_API_KEY and reuses "
+        "existing judge cassettes (judge cassettes are always resumed, never overwritten).",
+    )
+    p.add_argument("--triage-fp", action="store_true", help="Also triage strict false positives (advisory).")
+    p.add_argument("--budget-usd", type=float, default=2.0, help="Record mode: cap on judge + triage spend.")
+    p.add_argument("--yes", action="store_true", help="Do not ask before spending (record mode).")
+    p.add_argument("--mlflow", action="store_true", help="Also log the re-scored run to MLflow.")
 
     p = ev.add_parser("report", help="Render report.md for a run.")
     p.add_argument("run_dir")

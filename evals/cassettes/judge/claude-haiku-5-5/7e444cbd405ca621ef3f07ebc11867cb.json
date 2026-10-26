@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:17+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7e444cbd405ca621ef3f07ebc11867cb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2429,
+  "user_sha256": "93e4a543cec156e3d8a4db537b916d78a95c618ce70dcab315fcf999458fd2ab"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: the `host.endswith(domain)` check lacks a dot boundary, so lookalike domains like bluekettle.example or evilshop.example pass and receive credentialed CORS headers, enabling cross-origin reads and redemption with the member's session cookie. Different example domains and wording do not change the shared root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: the `host.endswith(domain)` check lacks a dot boundary, so lookalike domains like bluekettle.example or evilshop.example pass and receive credentialed CORS headers, enabling cross-origin reads and redemption with the member's session cookie. Different example domains and wording do not change the shared root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKr2GJGfAbD4MgKaRi8",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017084,
+   "input_tokens": 899,
+   "latency_ms": 1358,
+   "output_tokens": 136
+  }
+ }
+}

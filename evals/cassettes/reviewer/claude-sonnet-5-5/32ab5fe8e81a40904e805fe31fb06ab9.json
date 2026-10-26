@@ -1,0 +1,59 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "32ab5fe8e81a40904e805fe31fb06ab9",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7496,
+  "user_sha256": "23006b4d62590b99ef0d6da5e2f1e62d945b9574b6af6b6255707b6ff3152f11"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "parse_rows now returns a generator. Line 35 iterates it fully to build `rejected`, so the later `for row in rows` loop at line 39 sees an exhausted iterator and imports nothing. Every import reports created=0 and updated=0 while silently dropping all valid contacts. The previous list return value made the double iteration safe.",
+     "end_line": 39,
+     "file": "contacts/importer.py",
+     "line": 35,
+     "severity": "critical",
+     "suggestion": "Materialise the rows with `rows = list(parse_rows(lines))`. This also keeps the check-before-write guarantee. For true streaming of large files, validate in a first pass over a re-openable source and write in a second pass.",
+     "title": "Generator `rows` is consumed by the rejected-list comprehension, so no valid rows are imported"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.3,
+     "description": "parse_rows is now a generator function, so the header validation no longer runs when it is called. It runs on the first `next()`. The ValueError for missing columns still propagates out of import_csv in practice, but any caller that calls parse_rows outside a try block and iterates later will see the error at an unexpected place. Callers also cannot rely on validation having happened once parse_rows returns.",
+     "file": "contacts/parsing.py",
+     "line": 38,
+     "severity": "medium",
+     "suggestion": "Split into an eager function that validates the header and returns an inner generator, or document and handle the lazy behaviour.",
+     "title": "Missing-columns ValueError now raised lazily at first iteration"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"contacts/importer.py\",\"line\":35,\"end_line\":39,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Generator `rows` is consumed by the rejected-list comprehension, so no valid rows are imported\",\"description\":\"parse_rows now returns a generator. Line 35 iterates it fully to build `rejected`, so the later `for row in rows` loop at line 39 sees an exhausted iterator and imports nothing. Every import reports created=0 and updated=0 while silently dropping all valid contacts. The previous list return value made the double iteration safe.\",\"suggestion\":\"Materialise the rows with `rows = list(parse_rows(lines))`. This also keeps the check-before-write guarantee. For true streaming of large files, validate in a first pass over a re-openable source and write in a second pass.\",\"confidence\":0.97},{\"file\":\"contacts/parsing.py\",\"line\":38,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Missing-columns ValueError now raised lazily at first iteration\",\"description\":\"parse_rows is now a generator function, so the header validation no longer runs when it is called. It runs on the first `next()`. The ValueError for missing columns still propagates out of import_csv in practice, but any caller that calls parse_rows outside a try block and iterates later will see the error at an unexpected place. Callers also cannot rely on validation having happened once parse_rows returns.\",\"suggestion\":\"Split into an eager function that validates the header and returns an inner generator, or document and handle the lazy behaviour.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0059635,
+   "input_tokens": 3114,
+   "latency_ms": null,
+   "output_tokens": 518
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:19+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4f195deb934a3c543a15e7c48d75402d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3118,
+  "user_sha256": "c09e4a1a5e31b17635a090fb84f468f3d3e1573173cf2b2762dc747b37f40c04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the connection is never released on the InventoryError path (lines 93-96), leaking pool connections. Description B concerns duplicate SKUs in a reservation possibly over-reserving if conn.get returns stale data. These are different failures at different concerns: a resource leak versus a read-your-writes/over-reservation issue.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the connection is never released on the InventoryError path (lines 93-96), leaking pool connections. Description B concerns duplicate SKUs in a reservation possibly over-reserving if conn.get returns stale data. These are different failures at different concerns: a resource leak versus a read-your-writes/over-reservation issue.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKr83KHJnjdudyurpW8",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018554000000000002,
+   "input_tokens": 1106,
+   "latency_ms": 1344,
+   "output_tokens": 124
+  }
+ }
+}

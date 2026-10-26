@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "0fad7a3d7f8423469bde02d850743355",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11044,
+  "user_sha256": "bd50f1cb486638702c3f05623e0e3c852b162022548fa88603586e8b84034328"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "deliver is now a coroutine function, so `deliver(channel, message)` returns an unawaited coroutine object, which is always truthy. The branch therefore always runs `del lines[:sent]`, and the recipient is removed from the queue even though channel.send was never called. Every pending digest line is silently discarded on each flush, and the 'undelivered ones stay queued' guarantee is broken. The coroutine is also never awaited, which produces a RuntimeWarning.",
+     "end_line": 48,
+     "file": "notify/digest.py",
+     "line": 45,
+     "severity": "critical",
+     "suggestion": "Await the call: `if await deliver(channel, message):`. Also make sure callers of flush await it, since it is now async.",
+     "title": "Missing await on deliver makes every digest look delivered and drops queued lines"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"notify/digest.py\",\"line\":45,\"end_line\":48,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Missing await on deliver makes every digest look delivered and drops queued lines\",\"description\":\"deliver is now a coroutine function, so `deliver(channel, message)` returns an unawaited coroutine object, which is always truthy. The branch therefore always runs `del lines[:sent]`, and the recipient is removed from the queue even though channel.send was never called. Every pending digest line is silently discarded on each flush, and the 'undelivered ones stay queued' guarantee is broken. The coroutine is also never awaited, which produces a RuntimeWarning.\",\"suggestion\":\"Await the call: `if await deliver(channel, message):`. Also make sure callers of flush await it, since it is now async.\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000551575,
+   "input_tokens": 4432,
+   "latency_ms": null,
+   "output_tokens": 1268
+  }
+ }
+}

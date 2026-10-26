@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c4e63b3b36942a045a8da1cb30bbde7b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2921,
+  "user_sha256": "5b869f2a4c4b32493d6c303ed4348d9d82ad7228b42316f5e95db73f97aef45a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A claims duplicate SKUs can bypass the stock check due to read semantics, which is a speculative concurrency/caching issue. Description B identifies a resource leak: the connection is not released when InventoryError is re-raised, so the pool gets exhausted. Different root causes and different failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A claims duplicate SKUs can bypass the stock check due to read semantics, which is a speculative concurrency/caching issue. Description B identifies a resource leak: the connection is not released when InventoryError is re-raised, so the pool gets exhausted. Different root causes and different failures.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJekLAvMFCt8AvNqfnj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017364000000000002,
+   "input_tokens": 1049,
+   "latency_ms": 1703,
+   "output_tokens": 113
+  }
+ }
+}

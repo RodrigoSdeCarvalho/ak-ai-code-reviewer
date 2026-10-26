@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "fe081777aeff3d19052f52610b465f80",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11201,
+  "user_sha256": "b5f582d357831c141c71abcdbc505b368e26f5818b5ae36bf373f6acd06f292b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.15,
+     "description": "`panel_from_query` derives the sort direction from a leading \"-\" and passes the remainder as the sort key. A bare \"-\" gives an empty key, which `orders_between` rejects with a confusing message (\"cannot sort by ''\"). A client sending `sort=placed` (no prefix) gets ascending order, while the default with no `sort` parameter is descending. This is documented, but easy to misuse.",
+     "file": "reports/dashboard.py",
+     "line": 66,
+     "severity": "low",
+     "suggestion": "Validate the stripped sort key and raise a clearer error for an empty one.",
+     "title": "Sort prefix handling accepts a bare \"-\" and silently changes the sort direction"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"reports/dashboard.py\",\"line\":66,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Sort prefix handling accepts a bare \\\"-\\\" and silently changes the sort direction\",\"description\":\"`panel_from_query` derives the sort direction from a leading \\\"-\\\" and passes the remainder as the sort key. A bare \\\"-\\\" gives an empty key, which `orders_between` rejects with a confusing message (\\\"cannot sort by ''\\\"). A client sending `sort=placed` (no prefix) gets ascending order, while the default with no `sort` parameter is descending. This is documented, but easy to misuse.\",\"suggestion\":\"Validate the stripped sort key and raise a clearer error for an empty one.\",\"confidence\":0.15}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0063795,
+   "input_tokens": 4855,
+   "latency_ms": null,
+   "output_tokens": 253
+  }
+ }
+}

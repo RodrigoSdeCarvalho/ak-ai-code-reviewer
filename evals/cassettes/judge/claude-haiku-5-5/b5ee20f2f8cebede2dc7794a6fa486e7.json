@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:09+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b5ee20f2f8cebede2dc7794a6fa486e7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2246,
+  "user_sha256": "9ad1e294a5f28d14fe67cc519d3833137700b669b6db3b79917e110f17f578f9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that on a denied request the refilled tokens are stored but bucket.updated_at is not advanced, so the next call re-adds the same elapsed interval and over-grants tokens, letting the effective rate exceed the limit. Same root cause at the same lines; B additionally mentions the wrong retry_after hint, which does not change the match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that on a denied request the refilled tokens are stored but bucket.updated_at is not advanced, so the next call re-adds the same elapsed interval and over-grants tokens, letting the effective rate exceed the limit. Same root cause at the same lines; B additionally mentions the wrong retry_after hint, which does not change the match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcbc19HBeQzEFQiMhY",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016494,
+   "input_tokens": 867,
+   "latency_ms": 1610,
+   "output_tokens": 132
+  }
+ }
+}

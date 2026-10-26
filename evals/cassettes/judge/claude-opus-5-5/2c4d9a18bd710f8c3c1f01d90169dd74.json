@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2c4d9a18bd710f8c3c1f01d90169dd74",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2486,
+  "user_sha256": "ecbf669359947da90cb97e5328b34e1f6792a7a47774c08ee795a9c71881c676"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions say that `reschedule` returns False early, when the job is unknown or not pending, without releasing the lock. That leaves every later scheduler call failing with SchedulerBusy.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\":\"Both descriptions say that `reschedule` returns False early, when the job is unknown or not pending, without releasing the lock. That leaves every later scheduler call failing with SchedulerBusy.\",\"verdict\":\"same\"}",
+  "request_id": "req_011CgRLGitEABRZ7MVuzbCwe",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0056148000000000005,
+   "input_tokens": 944,
+   "latency_ms": 1750,
+   "output_tokens": 79
+  }
+ }
+}

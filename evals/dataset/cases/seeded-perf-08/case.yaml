@@ -30,6 +30,10 @@ bugs:
     main serving path. Today's spend should be loaded once per campaign and day and then updated incrementally
     on `record` (and reloaded or adjusted on `refund`).
   must_find: true
+  alt_locations:
+  - file: adserve/pacing.py
+    line_start: 60
+    line_end: 60
 notes: >
   PR purpose: credit back impressions flagged as invalid traffic (an `invalid` record in the impression
   log), add optional hourly spend caps per campaign, make pacing pick up today's spend after a restart

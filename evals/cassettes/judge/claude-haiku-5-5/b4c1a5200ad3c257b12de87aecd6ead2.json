@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b4c1a5200ad3c257b12de87aecd6ead2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2196,
+  "user_sha256": "9dccb91e9ffe802723622eac8b195e8438c880bfd11cd9ae61cfe7442b2ad389"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the else branch at line 145 uses `del conn._message_formatter`, which raises AttributeError when no instance attribute was ever set (e.g. a fresh connection or logging_token=None without a prior token), and both propose assigning None instead. The wording and detail differ, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the else branch at line 145 uses `del conn._message_formatter`, which raises AttributeError when no instance attribute was ever set (e.g. a fresh connection or logging_token=None without a prior token), and both propose assigning None instead. The wording and detail differ, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.832000000000001e-05,
+   "input_tokens": 814,
+   "latency_ms": null,
+   "output_tokens": 126
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:59+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "bee75090c29e88c7731010b65e529bbe",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2785,
+  "user_sha256": "1d7060fd3dec10f93cc97a2b1869904fbc6c15330817395c09bbcfe9a5b78b27"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A describes a write-ordering problem: metadata is replaced before the blob, so a failed blob write leaves inconsistent state. Description B describes a mutable default argument `metadata={}` that is shared across calls and mutated by setdefault, causing wrong content-type recorded for later uploads. Different root causes, even though both sit in put().",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A describes a write-ordering problem: metadata is replaced before the blob, so a failed blob write leaves inconsistent state. Description B describes a mutable default argument `metadata={}` that is shared across calls and mutated by setdefault, causing wrong content-type recorded for later uploads. Different root causes, even though both sit in put().\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKpcFeYmAUcNbfryDi5",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018584,
+   "input_tokens": 1089,
+   "latency_ms": 1828,
+   "output_tokens": 128
+  }
+ }
+}

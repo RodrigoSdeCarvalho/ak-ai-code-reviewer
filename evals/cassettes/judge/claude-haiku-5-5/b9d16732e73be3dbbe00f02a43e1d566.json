@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b9d16732e73be3dbbe00f02a43e1d566",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2779,
+  "user_sha256": "d8364b5761ce220f0f726190b6ff1a7131db7c9d31856be409e56b356e29f609"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that RootModel.__copy__ shallow-copies __dict__ so the private-attribute dict (__dict__['__pydantic_private__']) is shared between original and copy, causing mutations of private attributes to leak across instances. Description A adds a secondary claim about PydanticUndefined placeholders, but the core defect (shared private state) matches Description B at the same lines.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that RootModel.__copy__ shallow-copies __dict__ so the private-attribute dict (__dict__['__pydantic_private__']) is shared between original and copy, causing mutations of private attributes to leak across instances. Description A adds a secondary claim about PydanticUndefined placeholders, but the core defect (shared private state) matches Description B at the same lines.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKn66sGRjxjEADnYLj8",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019494,
+   "input_tokens": 1090,
+   "latency_ms": 1609,
+   "output_tokens": 146
+  }
+ }
+}

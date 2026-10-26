@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "95465de676ca862e2e5b7ba788d34e78",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2276,
+  "user_sha256": "9f140e353be6cd7a127ed33165db85e35bb7a9c68547d61393ea932a5f2350be"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: Flask.run() uses server_name.partition(\":\") on SERVER_NAME, which splits an IPv6 literal like [::1]:port at the first colon, producing host \"[\" and a bogus port string that makes int(sn_port) raise ValueError. Description A adds extra detail about the explicit-port case and bracketed addresses without a port, and Description B adds a note about the previous urlsplit code, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: Flask.run() uses server_name.partition(\\\":\\\") on SERVER_NAME, which splits an IPv6 literal like [::1]:port at the first colon, producing host \\\"[\\\" and a bogus port string that makes int(sn_port) raise ValueError. Description A adds extra detail about the explicit-port case and bracketed addresses without a port, and Description B adds a note about the previous urlsplit code, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKn4xfQ2nNh3LNh16Kn",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019104000000000001,
+   "input_tokens": 901,
+   "latency_ms": 1688,
+   "output_tokens": 176
+  }
+ }
+}

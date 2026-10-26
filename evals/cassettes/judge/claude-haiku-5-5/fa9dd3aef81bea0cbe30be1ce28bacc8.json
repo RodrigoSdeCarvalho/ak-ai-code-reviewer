@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "fa9dd3aef81bea0cbe30be1ce28bacc8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1759,
+  "user_sha256": "906bc655cbd5a4f48ab78ee60fd4d9c6fba679ae4c7c2a4cafdb6ddba5b9802b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause at line 39: total_pages uses floor division (//), dropping the final partial page, which makes has_next false too early so clients stop before reaching remaining items. Differences are only in the example numbers and extra detail about the 0-page case, not in the defect.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause at line 39: total_pages uses floor division (//), dropping the final partial page, which makes has_next false too early so clients stop before reaching remaining items. Differences are only in the example numbers and extra detail about the 0-page case, not in the defect.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 6.777e-05,
+   "input_tokens": 683,
+   "latency_ms": null,
+   "output_tokens": 110
+  }
+ }
+}

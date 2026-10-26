@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "53e678f5a1d44fcfd775cfce11857079",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2393,
+  "user_sha256": "62511cecdbc31c39ff5c2d6e2de1b3c13ad9b69f1dde0737ea957c2a161aca3c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: reserve_order reserves lines sequentially without rollback, so if a later line raises OutOfStock or UnknownSku, earlier reservations leak and permanently reduce available stock. Description B also notes the caller location in orders.py, which is an allowed alternative location; the failure and cause match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: reserve_order reserves lines sequentially without rollback, so if a later line raises OutOfStock or UnknownSku, earlier reservations leak and permanently reduce available stock. Description B also notes the caller location in orders.py, which is an allowed alternative location; the failure and cause match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiiMqMDcWDp7Jj11u3",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016294,
+   "input_tokens": 875,
+   "latency_ms": 1344,
+   "output_tokens": 125
+  }
+ }
+}

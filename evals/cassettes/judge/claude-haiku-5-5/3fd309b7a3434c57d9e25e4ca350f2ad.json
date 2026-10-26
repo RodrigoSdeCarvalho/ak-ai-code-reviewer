@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:59+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3fd309b7a3434c57d9e25e4ca350f2ad",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1759,
+  "user_sha256": "906bc655cbd5a4f48ab78ee60fd4d9c6fba679ae4c7c2a4cafdb6ddba5b9802b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: total_pages uses floor division (total // per_page) on line 39, dropping the partial last page so clients following has_next miss remaining items. The examples differ (25 items/20 per page vs 25 orders/10 per page) but the defect is identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: total_pages uses floor division (total // per_page) on line 39, dropping the partial last page so clients following has_next miss remaining items. The examples differ (25 items/20 per page vs 25 orders/10 per page) but the defect is identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKkF83gZTYeqY68Xnr9",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013624,
+   "input_tokens": 683,
+   "latency_ms": 1264,
+   "output_tokens": 110
+  }
+ }
+}

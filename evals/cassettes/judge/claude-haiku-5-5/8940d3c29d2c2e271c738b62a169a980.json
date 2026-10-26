@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:31+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8940d3c29d2c2e271c738b62a169a980",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2247,
+  "user_sha256": "a66d1dd406c0e9b225e7b1e193ce8f102bce3a877b98b8aabebaacd7761906f6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the lines iterable is consumed by the count on line 42, so the main loop sees nothing and the job reports success with zero events. Description B says the retry on line 51 returns an un-awaited coroutine instead of an Event, so the sink gets a coroutine. These are different failures at different lines with different causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the lines iterable is consumed by the count on line 42, so the main loop sees nothing and the job reports success with zero events. Description B says the retry on line 51 returns an un-awaited coroutine instead of an Event, so the sink gets a coroutine. These are different failures at different lines with different causes.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKrt3UZcx7U62p2X8Bs",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015704000000000003,
+   "input_tokens": 851,
+   "latency_ms": 3889,
+   "output_tokens": 118
+  }
+ }
+}

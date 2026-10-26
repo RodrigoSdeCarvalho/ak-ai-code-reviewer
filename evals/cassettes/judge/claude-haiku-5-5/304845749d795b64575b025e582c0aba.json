@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:28+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "304845749d795b64575b025e582c0aba",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2426,
+  "user_sha256": "efb462e712f4eeb8daa7c97973f494b77aa142c9bcff6198b094696df4312b80"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that add_replace passes the shared module-level evolve function to _add_method_dunders, which mutates its __module__, __qualname__ and __doc__ in place, so every attrs class rewrites the public evolve metadata. Description B adds Python 3.13+ detail and a proposed fix (wrap in a fresh function), which are different wording and level of detail for the same defect.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that add_replace passes the shared module-level evolve function to _add_method_dunders, which mutates its __module__, __qualname__ and __doc__ in place, so every attrs class rewrites the public evolve metadata. Description B adds Python 3.13+ detail and a proposed fix (wrap in a fresh function), which are different wording and level of detail for the same defect.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKhuEAZXG6yaFHDGS1K",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00032565,
+   "input_tokens": 914,
+   "latency_ms": 2000,
+   "output_tokens": 145
+  }
+ }
+}

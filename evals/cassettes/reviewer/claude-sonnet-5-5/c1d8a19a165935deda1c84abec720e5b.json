@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c1d8a19a165935deda1c84abec720e5b",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11201,
+  "user_sha256": "b5f582d357831c141c71abcdbc505b368e26f5818b5ae36bf373f6acd06f292b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.25,
+     "description": "The query's `sort` convention is that a `-` prefix means descending, so an unprefixed value should mean ascending. The code computes `descending = sort.startswith('-')`, which is correct for that convention. The real problem is the default: `query.get('sort', '-placed')` keeps newest-first only when `sort` is absent. An explicit `sort=placed` therefore flips to ascending, which silently differs from the old default and from `orders_panel`'s own default of `descending=True`. Callers that pass `sort=total` or `sort=customer` get ascending results, while `orders_panel(sort='total')` gets descending. The two entry points disagree on the direction for the same column name.",
+     "end_line": 66,
+     "file": "reports/dashboard.py",
+     "line": 64,
+     "severity": "medium",
+     "suggestion": "Document and keep a single convention, or make the direction default consistent between `orders_panel` and `panel_from_query`.",
+     "title": "Sort direction defaults to descending for every column when no prefix is given"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "If `status` is empty, or contains only commas or whitespace (e.g. `status=,`), the parsed list is empty and `or None` turns it into None, so no status filter is applied. A user who explicitly sent an empty filter gets every order instead of a rejection or an empty result. `orders_between` has a deliberate branch for an empty `statuses` list, and it is unreachable from this entry point.",
+     "end_line": 63,
+     "file": "reports/dashboard.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Pass None only when the `status` key is absent; otherwise pass the parsed list, or raise ValueError for a blank value.",
+     "title": "Blank status parameter is treated as no filter"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"reports/dashboard.py\",\"line\":64,\"end_line\":66,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Sort direction defaults to descending for every column when no prefix is given\",\"description\":\"The query's `sort` convention is that a `-` prefix means descending, so an unprefixed value should mean ascending. The code computes `descending = sort.startswith('-')`, which is correct for that convention. The real problem is the default: `query.get('sort', '-placed')` keeps newest-first only when `sort` is absent. An explicit `sort=placed` therefore flips to ascending, which silently differs from the old default and from `orders_panel`'s own default of `descending=True`. Callers that pass `sort=total` or `sort=customer` get ascending results, while `orders_panel(sort='total')` gets descending. The two entry points disagree on the direction for the same column name.\",\"suggestion\":\"Document and keep a single convention, or make the direction default consistent between `orders_panel` and `panel_from_query`.\",\"confidence\":0.25},{\"file\":\"reports/dashboard.py\",\"line\":63,\"end_line\":63,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Blank status parameter is treated as no filter\",\"description\":\"If `status` is empty, or contains only commas or whitespace (e.g. `status=,`), the parsed list is empty and `or None` turns it into None, so no status filter is applied. A user who explicitly sent an empty filter gets every order instead of a rejection or an empty result. `orders_between` has a deliberate branch for an empty `statuses` list, and it is unreachable from this entry point.\",\"suggestion\":\"Pass None only when the `status` key is absent; otherwise pass the parsed list, or raise ValueError for a blank value.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 2595,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.01106375,
+   "input_tokens": 4855,
+   "latency_ms": null,
+   "output_tokens": 593
+  }
+ }
+}

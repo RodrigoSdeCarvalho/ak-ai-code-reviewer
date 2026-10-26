@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "174023e4ca15ee28924f1cbbb7c5d0b9",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 19116,
+  "user_sha256": "75996b75a344646ffad84627b4af46308bca5d11a42ecfe2df622e8a40c6a91b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.7,
+     "description": "can_bid now calls self.spend, which calls JsonlImpressionLog.for_day, which opens the day's JSONL file, json-parses every line, and builds the invalid-id set. eligible() calls can_bid once per campaign, so each bid request reads the same day file once per campaign. With many campaigns and a day's log that grows to hundreds of thousands of lines, this turns each bid into O(campaigns x log size) disk I/O and JSON parsing on the hot serving path, and latency rises as the day progresses. The previous implementation kept per-day spend in memory and updated it on record().",
+     "end_line": 72,
+     "file": "adserve/pacing.py",
+     "line": 72,
+     "severity": "high",
+     "suggestion": "Compute spend for all campaigns in one pass per request or per day, or keep an in-memory per-day aggregate that is updated on record() and refund() and rebuilt from the log on startup.",
+     "title": "Every bid request re-reads and re-parses the full day's impression log for each campaign"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"adserve/pacing.py\",\"line\":72,\"end_line\":72,\"severity\":\"high\",\"category\":\"performance\",\"title\":\"Every bid request re-reads and re-parses the full day's impression log for each campaign\",\"description\":\"can_bid now calls self.spend, which calls JsonlImpressionLog.for_day, which opens the day's JSONL file, json-parses every line, and builds the invalid-id set. eligible() calls can_bid once per campaign, so each bid request reads the same day file once per campaign. With many campaigns and a day's log that grows to hundreds of thousands of lines, this turns each bid into O(campaigns x log size) disk I/O and JSON parsing on the hot serving path, and latency rises as the day progresses. The previous implementation kept per-day spend in memory and updated it on record().\",\"suggestion\":\"Compute spend for all campaigns in one pass per request or per day, or keep an in-memory per-day aggregate that is updated on record() and refund() and rebuilt from the log on startup.\",\"confidence\":0.7}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000917075,
+   "input_tokens": 7992,
+   "latency_ms": null,
+   "output_tokens": 2018
+  }
+ }
+}

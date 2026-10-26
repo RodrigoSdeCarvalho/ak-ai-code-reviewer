@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:26+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "13af13c93a3be0a4ddde54172da47947",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3016,
+  "user_sha256": "480cac4f598bbdc4dc6d46c5c213a716a8b70c0693a3a4f4ed9da6c363ac1efe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 208: the shared Deferred in self._parsers[netloc] is awaited via maybe_deferred_to_future, so only the first waiter receives the RobotParser while later waiters get None, and process_request_2 then skips the robots.txt check, letting disallowed requests through. Description A adds detail about cancellation propagating to the shared Deferred, but the core failure is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 208: the shared Deferred in self._parsers[netloc] is awaited via maybe_deferred_to_future, so only the first waiter receives the RobotParser while later waiters get None, and process_request_2 then skips the robots.txt check, letting disallowed requests through. Description A adds detail about cancellation propagating to the shared Deferred, but the core failure is the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKnCz7UyxViXYHd4o95",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019804000000000002,
+   "input_tokens": 1081,
+   "latency_ms": 2092,
+   "output_tokens": 154
+  }
+ }
+}

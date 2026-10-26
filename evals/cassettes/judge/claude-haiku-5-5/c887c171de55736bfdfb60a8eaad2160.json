@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c887c171de55736bfdfb60a8eaad2160",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2407,
+  "user_sha256": "195b8a0c74a52e6f04e14ff32a2c6f1a3cc6f25048710ec4171665577335a206"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: reserve_order reserves lines sequentially without rolling back earlier reservations when a later line raises OutOfStock or UnknownSku, leaving stock permanently reserved after a rejected order. Description A adds the note about the old check-all-first behavior, but the root cause and failure are identical, at the same lines.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: reserve_order reserves lines sequentially without rolling back earlier reservations when a later line raises OutOfStock or UnknownSku, leaving stock permanently reserved after a rejected order. Description A adds the note about the old check-all-first behavior, but the root cause and failure are identical, at the same lines.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKigsXwUW1fhDb5AsNW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016704000000000003,
+   "input_tokens": 886,
+   "latency_ms": 1530,
+   "output_tokens": 131
+  }
+ }
+}

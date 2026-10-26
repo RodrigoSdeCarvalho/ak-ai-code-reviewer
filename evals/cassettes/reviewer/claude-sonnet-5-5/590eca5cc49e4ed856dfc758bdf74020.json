@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "590eca5cc49e4ed856dfc758bdf74020",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5468,
+  "user_sha256": "5e4639dc0b932da7ace6ed4ab8d7f4fb809ca882728d374c3f9e2fe23d3b0d86"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.97,
+     "description": "reschedule() acquires the lock without try/finally. When the job is unknown or not PENDING, it returns False at line 77 without releasing the lock. The lock is a non-reentrant threading.Lock, so every later scheduler call (add, claim_due, finish, get) blocks until lock_timeout and then raises SchedulerBusy. One reschedule of a running or unknown job disables the whole scheduler. An exception raised between acquire and release would leak the lock in the same way.",
+     "file": "scheduler/jobs.py",
+     "line": 77,
+     "severity": "critical",
+     "suggestion": "Wrap the body in try/finally like the other methods, and release the lock only in the finally block.",
+     "title": "Lock not released on early return in reschedule"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduler/jobs.py\",\"line\":77,\"severity\":\"critical\",\"category\":\"concurrency\",\"title\":\"Lock not released on early return in reschedule\",\"description\":\"reschedule() acquires the lock without try/finally. When the job is unknown or not PENDING, it returns False at line 77 without releasing the lock. The lock is a non-reentrant threading.Lock, so every later scheduler call (add, claim_due, finish, get) blocks until lock_timeout and then raises SchedulerBusy. One reschedule of a running or unknown job disables the whole scheduler. An exception raised between acquire and release would leak the lock in the same way.\",\"suggestion\":\"Wrap the body in try/finally like the other methods, and release the lock only in the finally block.\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0038485,
+   "input_tokens": 2259,
+   "latency_ms": null,
+   "output_tokens": 266
+  }
+ }
+}

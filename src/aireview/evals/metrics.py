@@ -17,6 +17,7 @@ from typing import Any
 
 import numpy as np
 
+from aireview.diffs import normalize_path
 from aireview.evals.matching import MODES, location_candidates, match_sample
 from aireview.evals.schema import Bug, Case, CaseKind, FindingOutcome, Judgment, ReviewRow, SampleOutcome, Verdict
 from aireview.evals.stats import (
@@ -99,8 +100,10 @@ def verdict_index(judgments: Iterable[Judgment]) -> dict[tuple[str, int], Verdic
 
 
 def line_error(finding: Finding, bug: Bug) -> int:
-    """|finding.line - nearest labelled line| (0 inside the labelled range)."""
-    return max(0, bug.line_start - finding.line, finding.line - bug.line_end)
+    """|finding.line - nearest labelled line| (0 inside the range), over the bug's locations in the finding's file."""
+    file = normalize_path(finding.file)
+    ranges = [loc for loc in bug.locations if normalize_path(loc.file) == file] or [bug.primary]
+    return min(max(0, loc.line_start - finding.line, finding.line - loc.line_end) for loc in ranges)
 
 
 def _empty_grade(case: Case, sample: int, mode: str, status: str) -> dict[str, Any]:

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "97bdde94b6637544b5c02ba3690cacb1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2423,
+  "user_sha256": "c95429ed98e90d42dcdf9aa3789f48b4c95e9a9160f97c4c04a3c5c15acfcccb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: in reserve, self._pool.release(conn) sits after the try/except so the connection is not released when InventoryError is re-raised, leaking pooled connections on each rejected reservation until the pool is exhausted. Description A additionally mentions non-Inventory exceptions skipping rollback, but the core root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: in reserve, self._pool.release(conn) sits after the try/except so the connection is not released when InventoryError is re-raised, leaking pooled connections on each rejected reservation until the pool is exhausted. Description A additionally mentions non-Inventory exceptions skipping rollback, but the core root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJeYubEwcHFza2hhSZJ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016424,
+   "input_tokens": 850,
+   "latency_ms": 2015,
+   "output_tokens": 134
+  }
+ }
+}

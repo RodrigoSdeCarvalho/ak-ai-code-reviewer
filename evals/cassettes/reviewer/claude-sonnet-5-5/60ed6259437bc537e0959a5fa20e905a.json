@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:13:46+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "60ed6259437bc537e0959a5fa20e905a",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 13344,
+  "user_sha256": "717f445f727c7a575b89d7154d7d35caf251d4606f48e7b0e28ba97f13ab6d30"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.85,
+     "description": "The old summarize() fetched each distinct sensor's calibration once and cached it in a dict. The new code calls calibrated() for every reading, and calibrated() calls source.load(), so a batch with N readings from a few sensors now runs N SQL queries instead of one per sensor. With large batches this becomes an N+1 query pattern.",
+     "file": "greenhouse/readings.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Cache calibrations per sensor_id within summarize(), for example with a local dict, and pass the cached Calibration into the per-reading logic.",
+     "title": "Calibration loaded from the database once per reading instead of once per sensor"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "The reason always reads '{rejected} readings out of range'. When the zone has too high a rejected share, it also reports the raw rejected count without the total. The message is not wrong, but a zone with mean None and rejected 0 cannot occur, so this is minor. The message does not say that the zone was flagged because the rejected share exceeded the threshold.",
+     "file": "greenhouse/irrigation.py",
+     "line": 35,
+     "severity": "low",
+     "suggestion": "Include the rejected share or total count in the message, e.g. f\"{summary.rejected}/{summary.count + summary.rejected} readings out of range\".",
+     "title": "Misleading 'inspect' reason when the zone was rejected for another cause"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"greenhouse/readings.py\",\"line\":58,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Calibration loaded from the database once per reading instead of once per sensor\",\"description\":\"The old summarize() fetched each distinct sensor's calibration once and cached it in a dict. The new code calls calibrated() for every reading, and calibrated() calls source.load(), so a batch with N readings from a few sensors now runs N SQL queries instead of one per sensor. With large batches this becomes an N+1 query pattern.\",\"suggestion\":\"Cache calibrations per sensor_id within summarize(), for example with a local dict, and pass the cached Calibration into the per-reading logic.\",\"confidence\":0.85},{\"file\":\"greenhouse/irrigation.py\",\"line\":35,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Misleading 'inspect' reason when the zone was rejected for another cause\",\"description\":\"The reason always reads '{rejected} readings out of range'. When the zone has too high a rejected share, it also reports the raw rejected count without the total. The message is not wrong, but a zone with mean None and rejected 0 cannot occur, so this is minor. The message does not say that the zone was flagged because the rejected share exceeded the threshold.\",\"suggestion\":\"Include the rejected share or total count in the message, e.g. f\\\"{summary.rejected}/{summary.count + summary.rejected} readings out of range\\\".\",\"confidence\":0.2}]}",
+  "request_id": "req_011CgRJWH4rbCTFkg18vmpLL",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.016835,
+   "input_tokens": 5733,
+   "latency_ms": 4686,
+   "output_tokens": 485
+  }
+ }
+}

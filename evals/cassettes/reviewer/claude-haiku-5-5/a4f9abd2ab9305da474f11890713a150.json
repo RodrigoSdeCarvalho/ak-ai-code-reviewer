@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "a4f9abd2ab9305da474f11890713a150",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.8,
+     "description": "find() stores the list returned by _rank in the cache and returns that same list object on every cache hit. Before this change each call returned a fresh list. If a caller mutates the result (append, sort, remove), the cached entry changes too, so later callers for the same query and tags get corrupted results until the entry expires or a product is added.",
+     "end_line": 67,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Return a copy on both paths, for example `return list(entry[1])` on the hit path, or store a tuple and convert to a list on return.",
+     "title": "Cached result list is shared and returned by reference"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The constructor accepts max_entries=0. On a cache miss with an empty cache, len(self._cache) >= 0 is true, so next(iter(self._cache)) runs on an empty dict and raises StopIteration. Any call to find() then fails with a confusing error instead of returning results.",
+     "end_line": 66,
+     "file": "catalog/service.py",
+     "line": 66,
+     "severity": "medium",
+     "suggestion": "Guard the eviction with `if self._max_entries <= 0` (skip caching), or validate max_entries >= 1 in __init__.",
+     "title": "max_entries=0 makes find() raise StopIteration"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.4,
+     "description": "Each find() call pops and reinserts the cache entry, and it may also evict and insert. The class has no locking. Two threads calling find() at the same time can interleave these dict operations, causing a KeyError, a lost entry, or an eviction of the wrong entry. Before this change find() was a pure read.",
+     "end_line": 62,
+     "file": "catalog/service.py",
+     "line": 60,
+     "severity": "low",
+     "suggestion": "Guard the cache with a lock, or document that SearchService is not thread-safe.",
+     "title": "find() now mutates shared cache state on reads"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":67,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list is shared and returned by reference\",\"description\":\"find() stores the list returned by _rank in the cache and returns that same list object on every cache hit. Before this change each call returned a fresh list. If a caller mutates the result (append, sort, remove), the cached entry changes too, so later callers for the same query and tags get corrupted results until the entry expires or a product is added.\",\"suggestion\":\"Return a copy on both paths, for example `return list(entry[1])` on the hit path, or store a tuple and convert to a list on return.\",\"confidence\":0.8},{\"file\":\"catalog/service.py\",\"line\":66,\"end_line\":66,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"max_entries=0 makes find() raise StopIteration\",\"description\":\"The constructor accepts max_entries=0. On a cache miss with an empty cache, len(self._cache) >= 0 is true, so next(iter(self._cache)) runs on an empty dict and raises StopIteration. Any call to find() then fails with a confusing error instead of returning results.\",\"suggestion\":\"Guard the eviction with `if self._max_entries <= 0` (skip caching), or validate max_entries >= 1 in __init__.\",\"confidence\":0.6},{\"file\":\"catalog/service.py\",\"line\":60,\"end_line\":62,\"severity\":\"low\",\"category\":\"concurrency\",\"title\":\"find() now mutates shared cache state on reads\",\"description\":\"Each find() call pops and reinserts the cache entry, and it may also evict and insert. The class has no locking. Two threads calling find() at the same time can interleave these dict operations, causing a KeyError, a lost entry, or an eviction of the wrong entry. Before this change find() was a pure read.\",\"suggestion\":\"Guard the cache with a lock, or document that SearchService is not thread-safe.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000427575,
+   "input_tokens": 2172,
+   "latency_ms": null,
+   "output_tokens": 1224
+  }
+ }
+}

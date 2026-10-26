@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:55+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "dad1a7a8fde19f917966e699bb6b6d6c",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2068,
+  "user_sha256": "0f50693e9f11d21bd63d46d5600d53f23ea92dab660096dcda97891c53500b8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "A says the code retries permanent errors such as card declines, because it catches every GatewayError. B says that once retries are exhausted, the code breaks out of the loop and returns None instead of re-raising. These are different root causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"A says the code retries permanent errors such as card declines, because it catches every GatewayError. B says that once retries are exhausted, the code breaks out of the loop and returns None instead of re-raising. These are different root causes.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLGrY7BFyNx6vH1jmbH",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0049828,
+   "input_tokens": 751,
+   "latency_ms": 2140,
+   "output_tokens": 86
+  }
+ }
+}

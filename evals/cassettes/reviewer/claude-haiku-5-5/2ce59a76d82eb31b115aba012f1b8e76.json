@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "2ce59a76d82eb31b115aba012f1b8e76",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8985,
+  "user_sha256": "0e40d466f2f4d76ca94500ee6ef6445e761898c411ea05c9423b289812aabab5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "In the except branch, `_run` sets `job.next_run = now + self._retry_delay(job)`. The `finally` block then unconditionally runs `job.next_run = now + job.interval`, which replaces the retry time on every failure. The retry backoff is therefore dead code: a failing job waits a full `interval` before its next attempt, not `retry_delay` doubling up to `interval`. Failures are retried much later than documented, and the Job docstring is wrong about the behaviour.",
+     "end_line": 76,
+     "file": "scheduler/runner.py",
+     "line": 76,
+     "severity": "high",
+     "suggestion": "Remove the `finally` and set the schedule explicitly in each branch: `job.next_run = now + self._retry_delay(job)` on failure (already present) and `job.next_run = now + job.interval` in the else branch.",
+     "title": "finally clause overwrites the retry schedule, so failed jobs never back off"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "`_retry_delay` computes `job.retry_delay * 2 ** (job.consecutive_failures - 1)` with no bound. Because `max_failures` is configurable, a job can fail many consecutive times before being disabled. Once the multiplier exceeds timedelta's maximum (roughly 2**50 times a one-minute delay), the multiplication raises OverflowError. That exception is raised from the except block in `_run`, so it escapes `tick()` and stops the scheduler's other jobs for that tick.",
+     "end_line": 81,
+     "file": "scheduler/runner.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Cap the exponent before multiplying, for example compare against `job.interval` in integer form or clamp `consecutive_failures - 1` to a small maximum such as 32, then take the min with `job.interval`.",
+     "title": "Backoff exponent can overflow timedelta and raise out of tick()"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduler/runner.py\",\"line\":76,\"end_line\":76,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"finally clause overwrites the retry schedule, so failed jobs never back off\",\"description\":\"In the except branch, `_run` sets `job.next_run = now + self._retry_delay(job)`. The `finally` block then unconditionally runs `job.next_run = now + job.interval`, which replaces the retry time on every failure. The retry backoff is therefore dead code: a failing job waits a full `interval` before its next attempt, not `retry_delay` doubling up to `interval`. Failures are retried much later than documented, and the Job docstring is wrong about the behaviour.\",\"suggestion\":\"Remove the `finally` and set the schedule explicitly in each branch: `job.next_run = now + self._retry_delay(job)` on failure (already present) and `job.next_run = now + job.interval` in the else branch.\",\"confidence\":0.93},{\"file\":\"scheduler/runner.py\",\"line\":81,\"end_line\":81,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Backoff exponent can overflow timedelta and raise out of tick()\",\"description\":\"`_retry_delay` computes `job.retry_delay * 2 ** (job.consecutive_failures - 1)` with no bound. Because `max_failures` is configurable, a job can fail many consecutive times before being disabled. Once the multiplier exceeds timedelta's maximum (roughly 2**50 times a one-minute delay), the multiplication raises OverflowError. That exception is raised from the except block in `_run`, so it escapes `tick()` and stops the scheduler's other jobs for that tick.\",\"suggestion\":\"Cap the exponent before multiplying, for example compare against `job.interval` in integer form or clamp `consecutive_failures - 1` to a small maximum such as 32, then take the min with `job.interval`.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000566375,
+   "input_tokens": 3698,
+   "latency_ms": null,
+   "output_tokens": 1474
+  }
+ }
+}

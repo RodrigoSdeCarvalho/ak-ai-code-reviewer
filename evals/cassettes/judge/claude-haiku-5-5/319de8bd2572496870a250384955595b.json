@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:51+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "319de8bd2572496870a250384955595b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2410,
+  "user_sha256": "22e166a5a4f7a644252fc253d6c6412b477d9511dbe02f10470bab81decbb22d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: _read_all swallows OSError/ValueError/KeyError and returns {} for a corrupt or unreadable session file, so the subsequent save/delete rewrites the file from the empty dict and destroys all other sessions. Description A adds the malformed-record detail, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: _read_all swallows OSError/ValueError/KeyError and returns {} for a corrupt or unreadable session file, so the subsequent save/delete rewrites the file from the empty dict and destroys all other sessions. Description A adds the malformed-record detail, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKp3RTAP3JC1WKZYX1o",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016494,
+   "input_tokens": 880,
+   "latency_ms": 1500,
+   "output_tokens": 128
+  }
+ }
+}

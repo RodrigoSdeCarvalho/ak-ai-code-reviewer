@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:50+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "eb02f4b2b7a99f66439283bd67ca55ff",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2406,
+  "user_sha256": "266c2edd0c4ba4b4398afd83f63445cf09f06c9fb81430d24613ed8e9e122466"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 82: the surname_prefix value is interpolated via f-string into the SQL LIKE clause instead of being bound as a parameter, enabling SQL injection and breaking on quotes, with unescaped LIKE wildcards as a secondary issue. Different wording and examples, same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 82: the surname_prefix value is interpolated via f-string into the SQL LIKE clause instead of being bound as a parameter, enabling SQL injection and breaking on quotes, with unescaped LIKE wildcards as a secondary issue. Different wording and examples, same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjaGCDHjikyr41FyLW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017364,
+   "input_tokens": 967,
+   "latency_ms": 1860,
+   "output_tokens": 128
+  }
+ }
+}

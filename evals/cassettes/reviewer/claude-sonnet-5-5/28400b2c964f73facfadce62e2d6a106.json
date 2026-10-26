@@ -1,0 +1,70 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "28400b2c964f73facfadce62e2d6a106",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8379,
+  "user_sha256": "863f633bdd5f5c008747c347dc1aefdbccb2eda841ea0371f0561f71907364e5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.35,
+     "description": "_round_up is applied to free.start. When rounding moves start past free.end - length, the while loop yields nothing, so a free interval that previously produced a valid slot at free.start is now skipped. first_slot previously returned Interval(free.start, ...) and now may raise NoCommonSlot, or skip to a later slot, whenever the free gap is only slightly longer than length and free.start is not aligned to step. Default step is 1 minute, but sub-minute seconds or microseconds in the start also trigger rounding.",
+     "end_line": 69,
+     "file": "scheduling/planner.py",
+     "line": 66,
+     "severity": "medium",
+     "suggestion": "This is intended behavior if alignment is required, but document it. Otherwise fall back to free.start when the rounded start does not fit, or choose the default step so existing callers are unaffected.",
+     "title": "Rounding free-interval start can push slot start outside the window or free interval"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "Candidate slots are generated `step` apart (default 1 minute), so consecutive candidates overlap heavily. The loop skips candidates until one doesn't overlap the last pick, which works. However, the check is only against picks[-1], and the slots from different free intervals never overlap. The real issue: picks are adjacent back-to-back with no buffer between suggestions, so suggestions are immediately consecutive. Minor.",
+     "end_line": 86,
+     "file": "scheduling/planner.py",
+     "line": 85,
+     "severity": "medium",
+     "suggestion": "Optionally require a gap between picks, or spread suggestions across free intervals.",
+     "title": "Overlap check only compares to last pick, and with step < length makes suggestions dense"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.4,
+     "description": "The remainder is computed relative to the top of the hour, so for a step that does not divide 60 minutes (e.g. 25 or 45 minutes, or >1 hour), alignment resets every hour and is not a consistent multiple. Steps longer than an hour yield remainder = whole offset and round up to the wrong time (moment + step - remainder), not necessarily a multiple of anything meaningful. Subsequent `start += step` also drifts from the hour grid.",
+     "file": "scheduling/planner.py",
+     "line": 40,
+     "severity": "medium",
+     "suggestion": "Validate that step divides one hour evenly, or round relative to a fixed epoch or the window start.",
+     "title": "_round_up modulo uses hour-relative offset, wrong for steps not dividing an hour"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduling/planner.py\",\"line\":66,\"end_line\":69,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Rounding free-interval start can push slot start outside the window or free interval\",\"description\":\"_round_up is applied to free.start. When rounding moves start past free.end - length, the while loop yields nothing, so a free interval that previously produced a valid slot at free.start is now skipped. first_slot previously returned Interval(free.start, ...) and now may raise NoCommonSlot, or skip to a later slot, whenever the free gap is only slightly longer than length and free.start is not aligned to step. Default step is 1 minute, but sub-minute seconds or microseconds in the start also trigger rounding.\",\"suggestion\":\"This is intended behavior if alignment is required, but document it. Otherwise fall back to free.start when the rounded start does not fit, or choose the default step so existing callers are unaffected.\",\"confidence\":0.35},{\"file\":\"scheduling/planner.py\",\"line\":85,\"end_line\":86,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Overlap check only compares to last pick, and with step < length makes suggestions dense\",\"description\":\"Candidate slots are generated `step` apart (default 1 minute), so consecutive candidates overlap heavily. The loop skips candidates until one doesn't overlap the last pick, which works. However, the check is only against picks[-1], and the slots from different free intervals never overlap. The real issue: picks are adjacent back-to-back with no buffer between suggestions, so suggestions are immediately consecutive. Minor.\",\"suggestion\":\"Optionally require a gap between picks, or spread suggestions across free intervals.\",\"confidence\":0.2},{\"file\":\"scheduling/planner.py\",\"line\":40,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"_round_up modulo uses hour-relative offset, wrong for steps not dividing an hour\",\"description\":\"The remainder is computed relative to the top of the hour, so for a step that does not divide 60 minutes (e.g. 25 or 45 minutes, or >1 hour), alignment resets every hour and is not a consistent multiple. Steps longer than an hour yield remainder = whole offset and round up to the wrong time (moment + step - remainder), not necessarily a multiple of anything meaningful. Subsequent `start += step` also drifts from the hour grid.\",\"suggestion\":\"Validate that step divides one hour evenly, or round relative to a fixed epoch or the window start.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0079215,
+   "input_tokens": 3482,
+   "latency_ms": null,
+   "output_tokens": 836
+  }
+ }
+}

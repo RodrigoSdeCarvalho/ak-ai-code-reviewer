@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d3e1c1d7f79358a1c232cc4cf039dfeb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2455,
+  "user_sha256": "d19acecb0862ec2228aac02175e9366130323dd4fb0826fd250481314520297f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that add_replace passes the shared module-level evolve function to _add_method_dunders, which mutates its __module__, __qualname__ and __doc__ in place, so every attrs class overwrites the global attr.evolve metadata and shares one __replace__ object. Same root cause at the same line, with B adding a suggested fix (wrap per class), which does not change the match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that add_replace passes the shared module-level evolve function to _add_method_dunders, which mutates its __module__, __qualname__ and __doc__ in place, so every attrs class overwrites the global attr.evolve metadata and shares one __replace__ object. Same root cause at the same line, with B adding a suggested fix (wrap per class), which does not change the match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.732000000000001e-05,
+   "input_tokens": 909,
+   "latency_ms": null,
+   "output_tokens": 143
+  }
+ }
+}

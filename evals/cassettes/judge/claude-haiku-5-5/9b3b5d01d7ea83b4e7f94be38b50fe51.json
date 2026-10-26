@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:31+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9b3b5d01d7ea83b4e7f94be38b50fe51",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2304,
+  "user_sha256": "7f045cb0f1543860149b66ecdf8f1fd792f16575e8246134f8287c977e719b2a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 145: `del conn._message_formatter` raises AttributeError when no instance attribute was set (fresh connection or repeated falsy reset), since the class-level default means there is nothing to delete. Both note the old assignment of None was safe. Wording and proposed detail differ, but the failure is identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 145: `del conn._message_formatter` raises AttributeError when no instance attribute was set (fresh connection or repeated falsy reset), since the class-level default means there is nothing to delete. Both note the old assignment of None was safe. Wording and proposed detail differ, but the failure is identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiAhL7L5ov3dfNC3j9",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016214,
+   "input_tokens": 852,
+   "latency_ms": 2109,
+   "output_tokens": 128
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "aaae19f47d60ee4c700d114cf3d103d6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2467,
+  "user_sha256": "3649ea074f45e91fb18a976d3fcdd969c743799eeba1c1005e6622855c1b90bf"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says an expired entry popped before the size check can cause an unrelated live entry to be evicted needlessly (a cache-capacity waste issue). Description B says find returns the shared cached list object, so in-place sorting by a caller mutates the cache and corrupts later results' ordering. Different defects: one is eviction efficiency, the other is aliasing/mutation of cached state.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says an expired entry popped before the size check can cause an unrelated live entry to be evicted needlessly (a cache-capacity waste issue). Description B says find returns the shared cached list object, so in-place sorting by a caller mutates the cache and corrupts later results' ordering. Different defects: one is eviction efficiency, the other is aliasing/mutation of cached state.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJaswCyc9n3yHwVLgov",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00017084000000000004,
+   "input_tokens": 881,
+   "latency_ms": 1437,
+   "output_tokens": 141
+  }
+ }
+}

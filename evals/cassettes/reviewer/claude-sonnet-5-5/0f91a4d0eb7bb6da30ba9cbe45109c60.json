@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "0f91a4d0eb7bb6da30ba9cbe45109c60",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3712,
+  "user_sha256": "25f802477a132bbc00276014033fb682c85405d677406634525ab65b3f851803"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "When a match is found and len(tokens) < width, len(tokens) - width is negative, so min() returns a negative start. The slice tokens[start:end] then uses negative indexing and returns the wrong words, usually an empty or truncated snippet. Also start > 0 is False, and end < len(tokens) can be True, so the truncation flags are wrong. Likewise, a hit near the start gives hit - width//2 < 0, so the window is anchored on a negative index instead of 0.",
+     "file": "docsearch/snippets.py",
+     "line": 44,
+     "severity": "medium",
+     "suggestion": "Clamp the start: start = max(0, min(hit - width // 2, len(tokens) - width)).",
+     "title": "Window start can be negative when the body is shorter than width"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"docsearch/snippets.py\",\"line\":44,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Window start can be negative when the body is shorter than width\",\"description\":\"When a match is found and len(tokens) < width, len(tokens) - width is negative, so min() returns a negative start. The slice tokens[start:end] then uses negative indexing and returns the wrong words, usually an empty or truncated snippet. Also start > 0 is False, and end < len(tokens) can be True, so the truncation flags are wrong. Likewise, a hit near the start gives hit - width//2 < 0, so the window is anchored on a negative index instead of 0.\",\"suggestion\":\"Clamp the start: start = max(0, min(hit - width // 2, len(tokens) - width)).\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0031715,
+   "input_tokens": 1557,
+   "latency_ms": null,
+   "output_tokens": 271
+  }
+ }
+}

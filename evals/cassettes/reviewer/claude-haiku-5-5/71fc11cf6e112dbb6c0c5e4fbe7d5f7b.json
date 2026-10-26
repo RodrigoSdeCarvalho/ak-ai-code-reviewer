@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "71fc11cf6e112dbb6c0c5e4fbe7d5f7b",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8705,
+  "user_sha256": "87484cd30e933fedf346753c30dcb8403ea85d2deb72fc6a8ac18c49acb7480e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.95,
+     "description": "The change renames the retry keyword in HelpdeskClient.request from `attempts` to `max_attempts`, but create_ticket still passes `attempts=1`. That value no longer controls retries. It falls into **fields and is sent to the vendor as a body field named \"attempts\". Because max_attempts keeps its default of 3, a POST /tickets that fails with a transport error or a 5xx is now retried up to three times. If the first request reached the server, each retry can create a duplicate ticket. Before this change, create_ticket was single-attempt.",
+     "end_line": 40,
+     "file": "helpdesk/tickets.py",
+     "line": 40,
+     "severity": "high",
+     "suggestion": "Change `attempts=1` to `max_attempts=1` in create_ticket, matching add_comment.",
+     "title": "create_ticket still passes the old `attempts` keyword, which is now a JSON body field and no longer disables retries"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"helpdesk/tickets.py\",\"line\":40,\"end_line\":40,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"create_ticket still passes the old `attempts` keyword, which is now a JSON body field and no longer disables retries\",\"description\":\"The change renames the retry keyword in HelpdeskClient.request from `attempts` to `max_attempts`, but create_ticket still passes `attempts=1`. That value no longer controls retries. It falls into **fields and is sent to the vendor as a body field named \\\"attempts\\\". Because max_attempts keeps its default of 3, a POST /tickets that fails with a transport error or a 5xx is now retried up to three times. If the first request reached the server, each retry can create a duplicate ticket. Before this change, create_ticket was single-attempt.\",\"suggestion\":\"Change `attempts=1` to `max_attempts=1` in create_ticket, matching add_comment.\",\"confidence\":0.95}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00038292500000000005,
+   "input_tokens": 3569,
+   "latency_ms": null,
+   "output_tokens": 766
+  }
+ }
+}

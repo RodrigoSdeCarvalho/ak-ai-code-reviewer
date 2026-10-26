@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:14+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d47507577e9072c2d67cf57112e0f288",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2155,
+  "user_sha256": "b1a3b0ffc395ba39145a3fec01e3d8c774d52ac348c0f75e4fd54233a7590730"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 96: comp_tickets uses only require_login rather than a staff/admin role check, letting any logged-in attendee issue complimentary tickets up to 50 per request. Description A adds the repeat-until-sold-out angle and the comparison with other routes, while Description B emphasizes revenue loss; the root cause and location are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 96: comp_tickets uses only require_login rather than a staff/admin role check, letting any logged-in attendee issue complimentary tickets up to 50 per request. Description A adds the repeat-until-sold-out angle and the comparison with other routes, while Description B emphasizes revenue loss; the root cause and location are identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKqkbyHMxSbkX8iJ5RA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016504000000000003,
+   "input_tokens": 826,
+   "latency_ms": 1922,
+   "output_tokens": 139
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "110f63f991d5c0bd1afdece407f24d32",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1885,
+  "user_sha256": "eaf13da8b621b773489cd92f941c66eaafae12e04e41388a6a002ecb7b85e88f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 180: `ctx.request.host.partition(\":\")[0]` splits on the first colon, so an IPv6 host like `[::1]:port` yields `[`, causing session cookies to be stored under the wrong domain and not sent on later requests. Description B additionally mentions loss of the localhost fallback for empty hosts, but its core failure matches Description A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 180: `ctx.request.host.partition(\\\":\\\")[0]` splits on the first colon, so an IPv6 host like `[::1]:port` yields `[`, causing session cookies to be stored under the wrong domain and not sent on later requests. Description B additionally mentions loss of the localhost fallback for empty hosts, but its core failure matches Description A.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKn4xuqG5ayXtrLiLNS",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016024,
+   "input_tokens": 728,
+   "latency_ms": 1687,
+   "output_tokens": 149
+  }
+ }
+}

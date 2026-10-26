@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:32+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e12745313f47273aa04680fa98db640a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2181,
+  "user_sha256": "a7ec1d9e8279b844a49d230d9af7f30a4e18af2501524fe73a20b099d04a2d4a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 713: `only_field.data_key or self.field_name` uses truthiness, so an explicit data_key=\"\" falls back to the field name, disagreeing with the nested schema's key (which honors \"\"). Description A adds consequences (KeyError on dump, rejected/dropped value on load) and the fix, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 713: `only_field.data_key or self.field_name` uses truthiness, so an explicit data_key=\\\"\\\" falls back to the field name, disagreeing with the nested schema's key (which honors \\\"\\\"). Description A adds consequences (KeyError on dump, rejected/dropped value on load) and the fix, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKiHEEcmqVarBwsWNtb",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016584,
+   "input_tokens": 819,
+   "latency_ms": 1469,
+   "output_tokens": 142
+  }
+ }
+}

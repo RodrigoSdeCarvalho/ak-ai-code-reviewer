@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "07cbce2c2b21f0581ebeff1c632040aa",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3425,
+  "user_sha256": "6d96492a3f56e79c303da8d1697583525d6137dd63c0bccc54b9c69450423ce9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says a page past the end returns an empty page that is indistinguishable from a real last page, causing the import to be marked complete prematurely (missed episodes). Description B says the quadratic cost of re-walking the cursor chain for each page number causes excessive API requests and rate-limit stalls. Both point at the same code region, but they identify different failures: incorrect completion versus performance blowup.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says a page past the end returns an empty page that is indistinguishable from a real last page, causing the import to be marked complete prematurely (missed episodes). Description B says the quadratic cost of re-walking the cursor chain for each page number causes excessive API requests and rate-limit stalls. Both point at the same code region, but they identify different failures: incorrect completion versus performance blowup.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKjT1dSB5GJy2CtC6b6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00020924,
+   "input_tokens": 1248,
+   "latency_ms": 1639,
+   "output_tokens": 143
+  }
+ }
+}

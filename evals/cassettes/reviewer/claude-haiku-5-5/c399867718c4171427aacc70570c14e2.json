@@ -1,0 +1,82 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c399867718c4171427aacc70570c14e2",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 23355,
+  "user_sha256": "df7bb34c04a9b2c7693a0486418b684071580fd17e07d2daef1abdad4cb49822"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "_read_all returns {} on any OSError or ValueError. If the session file exists but cannot be read (transient I/O error, permissions, a locked file), save(), delete() or take_by_refresh() call _read_all, get an empty dict, and then _write_all replaces the real file with a file containing only the new record. Every other user's session is lost and those users are logged out. A missing file should be treated as empty, but other read errors should surface as StoreError.",
+     "end_line": 140,
+     "file": "auth/store.py",
+     "line": 139,
+     "severity": "high",
+     "suggestion": "Return {} only when the file does not exist (FileNotFoundError). Wrap other OSError and ValueError/KeyError/TypeError from parsing in StoreError so writers abort instead of overwriting the file.",
+     "title": "Read failure is treated as an empty store, so the next write erases all sessions"
+    },
+    {
+     "category": "security",
+     "confidence": 0.55,
+     "description": "change_password calls sign_out_everywhere, which logs a warning and continues when store.delete raises StoreError. The caller gets a count that is lower than the number of sessions, but nothing signals failure. A session the attacker holds can survive a password change that was meant to end every session, and the user believes they are signed out everywhere.",
+     "end_line": 100,
+     "file": "auth/sessions.py",
+     "line": 100,
+     "severity": "high",
+     "suggestion": "Do not swallow StoreError in sign_out_everywhere when called from change_password. Propagate the error, or retry and fail the password change, so the caller knows not all sessions were revoked.",
+     "title": "Failed revocation during password change leaves sessions alive"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.45,
+     "description": "SessionManager's ttl parameter is gone and a required store argument was inserted as the second positional parameter. Callers that pass ttl by keyword get a TypeError, and callers that pass ttl positionally now pass it as the store. login() also returns IssuedSession instead of Session, which no longer has a token field, and the default lifetime drops from 12 hours to a 30-minute access token with no refresh call in the old clients, so those clients are logged out after 30 minutes.",
+     "end_line": 55,
+     "file": "auth/sessions.py",
+     "line": 49,
+     "severity": "medium",
+     "suggestion": "Keep ttl working as an alias for access_ttl, make store a keyword argument with a default, and document the migration for clients that must call refresh().",
+     "title": "Constructor signature and session model changed for existing callers"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.35,
+     "description": "FileSessionStore reads and rewrites the full JSON file on each delete. sign_out_everywhere and purge_expired call all() and then delete() for each matching record, so ending N sessions costs N full reads and writes. With a large number of live sessions this becomes slow and blocks other requests on the lock.",
+     "end_line": 121,
+     "file": "auth/store.py",
+     "line": 120,
+     "severity": "medium",
+     "suggestion": "Add a batch delete method to the store protocol that removes several access hashes in one read and one write, and use it from sign_out_everywhere and purge_expired.",
+     "title": "Whole-file rewrite on every change makes sign-out and purge quadratic"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"auth/store.py\",\"line\":139,\"end_line\":140,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"Read failure is treated as an empty store, so the next write erases all sessions\",\"description\":\"_read_all returns {} on any OSError or ValueError. If the session file exists but cannot be read (transient I/O error, permissions, a locked file), save(), delete() or take_by_refresh() call _read_all, get an empty dict, and then _write_all replaces the real file with a file containing only the new record. Every other user's session is lost and those users are logged out. A missing file should be treated as empty, but other read errors should surface as StoreError.\",\"suggestion\":\"Return {} only when the file does not exist (FileNotFoundError). Wrap other OSError and ValueError/KeyError/TypeError from parsing in StoreError so writers abort instead of overwriting the file.\",\"confidence\":0.6},{\"file\":\"auth/sessions.py\",\"line\":100,\"end_line\":100,\"severity\":\"high\",\"category\":\"security\",\"title\":\"Failed revocation during password change leaves sessions alive\",\"description\":\"change_password calls sign_out_everywhere, which logs a warning and continues when store.delete raises StoreError. The caller gets a count that is lower than the number of sessions, but nothing signals failure. A session the attacker holds can survive a password change that was meant to end every session, and the user believes they are signed out everywhere.\",\"suggestion\":\"Do not swallow StoreError in sign_out_everywhere when called from change_password. Propagate the error, or retry and fail the password change, so the caller knows not all sessions were revoked.\",\"confidence\":0.55},{\"file\":\"auth/sessions.py\",\"line\":49,\"end_line\":55,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Constructor signature and session model changed for existing callers\",\"description\":\"SessionManager's ttl parameter is gone and a required store argument was inserted as the second positional parameter. Callers that pass ttl by keyword get a TypeError, and callers that pass ttl positionally now pass it as the store. login() also returns IssuedSession instead of Session, which no longer has a token field, and the default lifetime drops from 12 hours to a 30-minute access token with no refresh call in the old clients, so those clients are logged out after 30 minutes.\",\"suggestion\":\"Keep ttl working as an alias for access_ttl, make store a keyword argument with a default, and document the migration for clients that must call refresh().\",\"confidence\":0.45},{\"file\":\"auth/store.py\",\"line\":120,\"end_line\":121,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Whole-file rewrite on every change makes sign-out and purge quadratic\",\"description\":\"FileSessionStore reads and rewrites the full JSON file on each delete. sign_out_everywhere and purge_expired call all() and then delete() for each matching record, so ending N sessions costs N full reads and writes. With a large number of live sessions this becomes slow and blocks other requests on the lock.\",\"suggestion\":\"Add a batch delete method to the store protocol that removes several access hashes in one read and one write, and use it from sign_out_everywhere and purge_expired.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0011438249999999998,
+   "input_tokens": 9127,
+   "latency_ms": null,
+   "output_tokens": 2698
+  }
+ }
+}

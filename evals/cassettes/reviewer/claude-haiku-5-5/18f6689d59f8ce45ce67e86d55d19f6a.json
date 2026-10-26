@@ -1,0 +1,82 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "18f6689d59f8ce45ce67e86d55d19f6a",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8990,
+  "user_sha256": "b7dca955942ddc919ca38fae78345f45440711009e7b139138f0084d6de30dff"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "`metadata` defaults to a single shared `{}`. Line 80 calls `metadata.setdefault(\"content-type\", ...)`, which writes into that shared dict. The first put without metadata stores the content type for its key's extension in the default dict, and later calls that omit metadata reuse it. A .pdf upload can then be stored with a stale or wrong content-type. The same mutation also changes the caller's own dict when one is passed in, which is an unexpected side effect for callers.",
+     "end_line": 80,
+     "file": "blobstore/store.py",
+     "line": 73,
+     "severity": "high",
+     "suggestion": "Use `metadata: dict[str, str] | None = None`, build a fresh dict (`meta = dict(metadata or {})`), set the content-type on that copy, and write `meta` to disk without touching the argument.",
+     "title": "Mutable default dict shared across calls and mutated by setdefault"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.6,
+     "description": "The metadata temp file is always `.<name>.meta.tmp`. Two concurrent puts to the same key both write that file, and the first `os.replace` moves it away. The second `os.replace` then raises FileNotFoundError, so one upload fails. Unique temp names are needed for safe concurrent writes.",
+     "end_line": 83,
+     "file": "blobstore/store.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Create the temp file with `tempfile.NamedTemporaryFile(dir=path.parent, delete=False)` or `tempfile.mkstemp(dir=path.parent)` so each writer gets a unique name, then `os.replace` it.",
+     "title": "Fixed temp file name for metadata races under concurrent puts to the same key"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.5,
+     "description": "put() atomically replaces the metadata file first and the blob second. If the blob write fails (disk full, I/O error, interrupted process), the old blob remains with the new metadata, including a possibly different content-type. The docstring says both are written atomically, but the two replaces are not a single transaction.",
+     "end_line": 86,
+     "file": "blobstore/store.py",
+     "line": 82,
+     "severity": "medium",
+     "suggestion": "Write the blob first, then the metadata, so a failure before the metadata write leaves the old metadata matching the old blob. Alternatively, store the metadata inside the blob's own record, or roll back the metadata on failure.",
+     "title": "Metadata is replaced before the blob, so a failed blob write leaves them mismatched"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "head() uses `path.stat()`, which succeeds for directories. Calling head() on a prefix such as \"images\" when a directory of that name exists returns a BlobInfo with the directory's size and a guessed content type. exists() uses is_file(), so the two methods disagree about whether the key exists.",
+     "end_line": 101,
+     "file": "blobstore/store.py",
+     "line": 97,
+     "severity": "low",
+     "suggestion": "Check `path.is_file()` and raise BlobNotFound otherwise, as exists() does, or use `os.stat` and reject results where `stat.S_ISREG` is false.",
+     "title": "head() on a directory returns a BlobInfo instead of BlobNotFound"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"blobstore/store.py\",\"line\":73,\"end_line\":80,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Mutable default dict shared across calls and mutated by setdefault\",\"description\":\"`metadata` defaults to a single shared `{}`. Line 80 calls `metadata.setdefault(\\\"content-type\\\", ...)`, which writes into that shared dict. The first put without metadata stores the content type for its key's extension in the default dict, and later calls that omit metadata reuse it. A .pdf upload can then be stored with a stale or wrong content-type. The same mutation also changes the caller's own dict when one is passed in, which is an unexpected side effect for callers.\",\"suggestion\":\"Use `metadata: dict[str, str] | None = None`, build a fresh dict (`meta = dict(metadata or {})`), set the content-type on that copy, and write `meta` to disk without touching the argument.\",\"confidence\":0.9},{\"file\":\"blobstore/store.py\",\"line\":81,\"end_line\":83,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Fixed temp file name for metadata races under concurrent puts to the same key\",\"description\":\"The metadata temp file is always `.<name>.meta.tmp`. Two concurrent puts to the same key both write that file, and the first `os.replace` moves it away. The second `os.replace` then raises FileNotFoundError, so one upload fails. Unique temp names are needed for safe concurrent writes.\",\"suggestion\":\"Create the temp file with `tempfile.NamedTemporaryFile(dir=path.parent, delete=False)` or `tempfile.mkstemp(dir=path.parent)` so each writer gets a unique name, then `os.replace` it.\",\"confidence\":0.6},{\"file\":\"blobstore/store.py\",\"line\":82,\"end_line\":86,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Metadata is replaced before the blob, so a failed blob write leaves them mismatched\",\"description\":\"put() atomically replaces the metadata file first and the blob second. If the blob write fails (disk full, I/O error, interrupted process), the old blob remains with the new metadata, including a possibly different content-type. The docstring says both are written atomically, but the two replaces are not a single transaction.\",\"suggestion\":\"Write the blob first, then the metadata, so a failure before the metadata write leaves the old metadata matching the old blob. Alternatively, store the metadata inside the blob's own record, or roll back the metadata on failure.\",\"confidence\":0.5},{\"file\":\"blobstore/store.py\",\"line\":97,\"end_line\":101,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"head() on a directory returns a BlobInfo instead of BlobNotFound\",\"description\":\"head() uses `path.stat()`, which succeeds for directories. Calling head() on a prefix such as \\\"images\\\" when a directory of that name exists returns a BlobInfo with the directory's size and a guessed content type. exists() uses is_file(), so the two methods disagree about whether the key exists.\",\"suggestion\":\"Check `path.is_file()` and raise BlobNotFound otherwise, as exists() does, or use `os.stat` and reject results where `stat.S_ISREG` is false.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000781775,
+   "input_tokens": 3936,
+   "latency_ms": null,
+   "output_tokens": 2288
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "d4fa139d08105f6650ddfdf3c65c4430",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9060,
+  "user_sha256": "197a2161cdced6de7ddfc838e650c4f5231b1daafc8442d4be9e6dfc24bb7a24"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.6,
+     "description": "login() reads the live session through current(), which takes and releases the lock, and then calls _issue(), which takes the lock again. If revoke(token) (logout from another tab) runs between the two steps, _issue() finds no previous session and re-registers the token that was just revoked. The user has signed out, but the old token is valid again with a fresh expiry. This also breaks the guarantee that a revoked token stays dead.",
+     "end_line": 77,
+     "file": "auth/sessions.py",
+     "line": 75,
+     "severity": "medium",
+     "suggestion": "Do the lookup and the issue in one critical section. Hold the lock (or use an RLock) across both, or move the 'reuse the live token' logic inside a locked helper.",
+     "title": "Check-then-act in login() can resurrect a revoked token"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"auth/sessions.py\",\"line\":75,\"end_line\":77,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Check-then-act in login() can resurrect a revoked token\",\"description\":\"login() reads the live session through current(), which takes and releases the lock, and then calls _issue(), which takes the lock again. If revoke(token) (logout from another tab) runs between the two steps, _issue() finds no previous session and re-registers the token that was just revoked. The user has signed out, but the old token is valid again with a fresh expiry. This also breaks the guarantee that a revoked token stays dead.\",\"suggestion\":\"Do the lookup and the issue in one critical section. Hold the lock (or use an RLock) across both, or move the 'reuse the live token' logic inside a locked helper.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0071705,
+   "input_tokens": 3596,
+   "latency_ms": null,
+   "output_tokens": 663
+  }
+ }
+}

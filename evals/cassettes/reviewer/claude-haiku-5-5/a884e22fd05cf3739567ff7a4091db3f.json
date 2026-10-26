@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "a884e22fd05cf3739567ff7a4091db3f",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6749,
+  "user_sha256": "4cbd0870861136d53d1d6790a84a9f117e32a8d6cc25575bb191f5612ccc9ad4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.4,
+     "description": "_revision now rejects any value containing whitespace. Git accepts revision syntax with spaces, such as date-based reflog selectors like HEAD@{2 weeks ago}. Before this change those values were passed to git and worked. Now they raise ValueError, and the CLI exits with status 2 and a 'not a git revision' message. The check also rejects an empty until value, which previously meant since..HEAD.",
+     "end_line": 39,
+     "file": "relnotes/git.py",
+     "line": 37,
+     "severity": "medium",
+     "suggestion": "Only reject values starting with '-' (the option-injection risk), and rely on the '--' separator and git's own error reporting for everything else. If empty values must be rejected, check only for emptiness.",
+     "title": "Revision validation rejects valid git revisions containing spaces"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"relnotes/git.py\",\"line\":37,\"end_line\":39,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Revision validation rejects valid git revisions containing spaces\",\"description\":\"_revision now rejects any value containing whitespace. Git accepts revision syntax with spaces, such as date-based reflog selectors like HEAD@{2 weeks ago}. Before this change those values were passed to git and worked. Now they raise ValueError, and the CLI exits with status 2 and a 'not a git revision' message. The check also rejects an empty until value, which previously meant since..HEAD.\",\"suggestion\":\"Only reject values starting with '-' (the option-injection risk), and rely on the '--' separator and git's own error reporting for everything else. If empty values must be rejected, check only for emptiness.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00045747500000000005,
+   "input_tokens": 2880,
+   "latency_ms": null,
+   "output_tokens": 1202
+  }
+ }
+}

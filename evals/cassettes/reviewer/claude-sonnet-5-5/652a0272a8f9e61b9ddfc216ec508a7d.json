@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:13:11+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "652a0272a8f9e61b9ddfc216ec508a7d",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8985,
+  "user_sha256": "0e40d466f2f4d76ca94500ee6ef6445e761898c411ea05c9423b289812aabab5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "The `finally` clause runs after both the success and failure paths. On failure, `job.next_run` is set to `now + retry_delay` at line 65, then `finally` immediately overwrites it with `now + job.interval`. The backoff/retry_delay feature therefore never takes effect: failed jobs wait a full interval before retrying, contrary to the Job docstring.",
+     "file": "scheduler/runner.py",
+     "line": 76,
+     "severity": "high",
+     "suggestion": "Set `job.next_run = now + job.interval` only in the `else` branch (or before the try), and remove the `finally` block so the failure path keeps its retry delay.",
+     "title": "finally block overwrites the retry-delay next_run on failure"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.3,
+     "description": "`job.retry_delay * 2 ** (consecutive_failures - 1)` grows without bound if `max_failures` is large. Jobs are disabled at max_failures, but a very large max_failures (or a job whose count is set externally) can make the integer huge and `timedelta * int` raise OverflowError. That exception would escape `_run`'s except block and break the tick.",
+     "file": "scheduler/runner.py",
+     "line": 81,
+     "severity": "low",
+     "suggestion": "Cap the exponent, e.g. `2 ** min(job.consecutive_failures - 1, 20)`, or catch OverflowError and fall back to `job.interval`.",
+     "title": "Unbounded exponent in backoff computation"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduler/runner.py\",\"line\":76,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"finally block overwrites the retry-delay next_run on failure\",\"description\":\"The `finally` clause runs after both the success and failure paths. On failure, `job.next_run` is set to `now + retry_delay` at line 65, then `finally` immediately overwrites it with `now + job.interval`. The backoff/retry_delay feature therefore never takes effect: failed jobs wait a full interval before retrying, contrary to the Job docstring.\",\"suggestion\":\"Set `job.next_run = now + job.interval` only in the `else` branch (or before the try), and remove the `finally` block so the failure path keeps its retry delay.\",\"confidence\":0.95},{\"file\":\"scheduler/runner.py\",\"line\":81,\"severity\":\"low\",\"category\":\"performance\",\"title\":\"Unbounded exponent in backoff computation\",\"description\":\"`job.retry_delay * 2 ** (consecutive_failures - 1)` grows without bound if `max_failures` is large. Jobs are disabled at max_failures, but a very large max_failures (or a job whose count is set externally) can make the integer huge and `timedelta * int` raise OverflowError. That exception would escape `_run`'s except block and break the tick.\",\"suggestion\":\"Cap the exponent, e.g. `2 ** min(job.consecutive_failures - 1, 20)`, or catch OverflowError and fall back to `job.interval`.\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJTgpHdcYLS8dMYrtsj",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.012925,
+   "input_tokens": 3698,
+   "latency_ms": 5327,
+   "output_tokens": 501
+  }
+ }
+}

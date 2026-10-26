@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "aee55f47b4e668721b4a4fd8aa849b34",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10910,
+  "user_sha256": "682f1b1659bf51c9aa4ee19655be679ce462ff6df72b02068d970dd94830a1bc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.8,
+     "description": "Previously `duration=minutes * 60` held seconds. It now holds `run_time` from parse_duration, which is in milliseconds. Nothing in the diff converts it back. The scheduler's `Run.seconds` presumably derives from `zone.duration` (not shown), and the controller passes `run.seconds` to `sleep`. Every zone would then water 1000 times longer than configured: a 10-minute zone would run for about 167 hours.",
+     "file": "irrigation/config.py",
+     "line": 88,
+     "severity": "high",
+     "suggestion": "Store seconds: `duration=run_time / 1000`. Alternatively rename the field to `duration_ms` and update every consumer.",
+     "title": "ZoneConfig.duration changes unit from seconds to milliseconds"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"irrigation/config.py\",\"line\":88,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"ZoneConfig.duration changes unit from seconds to milliseconds\",\"description\":\"Previously `duration=minutes * 60` held seconds. It now holds `run_time` from parse_duration, which is in milliseconds. Nothing in the diff converts it back. The scheduler's `Run.seconds` presumably derives from `zone.duration` (not shown), and the controller passes `run.seconds` to `sleep`. Every zone would then water 1000 times longer than configured: a 10-minute zone would run for about 167 hours.\",\"suggestion\":\"Store seconds: `duration=run_time / 1000`. Alternatively rename the field to `duration_ms` and update every consumer.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0063735,
+   "input_tokens": 4724,
+   "latency_ms": null,
+   "output_tokens": 278
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "770cc4d39c6441a88ba256ee59f6e0a3",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6876,
+  "user_sha256": "07979ee5c3bdda15985d6f89048d6b42a9f6d5db46b3a6b1cd7b0617ad479135"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.3,
+     "description": "_atomic_write fsyncs the temp file before os.replace but never fsyncs the containing directory afterwards. After put()/put_stream()/copy() returns, a power loss or crash can leave the directory entry pointing at the previous blob, so a write the caller saw succeed is silently lost. Readers still never see a partial file, so this is a durability gap rather than corruption.",
+     "end_line": 37,
+     "file": "storage/blobs.py",
+     "line": 37,
+     "severity": "low",
+     "suggestion": "After os.replace(temp_path, target), open the parent directory with os.open(target.parent, os.O_RDONLY) and os.fsync it, closing the descriptor afterwards (skip or guard on platforms where this is unsupported).",
+     "title": "Rename is not made durable by fsyncing the parent directory"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"storage/blobs.py\",\"line\":37,\"end_line\":37,\"severity\":\"low\",\"category\":\"error_handling\",\"title\":\"Rename is not made durable by fsyncing the parent directory\",\"description\":\"_atomic_write fsyncs the temp file before os.replace but never fsyncs the containing directory afterwards. After put()/put_stream()/copy() returns, a power loss or crash can leave the directory entry pointing at the previous blob, so a write the caller saw succeed is silently lost. Readers still never see a partial file, so this is a durability gap rather than corruption.\",\"suggestion\":\"After os.replace(temp_path, target), open the parent directory with os.open(target.parent, os.O_RDONLY) and os.fsync it, closing the descriptor afterwards (skip or guard on platforms where this is unsupported).\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000608225,
+   "input_tokens": 2900,
+   "latency_ms": null,
+   "output_tokens": 1801
+  }
+ }
+}

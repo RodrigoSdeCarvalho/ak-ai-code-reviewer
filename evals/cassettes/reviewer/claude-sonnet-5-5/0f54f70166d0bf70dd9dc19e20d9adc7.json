@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:14:14+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "0f54f70166d0bf70dd9dc19e20d9adc7",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7773,
+  "user_sha256": "861a2e980ea6e1734631e17f54e9da5627aeefec07ca990c97db0151d6f8de04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.93,
+     "description": "Release is only called on the success path. When an InventoryError is raised, the connection is rolled back and the exception re-raised, so release at line 96 never runs. Any other exception (e.g. a DB error from get/put/commit, or a KeyError) skips both rollback and release. Each failure leaks a pooled connection, and the pool eventually exhausts. Uncommitted partial writes may also remain on a connection that is never reset.",
+     "end_line": 96,
+     "file": "inventory/service.py",
+     "line": 93,
+     "severity": "high",
+     "suggestion": "Use try/except Exception: conn.rollback(); raise, together with finally: self._pool.release(conn), as in receive() and cancel().",
+     "title": "Connection leaked and not rolled back on failure in reserve()"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "If lines contain the same SKU twice, each line is checked against the stock row independently. Depending on the connection's read semantics (e.g. a cached or uncommitted view), the second check may not see the first increment. The stored reservation still records both lines. Cancelling then subtracts both, so reserved could go negative or the order could oversubscribe.",
+     "end_line": 91,
+     "file": "inventory/service.py",
+     "line": 82,
+     "severity": "medium",
+     "suggestion": "Aggregate quantities per SKU before checking and updating, and store the aggregated lines.",
+     "title": "Duplicate SKUs in lines can bypass the stock check"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.35,
+     "description": "The duplicate-reservation check and the stock read-modify-write are not atomic. Two concurrent reserve calls can both read the same free/reserved values and each write back, losing one increment and overselling. Two calls for the same order_id can both pass the duplicate check.",
+     "end_line": 81,
+     "file": "inventory/service.py",
+     "line": 80,
+     "severity": "medium",
+     "suggestion": "Use row locking (SELECT ... FOR UPDATE) or a serializable transaction, or an atomic conditional update in the DB layer.",
+     "title": "Check-then-act race on reservation and stock without locking"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/service.py\",\"line\":93,\"end_line\":96,\"severity\":\"high\",\"category\":\"resource\",\"title\":\"Connection leaked and not rolled back on failure in reserve()\",\"description\":\"Release is only called on the success path. When an InventoryError is raised, the connection is rolled back and the exception re-raised, so release at line 96 never runs. Any other exception (e.g. a DB error from get/put/commit, or a KeyError) skips both rollback and release. Each failure leaks a pooled connection, and the pool eventually exhausts. Uncommitted partial writes may also remain on a connection that is never reset.\",\"suggestion\":\"Use try/except Exception: conn.rollback(); raise, together with finally: self._pool.release(conn), as in receive() and cancel().\",\"confidence\":0.93},{\"file\":\"inventory/service.py\",\"line\":82,\"end_line\":91,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Duplicate SKUs in lines can bypass the stock check\",\"description\":\"If lines contain the same SKU twice, each line is checked against the stock row independently. Depending on the connection's read semantics (e.g. a cached or uncommitted view), the second check may not see the first increment. The stored reservation still records both lines. Cancelling then subtracts both, so reserved could go negative or the order could oversubscribe.\",\"suggestion\":\"Aggregate quantities per SKU before checking and updating, and store the aggregated lines.\",\"confidence\":0.3},{\"file\":\"inventory/service.py\",\"line\":80,\"end_line\":81,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Check-then-act race on reservation and stock without locking\",\"description\":\"The duplicate-reservation check and the stock read-modify-write are not atomic. Two concurrent reserve calls can both read the same free/reserved values and each write back, losing one increment and overselling. Two calls for the same order_id can both pass the duplicate check.\",\"suggestion\":\"Use row locking (SELECT ... FOR UPDATE) or a serializable transaction, or an atomic conditional update in the DB layer.\",\"confidence\":0.35}]}",
+  "request_id": "req_011CgRJYFebS1UX9tcNTpeRC",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.013627,
+   "input_tokens": 3054,
+   "latency_ms": 5952,
+   "output_tokens": 700
+  }
+ }
+}

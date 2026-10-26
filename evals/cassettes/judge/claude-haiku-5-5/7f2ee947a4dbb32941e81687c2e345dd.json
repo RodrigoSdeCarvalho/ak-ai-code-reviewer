@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7f2ee947a4dbb32941e81687c2e345dd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2252,
+  "user_sha256": "aae29f15cc3456c0c3f44e9614d1927cf4cdfb51cc4f230696a725f91bea6cb7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the retry branch at line 51 is missing `await`, so it returns a coroutine instead of an Event. Description B says line 42 consumes a one-shot iterator `lines` by counting it, so the main loop sees no lines. These are different root causes at different lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the retry branch at line 51 is missing `await`, so it returns a coroutine instead of an Event. Description B says line 42 consumes a one-shot iterator `lines` by counting it, so the main loop sees no lines. These are different root causes at different lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJfGQg4fBGhHg6oq8CJ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015074,
+   "input_tokens": 860,
+   "latency_ms": 1750,
+   "output_tokens": 105
+  }
+ }
+}

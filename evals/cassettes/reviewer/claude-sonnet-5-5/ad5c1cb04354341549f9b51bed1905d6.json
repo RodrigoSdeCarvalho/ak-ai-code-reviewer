@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:12:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "ad5c1cb04354341549f9b51bed1905d6",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11058,
+  "user_sha256": "628bd1cffa28b77522b8e2bdf855fef7ed241ab33ff86ddc63f96800bdbb7346"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The change removes the step that copied `__pydantic_private__`. For RootModel, the class attribute `__pydantic_private__ = None` shadows the slot, so private attributes live in `self.__dict__['__pydantic_private__']`. `copy(self.__dict__)` is only a shallow copy, so the copy and the original now share the same private dict. Setting a private attribute on one instance, for example `copy.copy(m)._x = 1`, also changes the other. The removed code also dropped `PydanticUndefined` placeholders for unset private attributes. Without that, those placeholders are carried into the copy, so unset privates can appear as sentinel values or leak into the copy.",
+     "file": "pydantic/root_model.py",
+     "line": 106,
+     "severity": "medium",
+     "suggestion": "Restore the copy of the private dict in `__copy__`, filtering out `PydanticUndefined` values, so each instance owns its private state.",
+     "title": "RootModel.__copy__ shares private attribute state with the original"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pydantic/root_model.py\",\"line\":106,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"RootModel.__copy__ shares private attribute state with the original\",\"description\":\"The change removes the step that copied `__pydantic_private__`. For RootModel, the class attribute `__pydantic_private__ = None` shadows the slot, so private attributes live in `self.__dict__['__pydantic_private__']`. `copy(self.__dict__)` is only a shallow copy, so the copy and the original now share the same private dict. Setting a private attribute on one instance, for example `copy.copy(m)._x = 1`, also changes the other. The removed code also dropped `PydanticUndefined` placeholders for unset private attributes. Without that, those placeholders are carried into the copy, so unset privates can appear as sentinel values or leak into the copy.\",\"suggestion\":\"Restore the copy of the private dict in `__copy__`, filtering out `PydanticUndefined` values, so each instance owns its private state.\",\"confidence\":0.6}]}",
+  "request_id": "req_011CgRJQVfjXwxnG2trUr2qD",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.017965,
+   "input_tokens": 4358,
+   "latency_ms": 7109,
+   "output_tokens": 873
+  }
+ }
+}

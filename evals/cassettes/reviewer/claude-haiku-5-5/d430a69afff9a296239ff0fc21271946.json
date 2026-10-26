@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "d430a69afff9a296239ff0fc21271946",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11058,
+  "user_sha256": "628bd1cffa28b77522b8e2bdf855fef7ed241ab33ff86ddc63f96800bdbb7346"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "The removed block was the only place in this override that handled `__pydantic_private__`. The copy now never sets `m.__pydantic_private__`, so a shallow copy of a RootModel subclass that declares PrivateAttr fields gets no private state. Accessing those attributes on the copy will fail or return missing values. The removed code wrote to a `__dict__` key rather than the `__pydantic_private__` slot, so it was already not doing the right thing, but the copy still needs the private state transferred.",
+     "end_line": 107,
+     "file": "pydantic/root_model.py",
+     "line": 106,
+     "severity": "medium",
+     "suggestion": "Copy the private storage into the slot explicitly, for example `private = self.__pydantic_private__; _object_setattr(m, '__pydantic_private__', None if private is None else {k: v for k, v in private.items() if v is not PydanticUndefined})`, and add a test that copies a RootModel with a private attribute.",
+     "title": "RootModel.__copy__ no longer carries over private attributes"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"pydantic/root_model.py\", \"line\": 106, \"end_line\": 107, \"severity\": \"medium\", \"category\": \"logic\", \"title\": \"RootModel.__copy__ no longer carries over private attributes\", \"description\": \"The removed block was the only place in this override that handled `__pydantic_private__`. The copy now never sets `m.__pydantic_private__`, so a shallow copy of a RootModel subclass that declares PrivateAttr fields gets no private state. Accessing those attributes on the copy will fail or return missing values. The removed code wrote to a `__dict__` key rather than the `__pydantic_private__` slot, so it was already not doing the right thing, but the copy still needs the private state transferred.\", \"suggestion\": \"Copy the private storage into the slot explicitly, for example `private = self.__pydantic_private__; _object_setattr(m, '__pydantic_private__', None if private is None else {k: v for k, v in private.items() if v is not PydanticUndefined})`, and add a test that copies a RootModel with a private attribute.\", \"confidence\": 0.5}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000610375,
+   "input_tokens": 4358,
+   "latency_ms": null,
+   "output_tokens": 1518
+  }
+ }
+}

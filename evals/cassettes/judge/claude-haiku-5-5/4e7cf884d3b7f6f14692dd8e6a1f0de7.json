@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4e7cf884d3b7f6f14692dd8e6a1f0de7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2320,
+  "user_sha256": "f51661a05ad6700694bbcd9299b38851c26650f48c62979297de0f074fbe8a56"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: reserve_order reserves lines sequentially without rolling back earlier reservations when a later reserve raises OutOfStock or UnknownSku, leaving stock held for a rejected order. The root cause and location match; B adds that the prior code checked all lines first, which is extra context rather than a different failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: reserve_order reserves lines sequentially without rolling back earlier reservations when a later reserve raises OutOfStock or UnknownSku, leaving stock held for a rejected order. The root cause and location match; B adds that the prior code checked all lines first, which is extra context rather than a different failure.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.027000000000002e-05,
+   "input_tokens": 848,
+   "latency_ms": null,
+   "output_tokens": 127
+  }
+ }
+}

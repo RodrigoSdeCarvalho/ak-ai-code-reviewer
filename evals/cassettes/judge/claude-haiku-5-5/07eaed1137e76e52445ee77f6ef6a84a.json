@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:57+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "07eaed1137e76e52445ee77f6ef6a84a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2328,
+  "user_sha256": "44068f03aba1ece4acb1272fe3f41f53e7e457c07d618fc88c600ebad2bd312b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both describe the non-atomic check-then-act in login(): current() and _issue() each take the lock separately. Description A centers on two concurrent logins minting duplicate tokens and invalidating the first, and also mentions the revoked-token resurrection as a secondary effect. Description B centers on a concurrent revoke being undone by login re-registering the revoked token. The shared root cause and location match, and A explicitly includes the revoke-resurrection window, so they overlap substantially.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both describe the non-atomic check-then-act in login(): current() and _issue() each take the lock separately. Description A centers on two concurrent logins minting duplicate tokens and invalidating the first, and also mentions the revoked-token resurrection as a secondary effect. Description B centers on a concurrent revoke being undone by login re-registering the revoked token. The shared root cause and location match, and A explicitly includes the revoke-resurrection window, so they overlap substantially.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKk6SAGfpXptUCjLbBT",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017574000000000002,
+   "input_tokens": 768,
+   "latency_ms": 2030,
+   "output_tokens": 172
+  }
+ }
+}

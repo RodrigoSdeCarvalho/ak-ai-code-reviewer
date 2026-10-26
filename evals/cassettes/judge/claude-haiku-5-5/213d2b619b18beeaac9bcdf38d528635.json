@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:02+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "213d2b619b18beeaac9bcdf38d528635",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2103,
+  "user_sha256": "dfb6f60bebf5d4a0fad808fbab87d551e3dc8950406216ff053df2c12298dba8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: active_skus is a list, so the membership test `scan.sku not in active_skus` in unknown_locations performs a linear scan per scan, making the work quadratic. Description B adds a concrete scale estimate and suggests a set, but the root cause and location are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: active_skus is a list, so the membership test `scan.sku not in active_skus` in unknown_locations performs a linear scan per scan, making the work quadratic. Description B adds a concrete scale estimate and suggests a set, but the root cause and location are identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpqDkS9ujhsVMcnxbc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015613999999999998,
+   "input_tokens": 857,
+   "latency_ms": 1829,
+   "output_tokens": 115
+  }
+ }
+}

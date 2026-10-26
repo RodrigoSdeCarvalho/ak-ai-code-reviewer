@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5fe4867f75853069972278c9c651d0df",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10296,
+  "user_sha256": "cb6fdce9cabf623c22098602529370956ac328182e46fb741060744e33c50439"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "The removed `return` was what stopped execution after an ETA conversion failure. Now, when to_timestamp raises OverflowError or ValueError, the code rejects the request and falls through. `eta` stays None, so the code reaches `task_reserved(req)` and `handle(req)` (or `limit_task` when a rate bucket applies) and dispatches a task that was just rejected. The task may run immediately even though its ETA is invalid, and it may run twice if the broker redelivers the rejected message.",
+     "end_line": 189,
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "high",
+     "suggestion": "Restore the `return` after `req.reject(requeue=False)` at line 189.",
+     "title": "Missing return after reject lets the task run anyway"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.7,
+     "description": "The removed `mark_as_failure` call was the only place that stored the conversion error for the task. After this change, a task whose ETA cannot be converted is rejected and only logged. Its result stays PENDING or missing, so clients polling the result never see the failure.",
+     "end_line": 189,
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "medium",
+     "suggestion": "Keep the `req.task.backend.mark_as_failure(...)` call before `req.reject(requeue=False)` and the `return` that follows it, unless the failure recording was removed on purpose and this is documented.",
+     "title": "Failure is no longer recorded in the result backend"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"end_line\":189,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Missing return after reject lets the task run anyway\",\"description\":\"The removed `return` was what stopped execution after an ETA conversion failure. Now, when to_timestamp raises OverflowError or ValueError, the code rejects the request and falls through. `eta` stays None, so the code reaches `task_reserved(req)` and `handle(req)` (or `limit_task` when a rate bucket applies) and dispatches a task that was just rejected. The task may run immediately even though its ETA is invalid, and it may run twice if the broker redelivers the rejected message.\",\"suggestion\":\"Restore the `return` after `req.reject(requeue=False)` at line 189.\",\"confidence\":0.9},{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"end_line\":189,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Failure is no longer recorded in the result backend\",\"description\":\"The removed `mark_as_failure` call was the only place that stored the conversion error for the task. After this change, a task whose ETA cannot be converted is rejected and only logged. Its result stays PENDING or missing, so clients polling the result never see the failure.\",\"suggestion\":\"Keep the `req.task.backend.mark_as_failure(...)` call before `req.reject(requeue=False)` and the `return` that follows it, unless the failure recording was removed on purpose and this is documented.\",\"confidence\":0.7}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00044832500000000007,
+   "input_tokens": 4162,
+   "latency_ms": null,
+   "output_tokens": 909
+  }
+ }
+}

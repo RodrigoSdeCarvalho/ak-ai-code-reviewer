@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "fd6581cc1b7f72310268bcb94d5e625b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3463,
+  "user_sha256": "62c89fdbb3acdf3a997b779b0ea1b36c33c3f9f8c2b10a67d36d21f76d486f2a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: episode_page re-walks all earlier pages via the cursor chain to reach page N, making import cost quadratic in requests (client.py lines 63-64, reachable from sync.py's per-page loop). Description A and B differ in emphasis (rate-limit pressure and resume cost vs. explicit P(P+1)/2 counts and proposed cursor carry-forward fix), but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: episode_page re-walks all earlier pages via the cursor chain to reach page N, making import cost quadratic in requests (client.py lines 63-64, reachable from sync.py's per-page loop). Description A and B differ in emphasis (rate-limit pressure and resume cost vs. explicit P(P+1)/2 counts and proposed cursor carry-forward fix), but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKjQTqTLtRC7NiAyoJD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00022114,
+   "input_tokens": 1272,
+   "latency_ms": 1860,
+   "output_tokens": 162
+  }
+ }
+}

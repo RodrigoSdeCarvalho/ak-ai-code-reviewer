@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5aae4b83b896d0f719930912e886bb39",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 19116,
+  "user_sha256": "75996b75a344646ffad84627b4af46308bca5d11a42ecfe2df622e8a40c6a91b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.8,
+     "description": "can_bid now calls self.spend(), which calls log.for_day(), which opens and json-parses the entire day's JSONL file on every call. eligible() calls can_bid for every campaign, so each bid request reads the log once per campaign. Log size grows with traffic, so per-request cost grows with the day's volume, and at bid-request rates this adds heavy disk I/O and CPU on the hot path. The previous version kept running totals in memory.",
+     "end_line": 72,
+     "file": "adserve/pacing.py",
+     "line": 72,
+     "severity": "high",
+     "suggestion": "Cache per-campaign, per-day hourly totals and update them in record() and refund(), or memoise spend() for the current day and invalidate it on writes, so bidding does not re-read the file for each request.",
+     "title": "Every bid re-reads and parses the whole day's impression log per campaign"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"adserve/pacing.py\",\"line\":72,\"end_line\":72,\"severity\":\"high\",\"category\":\"performance\",\"title\":\"Every bid re-reads and parses the whole day's impression log per campaign\",\"description\":\"can_bid now calls self.spend(), which calls log.for_day(), which opens and json-parses the entire day's JSONL file on every call. eligible() calls can_bid for every campaign, so each bid request reads the log once per campaign. Log size grows with traffic, so per-request cost grows with the day's volume, and at bid-request rates this adds heavy disk I/O and CPU on the hot path. The previous version kept running totals in memory.\",\"suggestion\":\"Cache per-campaign, per-day hourly totals and update them in record() and refund(), or memoise spend() for the current day and invalidate it on writes, so bidding does not re-read the file for each request.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0009205750000000001,
+   "input_tokens": 7992,
+   "latency_ms": null,
+   "output_tokens": 2032
+  }
+ }
+}

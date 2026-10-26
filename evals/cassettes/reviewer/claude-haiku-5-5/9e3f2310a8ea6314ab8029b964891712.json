@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "9e3f2310a8ea6314ab8029b964891712",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14062,
+  "user_sha256": "6fa1e0dcc3476b047d0183aca76ff5a8c014de3fb985e0051a98a0edfee8b6a0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.9,
+     "description": "accept() only rejects links that are revoked or used up. It never checks link.expires_at, so a link past its expiry still adds new members with the link's role. is_active() checks expiry, but accept() does not call it. Anyone holding an old code can join the workspace after the owner expected the link to be dead.",
+     "end_line": 99,
+     "file": "workspace/invites.py",
+     "line": 98,
+     "severity": "critical",
+     "suggestion": "Reject expired links in accept(), for example by checking `now < link.expires_at` or by calling `link.is_active(now)` and raising InviteNotUsable when it is false.",
+     "title": "Expired invite links can still be accepted"
+    },
+    {
+     "category": "security",
+     "confidence": 0.8,
+     "description": "_new_code() uses random.choices, which is a Mersenne Twister PRNG and is predictable once its state is inferred from observed outputs. Invite codes act as bearer credentials that grant workspace membership, so an attacker who can observe enough codes could predict unissued ones and join workspaces they were not invited to.",
+     "end_line": 49,
+     "file": "workspace/invites.py",
+     "line": 49,
+     "severity": "high",
+     "suggestion": "Generate codes with the secrets module, for example `secrets.choice(CODE_ALPHABET)` in a loop of CODE_LENGTH, or `secrets.token_urlsafe`, and keep the uniqueness check.",
+     "title": "Invite codes generated with non-cryptographic random"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"workspace/invites.py\",\"line\":98,\"end_line\":99,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Expired invite links can still be accepted\",\"description\":\"accept() only rejects links that are revoked or used up. It never checks link.expires_at, so a link past its expiry still adds new members with the link's role. is_active() checks expiry, but accept() does not call it. Anyone holding an old code can join the workspace after the owner expected the link to be dead.\",\"suggestion\":\"Reject expired links in accept(), for example by checking `now < link.expires_at` or by calling `link.is_active(now)` and raising InviteNotUsable when it is false.\",\"confidence\":0.9},{\"file\":\"workspace/invites.py\",\"line\":49,\"end_line\":49,\"severity\":\"high\",\"category\":\"security\",\"title\":\"Invite codes generated with non-cryptographic random\",\"description\":\"_new_code() uses random.choices, which is a Mersenne Twister PRNG and is predictable once its state is inferred from observed outputs. Invite codes act as bearer credentials that grant workspace membership, so an attacker who can observe enough codes could predict unissued ones and join workspaces they were not invited to.\",\"suggestion\":\"Generate codes with the secrets module, for example `secrets.choice(CODE_ALPHABET)` in a loop of CODE_LENGTH, or `secrets.token_urlsafe`, and keep the uniqueness check.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000586825,
+   "input_tokens": 5862,
+   "latency_ms": null,
+   "output_tokens": 1123
+  }
+ }
+}

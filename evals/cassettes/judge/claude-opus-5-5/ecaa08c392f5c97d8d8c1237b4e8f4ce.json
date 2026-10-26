@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:37:10+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ecaa08c392f5c97d8d8c1237b4e8f4ce",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2066,
+  "user_sha256": "bafc21389ddfaca9070cb8fd90b4dfff4dbf3397887be68fa0818b5de4ce1cf0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "A says `deliver` is now a coroutine and is called without await, so the result is always truthy and every digest is silently dropped. B assumes the await is present and raises concurrency concerns about overlapping flushes mutating the queue. These are different root causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"A says `deliver` is now a coroutine and is called without await, so the result is always truthy and every digest is silently dropped. B assumes the await is present and raises concurrency concerns about overlapping flushes mutating the queue. These are different root causes.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLHyWafNwakPKJHWFD3",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0050108,
+   "input_tokens": 708,
+   "latency_ms": 1889,
+   "output_tokens": 96
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d60c8d9712f56c5b933e4a325c61ae9b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2283,
+  "user_sha256": "cec7c60f266d9bee656ec035f314327803934f10c9c4aa396a6bc16e2113510e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: Flask.run() splits SERVER_NAME with partition(':') at the first colon, which breaks IPv6 literals like [::1]:8080 (host becomes '[' and int(sn_port) raises ValueError or binds a bogus host). Description B is less detailed but names the same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: Flask.run() splits SERVER_NAME with partition(':') at the first colon, which breaks IPv6 literals like [::1]:8080 (host becomes '[' and int(sn_port) raises ValueError or binds a bogus host). Description B is less detailed but names the same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJa6YTMhnrBTKqbTvWj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1224,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.0003072,
+   "input_tokens": 902,
+   "latency_ms": 2139,
+   "output_tokens": 128
+  }
+ }
+}

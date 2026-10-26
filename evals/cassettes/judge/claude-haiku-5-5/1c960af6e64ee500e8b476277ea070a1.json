@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:28+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1c960af6e64ee500e8b476277ea070a1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1851,
+  "user_sha256": "5c321aa9f83efa83ad661af2e3bea8937db6ffd0d3f7e0f6af8479aa3db15be3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the retry branch at line 51 returns `enrich(event, geo)` without `await`, so a coroutine object is returned instead of an Event after a LookupTimeout. Description A adds extra consequences about the retry semantics and the try block, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the retry branch at line 51 returns `enrich(event, geo)` without `await`, so a coroutine object is returned instead of an Event after a LookupTimeout. Description A adds extra consequences about the retry semantics and the try block, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKrnTcPEqcPP5JgRTsj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014034,
+   "input_tokens": 694,
+   "latency_ms": 1515,
+   "output_tokens": 116
+  }
+ }
+}

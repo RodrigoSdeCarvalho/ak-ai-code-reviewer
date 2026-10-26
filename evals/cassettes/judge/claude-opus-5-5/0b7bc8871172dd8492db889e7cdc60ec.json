@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:36:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0b7bc8871172dd8492db889e7cdc60ec",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2395,
+  "user_sha256": "56f311ef621c0302018d6bf5056d47c3770eec57fb67012eb20fd808049fb409"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A objects that the broad `except Exception` turns programming errors in parsing into data rejections. Description B identifies a specific failure: the flush sits inside the try, so a sink error drops the detached batch and records a valid row as rejected, silently losing data. These are different root causes and failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\":\"Description A objects that the broad `except Exception` turns programming errors in parsing into data rejections. Description B identifies a specific failure: the flush sits inside the try, so a sink error drops the detached batch and records a valid row as rejected, silently losing data. These are different root causes and failures.\",\"verdict\":\"different\"}",
+  "request_id": "req_011CgRLGks3HF2TWSxz3EcuQ",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0057988,
+   "input_tokens": 840,
+   "latency_ms": 1984,
+   "output_tokens": 109
+  }
+ }
+}

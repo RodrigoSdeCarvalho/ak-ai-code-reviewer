@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f73ec3107f6ee7c8a113fc85a9fc8ad2",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 13344,
+  "user_sha256": "717f445f727c7a575b89d7154d7d35caf251d4606f48e7b0e28ba97f13ab6d30"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.8,
+     "description": "The previous summarize() materialised the batch and loaded each sensor's calibration once. The new loop calls calibrated(), which calls source.load() for every reading. With a SQL-backed CalibrationSource this issues one query per reading, so a large batch causes N+1 queries and noticeably slower runs for the same result.",
+     "end_line": 58,
+     "file": "greenhouse/readings.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Cache calibrations per sensor_id within summarize(), for example with a dict filled lazily from source.load(), and apply the cached calibration in the loop. Keep the streaming loop if that matters, since the cache only holds one Calibration per sensor.",
+     "title": "Calibration is now loaded once per reading instead of once per sensor"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"greenhouse/readings.py\",\"line\":58,\"end_line\":58,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Calibration is now loaded once per reading instead of once per sensor\",\"description\":\"The previous summarize() materialised the batch and loaded each sensor's calibration once. The new loop calls calibrated(), which calls source.load() for every reading. With a SQL-backed CalibrationSource this issues one query per reading, so a large batch causes N+1 queries and noticeably slower runs for the same result.\",\"suggestion\":\"Cache calibrations per sensor_id within summarize(), for example with a dict filled lazily from source.load(), and apply the cached calibration in the loop. Keep the streaming loop if that matters, since the cache only holds one Calibration per sensor.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0006688750000000001,
+   "input_tokens": 5733,
+   "latency_ms": null,
+   "output_tokens": 1477
+  }
+ }
+}

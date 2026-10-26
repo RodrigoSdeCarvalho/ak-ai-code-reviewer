@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "322ce6fe909f1bb2f8561efb822c975b",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 18307,
+  "user_sha256": "d2962b301a52e00a14d9a2968b4bc6cf2d5af1cc5be9ad5b1fddc56d61b1ec9a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.7,
+     "description": "The previous BusinessCalendar cached holidays per year. The new holidays() calls self._source.holidays() on every call, and is_business_day() calls it for every day it checks. With JsonHolidaySource that means reading and parsing the whole holiday JSON file for each day visited. add_business_days and business_days_between loop over many days, so a single due_date computation can re-read the file dozens of times, and overdue() over many tickets multiplies that further.",
+     "end_line": 38,
+     "file": "scheduling/calendar.py",
+     "line": 38,
+     "severity": "medium",
+     "suggestion": "Restore per-year caching in BusinessCalendar (e.g. a dict keyed by year), or cache the parsed file in JsonHolidaySource, so the source is read once per region and year.",
+     "title": "Holiday lookup is no longer cached, so each business-day check re-reads the source"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.5,
+     "description": "start_day previously accepted a datetime (opened_at). It now accepts a Ticket and reads ticket.opened_at and ticket.region. Any caller that still passes a datetime will fail with AttributeError, and SlaPolicy's constructor also changed from (calendar, cutoff_hour) to (calendars), so existing construction sites break too.",
+     "end_line": 48,
+     "file": "scheduling/sla.py",
+     "line": 48,
+     "severity": "medium",
+     "suggestion": "If the signature change is intended, document it and update all call sites. Otherwise keep start_day(opened_at: datetime) and add a separate method or an optional region parameter.",
+     "title": "start_day now takes a Ticket instead of a datetime, breaking existing callers"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduling/calendar.py\",\"line\":38,\"end_line\":38,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Holiday lookup is no longer cached, so each business-day check re-reads the source\",\"description\":\"The previous BusinessCalendar cached holidays per year. The new holidays() calls self._source.holidays() on every call, and is_business_day() calls it for every day it checks. With JsonHolidaySource that means reading and parsing the whole holiday JSON file for each day visited. add_business_days and business_days_between loop over many days, so a single due_date computation can re-read the file dozens of times, and overdue() over many tickets multiplies that further.\",\"suggestion\":\"Restore per-year caching in BusinessCalendar (e.g. a dict keyed by year), or cache the parsed file in JsonHolidaySource, so the source is read once per region and year.\",\"confidence\":0.7},{\"file\":\"scheduling/sla.py\",\"line\":48,\"end_line\":48,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"start_day now takes a Ticket instead of a datetime, breaking existing callers\",\"description\":\"start_day previously accepted a datetime (opened_at). It now accepts a Ticket and reads ticket.opened_at and ticket.region. Any caller that still passes a datetime will fail with AttributeError, and SlaPolicy's constructor also changed from (calendar, cutoff_hour) to (calendars), so existing construction sites break too.\",\"suggestion\":\"If the signature change is intended, document it and update all call sites. Otherwise keep start_day(opened_at: datetime) and add a separate method or an optional region parameter.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000818975,
+   "input_tokens": 7605,
+   "latency_ms": null,
+   "output_tokens": 1703
+  }
+ }
+}

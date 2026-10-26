@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:47+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9c0d43704ea15a32dd6f77ff3faf78bb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2731,
+  "user_sha256": "8a7f6146d9aec743a78744173b594c7d9be863ee076831d61b4fbb51fe376aca"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a shared mutable cached list being returned directly, so in-place sorting in a caller corrupts later cached results for the same query. Description B discusses LRU ordering and TTL-expired entries lingering without purging; it does not identify the aliasing/mutation failure at all. Different defects.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a shared mutable cached list being returned directly, so in-place sorting in a caller corrupts later cached results for the same query. Description B discusses LRU ordering and TTL-expired entries lingering without purging; it does not identify the aliasing/mutation failure at all. Different defects.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJaxkvbY1eJ2vwfcHNQ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016704000000000003,
+   "input_tokens": 973,
+   "latency_ms": 1859,
+   "output_tokens": 115
+  }
+ }
+}

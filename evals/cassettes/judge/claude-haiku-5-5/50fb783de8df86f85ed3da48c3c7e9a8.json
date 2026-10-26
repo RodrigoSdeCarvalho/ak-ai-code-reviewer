@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "50fb783de8df86f85ed3da48c3c7e9a8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2312,
+  "user_sha256": "4097e7cc7398f15c90348d12209f609ae9940f605338af8c94066894b6ab7edc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the non-atomic check-then-act in login(): current() and _issue() take the lock separately, so a concurrent change lands between them. Description A focuses on a concurrent revoke resurrecting a revoked token; Description B's primary case is two concurrent logins minting tokens so the first is invalidated, but it also explicitly mentions the same window letting a login re-register a token a concurrent logout just revoked. The shared root cause and location match, so they overlap substantially, with B covering a broader set of consequences.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the non-atomic check-then-act in login(): current() and _issue() take the lock separately, so a concurrent change lands between them. Description A focuses on a concurrent revoke resurrecting a revoked token; Description B's primary case is two concurrent logins minting tokens so the first is invalidated, but it also explicitly mentions the same window letting a login re-register a token a concurrent logout just revoked. The shared root cause and location match, so they overlap substantially, with B covering a broader set of consequences.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKk6FzUetRHLdrcD4Z3",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018224000000000002,
+   "input_tokens": 753,
+   "latency_ms": 2170,
+   "output_tokens": 188
+  }
+ }
+}

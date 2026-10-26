@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:14+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "33721b7d9f7e193c70deecc0f2c24fa5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2516,
+  "user_sha256": "505116c85df0684c79fd9345975e551f75e1add851dcf3cd03304762d9397cee"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment itself concedes the crash window is harmless: upserts are idempotent and a resumed run fetches an empty last page with has_more=False, which completes normally. It describes no wrong behaviour, only a minor theoretical edge case, so it is a nit."
+  },
+  "raw_text": "{\"reason\": \"The comment itself concedes the crash window is harmless: upserts are idempotent and a resumed run fetches an empty last page with has_more=False, which completes normally. It describes no wrong behaviour, only a minor theoretical edge case, so it is a nit.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKmNS7QvhaVuk29Duyw",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00015015999999999999,
+   "input_tokens": 935,
+   "latency_ms": 1655,
+   "output_tokens": 100
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:13:09+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c49a7efa9250e7b5c9e6eb57c0b1f172",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9090,
+  "user_sha256": "7307f2591c8d39a63aa1becdaf8a7cd0f5ba8f371d24abe578f0d6d169aca5d2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.97,
+     "description": "When the final attempt fails, the loop breaks and the method falls off the end, implicitly returning None. The last GatewayError is swallowed. In settle_invoice the call then succeeds without raising, so the `except GatewayError` branch never runs, and `charge.id` raises AttributeError on None. The settlement job crashes on the first invoice whose charge fails all retries, and the remaining invoices are never processed. The invoice is never marked PAYMENT_FAILED.",
+     "end_line": 62,
+     "file": "billing/retry.py",
+     "line": 61,
+     "severity": "critical",
+     "suggestion": "Re-raise the last GatewayError after the final attempt (e.g. `raise` instead of `break`, or store `last_exc` and raise it after the loop).",
+     "title": "charge() returns None after retries are exhausted instead of raising"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/retry.py\",\"line\":61,\"end_line\":62,\"severity\":\"critical\",\"category\":\"error_handling\",\"title\":\"charge() returns None after retries are exhausted instead of raising\",\"description\":\"When the final attempt fails, the loop breaks and the method falls off the end, implicitly returning None. The last GatewayError is swallowed. In settle_invoice the call then succeeds without raising, so the `except GatewayError` branch never runs, and `charge.id` raises AttributeError on None. The settlement job crashes on the first invoice whose charge fails all retries, and the remaining invoices are never processed. The invoice is never marked PAYMENT_FAILED.\",\"suggestion\":\"Re-raise the last GatewayError after the final attempt (e.g. `raise` instead of `break`, or store `last_exc` and raise it after the loop).\",\"confidence\":0.97}]}",
+  "request_id": "req_011CgRJTgno2kn3xjgwbpdxf",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.011195,
+   "input_tokens": 3858,
+   "latency_ms": 2530,
+   "output_tokens": 296
+  }
+ }
+}

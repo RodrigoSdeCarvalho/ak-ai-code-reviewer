@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:27+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8842137fac0410e5cdb70921b4ad665e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1853,
+  "user_sha256": "2c1b33c44b4f4369fc7e3171478bc179a82bb962657cd06b71107d3ad8e81980"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 98 of accept(): the check only rejects revoked or exhausted links and never checks expiry against now, so expired invite links still admit new members. Both mention is_active not being used; the wording and framing differ but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 98 of accept(): the check only rejects revoked or exhausted links and never checks expiry against now, so expired invite links still admit new members. Both mention is_active not being used; the wording and framing differ but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdwgm3FnQ3Fiy4eEUW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013244,
+   "input_tokens": 677,
+   "latency_ms": 1420,
+   "output_tokens": 105
+  }
+ }
+}

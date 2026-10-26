@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:50+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "80b97eb91dcdb799d63d276d6e17d18a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2752,
+  "user_sha256": "8bfb91d1db39ef3bfa0ab2d6f0c79d968fe7e28e47b86b4766c0a3396b3e3bce"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says upserts and checkpoint are not atomic and that non-RateLimited ApiErrors abort the run. Description B says each page fetch re-walks the cursor chain from the start, causing quadratic request counts. Different defects: one is about atomicity and error handling, the other about request complexity from cursor re-walking, even though both touch the same loop.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says upserts and checkpoint are not atomic and that non-RateLimited ApiErrors abort the run. Description B says each page fetch re-walks the cursor chain from the start, causing quadratic request counts. Different defects: one is about atomicity and error handling, the other about request complexity from cursor re-walking, even though both touch the same loop.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKjaGgwEPc7WwCtejw7",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017954000000000003,
+   "input_tokens": 1006,
+   "latency_ms": 1437,
+   "output_tokens": 132
+  }
+ }
+}

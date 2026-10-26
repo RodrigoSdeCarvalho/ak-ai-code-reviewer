@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "176af56b64042692f294e86560db405b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2411,
+  "user_sha256": "a17d73f98ca601f27e1ca76d4ae4927a8c4611f76d22eea2518a9e6f2d84b268"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: `host.endswith(domain)` lacks a label-boundary check, so look-alike domains (e.g., evilshop.example / bluekettle.example for partner shop.example / kettle.example) are accepted and receive credentialed CORS headers, enabling cross-origin reads and redemption with the member's session. Different example domains and minor detail differences don't change the shared root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: `host.endswith(domain)` lacks a label-boundary check, so look-alike domains (e.g., evilshop.example / bluekettle.example for partner shop.example / kettle.example) are accepted and receive credentialed CORS headers, enabling cross-origin reads and redemption with the member's session. Different example domains and minor detail differences don't change the shared root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKqtWUjky9u7ud3hGqF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018044,
+   "input_tokens": 895,
+   "latency_ms": 1578,
+   "output_tokens": 156
+  }
+ }
+}

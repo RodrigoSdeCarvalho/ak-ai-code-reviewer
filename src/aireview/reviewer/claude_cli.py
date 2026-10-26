@@ -9,9 +9,10 @@ caps one review's spend. The subprocess call is injectable so tests never run `c
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -46,10 +47,26 @@ class RunResult:
 Runner = Callable[[list[str], str, float], RunResult]
 
 
+def child_env(environ: Mapping[str, str]) -> dict[str, str]:
+    """The environment for the child `claude`: without the parent Claude Code session's own variables.
+
+    When `aireview` itself runs inside a Claude Code session (CLAUDECODE, CLAUDE_CODE_*), the child CLI
+    inherits that session's routing and authenticates against it instead of ANTHROPIC_API_KEY.
+    """
+    return {k: v for k, v in environ.items() if not k.startswith("CLAUDE")}
+
+
 def run_subprocess(argv: list[str], stdin: str, timeout_s: float) -> RunResult:
     """Run `argv` with `stdin` as input (list form, no shell)."""
     proc = subprocess.run(
-        argv, input=stdin, capture_output=True, encoding="utf-8", errors="replace", timeout=timeout_s, check=False
+        argv,
+        input=stdin,
+        capture_output=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=timeout_s,
+        check=False,
+        env=child_env(os.environ),
     )
     return RunResult(proc.returncode, proc.stdout, proc.stderr)
 

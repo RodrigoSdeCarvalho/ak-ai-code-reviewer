@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:02+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "08afdf8c920fccdfb7cc45d9146e4520",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2490,
+  "user_sha256": "d65f9e2ecd0de2e6390d26cf0d6c792a330db12294671e8f30f7f4bbf10d563d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The check-then-act race on link.uses is real in principle, but the code shown is a plain in-memory dict with no evidence of concurrent threads or async tasks sharing it; without showing a concurrent runtime, the concurrency claim cannot be confirmed from the shown code, so it is best treated as speculative hardening."
+  },
+  "raw_text": "{\"reason\": \"The check-then-act race on link.uses is real in principle, but the code shown is a plain in-memory dict with no evidence of concurrent threads or async tasks sharing it; without showing a concurrent runtime, the concurrency claim cannot be confirmed from the shown code, so it is best treated as speculative hardening.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKuMBBKsdmSQ5wpUfUi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00016126,
+   "input_tokens": 951,
+   "latency_ms": 1344,
+   "output_tokens": 119
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "bffe5e7cd8798ee1c2bfbc6c407a8bee",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2068,
+  "user_sha256": "0f50693e9f11d21bd63d46d5600d53f23ea92dab660096dcda97891c53500b8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the except clause retries all GatewayErrors, including permanent declines, which wastes retries and hammers the issuer. Description B says that after retries are exhausted the function falls through and returns None, which causes a downstream AttributeError. Different failures at different lines (catch scope versus the post-loop fall-through to None).",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the except clause retries all GatewayErrors, including permanent declines, which wastes retries and hammers the issuer. Description B says that after retries are exhausted the function falls through and returns None, which causes a downstream AttributeError. Different failures at different lines (catch scope versus the post-loop fall-through to None).\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKoMqhbapj6rc57wgqy",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014904000000000002,
+   "input_tokens": 751,
+   "latency_ms": 1484,
+   "output_tokens": 122
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4bfa85289f155d7c03d0cc8fa3a3d7fd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1998,
+  "user_sha256": "be683971db02a0e2764f51991a93589568f4584d0aef4cd2b77dc0e1f4de2606"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the `except OSError` handler at lines 55-56 deletes the temp file without re-raising, so put() falls through to return BlobInfo as if stored, causing silent data loss and later BlobNotFound on get(). Description B adds a mention of AttachmentService.upload, but the core root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the `except OSError` handler at lines 55-56 deletes the temp file without re-raising, so put() falls through to return BlobInfo as if stored, causing silent data loss and later BlobNotFound on get(). Description B adds a mention of AttachmentService.upload, but the core root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKifsWT1C2sKhjqWWf7",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015394,
+   "input_tokens": 765,
+   "latency_ms": 1827,
+   "output_tokens": 129
+  }
+ }
+}

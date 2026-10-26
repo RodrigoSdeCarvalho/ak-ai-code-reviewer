@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "fdacb8c95a2a2b2f9e39e61a1e8ffba5",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9918,
+  "user_sha256": "871e834f5bb06958d04bcf553559eb317d82339733927042817fe285d8e80af6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.95,
+     "description": "The magic-link token is built with `random.choices`, which uses the Mersenne Twister. Its output is predictable once enough values have been observed. The token alone authenticates a member and starts a session, so an attacker who can request links, or who sees other tokens, could predict a valid token and take over accounts.",
+     "file": "allotment/magic_links.py",
+     "line": 53,
+     "severity": "critical",
+     "suggestion": "Use the `secrets` module, e.g. `secrets.token_urlsafe(32)` or `\"\".join(secrets.choice(_TOKEN_ALPHABET) for _ in range(TOKEN_LENGTH))`.",
+     "title": "Sign-in token generated with non-cryptographic PRNG"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "`redeem` pops the pending link and starts a session without comparing `link.expires_at` with `now`. Expired links remain valid until `purge_expired` happens to run, so a link emailed long ago still signs the user in, despite the email promising a 15-minute expiry.",
+     "file": "allotment/magic_links.py",
+     "line": 65,
+     "severity": "high",
+     "suggestion": "After popping, `if link.expires_at <= now: raise LinkRejected(...)`.",
+     "title": "Expiry is never checked when redeeming a link"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"allotment/magic_links.py\",\"line\":53,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Sign-in token generated with non-cryptographic PRNG\",\"description\":\"The magic-link token is built with `random.choices`, which uses the Mersenne Twister. Its output is predictable once enough values have been observed. The token alone authenticates a member and starts a session, so an attacker who can request links, or who sees other tokens, could predict a valid token and take over accounts.\",\"suggestion\":\"Use the `secrets` module, e.g. `secrets.token_urlsafe(32)` or `\\\"\\\".join(secrets.choice(_TOKEN_ALPHABET) for _ in range(TOKEN_LENGTH))`.\",\"confidence\":0.95},{\"file\":\"allotment/magic_links.py\",\"line\":65,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Expiry is never checked when redeeming a link\",\"description\":\"`redeem` pops the pending link and starts a session without comparing `link.expires_at` with `now`. Expired links remain valid until `purge_expired` happens to run, so a link emailed long ago still signs the user in, despite the email promising a 15-minute expiry.\",\"suggestion\":\"After popping, `if link.expires_at <= now: raise LinkRejected(...)`.\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0064965,
+   "input_tokens": 4012,
+   "latency_ms": null,
+   "output_tokens": 445
+  }
+ }
+}

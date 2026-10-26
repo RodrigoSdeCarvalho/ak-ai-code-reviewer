@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:01+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "cec259537a6df4f341d12d353b961c15",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2123,
+  "user_sha256": "efc30dadcf74bd8f1340816a79d3b7d408f361459334e24e9ddd773d07d30d8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the removed per-year holiday cache causes BusinessCalendar.holidays to call the holiday source on every is_business_day check, so JsonHolidaySource re-reads and re-parses the JSON file for each day walked in roll_forward, add_business_days and business_days_between. Both point at lines 37-38 of the same method, with different wording and emphasis but the same root cause and failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the removed per-year holiday cache causes BusinessCalendar.holidays to call the holiday source on every is_business_day check, so JsonHolidaySource re-reads and re-parses the JSON file for each day walked in roll_forward, add_business_days and business_days_between. Both point at lines 37-38 of the same method, with different wording and emphasis but the same root cause and failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpr281VLJVoV518SzV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016984000000000001,
+   "input_tokens": 794,
+   "latency_ms": 1484,
+   "output_tokens": 155
+  }
+ }
+}

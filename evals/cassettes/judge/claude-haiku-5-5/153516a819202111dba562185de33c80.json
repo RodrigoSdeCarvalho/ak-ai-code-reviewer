@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "153516a819202111dba562185de33c80",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2312,
+  "user_sha256": "4097e7cc7398f15c90348d12209f609ae9940f605338af8c94066894b6ab7edc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both identify the non-atomic check-then-act between current() and _issue() in login(), each taking the lock separately. Description A focuses on a concurrent revoke(token) causing a revoked token to be resurrected; Description B's main failure is two concurrent sign-ins minting conflicting tokens, but it also explicitly names the same window letting a login re-register a token a concurrent logout just revoked. The shared root cause and location match, so they overlap substantively, though B centers on a different primary symptom.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both identify the non-atomic check-then-act between current() and _issue() in login(), each taking the lock separately. Description A focuses on a concurrent revoke(token) causing a revoked token to be resurrected; Description B's main failure is two concurrent sign-ins minting conflicting tokens, but it also explicitly names the same window letting a login re-register a token a concurrent logout just revoked. The shared root cause and location match, so they overlap substantively, though B centers on a different primary symptom.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.827000000000001e-05,
+   "input_tokens": 753,
+   "latency_ms": null,
+   "output_tokens": 178
+  }
+ }
+}

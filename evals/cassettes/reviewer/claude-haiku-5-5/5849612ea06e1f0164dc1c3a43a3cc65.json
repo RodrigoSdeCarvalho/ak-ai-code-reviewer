@@ -1,0 +1,59 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5849612ea06e1f0164dc1c3a43a3cc65",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8990,
+  "user_sha256": "b7dca955942ddc919ca38fae78345f45440711009e7b139138f0084d6de30dff"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "`metadata: dict[str, str] = {}` is a single dict shared by every call that omits the argument. Line 80 calls `setdefault` on it, so the first put without metadata writes its key's guessed content type into the shared default. Later puts without metadata reuse that stale value, so e.g. put('a.pdf') followed by put('b.png') stores b.png as application/pdf. The same mutation also changes the dict a caller passes in, which the caller does not expect. Fix: use `metadata: dict[str, str] | None = None`, then build a new dict locally (`meta = dict(metadata or {})`) and call setdefault on that copy.",
+     "end_line": 80,
+     "file": "blobstore/store.py",
+     "line": 73,
+     "severity": "high",
+     "suggestion": "Change the signature to `metadata: dict[str, str] | None = None` and do `meta = {**(metadata or {})}; meta.setdefault(\"content-type\", guess_content_type(key))`, then serialise `meta`.",
+     "title": "Mutable default metadata dict leaks content-type between calls and mutates caller's dict"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.55,
+     "description": "The new metadata file is installed (line 83) before the blob is replaced (line 86). A concurrent head() between the two replaces returns the new content type and metadata with the old blob's size. If the blob write fails (for example disk full in write_bytes), the metadata now describes a blob that was never updated. Writing the blob first would leave at worst stale metadata for the old contents, which is less harmful. A single combined write (such as a manifest) would avoid the window entirely.",
+     "file": "blobstore/store.py",
+     "line": 83,
+     "severity": "medium",
+     "suggestion": "Write and replace the blob first, then write the metadata, or store the metadata alongside the blob in one atomic unit.",
+     "title": "Metadata is replaced before the blob, so readers and failures see mismatched state"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"blobstore/store.py\",\"line\":73,\"end_line\":80,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Mutable default metadata dict leaks content-type between calls and mutates caller's dict\",\"description\":\"`metadata: dict[str, str] = {}` is a single dict shared by every call that omits the argument. Line 80 calls `setdefault` on it, so the first put without metadata writes its key's guessed content type into the shared default. Later puts without metadata reuse that stale value, so e.g. put('a.pdf') followed by put('b.png') stores b.png as application/pdf. The same mutation also changes the dict a caller passes in, which the caller does not expect. Fix: use `metadata: dict[str, str] | None = None`, then build a new dict locally (`meta = dict(metadata or {})`) and call setdefault on that copy.\",\"suggestion\":\"Change the signature to `metadata: dict[str, str] | None = None` and do `meta = {**(metadata or {})}; meta.setdefault(\\\"content-type\\\", guess_content_type(key))`, then serialise `meta`.\",\"confidence\":0.95},{\"file\":\"blobstore/store.py\",\"line\":83,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Metadata is replaced before the blob, so readers and failures see mismatched state\",\"description\":\"The new metadata file is installed (line 83) before the blob is replaced (line 86). A concurrent head() between the two replaces returns the new content type and metadata with the old blob's size. If the blob write fails (for example disk full in write_bytes), the metadata now describes a blob that was never updated. Writing the blob first would leave at worst stale metadata for the old contents, which is less harmful. A single combined write (such as a manifest) would avoid the window entirely.\",\"suggestion\":\"Write and replace the blob first, then write the metadata, or store the metadata alongside the blob in one atomic unit.\",\"confidence\":0.55}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000626025,
+   "input_tokens": 3936,
+   "latency_ms": null,
+   "output_tokens": 1665
+  }
+ }
+}

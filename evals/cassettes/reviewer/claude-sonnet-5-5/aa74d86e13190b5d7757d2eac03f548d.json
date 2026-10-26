@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:12:43+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "aa74d86e13190b5d7757d2eac03f548d",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "find() returns the same list object that is stored in the cache, on both a hit (line 63) and a miss (line 68). Before this change every call built a fresh list. A caller that sorts, appends to or pops from the result now silently corrupts the cached entry, so later callers with the same query get the modified list.",
+     "end_line": 68,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Store the list as a tuple, or return list(entry[1]) and list(hits) so callers get a copy.",
+     "title": "Cached result list is returned by reference and can be mutated by callers"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "The lookup pops the key before checking the TTL, so an expired entry has already been removed when the size check runs. That is fine. On an expired miss with a full cache, however, the size check can evict an unrelated live entry even though a slot was just freed by the pop. This wastes cache entries.",
+     "end_line": 67,
+     "file": "catalog/service.py",
+     "line": 60,
+     "severity": "low",
+     "suggestion": "Make the eviction check run only when the key is not already present, or run it after accounting for the popped entry.",
+     "title": "Expired entry is popped, so cache may be evicted needlessly"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":68,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list is returned by reference and can be mutated by callers\",\"description\":\"find() returns the same list object that is stored in the cache, on both a hit (line 63) and a miss (line 68). Before this change every call built a fresh list. A caller that sorts, appends to or pops from the result now silently corrupts the cached entry, so later callers with the same query get the modified list.\",\"suggestion\":\"Store the list as a tuple, or return list(entry[1]) and list(hits) so callers get a copy.\",\"confidence\":0.6},{\"file\":\"catalog/service.py\",\"line\":60,\"end_line\":67,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Expired entry is popped, so cache may be evicted needlessly\",\"description\":\"The lookup pops the key before checking the TTL, so an expired entry has already been removed when the size check runs. That is fine. On an expired miss with a full cache, however, the size check can evict an unrelated live entry even though a slot was just freed by the pop. This wastes cache entries.\",\"suggestion\":\"Make the eviction check run only when the key is not already present, or run it after accounting for the popped entry.\",\"confidence\":0.3}]}",
+  "request_id": "req_011CgRJRiVBLhf88PiEXKKTY",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.009083,
+   "input_tokens": 2172,
+   "latency_ms": 3969,
+   "output_tokens": 422
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:00+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ffebf0f488fc8bf7fc1812f8ea66d1f8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2182,
+  "user_sha256": "7763093404b517f94215a7cabe97254c5be37e4d5cb862b66ee967dfc712900c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the except clause retries permanent errors (CardDeclined, InvalidRequest) instead of only transient ones, causing repeated submissions. Description B says that after exhausting retries the loop breaks and charge() returns None instead of re-raising, leading to an AttributeError downstream. These are different failures: one is over-broad retry classification, the other is a missing re-raise after the final attempt.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the except clause retries permanent errors (CardDeclined, InvalidRequest) instead of only transient ones, causing repeated submissions. Description B says that after exhausting retries the loop breaks and charge() returns None instead of re-raising, leading to an AttributeError downstream. These are different failures: one is over-broad retry classification, the other is a missing re-raise after the final attempt.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJbwhxA2q1g3ARmSfVg",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016504000000000003,
+   "input_tokens": 793,
+   "latency_ms": 1561,
+   "output_tokens": 147
+  }
+ }
+}

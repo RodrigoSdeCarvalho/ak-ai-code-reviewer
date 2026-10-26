@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:30+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "444495dc5d2958f32ab9b0f50d8f71bb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1864,
+  "user_sha256": "9705ff33c880c585a0bc8d3c2f3f94c3ff012fe05967cb6fb9f95972e56f0958"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the retry branch at line 51 returns `enrich(event, geo)` without `await`, so an un-awaited coroutine object is passed downstream instead of an Event, and the retry never runs. Description A adds a claim about second timeouts not aborting, but the core root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the retry branch at line 51 returns `enrich(event, geo)` without `await`, so an un-awaited coroutine object is passed downstream instead of an Event, and the retry never runs. Description A adds a claim about second timeouts not aborting, but the core root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKrvSptBGBuqCBPVXf4",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014354000000000002,
+   "input_tokens": 701,
+   "latency_ms": 1547,
+   "output_tokens": 121
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:54+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a9188c5cd6d0a17d383f16953e529c14",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2514,
+  "user_sha256": "c69aa27f62a6bd6394a72658b723f847c3c96febdf78fa8d6ec848fa230ebcb3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment's claims are plausible on the shown code: json.loads on a corrupt meta file raises JSONDecodeError untranslated, a non-dict JSON value would make .pop fail, and is_file() followed by read_text is a TOCTOU race with delete causing FileNotFoundError. These are concrete failure modes in head(), so it is a real defect rather than style."
+  },
+  "raw_text": "{\"reason\": \"The comment's claims are plausible on the shown code: json.loads on a corrupt meta file raises JSONDecodeError untranslated, a non-dict JSON value would make .pop fail, and is_file() followed by read_text is a TOCTOU race with delete causing FileNotFoundError. These are concrete failure modes in head(), so it is a real defect rather than style.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKtgkP16MZb8Jt9QGpd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00017656,
+   "input_tokens": 999,
+   "latency_ms": 1969,
+   "output_tokens": 140
+  }
+ }
+}

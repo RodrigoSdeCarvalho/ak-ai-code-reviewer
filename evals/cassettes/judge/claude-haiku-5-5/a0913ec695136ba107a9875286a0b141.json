@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a0913ec695136ba107a9875286a0b141",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2238,
+  "user_sha256": "3fafb759099cf7a83c118933048f3936786e641a8dadb748de43248524539543"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: parse_rows now returns a one-shot generator, which the list comprehension on line 35 exhausts, so the upsert loop on line 39 never processes valid rows, yielding created=0 and updated=0 while rejected rows are still reported. Different wording and detail, same failure and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: parse_rows now returns a one-shot generator, which the list comprehension on line 35 exhausts, so the upsert loop on line 39 never processes valid rows, yielding created=0 and updated=0 while rejected rows are still reported. Different wording and detail, same failure and location.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.907000000000001e-05,
+   "input_tokens": 844,
+   "latency_ms": null,
+   "output_tokens": 123
+  }
+ }
+}

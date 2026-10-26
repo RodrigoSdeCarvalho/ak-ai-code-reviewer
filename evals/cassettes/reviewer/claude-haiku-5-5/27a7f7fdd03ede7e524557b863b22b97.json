@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "27a7f7fdd03ede7e524557b863b22b97",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8463,
+  "user_sha256": "192eedb2d694f43fa7ade5ca58a0688e8081225ff2a8d87b274351179b790bbe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.4,
+     "description": "Before this change, `Bundle.missing` listed keys with no translation in the requested locale. Now a key found only in a parent or the default locale is recorded in `sources` and not in `missing`. `missing_report` is built from `missing`, so for a pt-BR request that falls back to English, translators no longer see those keys in the report. Callers that relied on `missing` to flag untranslated keys will silently stop receiving them.",
+     "end_line": null,
+     "file": "i18n/bundles.py",
+     "line": 49,
+     "severity": "medium",
+     "suggestion": "Keep `missing` as keys not found in the requested locale, for example by appending to it when the matched candidate is not chain[0], and let `fallback_keys` cover the fallback case. Alternatively, rename the field and update `missing_report` to match the intended meaning.",
+     "title": "`missing` now means absent in every locale, not just the requested one"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.3,
+     "description": "`fallback_chain` calls `normalise`, which raises `ValueError` for an empty or whitespace-only tag. Before this change, `build_bundle` accepted any locale string. If a request arrives without a locale, for example an empty Accept-Language value, this call now raises on the page path rather than falling back to the default locale.",
+     "end_line": null,
+     "file": "i18n/bundles.py",
+     "line": 37,
+     "severity": "low",
+     "suggestion": "Catch the empty-tag case in `build_bundle` and substitute `default_locale`, or validate the locale at the request boundary so the error is handled there.",
+     "title": "Empty or blank locale now raises ValueError instead of rendering"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"i18n/bundles.py\",\"line\":49,\"end_line\":null,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"`missing` now means absent in every locale, not just the requested one\",\"description\":\"Before this change, `Bundle.missing` listed keys with no translation in the requested locale. Now a key found only in a parent or the default locale is recorded in `sources` and not in `missing`. `missing_report` is built from `missing`, so for a pt-BR request that falls back to English, translators no longer see those keys in the report. Callers that relied on `missing` to flag untranslated keys will silently stop receiving them.\",\"suggestion\":\"Keep `missing` as keys not found in the requested locale, for example by appending to it when the matched candidate is not chain[0], and let `fallback_keys` cover the fallback case. Alternatively, rename the field and update `missing_report` to match the intended meaning.\",\"confidence\":0.4},{\"file\":\"i18n/bundles.py\",\"line\":37,\"end_line\":null,\"severity\":\"low\",\"category\":\"error_handling\",\"title\":\"Empty or blank locale now raises ValueError instead of rendering\",\"description\":\"`fallback_chain` calls `normalise`, which raises `ValueError` for an empty or whitespace-only tag. Before this change, `build_bundle` accepted any locale string. If a request arrives without a locale, for example an empty Accept-Language value, this call now raises on the page path rather than falling back to the default locale.\",\"suggestion\":\"Catch the empty-tag case in `build_bundle` and substitute `default_locale`, or validate the locale at the request boundary so the error is handled there.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000670075,
+   "input_tokens": 3617,
+   "latency_ms": null,
+   "output_tokens": 1905
+  }
+ }
+}

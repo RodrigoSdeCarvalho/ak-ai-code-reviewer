@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:13:35+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "b2ac1c0449ac905613d5c53f3803ed6c",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 20158,
+  "user_sha256": "dc8a27e6f55becb8700a56250673ef972fb55a5e77b4af373a8443194f48595f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "After yielding a DailyTotal when the key changes, `quantity` is not reset to 0. The next group starts with the previous group's quantity, so each later day/metric/account total is inflated by all earlier totals. Monthly totals, peaks, averages and change percentages are therefore wrong whenever there is more than one group.",
+     "file": "metering/rollup.py",
+     "line": 58,
+     "severity": "high",
+     "suggestion": "Set `quantity = 0` right after the yield, before `current = key`.",
+     "title": "Daily quantity accumulator is never reset between groups"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "UsageKey is (account_id, metric, month), but the lookup builds (account_id, prior, metric). It never matches, so `previous` is always None. previous_total is always empty and change is always 'n/a'.",
+     "file": "metering/report.py",
+     "line": 69,
+     "severity": "high",
+     "suggestion": "Use `usage.get((account_id, metric, prior))`.",
+     "title": "Previous-month lookup uses wrong key order"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.15,
+     "description": "`if not self.previous_total` returns None for a previous total of 0 as well as None. Both show 'n/a', which is arguably intended for zero (division by zero), but the check also conflates the two cases. The zero case is at least guarded against division by zero.",
+     "file": "metering/report.py",
+     "line": 40,
+     "severity": "medium",
+     "suggestion": "Check `is None` and `== 0` explicitly if distinct output is wanted.",
+     "title": "Zero previous total treated the same as missing"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"metering/rollup.py\",\"line\":58,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Daily quantity accumulator is never reset between groups\",\"description\":\"After yielding a DailyTotal when the key changes, `quantity` is not reset to 0. The next group starts with the previous group's quantity, so each later day/metric/account total is inflated by all earlier totals. Monthly totals, peaks, averages and change percentages are therefore wrong whenever there is more than one group.\",\"suggestion\":\"Set `quantity = 0` right after the yield, before `current = key`.\",\"confidence\":0.97},{\"file\":\"metering/report.py\",\"line\":69,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Previous-month lookup uses wrong key order\",\"description\":\"UsageKey is (account_id, metric, month), but the lookup builds (account_id, prior, metric). It never matches, so `previous` is always None. previous_total is always empty and change is always 'n/a'.\",\"suggestion\":\"Use `usage.get((account_id, metric, prior))`.\",\"confidence\":0.97},{\"file\":\"metering/report.py\",\"line\":40,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Zero previous total treated the same as missing\",\"description\":\"`if not self.previous_total` returns None for a previous total of 0 as well as None. Both show 'n/a', which is arguably intended for zero (division by zero), but the check also conflates the two cases. The zero case is at least guarded against division by zero.\",\"suggestion\":\"Check `is None` and `== 0` explicitly if distinct output is wanted.\",\"confidence\":0.15}]}",
+  "request_id": "req_011CgRJVQiibLHmPASpxMus2",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.022469,
+   "input_tokens": 8315,
+   "latency_ms": 5171,
+   "output_tokens": 532
+  }
+ }
+}

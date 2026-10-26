@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5bc00c4582c6523e4b7f22bc0bfeda7b",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5080,
+  "user_sha256": "e75724073edb444c154176ec5f855fdaed183b7a2c78ecef9a577b268d22ad54"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.5,
+     "description": "send_campaign only catches RecipientRefused. Any other exception from mailer.send (for example a transient SMTP connection error or timeout) propagates out of the loop. The caller then gets no CampaignReport, so it cannot tell which subscribers already received the campaign. A retry would resend to those subscribers, and the remaining subscribers are silently skipped.",
+     "end_line": 85,
+     "file": "newsletter/campaign.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Catch the transient mailer error types per recipient and record them in the report (or re-raise with the partial report attached), so that a single failure does not discard the results of earlier sends.",
+     "title": "Non-refusal send errors abort the whole campaign and discard the report"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"newsletter/campaign.py\", \"line\": 81, \"end_line\": 85, \"severity\": \"medium\", \"category\": \"error_handling\", \"title\": \"Non-refusal send errors abort the whole campaign and discard the report\", \"description\": \"send_campaign only catches RecipientRefused. Any other exception from mailer.send (for example a transient SMTP connection error or timeout) propagates out of the loop. The caller then gets no CampaignReport, so it cannot tell which subscribers already received the campaign. A retry would resend to those subscribers, and the remaining subscribers are silently skipped.\", \"suggestion\": \"Catch the transient mailer error types per recipient and record them in the report (or re-raise with the partial report attached), so that a single failure does not discard the results of earlier sends.\", \"confidence\": 0.5}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000351175,
+   "input_tokens": 2179,
+   "latency_ms": null,
+   "output_tokens": 917
+  }
+ }
+}

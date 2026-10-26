@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:29+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b7d1ae93354bb59996a8b431451183a9",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3152,
+  "user_sha256": "ca6d5cfdf9d36490dc87e3f9ae7fa625073ff0ed92f4f4bf6651a7a57cf11c52"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both describe stale heap entries left behind when an item is discarded or re-added, so the old timestamp/position is used and the re-added item is evicted early. Description A focuses on the removed _is_current check and pop() accepting stale entries; Description B additionally covers purge() reading the heap top without validation and the revoked-task consequence. The core root cause (stale heap entries not invalidated, causing premature eviction of re-added items) is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both describe stale heap entries left behind when an item is discarded or re-added, so the old timestamp/position is used and the re-added item is evicted early. Description A focuses on the removed _is_current check and pop() accepting stale entries; Description B additionally covers purge() reading the heap top without validation and the revoked-task consequence. The core root cause (stale heap entries not invalidated, causing premature eviction of re-added items) is the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKi37Rei2vyHHAray7c",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00020404000000000003,
+   "input_tokens": 1116,
+   "latency_ms": 1734,
+   "output_tokens": 159
+  }
+ }
+}

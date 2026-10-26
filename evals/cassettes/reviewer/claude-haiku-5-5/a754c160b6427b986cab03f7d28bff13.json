@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "a754c160b6427b986cab03f7d28bff13",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7773,
+  "user_sha256": "861a2e980ea6e1734631e17f54e9da5627aeefec07ca990c97db0151d6f8de04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.9,
+     "description": "The self._pool.release(conn) call sits after the try/except. The except block re-raises, so whenever UnknownSku, InsufficientStock or DuplicateReservation is raised, control leaves reserve() before line 96 runs and the connection is never returned to the pool. Each rejected reservation (for example, an order that cannot be fully stocked) leaks one connection, and once the pool is exhausted, later callers block or fail. Non-InventoryError exceptions, such as database errors, also skip both rollback and release.",
+     "end_line": null,
+     "file": "inventory/service.py",
+     "line": 96,
+     "severity": "high",
+     "suggestion": "Move the release into a finally block, as cancel() and level() already do: wrap the try/except in an outer try whose finally calls self._pool.release(conn).",
+     "title": "Connection is never released when reserve() raises an InventoryError"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/service.py\",\"line\":96,\"end_line\":null,\"severity\":\"high\",\"category\":\"resource\",\"title\":\"Connection is never released when reserve() raises an InventoryError\",\"description\":\"The self._pool.release(conn) call sits after the try/except. The except block re-raises, so whenever UnknownSku, InsufficientStock or DuplicateReservation is raised, control leaves reserve() before line 96 runs and the connection is never returned to the pool. Each rejected reservation (for example, an order that cannot be fully stocked) leaks one connection, and once the pool is exhausted, later callers block or fail. Non-InventoryError exceptions, such as database errors, also skip both rollback and release.\",\"suggestion\":\"Move the release into a finally block, as cancel() and level() already do: wrap the try/except in an outer try whose finally calls self._pool.release(conn).\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00044292500000000005,
+   "input_tokens": 3054,
+   "latency_ms": null,
+   "output_tokens": 1109
+  }
+ }
+}

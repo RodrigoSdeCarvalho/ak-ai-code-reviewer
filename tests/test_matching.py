@@ -1,5 +1,12 @@
-from aireview.evals.matching import MAX_JUDGE_TOL, is_candidate, line_distance, location_candidates, match_sample
-from aireview.evals.schema import Bug, FindingOutcome, Verdict
+from aireview.evals.matching import (
+    MAX_JUDGE_TOL,
+    is_candidate,
+    line_distance,
+    location_candidates,
+    match_sample,
+    nearest_location,
+)
+from aireview.evals.schema import Bug, FindingOutcome, Location, Verdict
 from aireview.models import Category, Finding, Severity
 
 
@@ -108,3 +115,51 @@ def test_no_findings_and_no_bugs():
     assert match_sample("c", 0, [], [bug()], {}, "strict", 3).missed_bugs == ["b1"]
     out = match_sample("c", 0, [finding(3)], [], {}, "strict", 3)
     assert out.finding_outcomes == [FindingOutcome.fp]
+
+
+# ---------------------------------------------------------------- alternative locations
+
+
+def alt_bug(**kw):
+    """Labelled at app/x.py:10-12; also reportable at the callee app/y.py:40-41 and at app/x.py:30-30."""
+    return bug(**kw).model_copy(
+        update={
+            "alt_locations": [
+                Location(file="app/y.py", line_start=40, line_end=41),
+                Location(file="app/x.py", line_start=30, line_end=30),
+            ]
+        }
+    )
+
+
+def test_a_finding_at_an_alternative_location_is_a_candidate():
+    b = alt_bug()
+    assert is_candidate(finding(41, file="app/y.py"), b, 0)
+    assert is_candidate(finding(44, file="./app/y.py"), b, 3)
+    assert not is_candidate(finding(45, file="app/y.py"), b, 3)
+    assert is_candidate(finding(33), b, 3)  # second alternative, same file as the label
+    assert not is_candidate(finding(41, file="app/z.py"), b, 10)
+    assert not is_candidate(finding(41, file="app/y.py"), bug(), 10)  # no alternatives: other file never matches
+    assert location_candidates([finding(40, file="app/y.py")], [b], 3) == [(0, "b1")]
+
+
+def test_distance_uses_the_nearest_location_in_the_findings_file():
+    b = alt_bug()
+    assert line_distance(finding(20), b) == 8  # 12 -> 20 beats 20 -> 30 (10)
+    assert line_distance(finding(26), b) == 4  # nearer the alternative at 30
+    assert line_distance(finding(43, file="app/y.py"), b) == 2
+    assert nearest_location(finding(26), b) == Location(file="app/x.py", line_start=30, line_end=30)
+    assert nearest_location(finding(11), b) == b.primary
+    assert nearest_location(finding(5, file="app/other.py"), b) == b.primary  # no location there: the label
+
+
+def test_alternative_location_match_is_a_tp_and_counts_once():
+    b = alt_bug()
+    findings = [finding(40, file="app/y.py"), finding(11)]
+    verdicts = {(0, "b1"): Verdict.same, (1, "b1"): Verdict.same}
+    out = match_sample("c", 0, findings, [b], verdicts, "strict", 3)
+    # The bug is claimed once, by the finding closest to one of its locations (both at distance 0: the first).
+    assert out.detected_bugs == ["b1"]
+    assert sorted(o.value for o in out.finding_outcomes) == ["duplicate", "tp"]
+    only_alt = match_sample("c", 0, findings[:1], [b], verdicts, "strict", 3)
+    assert only_alt.finding_outcomes == [FindingOutcome.tp] and only_alt.missed_bugs == []

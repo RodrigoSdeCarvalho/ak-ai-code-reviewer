@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d7be426622d36c11587ec34eaf5c49b8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2468,
+  "user_sha256": "368c450fd99578f1eab62b1c7e5adac37d1c99ffcbf169b0bbbf6d0376b883ec"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: in reschedule, the lock acquired via _acquire() is not released on the early return False path (unknown or non-pending job), leaving the lock held and causing subsequent scheduler calls to time out with SchedulerBusy. Description A also mentions exceptions in replace, but its core failure matches Description B exactly.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: in reschedule, the lock acquired via _acquire() is not released on the early return False path (unknown or non-pending job), leaving the lock held and causing subsequent scheduler calls to time out with SchedulerBusy. Description A also mentions exceptions in replace, but its core failure matches Description B exactly.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKkCCff3o46ewVP8kWE",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017224000000000002,
+   "input_tokens": 938,
+   "latency_ms": 1453,
+   "output_tokens": 131
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:01+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9f2227b812bd95cf58546a2aeae89154",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1908,
+  "user_sha256": "5c94c14812ba9f448f68cddcbca2571465efd278f1bf2bd4a80d933f927404a4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the unbounded exponent in _retry_delay can overflow timedelta multiplication and abort tick. Description B says the finally block overwrites the backoff next_run with now + job.interval, so failed jobs wait a full interval. These are different failures at different lines; the code shows the finally overwrite is real, while A's overflow concern is a separate issue.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the unbounded exponent in _retry_delay can overflow timedelta multiplication and abort tick. Description B says the finally block overwrites the backoff next_run with now + job.interval, so failed jobs wait a full interval. These are different failures at different lines; the code shows the finally overwrite is real, while A's overflow concern is a separate issue.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJc4YibNdEaMJFD8m8Z",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014944,
+   "input_tokens": 702,
+   "latency_ms": 1546,
+   "output_tokens": 134
+  }
+ }
+}

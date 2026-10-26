@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "58955d35fef5448101812ffe8d68e8f2",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 19116,
+  "user_sha256": "75996b75a344646ffad84627b4af46308bca5d11a42ecfe2df622e8a40c6a91b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.75,
+     "description": "can_bid now calls spend(), which calls log.for_day(), which opens the day's JSONL file and json-parses every record. eligible() calls can_bid() once per campaign, so one bid request reads the same file once per campaign (and each read parses all campaigns' records to keep only one). Before this change, spend was kept in memory and updated on record(). With many campaigns and a busy day this makes every bid request cost O(campaigns x day's impressions) of disk I/O and JSON parsing, on the hot bidding path, which can exceed bid timeouts under load.",
+     "end_line": 72,
+     "file": "adserve/pacing.py",
+     "line": 72,
+     "severity": "high",
+     "suggestion": "Compute spend for all campaigns in one pass per request (or cache per-day totals and update them in record()/refund()), and invalidate or adjust the cache when mark_invalid is called, instead of re-reading the log for each campaign.",
+     "title": "Every bid check re-reads and re-parses the full day's impression log"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"adserve/pacing.py\",\"line\":72,\"end_line\":72,\"severity\":\"high\",\"category\":\"performance\",\"title\":\"Every bid check re-reads and re-parses the full day's impression log\",\"description\":\"can_bid now calls spend(), which calls log.for_day(), which opens the day's JSONL file and json-parses every record. eligible() calls can_bid() once per campaign, so one bid request reads the same file once per campaign (and each read parses all campaigns' records to keep only one). Before this change, spend was kept in memory and updated on record(). With many campaigns and a busy day this makes every bid request cost O(campaigns x day's impressions) of disk I/O and JSON parsing, on the hot bidding path, which can exceed bid timeouts under load.\",\"suggestion\":\"Compute spend for all campaigns in one pass per request (or cache per-day totals and update them in record()/refund()), and invalidate or adjust the cache when mark_invalid is called, instead of re-reading the log for each campaign.\",\"confidence\":0.75}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000841575,
+   "input_tokens": 7992,
+   "latency_ms": null,
+   "output_tokens": 1716
+  }
+ }
+}

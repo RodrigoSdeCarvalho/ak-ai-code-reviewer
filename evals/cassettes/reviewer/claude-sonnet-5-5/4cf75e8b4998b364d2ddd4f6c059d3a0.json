@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "4cf75e8b4998b364d2ddd4f6c059d3a0",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 18007,
+  "user_sha256": "934635411cfd4150657c6884bef6ce8edfaf5c7d452f3344e2485c83cc6b012f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "change_plan assigns self.plan = new_plan on line 71 and only then calls plan_change_lines(self, new_plan, on). Inside, old_plan = sub.plan is already the new plan. The credit line is therefore computed from the new plan's price and named after the new plan, so the 'Unused' credit and the new-plan charge are both for the new plan. Customers get wrong amounts and a wrong description on every plan change. In addition, if plan_change_lines raises ValueError because `on` is outside the period, the plan and history have already been mutated, leaving partial state.",
+     "end_line": 73,
+     "file": "billing/subscriptions.py",
+     "line": 71,
+     "severity": "high",
+     "suggestion": "Compute the adjustment before mutating: call plan_change_lines(self, new_plan, on) while self.plan is still the old plan, then set self.plan and append to history.",
+     "title": "Plan is swapped before proration is computed, so credit uses the new plan's price"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/subscriptions.py\",\"line\":71,\"end_line\":73,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Plan is swapped before proration is computed, so credit uses the new plan's price\",\"description\":\"change_plan assigns self.plan = new_plan on line 71 and only then calls plan_change_lines(self, new_plan, on). Inside, old_plan = sub.plan is already the new plan. The credit line is therefore computed from the new plan's price and named after the new plan, so the 'Unused' credit and the new-plan charge are both for the new plan. Customers get wrong amounts and a wrong description on every plan change. In addition, if plan_change_lines raises ValueError because `on` is outside the period, the plan and history have already been mutated, leaving partial state.\",\"suggestion\":\"Compute the adjustment before mutating: call plan_change_lines(self, new_plan, on) while self.plan is still the old plan, then set self.plan and append to history.\",\"confidence\":0.95}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0097045,
+   "input_tokens": 7765,
+   "latency_ms": null,
+   "output_tokens": 336
+  }
+ }
+}

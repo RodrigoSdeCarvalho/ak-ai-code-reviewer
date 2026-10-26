@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "76b8db1bc41a622011283ca632ad7723",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9090,
+  "user_sha256": "7307f2591c8d39a63aa1becdaf8a7cd0f5ba8f371d24abe578f0d6d169aca5d2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "When the last attempt raises GatewayError, the loop hits `break` and the method falls off the end, returning None despite the `-> Charge` annotation. In settle_invoice, the GatewayError handler never runs. Execution reaches `invoice.status = InvoiceStatus.PAID` (invoices.py line 50), then `charge.id` on None raises AttributeError. The invoice is left persisted as PAID with charge_id unset, and the exception aborts settle_open_invoices, so the rest of the batch is not settled and the counts are lost. Any persistent gateway outage therefore corrupts billing state and crashes the job.",
+     "end_line": 62,
+     "file": "billing/retry.py",
+     "line": 61,
+     "severity": "critical",
+     "suggestion": "After the last failed attempt, re-raise the caught GatewayError (for example, use `raise` inside the except block when attempt == attempts, or keep the last exception and `raise last_exc` after the loop) instead of `break`, so callers see the failure and mark the invoice PAYMENT_FAILED.",
+     "title": "Exhausted retries return None instead of raising, so invoices are marked PAID with no charge"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/retry.py\",\"line\":61,\"end_line\":62,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Exhausted retries return None instead of raising, so invoices are marked PAID with no charge\",\"description\":\"When the last attempt raises GatewayError, the loop hits `break` and the method falls off the end, returning None despite the `-> Charge` annotation. In settle_invoice, the GatewayError handler never runs. Execution reaches `invoice.status = InvoiceStatus.PAID` (invoices.py line 50), then `charge.id` on None raises AttributeError. The invoice is left persisted as PAID with charge_id unset, and the exception aborts settle_open_invoices, so the rest of the batch is not settled and the counts are lost. Any persistent gateway outage therefore corrupts billing state and crashes the job.\",\"suggestion\":\"After the last failed attempt, re-raise the caught GatewayError (for example, use `raise` inside the except block when attempt == attempts, or keep the last exception and `raise last_exc` after the loop) instead of `break`, so callers see the failure and mark the invoice PAYMENT_FAILED.\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000490625,
+   "input_tokens": 3858,
+   "latency_ms": null,
+   "output_tokens": 1139
+  }
+ }
+}

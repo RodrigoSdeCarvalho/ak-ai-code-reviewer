@@ -93,7 +93,22 @@ def review_from_output(data: Any, diff_text: str, config: ReviewerConfig, usage:
     except ValidationError as exc:
         return failed_review(config, ReviewStatus.schema_error, f"output does not match ReviewOutput: {exc}", usage)
     findings, out_of_scope = split_scope(output.findings, diff_text)
-    return Review(reviewer=reviewer_info(config), findings=findings, out_of_scope_findings=out_of_scope, usage=usage)
+    findings, suppressed = split_confidence(findings, config.min_confidence)
+    return Review(
+        reviewer=reviewer_info(config),
+        findings=findings,
+        out_of_scope_findings=out_of_scope,
+        suppressed_findings=suppressed,
+        usage=usage,
+    )
+
+
+def split_confidence(findings: list[Finding], min_confidence: float | None) -> tuple[list[Finding], list[Finding]]:
+    """(kept, suppressed): findings below `min_confidence` are suppressed; None keeps everything."""
+    if min_confidence is None:
+        return findings, []
+    kept = [f for f in findings if f.confidence >= min_confidence]
+    return kept, [f for f in findings if f.confidence < min_confidence]
 
 
 def resolve_config(config: ReviewerConfig) -> ReviewerConfig:

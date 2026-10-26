@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e4d2acf74be1a70c0f4b2ddcf475cb57",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2870,
+  "user_sha256": "c049ff369c1e57ebbf411f5215cde3f3e67a59f2a19abd9fceb5384905431da6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: converting an UploadFile to bytes via read() at lines 1070-1078 does not save and restore the file position, so later consumers of the same UploadFile receive empty content. Description A frames it around a removed helper and mixed bytes/UploadFile consumers, while Description B frames it around shared form fields across dependencies and the endpoint, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: converting an UploadFile to bytes via read() at lines 1070-1078 does not save and restore the file position, so later consumers of the same UploadFile receive empty content. Description A frames it around a removed helper and mixed bytes/UploadFile consumers, while Description B frames it around shared form fields across dependencies and the endpoint, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJaNSghHW4yebom3Ra6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00019093999999999998,
+   "input_tokens": 1047,
+   "latency_ms": 1594,
+   "output_tokens": 148
+  }
+ }
+}

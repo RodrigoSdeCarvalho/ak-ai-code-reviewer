@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "80ad1daa3fc8ec93a2dfe174ec377c9c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2303,
+  "user_sha256": "a3cbe851acb632df3ff2a81ce32800a13573d7df9ab48416425c88b5115ec568"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that find() returns the same list object stored in the cache on hit and miss, so callers mutating it corrupt the cached value. Description B adds a concrete triggering caller (search_products sorting in place) and its visible effect, but the underlying defect (shared mutable cached list returned by reference) is the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that find() returns the same list object stored in the cache on hit and miss, so callers mutating it corrupt the cached value. Description B adds a concrete triggering caller (search_products sorting in place) and its visible effect, but the underlying defect (shared mutable cached list returned by reference) is the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJavhetCmFHBCTAchek",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015384000000000003,
+   "input_tokens": 811,
+   "latency_ms": 1421,
+   "output_tokens": 121
+  }
+ }
+}

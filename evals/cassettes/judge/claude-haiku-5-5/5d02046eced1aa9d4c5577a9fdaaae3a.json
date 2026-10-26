@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5d02046eced1aa9d4c5577a9fdaaae3a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2565,
+  "user_sha256": "ae3fa8c73112e892f36fae42a81e1e730edd8687b47c81b967df779675081b46"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: can_bid at line 72 calls self.spend(), which re-reads and parses the whole day's impression log for every campaign on every bid request, making per-request cost scale with campaigns times log size. Description A adds the quadratic-over-day framing and a proposed fix of incremental running totals, while Description B states the same root cause more briefly; these are differences in detail, not in the defect.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: can_bid at line 72 calls self.spend(), which re-reads and parses the whole day's impression log for every campaign on every bid request, making per-request cost scale with campaigns times log size. Description A adds the quadratic-over-day framing and a proposed fix of incremental running totals, while Description B states the same root cause more briefly; these are differences in detail, not in the defect.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdjKNodyyUqUiGD5Pc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00018124000000000002,
+   "input_tokens": 930,
+   "latency_ms": 1985,
+   "output_tokens": 152
+  }
+ }
+}

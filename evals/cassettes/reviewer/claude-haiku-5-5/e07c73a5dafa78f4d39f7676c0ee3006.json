@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "e07c73a5dafa78f4d39f7676c0ee3006",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6793,
+  "user_sha256": "a0f800c55884e344dfa6021920086f2cf0668cec4b037e418c4c8b7f5295585e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "The new loop sets scores[term] to frequency + title_bonus for title terms but to 0.0 for every other term, so relative frequency is thrown away for body-only words. In tagger.suggest_tags, the MIN_SCORE (0.05) filter then keeps only words that appear in the title, since body-only terms score 0.0. For an article whose title has no candidate words, or an empty title, every score is 0.0 and suggest_tags returns []. Previously frequent body terms were suggested. extract_keywords also changed meaning for callers that do not pass title: all scores become 0.0 and the ranking is alphabetical.",
+     "end_line": 61,
+     "file": "textkit/keywords.py",
+     "line": 61,
+     "severity": "high",
+     "suggestion": "Keep the frequency for every term and add the bonus only for title terms: scores[term] = frequency + (title_bonus if term in title_terms else 0.0), or simply compute frequency and add title_bonus when the term is in title_terms.",
+     "title": "Body-only terms get score 0.0, so frequency ranking is discarded"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"textkit/keywords.py\",\"line\":61,\"end_line\":61,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Body-only terms get score 0.0, so frequency ranking is discarded\",\"description\":\"The new loop sets scores[term] to frequency + title_bonus for title terms but to 0.0 for every other term, so relative frequency is thrown away for body-only words. In tagger.suggest_tags, the MIN_SCORE (0.05) filter then keeps only words that appear in the title, since body-only terms score 0.0. For an article whose title has no candidate words, or an empty title, every score is 0.0 and suggest_tags returns []. Previously frequent body terms were suggested. extract_keywords also changed meaning for callers that do not pass title: all scores become 0.0 and the ranking is alphabetical.\",\"suggestion\":\"Keep the frequency for every term and add the bonus only for title terms: scores[term] = frequency + (title_bonus if term in title_terms else 0.0), or simply compute frequency and add title_bonus when the term is in title_terms.\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00048082500000000005,
+   "input_tokens": 2987,
+   "latency_ms": null,
+   "output_tokens": 1274
+  }
+ }
+}

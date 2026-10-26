@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:06+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "278b8b1a8937758ca50497811b70c243",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2505,
+  "user_sha256": "6a10665d4eb0a8987f3cb4e280b6b43a9565aa4ee7b3267421ea1f1a51c70e8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that _read_all catches OSError/ValueError/KeyError and returns {} for corrupt or unreadable files, so the store is treated as empty and the next write overwrites the file, dropping all other sessions. Description B adds extra detail (TypeError, missing-file case) but the core root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that _read_all catches OSError/ValueError/KeyError and returns {} for corrupt or unreadable files, so the store is treated as empty and the next write overwrites the file, dropping all other sessions. Description B adds extra detail (TypeError, missing-file case) but the core root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcH8G4xAEXDGtrsiyV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00016594,
+   "input_tokens": 907,
+   "latency_ms": 2906,
+   "output_tokens": 126
+  }
+ }
+}

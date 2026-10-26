@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8e6c6d7dba57d9f418e4f0d85e774114",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2246,
+  "user_sha256": "9ad1e294a5f28d14fe67cc519d3833137700b669b6db3b79917e110f17f578f9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: on a denied request, bucket.tokens is updated with the refill but bucket.updated_at is not advanced, so the next check re-adds the same elapsed interval and over-grants tokens, letting the effective rate exceed the limit. Description A adds a concrete example, while Description B additionally mentions the wrong retry_after hint, but the defect and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: on a denied request, bucket.tokens is updated with the refill but bucket.updated_at is not advanced, so the next check re-adds the same elapsed interval and over-grants tokens, letting the effective rate exceed the limit. Description A adds a concrete example, while Description B additionally mentions the wrong retry_after hint, but the defect and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpFmbiK4uJdYUtLQ78",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017263999999999997,
+   "input_tokens": 867,
+   "latency_ms": 1375,
+   "output_tokens": 146
+  }
+ }
+}

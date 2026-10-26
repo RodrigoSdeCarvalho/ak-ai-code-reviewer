@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:09+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "54fb3e2fbbd4fe91da508a58a7d79877",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1816,
+  "user_sha256": "0ab92760c8f628208016796646c88dbf50eab131b50a40c709ad84f0786e789b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 61: the conditional expression precedence makes terms not in the title score 0.0 instead of their body frequency, causing alphabetical zero-score output without a title and suppressed tags in suggest_tags. The wording and detail differ, but the root cause and failure match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 61: the conditional expression precedence makes terms not in the title score 0.0 instead of their body frequency, causing alphabetical zero-score output without a title and suppressed tags in suggest_tags. The wording and detail differ, but the root cause and failure match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcba1hNkfkNvrzeU5U",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013934,
+   "input_tokens": 691,
+   "latency_ms": 1906,
+   "output_tokens": 116
+  }
+ }
+}

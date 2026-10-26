@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "24d2018cf13f456bd7b99a882e613edd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2486,
+  "user_sha256": "ecbf669359947da90cb97e5328b34e1f6792a7a47774c08ee795a9c71881c676"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that reschedule() acquires the scheduler lock and returns False on the unknown/not-pending early return without releasing it, so all subsequent scheduler calls block and raise SchedulerBusy. Same root cause and location; Description B additionally mentions the lack of try/finally, which is the same defect framed differently.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that reschedule() acquires the scheduler lock and returns False on the unknown/not-pending early return without releasing it, so all subsequent scheduler calls block and raise SchedulerBusy. Same root cause and location; Description B additionally mentions the lack of try/finally, which is the same defect framed differently.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.482e-05,
+   "input_tokens": 944,
+   "latency_ms": null,
+   "output_tokens": 126
+  }
+ }
+}

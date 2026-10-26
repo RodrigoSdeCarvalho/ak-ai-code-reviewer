@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:33+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "354835c32ed5e5cc4182f6915630955e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1982,
+  "user_sha256": "b2f3c2f2bb26d4d2e730989a2199720c80112fdece136799bd1ab0e0180ec110"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says concurrent add()/flush during an await can break iteration, cause KeyError, or double-send. Description B says deliver is now a coroutine but is called without await, so the truthy coroutine is never run and digests are silently lost. These are different failures: a missing await versus a concurrency race on the queue, even though both touch line 45-48.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says concurrent add()/flush during an await can break iteration, cause KeyError, or double-send. Description B says deliver is now a coroutine but is called without await, so the truthy coroutine is never run and digests are silently lost. These are different failures: a missing await versus a concurrency race on the queue, even though both touch line 45-48.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKnn6RZEYd2pkBSQCMA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014404,
+   "input_tokens": 676,
+   "latency_ms": 1500,
+   "output_tokens": 127
+  }
+ }
+}

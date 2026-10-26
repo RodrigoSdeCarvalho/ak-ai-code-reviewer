@@ -24,6 +24,10 @@ bugs:
     that was never created, but the earlier lines' units stay reserved with no order referencing them,
     so every rejected order permanently shrinks available stock and later valid orders are refused.
   must_find: true
+  alt_locations:
+  - file: inventory/orders.py
+    line_start: 51
+    line_end: 55
 notes: >
   PR purpose: replace the handler's check-availability-then-reserve sequence with a single `Warehouse.reserve_order`
   call, so the availability check and the reservation cannot disagree.

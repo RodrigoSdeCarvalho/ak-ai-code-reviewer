@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5540a02f39714f5c01b547a5b10476d5",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3078,
+  "user_sha256": "a87a34e18b78cf5b40dd4ad81e2577b7a19ff50b715a130cbbb521cb04973daf"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.55,
+     "description": "The removed helper saved the file position, read the content, and seeked back. The new code calls value.read() directly, so the UploadFile is left at end-of-file. _extract_form_body runs per dependant with the same FormData, so the same UploadFile object can reach more than one bytes-annotated parameter, for example two sub-dependencies that both declare the same form field as bytes. The first consumer gets the full content, but the second reads from EOF and receives b\"\". The same applies to any code that reads the UploadFile after this point.",
+     "end_line": 1070,
+     "file": "fastapi/dependencies/utils.py",
+     "line": 1070,
+     "severity": "high",
+     "suggestion": "Restore the original behaviour: record file.file.tell() before reading, read the content, and seek back in a finally block, or otherwise keep _read_file_bytes-style position restoration at both call sites.",
+     "title": "Reading a bytes UploadFile leaves its position at EOF, so later readers get empty bytes"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"fastapi/dependencies/utils.py\",\"line\":1070,\"end_line\":1070,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Reading a bytes UploadFile leaves its position at EOF, so later readers get empty bytes\",\"description\":\"The removed helper saved the file position, read the content, and seeked back. The new code calls value.read() directly, so the UploadFile is left at end-of-file. _extract_form_body runs per dependant with the same FormData, so the same UploadFile object can reach more than one bytes-annotated parameter, for example two sub-dependencies that both declare the same form field as bytes. The first consumer gets the full content, but the second reads from EOF and receives b\\\"\\\". The same applies to any code that reads the UploadFile after this point.\",\"suggestion\":\"Restore the original behaviour: record file.file.tell() before reading, read the content, and seek back in a finally block, or otherwise keep _read_file_bytes-style position restoration at both call sites.\",\"confidence\":0.55}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00042002500000000003,
+   "input_tokens": 1131,
+   "latency_ms": null,
+   "output_tokens": 1402
+  }
+ }
+}

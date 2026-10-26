@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:00+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "426b41e842520fcfa6114a3367804579",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2001,
+  "user_sha256": "9bc146112357ada72a3890fdf3bd491faefcba3e35ce87f0f2dbc4a6ef3ecf8f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: after the final failed attempt the loop breaks and charge() returns None instead of re-raising GatewayError, so downstream settle_invoice reads charge.id on None and raises AttributeError, aborting the batch and leaving the invoice unmarked as payment failed. Description B adds detail about status being set to PAID first, but the defect and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: after the final failed attempt the loop breaks and charge() returns None instead of re-raising GatewayError, so downstream settle_invoice reads charge.id on None and raises AttributeError, aborting the batch and leaving the invoice unmarked as payment failed. Description B adds detail about status being set to PAID first, but the defect and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJbxrAaTEkTPYTB3PrN",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00015384000000000003,
+   "input_tokens": 706,
+   "latency_ms": 1313,
+   "output_tokens": 142
+  }
+ }
+}

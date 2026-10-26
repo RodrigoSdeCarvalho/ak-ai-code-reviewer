@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "315c1eb2ecbb1af1d1708c0166f89c2f",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 2060,
+  "user_sha256": "f5accdb1256f132be7ae1a1e95535f8958cf976b88cfb73ec1bfaceb75f530e9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.55,
+     "description": "The deleted __reduce_ex__ made pickle serialise each sentinel by name via getattr(Sentinel, name). Without it, the default Enum reduction applies and pickles the member by its value, which is a bare object() instance. Unpickling then calls Sentinel(<new object>), which matches no member and raises ValueError. Any pickled Context, Parameter or default that holds UNSET or FLAG_NEEDS_VALUE, for example one sent to a multiprocessing worker, will fail to load. Copy and deepcopy are unaffected because Enum already returns self for them.",
+     "end_line": null,
+     "file": "src/click/_utils.py",
+     "line": 19,
+     "severity": "medium",
+     "suggestion": "Restore __reduce_ex__ returning getattr, (self.__class__, self.name), or keep the method and only drop __copy__/__deepcopy__ if those are redundant.",
+     "title": "Removing __reduce_ex__ breaks pickling of the UNSET sentinels"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/click/_utils.py\",\"line\":19,\"end_line\":null,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Removing __reduce_ex__ breaks pickling of the UNSET sentinels\",\"description\":\"The deleted __reduce_ex__ made pickle serialise each sentinel by name via getattr(Sentinel, name). Without it, the default Enum reduction applies and pickles the member by its value, which is a bare object() instance. Unpickling then calls Sentinel(<new object>), which matches no member and raises ValueError. Any pickled Context, Parameter or default that holds UNSET or FLAG_NEEDS_VALUE, for example one sent to a multiprocessing worker, will fail to load. Copy and deepcopy are unaffected because Enum already returns self for them.\",\"suggestion\":\"Restore __reduce_ex__ returning getattr, (self.__class__, self.name), or keep the method and only drop __copy__/__deepcopy__ if those are redundant.\",\"confidence\":0.55}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00035007500000000004,
+   "input_tokens": 1047,
+   "latency_ms": null,
+   "output_tokens": 1139
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:53+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ba7597fb9ce903db165f9890602629dd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1907,
+  "user_sha256": "1e612f4e2249c94caececcfa5eb525d971e6fbd6cfeb0feba7d969c83c54f5a8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 61: the conditional expression precedence makes every term not in the title score 0.0 instead of its body frequency, so ranking degrades to alphabetical order and suggest_tags drops body-only terms. Description A adds extra detail about breaking existing callers, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 61: the conditional expression precedence makes every term not in the title score 0.0 instead of its body frequency, so ranking degrades to alphabetical order and suggest_tags drops body-only terms. Description A adds extra detail about breaking existing callers, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpFhPJByXPvx4YSg2Y",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014784,
+   "input_tokens": 719,
+   "latency_ms": 1202,
+   "output_tokens": 126
+  }
+ }
+}

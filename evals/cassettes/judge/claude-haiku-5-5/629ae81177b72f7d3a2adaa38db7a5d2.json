@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:20+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "629ae81177b72f7d3a2adaa38db7a5d2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2299,
+  "user_sha256": "ea9d13699cc2a97755c6a85c6744b3e7cfe353678fb5046a86929d75cabdbfc5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The ordering concern is plausible, but the cache and source internals (locking, docstring, thread-safety) are not shown, so the claimed stale-entry persistence cannot be confirmed from this code. Given the limited context, this is best treated as a minor concern rather than a confirmed defect."
+  },
+  "raw_text": "{\"reason\": \"The ordering concern is plausible, but the cache and source internals (locking, docstring, thread-safety) are not shown, so the claimed stale-entry persistence cannot be confirmed from this code. Given the limited context, this is best treated as a minor concern rather than a confirmed defect.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKvT1BnabvX447YdJsu",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00034026000000000005,
+   "input_tokens": 916,
+   "latency_ms": 4265,
+   "output_tokens": 484
+  }
+ }
+}

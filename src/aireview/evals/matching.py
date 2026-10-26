@@ -1,5 +1,6 @@
 """Finding-to-bug matching for one (case, sample): location candidates, then a maximum assignment.
 
+A bug can be reported at its labelled location or at any of its `alt_locations`; distances use the nearest.
 Modes: `strict` keeps only candidate pairs the judge called `same`; `location` keeps every candidate.
 A finding assigned to a `must_find=false` bug is reported as `duplicate`: it is neither rewarded (tp)
 nor penalised (fp), since the label says finding it is optional.
@@ -13,7 +14,7 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 
 from aireview.diffs import normalize_path
-from aireview.evals.schema import Bug, FindingOutcome, SampleOutcome, Verdict
+from aireview.evals.schema import Bug, FindingOutcome, Location, SampleOutcome, Verdict
 from aireview.models import Finding
 
 MAX_JUDGE_TOL = 10  # the judge is asked about every pair within this distance, so any tol <= it can be scored
@@ -30,15 +31,33 @@ def finding_span(finding: Finding) -> tuple[int, int]:
     return finding.line, end
 
 
-def line_distance(finding: Finding, bug: Bug) -> int:
-    """Gap in lines between the finding span and the bug span (0 when they overlap)."""
+def span_distance(finding: Finding, location: Location) -> int:
+    """Gap in lines between the finding span and one location's range (0 when they overlap); ignores files."""
     lo, hi = finding_span(finding)
-    return max(0, bug.line_start - hi, lo - bug.line_end)
+    return max(0, location.line_start - hi, lo - location.line_end)
+
+
+def nearest_location(finding: Finding, bug: Bug) -> Location:
+    """The bug location (labelled or alternative) in the finding's file closest to it; ties keep the labelled one.
+
+    With no location in the finding's file, the labelled location is returned (and is not a candidate).
+    """
+    file = normalize_path(finding.file)
+    same_file = [loc for loc in bug.locations if normalize_path(loc.file) == file]
+    if not same_file:
+        return bug.primary
+    return min(same_file, key=lambda loc: span_distance(finding, loc))
+
+
+def line_distance(finding: Finding, bug: Bug) -> int:
+    """Gap in lines between the finding span and the nearest bug location (0 when they overlap)."""
+    return span_distance(finding, nearest_location(finding, bug))
 
 
 def is_candidate(finding: Finding, bug: Bug, tol: int) -> bool:
-    """Same file and the finding span overlaps [line_start - tol, line_end + tol]."""
-    return normalize_path(finding.file) == normalize_path(bug.file) and line_distance(finding, bug) <= tol
+    """Same file as some bug location, and the finding span overlaps [line_start - tol, line_end + tol] of it."""
+    file = normalize_path(finding.file)
+    return any(normalize_path(loc.file) == file and span_distance(finding, loc) <= tol for loc in bug.locations)
 
 
 def location_candidates(findings: Sequence[Finding], bugs: Sequence[Bug], tol: int) -> list[tuple[int, str]]:

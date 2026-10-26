@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "6d3cddf29c20dd1df5e2271fbb2803a2",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 17887,
+  "user_sha256": "d2733e4831686f934b3c7f7a64cf87d5e8943f27036f3992a878ed1a8974fac2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.9,
+     "description": "_store compares len(self._keys_by_country), the number of distinct countries, against max_entries. The cache holds up to max_entries rates per country, so a single country can grow without limit (for example, many distinct postal codes for one country). Eviction only starts once more than max_entries countries are cached. Under sustained lookups for one country, memory grows unbounded and the max_entries limit does nothing. The previous lru_cache(maxsize=4096) bounded this.",
+     "end_line": 108,
+     "file": "billing/ratecache.py",
+     "line": 107,
+     "severity": "high",
+     "suggestion": "Compare the total entry count: `while len(self._entries) > self._max_entries:` and keep the per-country index in sync in _evict_oldest, which already handles that.",
+     "title": "Eviction loop counts countries instead of cached entries, so the cache never bounds its size"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"billing/ratecache.py\", \"line\": 107, \"end_line\": 108, \"severity\": \"high\", \"category\": \"resource\", \"title\": \"Eviction loop counts countries instead of cached entries, so the cache never bounds its size\", \"description\": \"_store compares len(self._keys_by_country), the number of distinct countries, against max_entries. The cache holds up to max_entries rates per country, so a single country can grow without limit (for example, many distinct postal codes for one country). Eviction only starts once more than max_entries countries are cached. Under sustained lookups for one country, memory grows unbounded and the max_entries limit does nothing. The previous lru_cache(maxsize=4096) bounded this.\", \"suggestion\": \"Compare the total entry count: `while len(self._entries) > self._max_entries:` and keep the per-country index in sync in _evict_oldest, which already handles that.\", \"confidence\": 0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000855525,
+   "input_tokens": 7491,
+   "latency_ms": null,
+   "output_tokens": 1872
+  }
+ }
+}

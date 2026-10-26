@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:13:02+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5a0604e35905888af9938acc2cf688dd",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8705,
+  "user_sha256": "87484cd30e933fedf346753c30dcb8403ea85d2deb72fc6a8ac18c49acb7480e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.97,
+     "description": "`request` now takes `max_attempts`. The `attempts=1` call in create_ticket was not renamed, so it falls into `**fields` and is sent to the API as a JSON body field `attempts`. `max_attempts` keeps its default of 3. POST /tickets is non-idempotent, so a timeout or 5xx can now be retried and create duplicate tickets. The vendor may also reject or ignore the unexpected `attempts` field.",
+     "file": "helpdesk/tickets.py",
+     "line": 40,
+     "severity": "high",
+     "suggestion": "Change `attempts=1` to `max_attempts=1` in the create_ticket call.",
+     "title": "create_ticket still passes renamed `attempts=1`, so it becomes a body field and retries are re-enabled"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"helpdesk/tickets.py\",\"line\":40,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"create_ticket still passes renamed `attempts=1`, so it becomes a body field and retries are re-enabled\",\"description\":\"`request` now takes `max_attempts`. The `attempts=1` call in create_ticket was not renamed, so it falls into `**fields` and is sent to the API as a JSON body field `attempts`. `max_attempts` keeps its default of 3. POST /tickets is non-idempotent, so a timeout or 5xx can now be retried and create duplicate tickets. The vendor may also reject or ignore the unexpected `attempts` field.\",\"suggestion\":\"Change `attempts=1` to `max_attempts=1` in the create_ticket call.\",\"confidence\":0.97}]}",
+  "request_id": "req_011CgRJTBi4bJDgY99ZMzAwj",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.010427,
+   "input_tokens": 3569,
+   "latency_ms": 2407,
+   "output_tokens": 277
+  }
+ }
+}

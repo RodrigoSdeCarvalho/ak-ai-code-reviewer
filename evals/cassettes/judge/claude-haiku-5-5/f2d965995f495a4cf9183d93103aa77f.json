@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:37+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f2d965995f495a4cf9183d93103aa77f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2198,
+  "user_sha256": "e896fa5b8bd4b14a7e6833168d1ab8e847b79949a078e4c0fee353d8d5df8fdc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: check() now returns a list of violations (empty when compliant), but decide() at approval.py line 26 still uses it as a boolean pass flag, inverting approval so violating reports are auto-approved and compliant ones sent to review. Same root cause and location, different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: check() now returns a list of violations (empty when compliant), but decide() at approval.py line 26 still uses it as a boolean pass flag, inverting approval so violating reports are auto-approved and compliant ones sent to review. Same root cause and location, different wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKo2Y5vV3ebqjRPgUAH",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014994,
+   "input_tokens": 795,
+   "latency_ms": 1483,
+   "output_tokens": 115
+  }
+ }
+}

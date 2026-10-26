@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f414937ba28f194724ab10b944eacee5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1871,
+  "user_sha256": "f14e0537f37fdb113d02a77097218c6d9d20169d82056c07b004291676a840ca"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: `sum(1 for _ in lines)` consumes the one-shot iterator passed by the CLI, so the later loop reads nothing and the output is empty. Description A adds details about stats and progress showing zero, while Description B adds that the job reports success, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: `sum(1 for _ in lines)` consumes the one-shot iterator passed by the CLI, so the later loop reads nothing and the output is empty. Description A adds details about stats and progress showing zero, while Description B adds that the job reports success, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJfPvMt9YEaNUxowusF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014554000000000002,
+   "input_tokens": 713,
+   "latency_ms": 1250,
+   "output_tokens": 124
+  }
+ }
+}

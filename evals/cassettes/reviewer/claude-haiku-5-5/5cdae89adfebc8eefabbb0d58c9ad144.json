@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5cdae89adfebc8eefabbb0d58c9ad144",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14062,
+  "user_sha256": "6fa1e0dcc3476b047d0183aca76ff5a8c014de3fb985e0051a98a0edfee8b6a0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "accept() rejects only revoked links and links that have reached max_uses. It never checks expires_at, so a link past its expiry is still accepted and grants membership. is_active() includes the expiry check, but accept() does not call it. Any holder of an expired code can join the workspace for as long as the link stays in the dictionary, which is until purge() removes it after 90 days past creation.",
+     "end_line": 99,
+     "file": "workspace/invites.py",
+     "line": 98,
+     "severity": "high",
+     "suggestion": "Reject the link when now >= link.expires_at, for example by checking `not link.is_active(now)` before adding the member, and raise InviteNotUsable.",
+     "title": "accept() does not check link expiry, so expired invite links remain usable"
+    },
+    {
+     "category": "security",
+     "confidence": 0.8,
+     "description": "_new_code() uses random.choices, which is a Mersenne Twister PRNG. Its output can be predicted from observed values, and it is not suitable for bearer credentials. Invite codes grant workspace membership, so an attacker who observes a few codes could predict others and join workspaces through links they were never given.",
+     "end_line": 49,
+     "file": "workspace/invites.py",
+     "line": 49,
+     "severity": "high",
+     "suggestion": "Generate codes with the secrets module, for example \"\".join(secrets.choice(CODE_ALPHABET) for _ in range(CODE_LENGTH)).",
+     "title": "Invite codes are generated with the non-cryptographic random module"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"workspace/invites.py\", \"line\": 98, \"end_line\": 99, \"severity\": \"high\", \"category\": \"logic\", \"title\": \"accept() does not check link expiry, so expired invite links remain usable\", \"description\": \"accept() rejects only revoked links and links that have reached max_uses. It never checks expires_at, so a link past its expiry is still accepted and grants membership. is_active() includes the expiry check, but accept() does not call it. Any holder of an expired code can join the workspace for as long as the link stays in the dictionary, which is until purge() removes it after 90 days past creation.\", \"suggestion\": \"Reject the link when now >= link.expires_at, for example by checking `not link.is_active(now)` before adding the member, and raise InviteNotUsable.\", \"confidence\": 0.9}, {\"file\": \"workspace/invites.py\", \"line\": 49, \"end_line\": 49, \"severity\": \"high\", \"category\": \"security\", \"title\": \"Invite codes are generated with the non-cryptographic random module\", \"description\": \"_new_code() uses random.choices, which is a Mersenne Twister PRNG. Its output can be predicted from observed values, and it is not suitable for bearer credentials. Invite codes grant workspace membership, so an attacker who observes a few codes could predict others and join workspaces through links they were never given.\", \"suggestion\": \"Generate codes with the secrets module, for example \\\"\\\".join(secrets.choice(CODE_ALPHABET) for _ in range(CODE_LENGTH)).\", \"confidence\": 0.8}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000591075,
+   "input_tokens": 5862,
+   "latency_ms": null,
+   "output_tokens": 1140
+  }
+ }
+}

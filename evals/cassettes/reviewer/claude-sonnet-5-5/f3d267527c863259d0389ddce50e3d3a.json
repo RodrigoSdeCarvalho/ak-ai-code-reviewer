@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f3d267527c863259d0389ddce50e3d3a",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11201,
+  "user_sha256": "b5f582d357831c141c71abcdbc505b368e26f5818b5ae36bf373f6acd06f292b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "`descending = sort.startswith(\"-\")` treats any sort without a leading '-' as ascending. That is consistent with the documented API. However, in a URL query string a literal '+' prefix is decoded as a space, so `sort=+total` becomes ' total' and fails with a ValueError. Also, the default for orders_panel is descending=True but a plain `sort=total` from the query gives ascending, so behaviour differs between the two entry points. This is a minor contract inconsistency.",
+     "file": "reports/dashboard.py",
+     "line": 66,
+     "severity": "medium",
+     "suggestion": "Strip whitespace and document that unprefixed means ascending, or keep the same default direction in both entry points.",
+     "title": "Sort prefix handling breaks the \"-\" direction and the \"+\" convention"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "An explicitly empty `statuses` list returns no orders, but `panel_from_query` converts an empty or blank status parameter to None, which returns all orders. Direct callers passing `[]` get an empty result while the query path gets everything; this inconsistency may surprise callers. It is arguably intentional.",
+     "file": "reports/orders_report.py",
+     "line": 62,
+     "severity": "medium",
+     "suggestion": "Document the semantics clearly or treat empty as no filter in both places.",
+     "title": "Empty status list is checked after unknown check but behaves differently from None"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"reports/dashboard.py\",\"line\":66,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Sort prefix handling breaks the \\\"-\\\" direction and the \\\"+\\\" convention\",\"description\":\"`descending = sort.startswith(\\\"-\\\")` treats any sort without a leading '-' as ascending. That is consistent with the documented API. However, in a URL query string a literal '+' prefix is decoded as a space, so `sort=+total` becomes ' total' and fails with a ValueError. Also, the default for orders_panel is descending=True but a plain `sort=total` from the query gives ascending, so behaviour differs between the two entry points. This is a minor contract inconsistency.\",\"suggestion\":\"Strip whitespace and document that unprefixed means ascending, or keep the same default direction in both entry points.\",\"confidence\":0.2},{\"file\":\"reports/orders_report.py\",\"line\":62,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Empty status list is checked after unknown check but behaves differently from None\",\"description\":\"An explicitly empty `statuses` list returns no orders, but `panel_from_query` converts an empty or blank status parameter to None, which returns all orders. Direct callers passing `[]` get an empty result while the query path gets everything; this inconsistency may surprise callers. It is arguably intentional.\",\"suggestion\":\"Document the semantics clearly or treat empty as no filter in both places.\",\"confidence\":0.2}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0075195,
+   "input_tokens": 4855,
+   "latency_ms": null,
+   "output_tokens": 481
+  }
+ }
+}

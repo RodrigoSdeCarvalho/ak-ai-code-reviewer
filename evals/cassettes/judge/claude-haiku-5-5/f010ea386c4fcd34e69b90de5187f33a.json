@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:32:10+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f010ea386c4fcd34e69b90de5187f33a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2104,
+  "user_sha256": "ac2f78652323e7971da7228b1652d599a58236f27679ab572df01156eae2f5b1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The try/except only wraps the write loop; mkdir and os.replace at lines 67-68 run outside it, so a failure there would leave the temp file in the incoming directory. This is a real, concrete leak on failure paths, though it is a minor resource-cleanup issue rather than a correctness bug in normal operation."
+  },
+  "raw_text": "{\"reason\": \"The try/except only wraps the write loop; mkdir and os.replace at lines 67-68 run outside it, so a failure there would leave the temp file in the incoming directory. This is a real, concrete leak on failure paths, though it is a minor resource-cleanup issue rather than a correctness bug in normal operation.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKuw7MPeYq7q9kWGdLD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00014876000000000003,
+   "input_tokens": 816,
+   "latency_ms": 1500,
+   "output_tokens": 121
+  }
+ }
+}

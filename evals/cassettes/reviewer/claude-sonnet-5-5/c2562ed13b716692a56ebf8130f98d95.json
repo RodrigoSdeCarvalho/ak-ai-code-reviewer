@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:13:36+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c2562ed13b716692a56ebf8130f98d95",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8990,
+  "user_sha256": "b7dca955942ddc919ca38fae78345f45440711009e7b139138f0084d6de30dff"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "`metadata` defaults to a shared `{}`, and `put` calls `metadata.setdefault(\"content-type\", ...)` on it. The first call that omits metadata stores the guessed content type in the shared default dict. Every later call without metadata then reuses that type, regardless of its key's extension. Example: put('a.png', ...) followed by put('b.csv', ...) stores image/png for b.csv. Callers who pass their own dict also get it mutated.",
+     "end_line": 80,
+     "file": "blobstore/store.py",
+     "line": 73,
+     "severity": "high",
+     "suggestion": "Use `metadata: dict[str, str] | None = None` and build a fresh copy: `metadata = dict(metadata or {})` before calling setdefault.",
+     "title": "Mutable default `metadata` dict is mutated by setdefault"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The meta file is atomically replaced before the blob is written. If the blob write fails (disk full, I/O error), the old blob stays with the new metadata, and a first-time put leaves orphan metadata. Metadata for an existing key is therefore changed even though the put failed. The temp files are also not cleaned up on failure.",
+     "end_line": 87,
+     "file": "blobstore/store.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Write the blob first, then the metadata. Alternatively, clean up and roll back on failure.",
+     "title": "Metadata written before blob; failed blob write leaves inconsistent state"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "`json.loads` of a corrupt or truncated meta file raises JSONDecodeError, which is not translated to a store error. The is_file check followed by the read is a TOCTOU, so a concurrent delete raises FileNotFoundError. A non-dict JSON value would make `.pop` raise AttributeError.",
+     "end_line": 104,
+     "file": "blobstore/store.py",
+     "line": 103,
+     "severity": "medium",
+     "suggestion": "Wrap the read and parse in try/except (FileNotFoundError, ValueError) and fall back to {} or raise a clear store error.",
+     "title": "head() can crash on corrupt or non-dict metadata, and races with delete"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"blobstore/store.py\",\"line\":73,\"end_line\":80,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Mutable default `metadata` dict is mutated by setdefault\",\"description\":\"`metadata` defaults to a shared `{}`, and `put` calls `metadata.setdefault(\\\"content-type\\\", ...)` on it. The first call that omits metadata stores the guessed content type in the shared default dict. Every later call without metadata then reuses that type, regardless of its key's extension. Example: put('a.png', ...) followed by put('b.csv', ...) stores image/png for b.csv. Callers who pass their own dict also get it mutated.\",\"suggestion\":\"Use `metadata: dict[str, str] | None = None` and build a fresh copy: `metadata = dict(metadata or {})` before calling setdefault.\",\"confidence\":0.97},{\"file\":\"blobstore/store.py\",\"line\":81,\"end_line\":87,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Metadata written before blob; failed blob write leaves inconsistent state\",\"description\":\"The meta file is atomically replaced before the blob is written. If the blob write fails (disk full, I/O error), the old blob stays with the new metadata, and a first-time put leaves orphan metadata. Metadata for an existing key is therefore changed even though the put failed. The temp files are also not cleaned up on failure.\",\"suggestion\":\"Write the blob first, then the metadata. Alternatively, clean up and roll back on failure.\",\"confidence\":0.6},{\"file\":\"blobstore/store.py\",\"line\":103,\"end_line\":104,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"head() can crash on corrupt or non-dict metadata, and races with delete\",\"description\":\"`json.loads` of a corrupt or truncated meta file raises JSONDecodeError, which is not translated to a store error. The is_file check followed by the read is a TOCTOU, so a concurrent delete raises FileNotFoundError. A non-dict JSON value would make `.pop` raise AttributeError.\",\"suggestion\":\"Wrap the read and parse in try/except (FileNotFoundError, ValueError) and fall back to {} or raise a clear store error.\",\"confidence\":0.4}]}",
+  "request_id": "req_011CgRJVQofjMNzg4KVLAYS3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.015851,
+   "input_tokens": 3936,
+   "latency_ms": 6827,
+   "output_tokens": 746
+  }
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "3fbbe2ab0f00549acc140c20446632e8",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 1148,
+  "user_sha256": "edd3d93381e9e6b2fe0350ca7a2b1db9b240cac6bfaa5b04b6b764c0e427fd12"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "`_add_method_dunders` sets `__module__`, `__qualname__` and `__doc__` on the object it receives. The old code passed a fresh wrapper per class. Now it passes the module-level `attr.evolve` itself. Each decorated class overwrites `evolve.__module__`, `evolve.__qualname__` and `evolve.__doc__` globally. After that, `attr.evolve` reports a wrong qualname and module (for example `SomeClass.evolve`), and its docs and repr are corrupted. The same function object is also shared across all classes, so the last class to be processed wins.",
+     "file": "src/attr/_make.py",
+     "line": 1111,
+     "severity": "medium",
+     "suggestion": "Keep a per-class wrapper so the dunder fix-ups apply to it rather than to `evolve`: `def __replace__(self, /, **changes): return evolve(self, **changes)`, then pass that to `_add_method_dunders`.",
+     "title": "Shared global `evolve` function is mutated by `_add_method_dunders`"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/attr/_make.py\",\"line\":1111,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Shared global `evolve` function is mutated by `_add_method_dunders`\",\"description\":\"`_add_method_dunders` sets `__module__`, `__qualname__` and `__doc__` on the object it receives. The old code passed a fresh wrapper per class. Now it passes the module-level `attr.evolve` itself. Each decorated class overwrites `evolve.__module__`, `evolve.__qualname__` and `evolve.__doc__` globally. After that, `attr.evolve` reports a wrong qualname and module (for example `SomeClass.evolve`), and its docs and repr are corrupted. The same function object is also shared across all classes, so the last class to be processed wins.\",\"suggestion\":\"Keep a per-class wrapper so the dunder fix-ups apply to it rather than to `evolve`: `def __replace__(self, /, **changes): return evolve(self, **changes)`, then pass that to `_add_method_dunders`.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0045375,
+   "input_tokens": 478,
+   "latency_ms": null,
+   "output_tokens": 760
+  }
+ }
+}

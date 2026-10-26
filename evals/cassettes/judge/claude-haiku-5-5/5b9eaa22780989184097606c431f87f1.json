@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:54+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5b9eaa22780989184097606c431f87f1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2411,
+  "user_sha256": "d901ca1b38c8aabf9956da39a6b29a7e20b1a2ee88d2610623d11376b85cc239"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment's claims are plausible: json.loads on the metadata file is unguarded, so a corrupt file would raise JSONDecodeError from head, and the is_file() check followed by read_text can race with delete and raise FileNotFoundError instead of BlobNotFound. These are concrete failure modes in the shown code, though whether metadata is ever corrupt in practice depends on the writer, which is only partly visible, so the impact is real but not certain."
+  },
+  "raw_text": "{\"reason\": \"The comment's claims are plausible: json.loads on the metadata file is unguarded, so a corrupt file would raise JSONDecodeError from head, and the is_file() check followed by read_text can race with delete and raise FileNotFoundError instead of BlobNotFound. These are concrete failure modes in the shown code, though whether metadata is ever corrupt in practice depends on the writer, which is only partly visible, so the impact is real but not certain.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRKtknDiNYdZasSTEZLb",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00018596000000000002,
+   "input_tokens": 968,
+   "latency_ms": 1546,
+   "output_tokens": 165
+  }
+ }
+}

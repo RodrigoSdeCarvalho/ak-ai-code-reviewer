@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "d3cccc10900a366bd230f187bafdbc38",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8705,
+  "user_sha256": "87484cd30e933fedf346753c30dcb8403ea85d2deb72fc6a8ac18c49acb7480e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.9,
+     "description": "The rename of the retry parameter from `attempts` to `max_attempts` in client.py means `attempts=1` in create_ticket is no longer consumed by the client. It falls into **fields and is sent as `\"attempts\": 1` in the JSON body, while the request keeps the default max_attempts=3. A transport error such as a timeout after the server has already created the ticket will cause up to three POSTs, so duplicate tickets are created. The server also receives an unexpected `attempts` field in the body. add_comment was updated to `max_attempts=1`, which shows the intent was to keep this call non-retried.",
+     "end_line": null,
+     "file": "helpdesk/tickets.py",
+     "line": 40,
+     "severity": "high",
+     "suggestion": "Change `attempts=1` to `max_attempts=1` in the create_ticket call so the client treats it as the retry limit and does not send it in the body.",
+     "title": "create_ticket still passes the old `attempts` keyword, so POST retries are no longer disabled"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\": [{\"file\": \"helpdesk/tickets.py\", \"line\": 40, \"end_line\": null, \"severity\": \"high\", \"category\": \"error_handling\", \"title\": \"create_ticket still passes the old `attempts` keyword, so POST retries are no longer disabled\", \"description\": \"The rename of the retry parameter from `attempts` to `max_attempts` in client.py means `attempts=1` in create_ticket is no longer consumed by the client. It falls into **fields and is sent as `\\\"attempts\\\": 1` in the JSON body, while the request keeps the default max_attempts=3. A transport error such as a timeout after the server has already created the ticket will cause up to three POSTs, so duplicate tickets are created. The server also receives an unexpected `attempts` field in the body. add_comment was updated to `max_attempts=1`, which shows the intent was to keep this call non-retried.\", \"suggestion\": \"Change `attempts=1` to `max_attempts=1` in the create_ticket call so the client treats it as the retry limit and does not send it in the body.\", \"confidence\": 0.9}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0003766750000000001,
+   "input_tokens": 3569,
+   "latency_ms": null,
+   "output_tokens": 741
+  }
+ }
+}

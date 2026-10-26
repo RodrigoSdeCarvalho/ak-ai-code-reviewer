@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:48+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3fd543f3f2ebefa47ef3b2bc7b2bc604",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2005,
+  "user_sha256": "ac6522a5b40391b999eb84cbb30b89c3ea352279debaea02bded5fd58ac8bc48"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the finally block overwrites the backoff next_run set in the except branch, so failed jobs wait a full interval instead of retry_delay. Description B says the exponent 2**(consecutive_failures-1) is unbounded and could overflow timedelta multiplication. These are different failures at different lines (75-76 vs 81), with different causes and consequences.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the finally block overwrites the backoff next_run set in the except branch, so failed jobs wait a full interval instead of retry_delay. Description B says the exponent 2**(consecutive_failures-1) is unbounded and could overflow timedelta multiplication. These are different failures at different lines (75-76 vs 81), with different causes and consequences.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKopDwVrTHCVcrs3vjW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015364,
+   "input_tokens": 737,
+   "latency_ms": 1593,
+   "output_tokens": 134
+  }
+ }
+}

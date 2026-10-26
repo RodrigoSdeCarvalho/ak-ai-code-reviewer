@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3dec2b224fefb31a313c72e81f1d9030",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2441,
+  "user_sha256": "b1259707de639e49fab02722e44f766833bbdad8a930a41b197b9a0b3d3a6e12"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the mutable default dict `metadata={}` is mutated by `setdefault(",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the mutable default dict `metadata={}` is mutated by `setdefault(\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJdBHJ4yjWydNjm3nNY",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014024,
+   "input_tokens": 975,
+   "latency_ms": 1561,
+   "output_tokens": 61
+  }
+ }
+}

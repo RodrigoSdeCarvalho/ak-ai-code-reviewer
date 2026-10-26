@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:15+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "39ebcd67b89959814c3d71299c4ae9b3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2785,
+  "user_sha256": "1d7060fd3dec10f93cc97a2b1869904fbc6c15330817395c09bbcfe9a5b78b27"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the metadata file is replaced before the blob write, so a failed blob write leaves inconsistent metadata/blob state. Description B says the mutable default dict `{}` is shared across calls and mutated by setdefault, so content-type sticks across uploads. Both touch the same put method but identify different failures: an ordering/atomicity issue versus a mutable default argument bug.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the metadata file is replaced before the blob write, so a failed blob write leaves inconsistent metadata/blob state. Description B says the mutable default dict `{}` is shared across calls and mutated by setdefault, so content-type sticks across uploads. Both touch the same put method but identify different failures: an ordering/atomicity issue versus a mutable default argument bug.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRJd531aLgPxSswxFXkK",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00019164,
+   "input_tokens": 1089,
+   "latency_ms": 1453,
+   "output_tokens": 141
+  }
+ }
+}

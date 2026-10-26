@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "52f3a58a71b4ea0b5bcbb8ae8da4eff5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2532,
+  "user_sha256": "0d0277f0047d012bf4c7205761a43d42ea167a143419b3707fde632cf3d5b33e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the mutable default argument `metadata: dict = {}` is mutated by `metadata.setdefault(\"content-type\", ...)`, so the first call's guessed content type persists in the shared dict and is reused for later uploads without metadata, causing wrong Content-Type. Both also note caller-supplied dicts get mutated. Same root cause, same location, same example-level consequence.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the mutable default argument `metadata: dict = {}` is mutated by `metadata.setdefault(\\\"content-type\\\", ...)`, so the first call's guessed content type persists in the shared dict and is reused for later uploads without metadata, causing wrong Content-Type. Both also note caller-supplied dicts get mutated. Same root cause, same location, same example-level consequence.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpcCBMVQWPQYj2TRKB",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019063999999999998,
+   "input_tokens": 1007,
+   "latency_ms": 1514,
+   "output_tokens": 154
+  }
+ }
+}

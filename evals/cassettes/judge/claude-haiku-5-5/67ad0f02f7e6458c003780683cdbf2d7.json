@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "67ad0f02f7e6458c003780683cdbf2d7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2327,
+  "user_sha256": "c74a620a92ac3c7e346d62ea79ee27ecfea0b0ff259ecda0e1aed9c0d9a9f5f7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: on a denied check, tokens are refilled and stored but updated_at is not advanced, so the next call re-adds the same elapsed interval, double-counting refill and letting clients exceed the configured rate. Both point at the same lines (69-73) with the same root cause, differing only in example and framing.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: on a denied check, tokens are refilled and stored but updated_at is not advanced, so the next call re-adds the same elapsed interval, double-counting refill and letting clients exceed the configured rate. Both point at the same lines (69-73) with the same root cause, differing only in example and framing.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKpLrgsg2zmTuK6qZuB",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016564,
+   "input_tokens": 907,
+   "latency_ms": 2531,
+   "output_tokens": 124
+  }
+ }
+}

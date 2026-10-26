@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "b0602b6234cfeff7185523c46f8464c3",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 13344,
+  "user_sha256": "717f445f727c7a575b89d7154d7d35caf251d4606f48e7b0e28ba97f13ab6d30"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.8,
+     "description": "The previous summarize() loaded one calibration per distinct sensor_id. The new loop calls calibrated(), which calls source.load() for every reading. With a SqlCalibrationSource this issues one database query per reading, so a batch of N readings costs N queries where it previously cost one per sensor. Large batches will be slow and put avoidable load on the database.",
+     "end_line": 58,
+     "file": "greenhouse/readings.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Restore the per-sensor cache: load calibrations for the distinct sensor_ids in the batch (materialise the iterable first), then apply each reading using the cached calibration, or memoise source.load within summarize().",
+     "title": "Calibration is loaded once per reading instead of once per sensor"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"greenhouse/readings.py\",\"line\":58,\"end_line\":58,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Calibration is loaded once per reading instead of once per sensor\",\"description\":\"The previous summarize() loaded one calibration per distinct sensor_id. The new loop calls calibrated(), which calls source.load() for every reading. With a SqlCalibrationSource this issues one database query per reading, so a batch of N readings costs N queries where it previously cost one per sensor. Large batches will be slow and put avoidable load on the database.\",\"suggestion\":\"Restore the per-sensor cache: load calibrations for the distinct sensor_ids in the batch (materialise the iterable first), then apply each reading using the cached calibration, or memoise source.load within summarize().\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0006051250000000001,
+   "input_tokens": 5733,
+   "latency_ms": null,
+   "output_tokens": 1222
+  }
+ }
+}

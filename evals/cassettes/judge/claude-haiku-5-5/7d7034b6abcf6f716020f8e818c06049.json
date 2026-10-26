@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:29+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7d7034b6abcf6f716020f8e818c06049",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3027,
+  "user_sha256": "56b0903d6ddb07dec7e2fd9a7971f1c5d23a648a786b9b5e5bc7b19b45225a2f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says stale heap entries from discard() and re-add cause early expiry, eviction, and purge() popping live items; it covers the pop() stale-entry problem among several failure modes. Description B focuses specifically on pop() removing a live re-added item when it pops that item's old heap entry, returning it as oldest. Both identify the same root cause (pop() not checking whether the popped heap entry is current, so a live item is deleted), at the same place in pop().",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Description A says stale heap entries from discard() and re-add cause early expiry, eviction, and purge() popping live items; it covers the pop() stale-entry problem among several failure modes. Description B focuses specifically on pop() removing a live re-added item when it pops that item's old heap entry, returning it as oldest. Both identify the same root cause (pop() not checking whether the popped heap entry is current, so a live item is deleted), at the same place in pop().\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKi2PGT45YRzyQAw2M6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00020254000000000002,
+   "input_tokens": 1076,
+   "latency_ms": 2014,
+   "output_tokens": 164
+  }
+ }
+}

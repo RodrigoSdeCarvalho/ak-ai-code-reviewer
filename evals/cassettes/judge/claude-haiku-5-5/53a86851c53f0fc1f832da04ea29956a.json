@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:29:57+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "53a86851c53f0fc1f832da04ea29956a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2486,
+  "user_sha256": "ecbf669359947da90cb97e5328b34e1f6792a7a47774c08ee795a9c71881c676"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that reschedule() acquires the scheduler lock via _acquire() and returns False early (unknown or non-pending job) without releasing it, so all subsequent scheduler calls block and raise SchedulerBusy. Same root cause and location, different wording and extra detail in B.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that reschedule() acquires the scheduler lock via _acquire() and returns False early (unknown or non-pending job) without releasing it, so all subsequent scheduler calls block and raise SchedulerBusy. Same root cause and location, different wording and extra detail in B.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRKk6KiCe6cWWe57znAz",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016434000000000002,
+   "input_tokens": 944,
+   "latency_ms": 1703,
+   "output_tokens": 114
+  }
+ }
+}

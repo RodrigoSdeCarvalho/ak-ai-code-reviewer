@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6b3d1a4964b005bc68aea716f8e69038",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2105,
+  "user_sha256": "bdd3adca79defeb6408cc581d1f6d9206d9cdc4615c75874d2b55ebf7a3ac83c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: redeem() never checks link.expires_at, so expired magic links remain redeemable until purge_expired runs, letting old links sign someone in. Different line numbers (66 vs 65) and wording do not change the shared root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: redeem() never checks link.expires_at, so expired magic links remain redeemable until purge_expired runs, letting old links sign someone in. Different line numbers (66 vs 65) and wording do not change the shared root cause.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 6.947e-05,
+   "input_tokens": 752,
+   "latency_ms": null,
+   "output_tokens": 103
+  }
+ }
+}

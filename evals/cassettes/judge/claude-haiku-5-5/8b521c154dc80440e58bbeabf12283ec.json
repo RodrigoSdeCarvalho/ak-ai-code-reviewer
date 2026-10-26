@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:08:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8b521c154dc80440e58bbeabf12283ec",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2051,
+  "user_sha256": "b5da9251efcdec358a3f7a401fd2f41bd790774a45a5a22de4d1394506add789"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify line 44 failing to clamp start at 0: the min() can yield a negative start, which the slice then interprets as negative indexing, producing wrong or empty snippets when a hit is near the start. Description A also covers the short-body case and truncation flags, but its core explanation of the negative start from hit - width//2 matches Description B's main failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify line 44 failing to clamp start at 0: the min() can yield a negative start, which the slice then interprets as negative indexing, producing wrong or empty snippets when a hit is near the start. Description A also covers the short-body case and truncation flags, but its core explanation of the negative start from hit - width//2 matches Description B's main failure.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01A9FjNZVGEB8uwqAsYCVnAi",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.752000000000002e-05,
+   "input_tokens": 758,
+   "latency_ms": null,
+   "output_tokens": 134
+  }
+ }
+}

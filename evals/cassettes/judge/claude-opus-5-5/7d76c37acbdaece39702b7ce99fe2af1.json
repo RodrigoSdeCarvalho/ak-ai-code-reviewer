@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:37:11+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7d76c37acbdaece39702b7ce99fe2af1",
+  "max_tokens": 4000,
+  "model": "claude-opus-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2637,
+  "user_sha256": "fafbc2c331eefe7bc8f459c6314e41c19e857a3175660ed5c854f466fe1a6c6c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions say that sign_out_everywhere swallows StoreError, so change_password reports success while some sessions stay valid and the caller is never told. That is the same root cause, reported at the catch site and at its caller.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\":\"Both descriptions say that sign_out_everywhere swallows StoreError, so change_password reports success while some sessions stay valid and the caller is never told. That is the same root cause, reported at the catch site and at its caller.\",\"verdict\":\"same\"}",
+  "request_id": "req_011CgRLJ3g7HHazexYZJepXV",
+  "served_model": "claude-opus-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.0056108,
+   "input_tokens": 903,
+   "latency_ms": 1984,
+   "output_tokens": 87
+  }
+ }
+}

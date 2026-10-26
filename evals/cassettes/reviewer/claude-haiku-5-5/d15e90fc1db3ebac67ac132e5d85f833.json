@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "d15e90fc1db3ebac67ac132e5d85f833",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8705,
+  "user_sha256": "87484cd30e933fedf346753c30dcb8403ea85d2deb72fc6a8ac18c49acb7480e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.93,
+     "description": "The change renames the retry keyword in HelpdeskClient.request from `attempts` to `max_attempts`, but create_ticket still passes `attempts=1`. That value no longer reaches the retry logic. It falls into **fields and is sent as part of the JSON body, and the request uses the default of DEFAULT_ATTEMPTS (3). A POST that times out or has its connection reset with TransportError is therefore retried up to three times. The server may already have created the ticket on the first attempt, so each retry can create a duplicate ticket. The vendor API may also reject or ignore the unknown `attempts` field. Before this change, create_ticket was never retried.",
+     "end_line": 40,
+     "file": "helpdesk/tickets.py",
+     "line": 40,
+     "severity": "high",
+     "suggestion": "Change `attempts=1,` to `max_attempts=1,` in create_ticket, matching add_comment. Also check other callers of client.request that still pass `attempts=`, since they now send it in the body and get the default retries.",
+     "title": "create_ticket still passes attempts=1, which is now a body field, so the POST is retried and can create duplicate tickets"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"helpdesk/tickets.py\",\"line\":40,\"end_line\":40,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"create_ticket still passes attempts=1, which is now a body field, so the POST is retried and can create duplicate tickets\",\"description\":\"The change renames the retry keyword in HelpdeskClient.request from `attempts` to `max_attempts`, but create_ticket still passes `attempts=1`. That value no longer reaches the retry logic. It falls into **fields and is sent as part of the JSON body, and the request uses the default of DEFAULT_ATTEMPTS (3). A POST that times out or has its connection reset with TransportError is therefore retried up to three times. The server may already have created the ticket on the first attempt, so each retry can create a duplicate ticket. The vendor API may also reject or ignore the unknown `attempts` field. Before this change, create_ticket was never retried.\",\"suggestion\":\"Change `attempts=1,` to `max_attempts=1,` in create_ticket, matching add_comment. Also check other callers of client.request that still pass `attempts=`, since they now send it in the body and get the default retries.\",\"confidence\":0.93}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.00042867500000000005,
+   "input_tokens": 3569,
+   "latency_ms": null,
+   "output_tokens": 949
+  }
+ }
+}

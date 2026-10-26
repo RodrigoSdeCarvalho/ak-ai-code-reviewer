@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:13:45+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "2d2e9a98750d65e3c52f4af359060277",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5080,
+  "user_sha256": "e75724073edb444c154176ec5f855fdaed183b7a2c78ecef9a577b268d22ad54"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "send_campaign only catches RecipientRefused. Any other mailer failure (connection error, timeout, SMTP server disconnect) or a render error such as a KeyError/IndexError from body_template.format propagates out of the loop. The caller then gets no CampaignReport, so it cannot tell who was already sent the campaign. A retry would re-send to everyone who succeeded, because there is no record of them.",
+     "file": "newsletter/campaign.py",
+     "line": 78,
+     "severity": "medium",
+     "suggestion": "Catch other exceptions per recipient and record them (e.g. a `failed` dict), or attach the partial report to the exception, so the caller can resume without duplicate sends.",
+     "title": "A non-RecipientRefused error aborts the whole send and discards the report"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "In eligible(), an address is added to `seen` only after the confirmed/unsubscribed/list checks pass. Because the dedup key is the lowercased, stripped email, an ineligible record does not block a later record for the same address. Records for the same address with different state therefore make delivery depend on input order, which is a policy question rather than a clear bug. The more concrete issue is in send_campaign, where `report.sent` and `report.refused` use the raw `subscriber.email` rather than the normalized address, so reports can contain case or whitespace variants of the same address.",
+     "file": "newsletter/campaign.py",
+     "line": 49,
+     "severity": "medium",
+     "suggestion": "Use a normalized address consistently as the key for dedup, sending and reporting.",
+     "title": "Dedup marks address as seen only after eligibility checks, so later duplicate can slip through"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"newsletter/campaign.py\",\"line\":78,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"A non-RecipientRefused error aborts the whole send and discards the report\",\"description\":\"send_campaign only catches RecipientRefused. Any other mailer failure (connection error, timeout, SMTP server disconnect) or a render error such as a KeyError/IndexError from body_template.format propagates out of the loop. The caller then gets no CampaignReport, so it cannot tell who was already sent the campaign. A retry would re-send to everyone who succeeded, because there is no record of them.\",\"suggestion\":\"Catch other exceptions per recipient and record them (e.g. a `failed` dict), or attach the partial report to the exception, so the caller can resume without duplicate sends.\",\"confidence\":0.4},{\"file\":\"newsletter/campaign.py\",\"line\":49,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Dedup marks address as seen only after eligibility checks, so later duplicate can slip through\",\"description\":\"In eligible(), an address is added to `seen` only after the confirmed/unsubscribed/list checks pass. Because the dedup key is the lowercased, stripped email, an ineligible record does not block a later record for the same address. Records for the same address with different state therefore make delivery depend on input order, which is a policy question rather than a clear bug. The more concrete issue is in send_campaign, where `report.sent` and `report.refused` use the raw `subscriber.email` rather than the normalized address, so reports can contain case or whitespace variants of the same address.\",\"suggestion\":\"Use a normalized address consistently as the key for dedup, sending and reporting.\",\"confidence\":0.2}]}",
+  "request_id": "req_011CgRJWBmsCnYtNDMwrZBba",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.010537,
+   "input_tokens": 2179,
+   "latency_ms": 4875,
+   "output_tokens": 566
+  }
+ }
+}

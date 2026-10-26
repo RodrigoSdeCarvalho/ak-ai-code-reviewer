@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:15:04+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8f3ec75485a23b3cd10198bb7d676b97",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1974,
+  "user_sha256": "a731c71f9875e756fb07ae2a37d6ff257da816fadc292704fe50e5dd908719e4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that the finally block at line 76 unconditionally overwrites the failure-path next_run (now + retry_delay/backoff) with now + job.interval, so retries never honor the retry delay. Same root cause and location, different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that the finally block at line 76 unconditionally overwrites the failure-path next_run (now + retry_delay/backoff) with now + job.interval, so retries never honor the retry delay. Same root cause and location, different wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJcACXgKQUGm1PQ5fvf",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00013284,
+   "input_tokens": 716,
+   "latency_ms": 2562,
+   "output_tokens": 98
+  }
+ }
+}

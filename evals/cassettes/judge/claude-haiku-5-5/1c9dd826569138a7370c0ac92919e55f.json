@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:14:55+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1c9dd826569138a7370c0ac92919e55f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2077,
+  "user_sha256": "98a68afce679dce2ff61d61403cd06c3de7eea06f7b9137b488ee69f3c55d0cd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 26: check() now returns a violations list (empty when compliant), but decide() still uses it as a truthy approval signal, inverting approvals so violating reports are auto-approved and compliant ones go to review. Different wording and detail, same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 26: check() now returns a violations list (empty when compliant), but decide() still uses it as a truthy approval signal, inverting approvals so violating reports are auto-approved and compliant ones go to review. Different wording and detail, same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRJbZn653ugvHniJdyWX",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00014404,
+   "input_tokens": 758,
+   "latency_ms": 1578,
+   "output_tokens": 112
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5f6cd4eac62df51ae767d345b5edd83a",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3078,
+  "user_sha256": "a87a34e18b78cf5b40dd4ad81e2577b7a19ff50b715a130cbbb521cb04973daf"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.55,
+     "description": "The removed _read_file_bytes helper saved the file position, read the content, and seeked back. The new code calls value.read() directly, so the file cursor ends at EOF. Any later read of the same UploadFile now returns b'' instead of the content. This happens when a bytes-annotated field is processed and the same UploadFile object is read again afterwards, for example by another field that refers to it, by a later dependency, or by the endpoint itself. The same applies to the sequence branch at line 1078. Those callers would silently receive empty data.",
+     "end_line": 1070,
+     "file": "fastapi/dependencies/utils.py",
+     "line": 1070,
+     "severity": "high",
+     "suggestion": "Keep the position-preserving behaviour: record file.file.tell() before the read and seek back to it in a finally block, or restore the helper and call it from both sites.",
+     "title": "Bytes read from UploadFile no longer restores the file position"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"fastapi/dependencies/utils.py\",\"line\":1070,\"end_line\":1070,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Bytes read from UploadFile no longer restores the file position\",\"description\":\"The removed _read_file_bytes helper saved the file position, read the content, and seeked back. The new code calls value.read() directly, so the file cursor ends at EOF. Any later read of the same UploadFile now returns b'' instead of the content. This happens when a bytes-annotated field is processed and the same UploadFile object is read again afterwards, for example by another field that refers to it, by a later dependency, or by the endpoint itself. The same applies to the sequence branch at line 1078. Those callers would silently receive empty data.\",\"suggestion\":\"Keep the position-preserving behaviour: record file.file.tell() before the read and seek back to it in a finally block, or restore the helper and call it from both sites.\",\"confidence\":0.55}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000249025,
+   "input_tokens": 1131,
+   "latency_ms": null,
+   "output_tokens": 718
+  }
+ }
+}

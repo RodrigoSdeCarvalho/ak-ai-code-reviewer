@@ -1,0 +1,59 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "caf610c7ef96e933b943feb5457f19b4",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 1,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7496,
+  "user_sha256": "23006b4d62590b99ef0d6da5e2f1e62d945b9574b6af6b6255707b6ff3152f11"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "parse_rows now returns a generator. The list comprehension on line 35 consumes it fully to collect rejected rows, so the `for row in rows` loop on line 39 iterates an exhausted generator. No valid row is ever upserted, and the report comes back with created=0 and updated=0 while appearing to succeed. Previously parse_rows returned a list, so iterating twice worked.",
+     "end_line": 39,
+     "file": "contacts/importer.py",
+     "line": 35,
+     "severity": "critical",
+     "suggestion": "Materialise the rows with `rows = list(parse_rows(lines))`. That also keeps the guarantee that nothing is written before the error threshold is checked. Alternatively, upsert valid rows in a single pass, but that would break the 'nothing written' guarantee.",
+     "title": "parse_rows is now a one-shot generator but is iterated twice"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.35,
+     "description": "Because parse_rows is now a generator, the ValueError for missing columns is raised on first iteration, not when parse_rows is called. Any caller that wrapped the call itself in try/except to catch the error will no longer catch it. Within import_csv it still happens before any write, so only direct callers are affected.",
+     "file": "contacts/parsing.py",
+     "line": 38,
+     "severity": "medium",
+     "suggestion": "Validate the header eagerly in a non-generator wrapper function and return the inner generator from it, or document that the error surfaces on iteration.",
+     "title": "Header validation error is now raised lazily"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"contacts/importer.py\",\"line\":35,\"end_line\":39,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"parse_rows is now a one-shot generator but is iterated twice\",\"description\":\"parse_rows now returns a generator. The list comprehension on line 35 consumes it fully to collect rejected rows, so the `for row in rows` loop on line 39 iterates an exhausted generator. No valid row is ever upserted, and the report comes back with created=0 and updated=0 while appearing to succeed. Previously parse_rows returned a list, so iterating twice worked.\",\"suggestion\":\"Materialise the rows with `rows = list(parse_rows(lines))`. That also keeps the guarantee that nothing is written before the error threshold is checked. Alternatively, upsert valid rows in a single pass, but that would break the 'nothing written' guarantee.\",\"confidence\":0.97},{\"file\":\"contacts/parsing.py\",\"line\":38,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Header validation error is now raised lazily\",\"description\":\"Because parse_rows is now a generator, the ValueError for missing columns is raised on first iteration, not when parse_rows is called. Any caller that wrapped the call itself in try/except to catch the error will no longer catch it. Within import_csv it still happens before any write, so only direct callers are affected.\",\"suggestion\":\"Validate the header eagerly in a non-generator wrapper function and return the inner generator from it, or document that the error surfaces on iteration.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0059435,
+   "input_tokens": 3114,
+   "latency_ms": null,
+   "output_tokens": 514
+  }
+ }
+}

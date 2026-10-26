@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:13:26+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "a83be350568e0ba02345a5e9259cfbde",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9095,
+  "user_sha256": "a633dd1b01b38a5b7577a357970c6933f5d3614e9c1e0d4ebbdb2b12632ecba7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "On a denied check, tokens are refilled and stored (line 69) but updated_at is not advanced (line 73 is only reached on success). The next call computes elapsed from the old updated_at and adds refill for that whole span again on top of the already-refilled tokens. Refill is therefore double-counted, so clients get more tokens than the configured rate allows. For example, with rate 1/s, tokens 0 and a cost-5 request, polling every second makes tokens grow 1, 3, 6 instead of 1, 2, 3, and the request succeeds early. The Retry-After value is also wrong.",
+     "file": "ratelimit/limiter.py",
+     "line": 73,
+     "severity": "high",
+     "suggestion": "Set bucket.updated_at = now right after updating bucket.tokens (before the allow/deny branch), so the denial path does not re-add the same elapsed time.",
+     "title": "Bucket updated_at not advanced on denied requests, but refill uses stale timestamp inconsistently"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"ratelimit/limiter.py\",\"line\":73,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Bucket updated_at not advanced on denied requests, but refill uses stale timestamp inconsistently\",\"description\":\"On a denied check, tokens are refilled and stored (line 69) but updated_at is not advanced (line 73 is only reached on success). The next call computes elapsed from the old updated_at and adds refill for that whole span again on top of the already-refilled tokens. Refill is therefore double-counted, so clients get more tokens than the configured rate allows. For example, with rate 1/s, tokens 0 and a cost-5 request, polling every second makes tokens grow 1, 3, 6 instead of 1, 2, 3, and the request succeeds early. The Retry-After value is also wrong.\",\"suggestion\":\"Set bucket.updated_at = now right after updating bucket.tokens (before the allow/deny branch), so the denial path does not re-add the same elapsed time.\",\"confidence\":0.9}]}",
+  "request_id": "req_011CgRJUpzCMZsbgchKUncTg",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.011825,
+   "input_tokens": 3928,
+   "latency_ms": 3984,
+   "output_tokens": 345
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:30:28+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f1758810717b70ee4ac0cde10f1459b5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2310,
+  "user_sha256": "47e61b4a7880b1073cbfa3eb261a97b3e9e096dc68dd48b1938d6f4ee9f2c098"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the removed mark_as_failure call means invalid-ETA tasks never get a FAILURE state in the result backend. Description B says the handler does not return after rejecting, so the task falls through and executes immediately ignoring its ETA; it also mentions the missing result-backend failure but as a secondary effect. The primary defects differ: A is about missing result-backend recording, while B is about missing early return causing execution despite rejection. Different root causes/failures at the same location.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the removed mark_as_failure call means invalid-ETA tasks never get a FAILURE state in the result backend. Description B says the handler does not return after rejecting, so the task falls through and executes immediately ignoring its ETA; it also mentions the missing result-backend failure but as a secondary effect. The primary defects differ: A is about missing result-backend recording, while B is about missing early return causing execution despite rejection. Different root causes/failures at the same location.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRKnMy7QZeXXB4v8WRhp",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018174,
+   "input_tokens": 838,
+   "latency_ms": 2047,
+   "output_tokens": 170
+  }
+ }
+}

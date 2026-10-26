@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:25:29+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "3db02187babce26d986c6667f419d61d",
+  "max_tokens": 16000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 13260,
+  "user_sha256": "d08a0960d46d19ffc8aef7477a04861a87310a1e1650745783daed5c24e7668b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.5,
+     "description": "Each create() builds a new dict from all existing sessions via {**self._sessions, ...} and then replaces the store, so each login costs O(n) in the number of live sessions. For FileSessionStore, _commit also re-serialises and rewrites the whole file with fsync. Under load with many active sessions, login latency and write amplification grow with the total session count.",
+     "end_line": 37,
+     "file": "sessions/store.py",
+     "line": 37,
+     "severity": "medium",
+     "suggestion": "Mutate a private dict under the write lock and publish a copy only when readers need a snapshot, or keep a single dict and do the file write with the lock held. Consider batching or deferring persistence if per-login fsync is too costly.",
+     "title": "create() copies the whole session map on every login"
+    },
+    {
+     "category": "resource",
+     "confidence": 0.45,
+     "description": "The previous get() deleted an expired session it found. The new get() only returns None, so expired entries stay in the map until purge_expired() is called. If nothing calls purge_expired on a schedule, memory and the persisted file grow without bound with every expired login.",
+     "end_line": 44,
+     "file": "sessions/store.py",
+     "line": 43,
+     "severity": "medium",
+     "suggestion": "Either evict the expired entry in get() under the write lock, as before, or confirm that a periodic purge_expired() call is wired up and document that requirement.",
+     "title": "Expired sessions are no longer evicted on lookup"
+    },
+    {
+     "category": "resource",
+     "confidence": 0.3,
+     "description": "If os.fdopen(fd, ...) raises, the raw descriptor from mkstemp is never closed, and the temp file is then unlinked by the bare except without the fd being released. Repeated failures can exhaust descriptors.",
+     "end_line": 98,
+     "file": "sessions/store.py",
+     "line": 98,
+     "severity": "low",
+     "suggestion": "Wrap fdopen in the try block, or close fd explicitly if fdopen raises. Also replace the bare except with except BaseException so the intent is clear.",
+     "title": "File descriptor leaks if os.fdopen fails"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"sessions/store.py\",\"line\":37,\"end_line\":37,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"create() copies the whole session map on every login\",\"description\":\"Each create() builds a new dict from all existing sessions via {**self._sessions, ...} and then replaces the store, so each login costs O(n) in the number of live sessions. For FileSessionStore, _commit also re-serialises and rewrites the whole file with fsync. Under load with many active sessions, login latency and write amplification grow with the total session count.\",\"suggestion\":\"Mutate a private dict under the write lock and publish a copy only when readers need a snapshot, or keep a single dict and do the file write with the lock held. Consider batching or deferring persistence if per-login fsync is too costly.\",\"confidence\":0.5},{\"file\":\"sessions/store.py\",\"line\":43,\"end_line\":44,\"severity\":\"medium\",\"category\":\"resource\",\"title\":\"Expired sessions are no longer evicted on lookup\",\"description\":\"The previous get() deleted an expired session it found. The new get() only returns None, so expired entries stay in the map until purge_expired() is called. If nothing calls purge_expired on a schedule, memory and the persisted file grow without bound with every expired login.\",\"suggestion\":\"Either evict the expired entry in get() under the write lock, as before, or confirm that a periodic purge_expired() call is wired up and document that requirement.\",\"confidence\":0.45},{\"file\":\"sessions/store.py\",\"line\":98,\"end_line\":98,\"severity\":\"low\",\"category\":\"resource\",\"title\":\"File descriptor leaks if os.fdopen fails\",\"description\":\"If os.fdopen(fd, ...) raises, the raw descriptor from mkstemp is never closed, and the temp file is then unlinked by the bare except without the fd being released. Repeated failures can exhaust descriptors.\",\"suggestion\":\"Wrap fdopen in the try block, or close fd explicitly if fdopen raises. Also replace the bare except with except BaseException so the intent is clear.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_014AQQmxhuQQxC7qaMUHqmwd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.000863525,
+   "input_tokens": 5191,
+   "latency_ms": null,
+   "output_tokens": 2364
+  }
+ }
+}

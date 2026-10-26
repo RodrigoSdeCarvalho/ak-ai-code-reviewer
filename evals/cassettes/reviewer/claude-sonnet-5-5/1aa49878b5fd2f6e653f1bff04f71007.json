@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:13:41+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "1aa49878b5fd2f6e653f1bff04f71007",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 2,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 18307,
+  "user_sha256": "d2962b301a52e00a14d9a2968b4bc6cf2d5af1cc5be9ad5b1fddc56d61b1ec9a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.9,
+     "description": "The `_holidays_by_year` cache was dropped, so `holidays()` now calls the source on every invocation. `JsonHolidaySource.holidays` reads and parses the whole JSON file each time. `is_business_day` calls `holidays()` per day, so `add_business_days`, `roll_forward` and `business_days_between` do a file read and JSON parse for every day they step, and `overdue` multiplies that by every ticket. Large ticket lists become extremely slow.",
+     "file": "scheduling/calendar.py",
+     "line": 38,
+     "severity": "high",
+     "suggestion": "Restore a per-year cache of frozensets in BusinessCalendar, keyed by year (the calendar is already per-region). Optionally also cache the parsed JSON in JsonHolidaySource.",
+     "title": "Per-year holiday cache removed; holidays re-read on every is_business_day call"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.35,
+     "description": "The result is built only from `self._calendars.codes`. However, `overdue()` calls `for_region`, which raises KeyError for an unconfigured region, so the failure surfaces earlier. A single ticket with an unknown region aborts the whole overdue computation instead of being reported or skipped. One bad ticket therefore hides all other overdue tickets.",
+     "file": "scheduling/sla.py",
+     "line": 77,
+     "severity": "medium",
+     "suggestion": "Handle unknown regions per ticket (skip and log, or collect them separately) so that one bad ticket does not abort the report.",
+     "title": "overdue_by_region drops tickets whose region is not configured"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduling/calendar.py\",\"line\":38,\"severity\":\"high\",\"category\":\"performance\",\"title\":\"Per-year holiday cache removed; holidays re-read on every is_business_day call\",\"description\":\"The `_holidays_by_year` cache was dropped, so `holidays()` now calls the source on every invocation. `JsonHolidaySource.holidays` reads and parses the whole JSON file each time. `is_business_day` calls `holidays()` per day, so `add_business_days`, `roll_forward` and `business_days_between` do a file read and JSON parse for every day they step, and `overdue` multiplies that by every ticket. Large ticket lists become extremely slow.\",\"suggestion\":\"Restore a per-year cache of frozensets in BusinessCalendar, keyed by year (the calendar is already per-region). Optionally also cache the parsed JSON in JsonHolidaySource.\",\"confidence\":0.9},{\"file\":\"scheduling/sla.py\",\"line\":77,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"overdue_by_region drops tickets whose region is not configured\",\"description\":\"The result is built only from `self._calendars.codes`. However, `overdue()` calls `for_region`, which raises KeyError for an unconfigured region, so the failure surfaces earlier. A single ticket with an unknown region aborts the whole overdue computation instead of being reported or skipped. One bad ticket therefore hides all other overdue tickets.\",\"suggestion\":\"Handle unknown regions per ticket (skip and log, or collect them separately) so that one bad ticket does not abort the report.\",\"confidence\":0.35}]}",
+  "request_id": "req_011CgRJVyDp3muCZiQEgG3MS",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.021139,
+   "input_tokens": 7605,
+   "latency_ms": 4155,
+   "output_tokens": 541
+  }
+ }
+}

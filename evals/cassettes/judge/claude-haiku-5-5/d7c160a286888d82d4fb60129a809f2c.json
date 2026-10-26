@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:31:37+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d7c160a286888d82d4fb60129a809f2c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1476,
+  "user_sha256": "8154861eeff215c7ee91090e76ba668eb92db8fbfa71dc3742274d0c5fac4a32"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The commenter itself concedes the urlsplit import is still used and that there is no bug; the only point is a speculative future drift concern about duplicated host handling, which is a style/maintainability nit rather than a concrete defect shown in the code."
+  },
+  "raw_text": "{\"reason\": \"The commenter itself concedes the urlsplit import is still used and that there is no bug; the only point is a speculative future drift concern about duplicated host handling, which is a style/maintainability nit rather than a concrete defect shown in the code.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRKsVMF4HN3GUVcL2dJk",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00011406,
+   "input_tokens": 614,
+   "latency_ms": 1328,
+   "output_tokens": 92
+  }
+ }
+}

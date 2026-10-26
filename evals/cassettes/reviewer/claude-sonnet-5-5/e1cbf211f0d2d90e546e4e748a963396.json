@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:02:13+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "e1cbf211f0d2d90e546e4e748a963396",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 0,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9060,
+  "user_sha256": "197a2161cdced6de7ddfc838e650c4f5231b1daafc8442d4be9e6dfc24bb7a24"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.7,
+     "description": "login() reads the live session through current(), which takes and releases the lock. _issue() then re-acquires the lock to write. If revoke(token) (logout) runs between those two steps, the token and the user entry are removed. _issue() then finds no previous session and re-inserts the revoked token with a fresh expiry. The user's logout from another tab is silently undone, and the token the client believes is dead is valid again. A concurrent login and logout from separate request threads is enough to trigger it.",
+     "end_line": 77,
+     "file": "auth/sessions.py",
+     "line": 75,
+     "severity": "medium",
+     "suggestion": "Do the lookup and the issue in one critical section. For example, hold self._lock in login() and use a lock-free internal _issue_locked helper, or use an RLock. Reuse the token only if the session is still present and live inside that same lock.",
+     "title": "Check-then-act race in login() can resurrect a revoked token"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"auth/sessions.py\",\"line\":75,\"end_line\":77,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Check-then-act race in login() can resurrect a revoked token\",\"description\":\"login() reads the live session through current(), which takes and releases the lock. _issue() then re-acquires the lock to write. If revoke(token) (logout) runs between those two steps, the token and the user entry are removed. _issue() then finds no previous session and re-inserts the revoked token with a fresh expiry. The user's logout from another tab is silently undone, and the token the client believes is dead is valid again. A concurrent login and logout from separate request threads is enough to trigger it.\",\"suggestion\":\"Do the lookup and the issue in one critical section. For example, hold self._lock in login() and use a lock-free internal _issue_locked helper, or use an RLock. Reuse the token only if the session is still present and live inside that same lock.\",\"confidence\":0.7}]}",
+  "request_id": "msgbatch_0128Jj2smkdi6qGK2DA1Yxe3",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0073355,
+   "input_tokens": 3596,
+   "latency_ms": null,
+   "output_tokens": 696
+  }
+ }
+}
