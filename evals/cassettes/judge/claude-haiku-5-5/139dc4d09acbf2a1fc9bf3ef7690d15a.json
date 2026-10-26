@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "139dc4d09acbf2a1fc9bf3ef7690d15a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2577,
+  "user_sha256": "b32dd9ba7df8609b09c1ca2ab9af416ea81e8fc37d8a582b8c5784020b4481ac"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the new per-key loop calling catalog.exists and catalog.get for every key and every fallback locale replaces a batched get_many call, causing N+1-style excess catalog calls. Description A adds Redis-specific latency detail and a check-then-fetch race, while Description B mentions the general N+1 pattern and the same check-then-act race; the core root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the new per-key loop calling catalog.exists and catalog.get for every key and every fallback locale replaces a batched get_many call, causing N+1-style excess catalog calls. Description A adds Redis-specific latency detail and a check-then-fetch race, while Description B mentions the general N+1 pattern and the same check-then-act race; the core root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.177000000000001e-05,
+   "input_tokens": 961,
+   "latency_ms": null,
+   "output_tokens": 149
+  }
+ }
+}

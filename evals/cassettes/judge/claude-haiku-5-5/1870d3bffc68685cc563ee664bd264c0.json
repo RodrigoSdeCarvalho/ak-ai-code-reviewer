@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1870d3bffc68685cc563ee664bd264c0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1960,
+  "user_sha256": "b23909cf891f59e66c0965695e84bf98626609c2b574a16212dc1b0ed6b8d6f5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says all GatewayErrors are retried, including permanent ones, wasting backoff time. Description B says that after the final failed attempt the loop breaks and charge returns None instead of re-raising, causing downstream AttributeError. These are different failures: one concerns retrying non-transient errors, the other concerns the exhausted-retries path swallowing the error and returning None.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says all GatewayErrors are retried, including permanent ones, wasting backoff time. Description B says that after the final failed attempt the loop breaks and charge returns None instead of re-raising, causing downstream AttributeError. These are different failures: one concerns retrying non-transient errors, the other concerns the exhausted-retries path swallowing the error and returning None.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.657e-05,
+   "input_tokens": 712,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}

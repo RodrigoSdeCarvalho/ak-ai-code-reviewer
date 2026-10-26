@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "db95e3e5ff3803bc8b19bcde97f30567",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2376,
+  "user_sha256": "cd3723f857dc52e3878b01cd5110143b74da5c1e2d785f660a037d1796f06f44"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: find() returns the cached list object by reference on both hit and miss, so caller mutation corrupts the cache for later identical queries. Description A gives a concrete instance (in-place sort in search_products reordering cached results), while Description B states the general mutation hazard; this is a difference in detail, not in defect.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: find() returns the cached list object by reference on both hit and miss, so caller mutation corrupts the cache for later identical queries. Description A gives a concrete instance (in-place sort in search_products reordering cached results), while Description B states the general mutation hazard; this is a difference in detail, not in defect.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.031999999999999e-05,
+   "input_tokens": 837,
+   "latency_ms": null,
+   "output_tokens": 128
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5d0414f13d068f91e3311d09ae39534e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2261,
+  "user_sha256": "a4f95a7d4541663bc86f37b3e0742def6dc0523429efdc9981294631b4fba4b6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: create_ticket still passes the renamed `attempts` kwarg instead of `max_attempts`, so it falls into `**fields` as a stray body field and the non-idempotent POST loses single-attempt protection, risking duplicate tickets on retry. Description B additionally references the client.py rename location, which is an acceptable listed location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: create_ticket still passes the renamed `attempts` kwarg instead of `max_attempts`, so it falls into `**fields` as a stray body field and the non-idempotent POST loses single-attempt protection, risking duplicate tickets on retry. Description B additionally references the client.py rename location, which is an acceptable listed location.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.492000000000001e-05,
+   "input_tokens": 874,
+   "latency_ms": null,
+   "output_tokens": 139
+  }
+ }
+}

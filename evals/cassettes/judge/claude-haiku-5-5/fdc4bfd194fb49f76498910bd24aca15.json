@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "fdc4bfd194fb49f76498910bd24aca15",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2227,
+  "user_sha256": "6d4b82dd117266ccc17c68d4ad43a64655cd6c42e0d4d89a7fd93ce18856c465"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says counting consumes a one-shot iterator at line 42, so the main loop sees nothing. Description B says the retry branch at line 51 returns an un-awaited coroutine after a timeout. These are different failures at different lines with different causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says counting consumes a one-shot iterator at line 42, so the main loop sees nothing. Description B says the retry branch at line 51 returns an un-awaited coroutine after a timeout. These are different failures at different lines with different causes.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.317e-05,
+   "input_tokens": 849,
+   "latency_ms": null,
+   "output_tokens": 97
+  }
+ }
+}

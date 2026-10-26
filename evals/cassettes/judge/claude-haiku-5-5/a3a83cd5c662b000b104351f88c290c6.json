@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a3a83cd5c662b000b104351f88c290c6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2658,
+  "user_sha256": "efa094a650e9d31e3800a4d9a20e5c37b7a1816455fd4f95e5188b77567ed8ce"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description B identifies the eviction bound check in _store comparing the number of countries (len of _keys_by_country) against max_entries, so the cache grows unbounded. Description A talks about TTL expiry, clear() not resetting stats, and KeyError in invalidate_country from index desync; it mentions a 'capacity-check bug' only vaguely without identifying the countries-vs-entries comparison or unbounded growth. These are different failures, so A does not describe the same defect.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description B identifies the eviction bound check in _store comparing the number of countries (len of _keys_by_country) against max_entries, so the cache grows unbounded. Description A talks about TTL expiry, clear() not resetting stats, and KeyError in invalidate_country from index desync; it mentions a 'capacity-check bug' only vaguely without identifying the countries-vs-entries comparison or unbounded growth. These are different failures, so A does not describe the same defect.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.847e-05,
+   "input_tokens": 985,
+   "latency_ms": null,
+   "output_tokens": 171
+  }
+ }
+}

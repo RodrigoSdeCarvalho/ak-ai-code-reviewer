@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7d9e71b69c9598efb73eed01b7ef758f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1842,
+  "user_sha256": "8c5cff74bdc037121f8b6c19e223855275e9812da4b8d8f2bd71acdcc907bfea"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the conditional expression on line 61 parses as (frequency + title_bonus) if term in title_terms else 0.0, so terms not in the title score 0 instead of their frequency, causing alphabetical fallback and suggest_tags filtering out body-only terms. The wording and detail differ but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the conditional expression on line 61 parses as (frequency + title_bonus) if term in title_terms else 0.0, so terms not in the title score 0 instead of their frequency, causing alphabetical fallback and suggest_tags filtering out body-only terms. The wording and detail differ but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.437000000000001e-05,
+   "input_tokens": 698,
+   "latency_ms": null,
+   "output_tokens": 132
+  }
+ }
+}

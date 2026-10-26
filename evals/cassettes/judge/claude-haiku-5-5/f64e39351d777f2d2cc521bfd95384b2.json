@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f64e39351d777f2d2cc521bfd95384b2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2320,
+  "user_sha256": "9de9bd322efc8219dded4963ba573608c0f2531c69aabeae3631e5c588eb7779"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: using partition(\":\") on SERVER_NAME splits IPv6 bracketed literals at the first colon, producing host \"[\" and a malformed port string, which breaks startup. Description A adds the lost bracket-stripping and lowercasing detail, while Description B adds the no-port bracketed case, but the defect and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: using partition(\\\":\\\") on SERVER_NAME splits IPv6 bracketed literals at the first colon, producing host \\\"[\\\" and a malformed port string, which breaks startup. Description A adds the lost bracket-stripping and lowercasing detail, while Description B adds the no-port bracketed case, but the defect and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.702e-05,
+   "input_tokens": 906,
+   "latency_ms": null,
+   "output_tokens": 141
+  }
+ }
+}

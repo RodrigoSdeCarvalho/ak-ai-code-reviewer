@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "52a40f87a15ff495ee72af633ce4ffde",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2315,
+  "user_sha256": "4b1678fd4c2a4707c48c9a0980c96c6782f66f105ef66a2c6fb067f386760bbb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both identify that in reserve() the self._pool.release(conn) call sits after the try/except, so the InventoryError re-raise path skips release and rejected reservations leak connections until the pool is exhausted. Description B additionally notes non-InventoryError exceptions are not released or rolled back, but its core defect matches A's.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both identify that in reserve() the self._pool.release(conn) call sits after the try/except, so the InventoryError re-raise path skips release and rejected reservations leak connections until the pool is exhausted. Description B additionally notes non-InventoryError exceptions are not released or rolled back, but its core defect matches A's.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.756999999999999e-05,
+   "input_tokens": 812,
+   "latency_ms": null,
+   "output_tokens": 122
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "16b2e4eaeb6534c3faf02c507b54799e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2256,
+  "user_sha256": "40ea72e3be8d867c29d9aadf3c764a9abdeb5a2c6a395a21002612f90daf71a8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says render() sits outside the try block so a template formatting exception aborts the loop and loses the report. Description B says each mailer.send opens a new SMTP connection, making a campaign slow and throttled. Different failures (exception propagation vs. per-message connection overhead), at the same loop.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says render() sits outside the try block so a template formatting exception aborts the loop and loses the report. Description B says each mailer.send opens a new SMTP connection, making a campaign slow and throttled. Different failures (exception propagation vs. per-message connection overhead), at the same loop.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.602000000000001e-05,
+   "input_tokens": 831,
+   "latency_ms": null,
+   "output_tokens": 112
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5973bc4d1586e839ad9f1bf182f094eb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2703,
+  "user_sha256": "2451c5c416cf86e7e37cf17131f4f2252d49bfe480e33bb44d8af406b9a3b35a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that RootModel.__copy__ uses a shallow copy of __dict__, so the private-attribute dict is shared between original and copy, causing mutations of private attributes to propagate. Description A adds extra claims about PydanticUndefined placeholders, but the core defect (shared private dict after shallow copy at the same location) matches Description B.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that RootModel.__copy__ uses a shallow copy of __dict__, so the private-attribute dict is shared between original and copy, causing mutations of private attributes to propagate. Description A adds extra claims about PydanticUndefined placeholders, but the core defect (shared private dict after shallow copy at the same location) matches Description B.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.352000000000001e-05,
+   "input_tokens": 1066,
+   "latency_ms": null,
+   "output_tokens": 135
+  }
+ }
+}

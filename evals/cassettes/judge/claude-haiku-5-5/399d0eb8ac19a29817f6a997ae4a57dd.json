@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "399d0eb8ac19a29817f6a997ae4a57dd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2211,
+  "user_sha256": "8ed69f84aabf29c6b2da3ee99b04aa5c69f65ef9443ebd12ae28dced4ea405e9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that check() now returns a list of violations (empty when compliant) while decide() still treats the result as a boolean in `if check(report, rates):`, inverting approval so violating reports are auto-approved and compliant ones sent to review. Same root cause at the same line.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that check() now returns a list of violations (empty when compliant) while decide() still treats the result as a boolean in `if check(report, rates):`, inverting approval so violating reports are auto-approved and compliant ones sent to review. Same root cause at the same line.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.402000000000001e-05,
+   "input_tokens": 811,
+   "latency_ms": null,
+   "output_tokens": 108
+  }
+ }
+}

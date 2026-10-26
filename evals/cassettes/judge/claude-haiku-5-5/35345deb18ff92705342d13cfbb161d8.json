@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "35345deb18ff92705342d13cfbb161d8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2011,
+  "user_sha256": "e898720614ad6ae4045cbe274b60ea87063dd05c33ad14a30c8ed883df837386"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the unbounded exponent in _retry_delay can overflow and raise OverflowError, escaping the handler. Description B says the finally block overwrites the backoff next_run with now + interval, so failed jobs never retry early. These are different failures at different lines: one is an overflow in the backoff calculation, the other is a scheduling override in finally.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the unbounded exponent in _retry_delay can overflow and raise OverflowError, escaping the handler. Description B says the finally block overwrites the backoff next_run with now + interval, so failed jobs never retry early. These are different failures at different lines: one is an overflow in the backoff calculation, the other is a scheduling override in finally.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.627000000000001e-05,
+   "input_tokens": 741,
+   "latency_ms": null,
+   "output_tokens": 131
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0c1ca847135f0af93b8f400806e1572d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2276,
+  "user_sha256": "a573cb92e77b73b36a2c02d8ab37a7c568bff701788d0b9af950036c6cede9e5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the eviction bound at line 107 compares the number of distinct countries (len(_keys_by_country)) instead of total entries, so the cache grows without bound. Description B says clear() fails to reset the hit/miss/eviction counters. These are different defects at different places.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the eviction bound at line 107 compares the number of distinct countries (len(_keys_by_country)) instead of total entries, so the cache grows without bound. Description B says clear() fails to reset the hit/miss/eviction counters. These are different defects at different places.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.577000000000001e-05,
+   "input_tokens": 856,
+   "latency_ms": null,
+   "output_tokens": 106
+  }
+ }
+}

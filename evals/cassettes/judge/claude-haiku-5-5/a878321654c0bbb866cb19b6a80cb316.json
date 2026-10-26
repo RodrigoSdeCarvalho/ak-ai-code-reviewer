@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a878321654c0bbb866cb19b6a80cb316",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2319,
+  "user_sha256": "41792c4c6ccbdfa41a1d0c152b30b8b7b5fd7b8e8cfe4d543b0f750e173240a2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: on a denied request, check() stores the refilled tokens but does not advance bucket.updated_at, so the next call re-adds the same elapsed interval's refill, letting throttled clients exceed the configured rate. Both point at lines 69-73 with the same root cause and consequence; only the example numbers differ.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: on a denied request, check() stores the refilled tokens but does not advance bucket.updated_at, so the next call re-adds the same elapsed interval's refill, letting throttled clients exceed the configured rate. Both point at lines 69-73 with the same root cause and consequence; only the example numbers differ.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.407e-05,
+   "input_tokens": 907,
+   "latency_ms": null,
+   "output_tokens": 129
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3716b3571c590fbb7c510e25e8204490",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2867,
+  "user_sha256": "99ffcce780dd798bdac214c8bcb7c3b80cd568f4b331242da2544e3c4c5aab97"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: awaiting the shared per-netloc Deferred via maybe_deferred_to_future consumes its result, so only the first waiter gets the parser while later concurrent waiters get None, causing process_request_2 to skip the robots.txt check and allow forbidden URLs. Both point to line 208 with the same mechanism and consequence.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: awaiting the shared per-netloc Deferred via maybe_deferred_to_future consumes its result, so only the first waiter gets the parser while later concurrent waiters get None, causing process_request_2 to skip the robots.txt check and allow forbidden URLs. Both point to line 208 with the same mechanism and consequence.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.342e-05,
+   "input_tokens": 1049,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}

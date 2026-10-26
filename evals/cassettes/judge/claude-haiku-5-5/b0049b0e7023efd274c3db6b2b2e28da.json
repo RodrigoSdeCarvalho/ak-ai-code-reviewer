@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b0049b0e7023efd274c3db6b2b2e28da",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2033,
+  "user_sha256": "5e47e893743fd69a078a7733dab31d5202c0d0a261a69c86d9ff35bbbd2396c0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: in daily_totals, quantity is never reset to 0 after yielding a group, so each DailyTotal carries over the running sum of prior groups, corrupting monthly totals, averages and peaks. Description A cites lines 57-58 and Description B cites line 58, which is the yield where the missing reset manifests, so both point at the same place.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: in daily_totals, quantity is never reset to 0 after yielding a group, so each DailyTotal carries over the running sum of prior groups, corrupting monthly totals, averages and peaks. Description A cites lines 57-58 and Description B cites line 58, which is the yield where the missing reset manifests, so both point at the same place.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.052000000000001e-05,
+   "input_tokens": 786,
+   "latency_ms": null,
+   "output_tokens": 139
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "90b507a3395a8bbf5ebf953f5ccde14b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2111,
+  "user_sha256": "b0b88326ff72e4e910a6ee2ee3086acd34d3be10f49a7b40df4790b6a48a2e3c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: active_skus is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is linear per scan, making unknown_locations quadratic. Description B adds detail and proposes a set, but the defect and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: active_skus is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is linear per scan, making unknown_locations quadratic. Description B adds detail and proposes a set, but the defect and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.612000000000001e-05,
+   "input_tokens": 863,
+   "latency_ms": null,
+   "output_tokens": 106
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4c2da8045f237238c70102383eaaa8b8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2099,
+  "user_sha256": "0ee4ff943ff2fd37c4f83e90ce8285c40926683aa2fcbe0c4d7565e9741986f4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: `active_skus` is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is a linear scan per scan, making the work quadratic. Description A points at lines 51-54 and Description B at line 54, both within the listed span, and both propose a set as the fix in substance.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: `active_skus` is a list, so the membership test `scan.sku not in active_skus` inside the scan loop is a linear scan per scan, making the work quadratic. Description A points at lines 51-54 and Description B at line 54, both within the listed span, and both propose a set as the fix in substance.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.112000000000001e-05,
+   "input_tokens": 858,
+   "latency_ms": null,
+   "output_tokens": 127
+  }
+ }
+}

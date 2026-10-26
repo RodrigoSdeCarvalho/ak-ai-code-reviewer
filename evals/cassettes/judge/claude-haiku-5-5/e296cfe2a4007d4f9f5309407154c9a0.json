@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e296cfe2a4007d4f9f5309407154c9a0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2677,
+  "user_sha256": "cbf551029bdb3910a20a8d6749aad80ff201f06ad58f5a54fd25695b36cc55b2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a mutable default argument (`metadata: dict = {}`) shared across calls, so setdefault leaks the content type between uploads and mutates caller dicts. Description B identifies a write-ordering problem: metadata is replaced before the blob, so a failed blob write or concurrent reader sees mismatched metadata and blob. These are different root causes at the same function.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a mutable default argument (`metadata: dict = {}`) shared across calls, so setdefault leaks the content type between uploads and mutates caller dicts. Description B identifies a write-ordering problem: metadata is replaced before the blob, so a failed blob write or concurrent reader sees mismatched metadata and blob. These are different root causes at the same function.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.427e-05,
+   "input_tokens": 1056,
+   "latency_ms": null,
+   "output_tokens": 140
+  }
+ }
+}

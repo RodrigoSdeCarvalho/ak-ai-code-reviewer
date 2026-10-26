@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7b4df8cec7aaeda3e5a4a97f41391776",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2257,
+  "user_sha256": "6b4edda6fc2c86a4846576549b71e67df3a6d0e7d6e1bdfd040a4f8847812415"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the input iterable is consumed by `sum(1 for _ in lines)` so the processing loop sees nothing (line 42). Description B says the retry branch at line 51 returns an un-awaited coroutine after a LookupTimeout. These are different failures at different lines with different causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the input iterable is consumed by `sum(1 for _ in lines)` so the processing loop sees nothing (line 42). Description B says the retry branch at line 51 returns an un-awaited coroutine after a LookupTimeout. These are different failures at different lines with different causes.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.706999999999999e-05,
+   "input_tokens": 852,
+   "latency_ms": null,
+   "output_tokens": 112
+  }
+ }
+}

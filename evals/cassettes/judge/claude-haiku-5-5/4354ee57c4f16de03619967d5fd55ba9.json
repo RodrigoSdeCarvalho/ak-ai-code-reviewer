@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4354ee57c4f16de03619967d5fd55ba9",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1873,
+  "user_sha256": "77c40fd75cf1597402055500d1481615659a7ae57b6fa6ed9972614d6c37d72a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: after the final failed attempt the loop breaks and charge() returns None instead of re-raising GatewayError, so settle_invoice reads charge.id on None, raising AttributeError and aborting settle_open_invoices. Both point at the same break/return path in billing/retry.py, differing only in line range and wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: after the final failed attempt the loop breaks and charge() returns None instead of re-raising GatewayError, so settle_invoice reads charge.id on None, raising AttributeError and aborting settle_open_invoices. Both point at the same break/return path in billing/retry.py, differing only in line range and wording.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.256999999999999e-05,
+   "input_tokens": 667,
+   "latency_ms": null,
+   "output_tokens": 131
+  }
+ }
+}

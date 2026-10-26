@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e268f96fb1eeb15c08836a6a54cb60bb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2979,
+  "user_sha256": "e82dc1df14f54a7080038afaa7a7629ec17203fc9dfefd21935e11a4f69cd207"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause at line 208: awaiting the single shared parser Deferred via maybe_deferred_to_future consumes its result, so later concurrent waiters receive None, which process_request_2 treats as no robots.txt, letting disallowed URLs through. Description B adds a cancellation side effect, but the core failure matches Description A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause at line 208: awaiting the single shared parser Deferred via maybe_deferred_to_future consumes its result, so later concurrent waiters receive None, which process_request_2 treats as no robots.txt, letting disallowed URLs through. Description B adds a cancellation side effect, but the core failure matches Description A.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.362e-05,
+   "input_tokens": 1073,
+   "latency_ms": null,
+   "output_tokens": 134
+  }
+ }
+}
