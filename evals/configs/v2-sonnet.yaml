@@ -1,0 +1,9 @@
+name: v2-sonnet
+backend: anthropic
+model: claude-sonnet-5-5
+prompt_version: v1
+effort: medium
+max_tokens: 16000
+# v2 = v1 + drop findings the model itself rates below 0.5 confidence (threshold chosen on dev; see EVAL.md).
+# The model request is identical to v1, so v2 replays v1's cassettes and the comparison is paired per sample.
+min_confidence: 0.5

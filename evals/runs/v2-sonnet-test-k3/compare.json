@@ -1,0 +1,262 @@
+{
+ "mode": "strict",
+ "n_cases": 43,
+ "n_boot": 10000,
+ "seed": 0,
+ "metrics": {
+  "recall": {
+   "delta": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "p_two_sided": 1.0,
+   "half_width": 0.0,
+   "n_cases": 43,
+   "label": "no detectable change"
+  },
+  "recall_high": {
+   "delta": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "p_two_sided": 1.0,
+   "half_width": 0.0,
+   "n_cases": 43,
+   "label": "no detectable change"
+  },
+  "precision": {
+   "delta": 0.31940976274777133,
+   "ci_low": 0.22497076377463981,
+   "ci_high": 0.41255444053082135,
+   "p_two_sided": 0.0,
+   "half_width": 0.09379183837809077,
+   "n_cases": 43,
+   "label": "improved"
+  },
+  "precision_high": {
+   "delta": 0.011463844797177991,
+   "ci_low": 0.0,
+   "ci_high": 0.0357142857142857,
+   "p_two_sided": 0.7326,
+   "half_width": 0.01785714285714285,
+   "n_cases": 43,
+   "label": "no detectable change"
+  },
+  "f1": {
+   "delta": 0.19029431281274722,
+   "ci_low": 0.12810173156833884,
+   "ci_high": 0.257407934307954,
+   "p_two_sided": 0.0,
+   "half_width": 0.06465310136980758,
+   "n_cases": 43,
+   "label": "improved"
+  },
+  "clean_false_alarm_rate": {
+   "delta": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "p_two_sided": 1.0,
+   "half_width": 0.0,
+   "n_cases": 43,
+   "label": "no detectable change"
+  },
+  "cost_usd_per_review": {
+   "delta": 0.0,
+   "ci_low": 0.0,
+   "ci_high": 0.0,
+   "p_two_sided": 1.0,
+   "half_width": 0.0,
+   "n_cases": 43,
+   "label": "no detectable change"
+  }
+ },
+ "slices": {
+  "kind:clean": {
+   "recall": {
+    "delta": null,
+    "ci_low": null,
+    "ci_high": null,
+    "p_two_sided": null,
+    "half_width": null,
+    "n_cases": 8,
+    "label": "n/a"
+   },
+   "recall_high": {
+    "delta": null,
+    "ci_low": null,
+    "ci_high": null,
+    "p_two_sided": null,
+    "half_width": null,
+    "n_cases": 8,
+    "label": "n/a"
+   },
+   "precision": {
+    "delta": null,
+    "ci_low": null,
+    "ci_high": null,
+    "p_two_sided": null,
+    "half_width": null,
+    "n_cases": 8,
+    "label": "n/a"
+   },
+   "clean_false_alarm_rate": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 8,
+    "label": "no detectable change"
+   }
+  },
+  "kind:real": {
+   "recall": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 6,
+    "label": "no detectable change"
+   },
+   "recall_high": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 6,
+    "label": "no detectable change"
+   },
+   "precision": {
+    "delta": 0.03571428571428559,
+    "ci_low": 0.0,
+    "ci_high": 0.09090909090909083,
+    "p_two_sided": 0.6706670667066706,
+    "half_width": 0.045454545454545414,
+    "n_cases": 6,
+    "label": "no detectable change"
+   },
+   "clean_false_alarm_rate": {
+    "delta": null,
+    "ci_low": null,
+    "ci_high": null,
+    "p_two_sided": null,
+    "half_width": null,
+    "n_cases": 6,
+    "label": "n/a"
+   }
+  },
+  "kind:seeded": {
+   "recall": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 29,
+    "label": "no detectable change"
+   },
+   "recall_high": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 29,
+    "label": "no detectable change"
+   },
+   "precision": {
+    "delta": 0.32419474086140765,
+    "ci_low": 0.23166534351960358,
+    "ci_high": 0.4064626858390223,
+    "p_two_sided": 0.0,
+    "half_width": 0.08739867115970935,
+    "n_cases": 29,
+    "label": "improved"
+   },
+   "clean_false_alarm_rate": {
+    "delta": null,
+    "ci_low": null,
+    "ci_high": null,
+    "p_two_sided": null,
+    "half_width": null,
+    "n_cases": 29,
+    "label": "n/a"
+   }
+  },
+  "category_group:api_contract": {
+   "recall": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 6,
+    "label": "no detectable change"
+   }
+  },
+  "category_group:error_handling": {
+   "recall": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 5,
+    "label": "no detectable change"
+   }
+  },
+  "category_group:logic": {
+   "recall": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 8,
+    "label": "no detectable change"
+   }
+  },
+  "category_group:performance": {
+   "recall": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 6,
+    "label": "no detectable change"
+   }
+  },
+  "category_group:security": {
+   "recall": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 5,
+    "label": "no detectable change"
+   }
+  },
+  "category_group:state": {
+   "recall": {
+    "delta": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "p_two_sided": 1.0,
+    "half_width": 0.0,
+    "n_cases": 6,
+    "label": "no detectable change"
+   }
+  }
+ },
+ "mcnemar": {
+  "n_bugs": 42,
+  "lost": 0,
+  "gained": 0,
+  "p_value": 1.0,
+  "flips": []
+ },
+ "baseline_run": "v1-sonnet-test-k3",
+ "candidate_run": "v2-sonnet-test-k3"
+}

@@ -1,4 +1,4 @@
 # The reviewer config that release-gate.yml measures on the test split and gates against evals/baseline.json.
 # One line: <config path> <samples> [<sample offset>, default 0]. A PR that changes the reviewer points this
 # at its config; committed cassettes for it are reused, new ones are recorded within the workflow's budget.
-evals/configs/v1-sonnet.yaml 3
+evals/configs/v2-sonnet.yaml 3

@@ -1,0 +1,261 @@
+{
+ "decision": "PASS",
+ "exit_code": 0,
+ "run_id": "v2-sonnet-test-k3",
+ "baseline_run_id": "v1-sonnet-test-k3",
+ "acceptance": "PENDING",
+ "regression_basis": "paired",
+ "comparability_problems": [],
+ "notes": [],
+ "checks": [
+  {
+   "name": "completeness.run_complete",
+   "status": "PASS",
+   "blocking": true,
+   "value": {
+    "incomplete": false,
+    "missing": 0
+   },
+   "bar": "no missing samples",
+   "provenance": "design §7",
+   "detail": null
+  },
+  {
+   "name": "completeness.hard_errors",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0,
+   "bar": "<= 0",
+   "provenance": "design §7",
+   "detail": null
+  },
+  {
+   "name": "completeness.soft_errors",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "<= 0.02",
+   "provenance": "design §7",
+   "detail": "0 truncated/refused of 129"
+  },
+  {
+   "name": "completeness.judge",
+   "status": "PASS",
+   "blocking": true,
+   "value": {
+    "missing": 0,
+    "error_rate": 0.0
+   },
+   "bar": "0 missing, error rate <= 0.02",
+   "provenance": "design §7",
+   "detail": null
+  },
+  {
+   "name": "absolute.recall_high",
+   "status": "PASS",
+   "blocking": false,
+   "value": 0.9012,
+   "bar": ">= 0.75",
+   "provenance": "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.901 [0.793, 1.000]; bar = CI lower bound rounded down",
+   "detail": "advisory: acceptance PENDING"
+  },
+  {
+   "name": "absolute.clean_false_alarm_rate",
+   "status": "PASS",
+   "blocking": false,
+   "value": 0.0,
+   "bar": "<= 0.15",
+   "provenance": "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.000 over 8 clean cases x 3; bar allows one case alarming in every sample (0.125), not two",
+   "detail": "advisory: acceptance PENDING"
+  },
+  {
+   "name": "absolute.precision",
+   "status": "PASS",
+   "blocking": false,
+   "value": 0.8804,
+   "bar": ">= 0.45",
+   "provenance": "MEASURED 2026-10-26 on v1-sonnet-test-k3: 0.561 [0.468, 0.668]; bar = CI lower bound rounded down",
+   "detail": "advisory: acceptance PENDING"
+  },
+  {
+   "name": "regression.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 43 cases"
+  },
+  {
+   "name": "regression.recall_high",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 43 cases"
+  },
+  {
+   "name": "regression.precision",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.3194,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.319 [+0.225, +0.413] over 43 cases"
+  },
+  {
+   "name": "regression.clean_false_alarm_rate",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely above +0.15",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 43 cases"
+  },
+  {
+   "name": "regression.kind:clean.clean_false_alarm_rate",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely above +0.15",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 8 cases"
+  },
+  {
+   "name": "regression.kind:real.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 6 cases"
+  },
+  {
+   "name": "regression.kind:real.recall_high",
+   "status": "INSUFFICIENT_DATA",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "n=1 < 6"
+  },
+  {
+   "name": "regression.kind:real.precision",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0357,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.036 [+0.000, +0.091] over 6 cases"
+  },
+  {
+   "name": "regression.kind:seeded.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 29 cases"
+  },
+  {
+   "name": "regression.kind:seeded.recall_high",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 29 cases"
+  },
+  {
+   "name": "regression.kind:seeded.precision",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.3242,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.324 [+0.232, +0.406] over 29 cases"
+  },
+  {
+   "name": "regression.category_group:api_contract.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 6 cases"
+  },
+  {
+   "name": "regression.category_group:error_handling.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 5 cases"
+  },
+  {
+   "name": "regression.category_group:logic.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 8 cases"
+  },
+  {
+   "name": "regression.category_group:performance.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 6 cases"
+  },
+  {
+   "name": "regression.category_group:security.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 5 cases"
+  },
+  {
+   "name": "regression.category_group:state.recall",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0.0,
+   "bar": "delta CI not entirely below -0.1",
+   "provenance": "DEFAULT — replace with measured noise floor",
+   "detail": "paired delta +0.000 [+0.000, +0.000] over 6 cases"
+  },
+  {
+   "name": "newly_missed_critical",
+   "status": "PASS",
+   "blocking": true,
+   "value": 0,
+   "bar": "0 critical/high bugs with baseline rate >= 0.66 and candidate rate <= 0.0",
+   "provenance": "design §7",
+   "detail": null
+  },
+  {
+   "name": "cost.per_review",
+   "status": "PASS",
+   "blocking": false,
+   "value": 1.0,
+   "bar": "<= 1.5x baseline",
+   "provenance": "design §7",
+   "detail": "0.01408 vs 0.01408"
+  },
+  {
+   "name": "latency.p95",
+   "status": "PASS",
+   "blocking": false,
+   "value": 1.0,
+   "bar": "<= 1.5x baseline",
+   "provenance": "design §7",
+   "detail": "7331 vs 7331"
+  }
+ ]
+}
