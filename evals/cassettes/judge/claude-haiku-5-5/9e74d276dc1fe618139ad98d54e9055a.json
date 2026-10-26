@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9e74d276dc1fe618139ad98d54e9055a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2239,
+  "user_sha256": "888666edb20666cce59b2d5804156cf3acfa9f9c4028143452f00238994508f0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same leak: when target.exists() is true, put_stream returns early without deleting the staged file in incoming/, so every duplicate upload leaves a full blob copy on disk. Description B additionally mentions that mkdir/os.replace failures are outside the try/except, a secondary extension of the same leak rather than a different defect.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same leak: when target.exists() is true, put_stream returns early without deleting the staged file in incoming/, so every duplicate upload leaves a full blob copy on disk. Description B additionally mentions that mkdir/os.replace failures are outside the try/except, a secondary extension of the same leak rather than a different defect.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.817000000000002e-05,
+   "input_tokens": 791,
+   "latency_ms": null,
+   "output_tokens": 130
+  }
+ }
+}

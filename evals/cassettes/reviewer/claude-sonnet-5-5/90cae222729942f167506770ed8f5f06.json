@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "90cae222729942f167506770ed8f5f06",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9611,
+  "user_sha256": "b366dfe87dfc3a750b694e144c0ba0d65bdf6cf9b3a0d2d2952af56956915e8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "The regex accepts any number of digits. On Python 3.11+, `int()` raises ValueError for strings over 4300 digits. That call sits outside the try block in `decode_cursor`, and `list_events` only catches `BadRequest`, so the ValueError propagates. A client can send a base64 cursor wrapping `v1:` plus about 4300 digits (roughly 5.8 KB of query string) and get a server error instead of a 400.",
+     "file": "audit/handlers.py",
+     "line": 50,
+     "severity": "low",
+     "suggestion": "Bound the digit count in the regex (for example `[1-9][0-9]{0,18}`), or wrap the `int()` call and raise BadRequest on ValueError.",
+     "title": "Oversized cursor digits raise an uncaught ValueError (500 instead of 400)"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"audit/handlers.py\",\"line\":50,\"severity\":\"low\",\"category\":\"error_handling\",\"title\":\"Oversized cursor digits raise an uncaught ValueError (500 instead of 400)\",\"description\":\"The regex accepts any number of digits. On Python 3.11+, `int()` raises ValueError for strings over 4300 digits. That call sits outside the try block in `decode_cursor`, and `list_events` only catches `BadRequest`, so the ValueError propagates. A client can send a base64 cursor wrapping `v1:` plus about 4300 digits (roughly 5.8 KB of query string) and get a server error instead of a 400.\",\"suggestion\":\"Bound the digit count in the regex (for example `[1-9][0-9]{0,18}`), or wrap the `int()` call and raise BadRequest on ValueError.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0095595,
+   "input_tokens": 4025,
+   "latency_ms": null,
+   "output_tokens": 1055
+  }
+ }
+}

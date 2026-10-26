@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:11+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6f7161ba6eaa9711c164fc1df3163c9a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1822,
+  "user_sha256": "061a756b3fa19c8cd8c3d90f1855eb7dc442dd93e0c0b5512066bb77aba34f52"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The claim checks out: `job.retry_delay * 2 ** n` is evaluated before the `min` cap, so a large enough consecutive_failures count overflows timedelta and raises from the except handler, skipping the history append. It is reachable only when max_failures is set high, since _retry_delay runs before the disable check, but that is a plausible configuration."
+  },
+  "raw_text": "{\"reason\": \"The claim checks out: `job.retry_delay * 2 ** n` is evaluated before the `min` cap, so a large enough consecutive_failures count overflows timedelta and raises from the except handler, skipping the history append. It is reachable only when max_failures is set high, since _retry_delay runs before the disable check, but that is a plausible configuration.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLfyhMYRqHvi2Zgmsmd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00044136,
+   "input_tokens": 687,
+   "latency_ms": 4703,
+   "output_tokens": 732
+  }
+ }
+}

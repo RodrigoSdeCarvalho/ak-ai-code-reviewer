@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "849b33384439a7971d7cfc1eea1d5135",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2434,
+  "user_sha256": "96379f43d4d2b03e483db41fb07fa4bf07bf5c5ddb2bca3b165c0790f7e3857d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: is_allowed uses host.endswith(domain) without a dot boundary, so unrelated look-alike domains (evilshop.example / bluekettle.example) are treated as partners and receive credentialed CORS headers. The proposed impact and examples differ only in detail, not in root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: is_allowed uses host.endswith(domain) without a dot boundary, so unrelated look-alike domains (evilshop.example / bluekettle.example) are treated as partners and receive credentialed CORS headers. The proposed impact and examples differ only in detail, not in root cause.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.267000000000002e-05,
+   "input_tokens": 896,
+   "latency_ms": null,
+   "output_tokens": 127
+  }
+ }
+}

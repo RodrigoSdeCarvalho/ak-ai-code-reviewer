@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:09+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3290ce87fe3a5e178ac3e02f1a27cbf4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2241,
+  "user_sha256": "6cd93b732a013c52f3a983e434cf6e9471c9764c065fefe79438752c8fe0352d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says exhausted retries hit `break` and fall through returning None instead of raising, causing invoices to be marked PAID without a charge. Description B says the `except GatewayError` clause retries permanent errors like CardDeclined, wasting attempts. Different failures: one is about the return value after giving up, the other about which errors are retried.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says exhausted retries hit `break` and fall through returning None instead of raising, causing invoices to be marked PAID without a charge. Description B says the `except GatewayError` clause retries permanent errors like CardDeclined, wasting attempts. Different failures: one is about the return value after giving up, the other about which errors are retried.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLbfjVnse32QTkLBanT",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015804000000000003,
+   "input_tokens": 821,
+   "latency_ms": 1375,
+   "output_tokens": 126
+  }
+ }
+}

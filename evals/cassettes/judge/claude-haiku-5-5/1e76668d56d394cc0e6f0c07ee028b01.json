@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:18+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1e76668d56d394cc0e6f0c07ee028b01",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1848,
+  "user_sha256": "a9bd86f049a9f9e1f21eae546422dbb32bc6d74410b37200a43b3b461b3fde5d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 61: the conditional expression assigns 0.0 to every term not in the title instead of its body frequency, so body-only terms are scored 0 and filtered out by suggest_tags' MIN_SCORE threshold. Description A adds the no-title alphabetical consequence, while Description B adds the empty-suggestion consequence and the semantic change to the score field; these are different details of one root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 61: the conditional expression assigns 0.0 to every term not in the title instead of its body frequency, so body-only terms are scored 0 and filtered out by suggest_tags' MIN_SCORE threshold. Description A adds the no-title alphabetical consequence, while Description B adds the empty-suggestion consequence and the semantic change to the score field; these are different details of one root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcHw6jRKqbDVM1XYBV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016094,
+   "input_tokens": 690,
+   "latency_ms": 1562,
+   "output_tokens": 158
+  }
+ }
+}

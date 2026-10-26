@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "15f0cf7b135a7cb90ac2b9c7ff476e54",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2429,
+  "user_sha256": "b6639b27add7cde8a713b771222d26de6edd6a008b984a3a737756bd54ab292a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the removal of the Sentinel __copy__/__deepcopy__/__reduce_ex__ overrides as the cause, leading to pickling/copy failing because bare object() values are not preserved across reconstruction (Sentinel(value) lookup fails). Description A adds identity-check consequences and a generic copy-may-not-return-singleton concern; Description B gives the specific ValueError mechanism and Python-version details. Same underlying defect at the same place.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the removal of the Sentinel __copy__/__deepcopy__/__reduce_ex__ overrides as the cause, leading to pickling/copy failing because bare object() values are not preserved across reconstruction (Sentinel(value) lookup fails). Description A adds identity-check consequences and a generic copy-may-not-return-singleton concern; Description B gives the specific ValueError mechanism and Python-version details. Same underlying defect at the same place.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00010302000000000001,
+   "input_tokens": 1063,
+   "latency_ms": null,
+   "output_tokens": 175
+  }
+ }
+}

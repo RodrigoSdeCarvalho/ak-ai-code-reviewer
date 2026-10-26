@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f032dcdb915e9843ca2df70141de35fc",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11058,
+  "user_sha256": "628bd1cffa28b77522b8e2bdf855fef7ed241ab33ff86ddc63f96800bdbb7346"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "RootModel sets `__pydantic_private__ = None` as a class attribute, which shadows the BaseModel slot, so a subclass's private attributes live in the instance `__dict__`. The removed block copied that private dict and dropped `PydanticUndefined` placeholders. `new_dict = copy(self.__dict__)` is only shallow, so after this change the copy and the original share the same private dict. Setting a private attribute on one therefore changes the other. Unset private attributes also stay as `PydanticUndefined` in the copy, so reading them returns the sentinel instead of raising AttributeError.",
+     "file": "pydantic/root_model.py",
+     "line": 106,
+     "severity": "medium",
+     "suggestion": "Restore the handling: after copying `__dict__`, replace `__pydantic_private__` with a new dict that omits `PydanticUndefined` values.",
+     "title": "RootModel.__copy__ no longer copies private attributes"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pydantic/root_model.py\",\"line\":106,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"RootModel.__copy__ no longer copies private attributes\",\"description\":\"RootModel sets `__pydantic_private__ = None` as a class attribute, which shadows the BaseModel slot, so a subclass's private attributes live in the instance `__dict__`. The removed block copied that private dict and dropped `PydanticUndefined` placeholders. `new_dict = copy(self.__dict__)` is only shallow, so after this change the copy and the original share the same private dict. Setting a private attribute on one therefore changes the other. Unset private attributes also stay as `PydanticUndefined` in the copy, so reading them returns the sentinel instead of raising AttributeError.\",\"suggestion\":\"Restore the handling: after copying `__dict__`, replace `__pydantic_private__` with a new dict that omits `PydanticUndefined` values.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0085625,
+   "input_tokens": 4358,
+   "latency_ms": null,
+   "output_tokens": 789
+  }
+ }
+}

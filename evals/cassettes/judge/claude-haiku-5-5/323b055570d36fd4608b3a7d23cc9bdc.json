@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:01+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "323b055570d36fd4608b3a7d23cc9bdc",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2535,
+  "user_sha256": "df64c03f92f50e1bb9329551501e2394bd0bef7f72e9ef486d6d3def301c871c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment is accurate: _generation is a single global counter, so any invalidate() or invalidate_where() bumps it and causes in-flight get_or_load results to be discarded rather than stored. This is a real performance degradation under write churn, though it is a efficiency trade-off rather than a correctness bug, and the cache remains correct."
+  },
+  "raw_text": "{\"reason\": \"The comment is accurate: _generation is a single global counter, so any invalidate() or invalidate_where() bumps it and causes in-flight get_or_load results to be discarded rather than stored. This is a real performance degradation under write churn, though it is a efficiency trade-off rather than a correctness bug, and the cache remains correct.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLfV1vy9D51dwiPyvVT",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00015985999999999998,
+   "input_tokens": 902,
+   "latency_ms": 1327,
+   "output_tokens": 126
+  }
+ }
+}

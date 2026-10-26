@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "b1d019a5ab9af74d0f65179a82841265",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 19116,
+  "user_sha256": "75996b75a344646ffad84627b4af46308bca5d11a42ecfe2df622e8a40c6a91b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "The invalid record stores only the impression id. `for_day` filters campaign records, but `invalid` is built from all records regardless of campaign, which is fine only if ids are globally unique. More importantly, the marker is written to the file of `served_at.date()`, and `for_day` reads only that day's file, so this works only when the same impression object is passed. If the id is reused across campaigns, a refund voids both campaigns' impressions.",
+     "file": "adserve/ledger.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Include campaign_id in the invalid record and match on (campaign, id).",
+     "title": "Invalid marker keyed only by impression id, not campaign"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.6,
+     "description": "`can_bid` calls `spend`, which calls `for_day`. That reads and JSON-parses the whole day file for every campaign on every bid request, replacing the previous O(1) in-memory counters. `eligible` multiplies this by the number of campaigns, so cost grows with the day's impression count on the hot bidding path.",
+     "file": "adserve/ledger.py",
+     "line": 65,
+     "severity": "medium",
+     "suggestion": "Keep cached per-campaign/day hourly totals, updated on record and refund, or index the log.",
+     "title": "Whole day file re-read and parsed on every bid check"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "Spend is bucketed by `impression.served_at.hour`, and `can_bid` looks up `now.hour` from `request.received_at`. The day file is chosen by `served_at.date()`. If impressions and requests carry different tzinfo (or naive vs aware), the hour and day buckets will not line up and the hourly cap will be applied to the wrong bucket. Also `fromisoformat` can yield naive/aware mismatches.",
+     "file": "adserve/pacing.py",
+     "line": 61,
+     "severity": "medium",
+     "suggestion": "Normalise all timestamps to one timezone (e.g. UTC) before deriving date/hour.",
+     "title": "Hourly bucketing ignores timezone consistency with request time"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"adserve/ledger.py\",\"line\":58,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Invalid marker keyed only by impression id, not campaign\",\"description\":\"The invalid record stores only the impression id. `for_day` filters campaign records, but `invalid` is built from all records regardless of campaign, which is fine only if ids are globally unique. More importantly, the marker is written to the file of `served_at.date()`, and `for_day` reads only that day's file, so this works only when the same impression object is passed. If the id is reused across campaigns, a refund voids both campaigns' impressions.\",\"suggestion\":\"Include campaign_id in the invalid record and match on (campaign, id).\",\"confidence\":0.2},{\"file\":\"adserve/ledger.py\",\"line\":65,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Whole day file re-read and parsed on every bid check\",\"description\":\"`can_bid` calls `spend`, which calls `for_day`. That reads and JSON-parses the whole day file for every campaign on every bid request, replacing the previous O(1) in-memory counters. `eligible` multiplies this by the number of campaigns, so cost grows with the day's impression count on the hot bidding path.\",\"suggestion\":\"Keep cached per-campaign/day hourly totals, updated on record and refund, or index the log.\",\"confidence\":0.6},{\"file\":\"adserve/pacing.py\",\"line\":61,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Hourly bucketing ignores timezone consistency with request time\",\"description\":\"Spend is bucketed by `impression.served_at.hour`, and `can_bid` looks up `now.hour` from `request.received_at`. The day file is chosen by `served_at.date()`. If impressions and requests carry different tzinfo (or naive vs aware), the hour and day buckets will not line up and the hourly cap will be applied to the wrong bucket. Also `fromisoformat` can yield naive/aware mismatches.\",\"suggestion\":\"Normalise all timestamps to one timezone (e.g. UTC) before deriving date/hour.\",\"confidence\":0.2}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0117665,
+   "input_tokens": 7992,
+   "latency_ms": null,
+   "output_tokens": 703
+  }
+ }
+}

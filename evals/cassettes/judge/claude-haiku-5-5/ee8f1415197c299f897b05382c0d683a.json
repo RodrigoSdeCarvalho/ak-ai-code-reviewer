@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:50+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ee8f1415197c299f897b05382c0d683a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1917,
+  "user_sha256": "9ca3d12cf0a8548cd7f7e74bd89eaeafc1f4b127d4e1a27d5a6dfc4097510874"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 180: using ctx.request.host.partition(':')[0] yields '[' for IPv6 hosts like [::1]:8000, so cookies are stored under the wrong domain and not sent back. Description A frames it as general cookie handling via _update_cookies_from_response and also mentions lowercasing; Description B frames it as session_transaction losing session values. These are the same root cause and place, with different consequence framing.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 180: using ctx.request.host.partition(':')[0] yields '[' for IPv6 hosts like [::1]:8000, so cookies are stored under the wrong domain and not sent back. Description A frames it as general cookie handling via _update_cookies_from_response and also mentions lowercasing; Description B frames it as session_transaction losing session values. These are the same root cause and place, with different consequence framing.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLaD3rrpDcmnAT6SvEF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00031715,
+   "input_tokens": 729,
+   "latency_ms": 1655,
+   "output_tokens": 165
+  }
+ }
+}

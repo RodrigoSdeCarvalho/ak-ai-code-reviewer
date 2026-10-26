@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:17+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "812ca50c2c845b218670199bbcae5bb0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2459,
+  "user_sha256": "b2f03c33df46996f51453049b0e0cde2e04c3c50b4add09b1ca078eb3ce4c17c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: _read_all swallows OSError/ValueError/KeyError and returns {}, so an unreadable or corrupt session file is treated as empty, and the next save/delete overwrites the file, wiping other users' sessions. Both point to lines 139-140 with the same root cause and consequence.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: _read_all swallows OSError/ValueError/KeyError and returns {}, so an unreadable or corrupt session file is treated as empty, and the next save/delete overwrites the file, wiping other users' sessions. Both point to lines 139-140 with the same root cause and consequence.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcBAJdiiUX9y2P85HY",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016384,
+   "input_tokens": 894,
+   "latency_ms": 1765,
+   "output_tokens": 123
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:25+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a50e2e0e7a5dcb28a6ef8bd2f269d8c9",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2309,
+  "user_sha256": "47d9c2ca18c0342f4c683fa9190bed2992a49d6059c4e350cbff5d9849964906"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment claims overdue() previously returned (ticket, due) tuples and now returns OverdueTicket, which would break callers. The shown code only reflects the post-change version and gives no evidence of the prior signature or of any caller in the repository that unpacks tuples. Without that, the breakage cannot be confirmed from the code shown, so it is at most a speculative concern rather than a demonstrated defect."
+  },
+  "raw_text": "{\"reason\": \"The comment claims overdue() previously returned (ticket, due) tuples and now returns OverdueTicket, which would break callers. The shown code only reflects the post-change version and gives no evidence of the prior signature or of any caller in the repository that unpacks tuples. Without that, the breakage cannot be confirmed from the code shown, so it is at most a speculative concern rather than a demonstrated defect.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRLhCwr8gZSTqDJ6fSAN",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00017566,
+   "input_tokens": 955,
+   "latency_ms": 2171,
+   "output_tokens": 147
+  }
+ }
+}

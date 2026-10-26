@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "0e664fed80791964f4d060f76df1e7ab",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8705,
+  "user_sha256": "87484cd30e933fedf346753c30dcb8403ea85d2deb72fc6a8ac18c49acb7480e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.97,
+     "description": "`HelpdeskClient.request` renamed its `attempts` parameter to `max_attempts`. This call site was not updated, so `attempts=1` now falls into `**fields` and is sent as `{\"attempts\": 1}` in the ticket body. The non-idempotent POST also loses its single-attempt protection and uses the default of 3 attempts. A timeout or 5xx will retry and can create duplicate tickets. The vendor API may also reject the unknown field.",
+     "file": "helpdesk/tickets.py",
+     "line": 40,
+     "severity": "high",
+     "suggestion": "Change `attempts=1` to `max_attempts=1`. Also grep for any other callers still using `attempts=`.",
+     "title": "create_ticket still passes the renamed `attempts` kwarg, so it becomes a JSON body field"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"helpdesk/tickets.py\",\"line\":40,\"severity\":\"high\",\"category\":\"api_contract\",\"title\":\"create_ticket still passes the renamed `attempts` kwarg, so it becomes a JSON body field\",\"description\":\"`HelpdeskClient.request` renamed its `attempts` parameter to `max_attempts`. This call site was not updated, so `attempts=1` now falls into `**fields` and is sent as `{\\\"attempts\\\": 1}` in the ticket body. The non-idempotent POST also loses its single-attempt protection and uses the default of 3 attempts. A timeout or 5xx will retry and can create duplicate tickets. The vendor API may also reject the unknown field.\",\"suggestion\":\"Change `attempts=1` to `max_attempts=1`. Also grep for any other callers still using `attempts=`.\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0052985,
+   "input_tokens": 3569,
+   "latency_ms": null,
+   "output_tokens": 294
+  }
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f82b9f6e26d00ae699bc8e1863b02ef0",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11058,
+  "user_sha256": "628bd1cffa28b77522b8e2bdf855fef7ed241ab33ff86ddc63f96800bdbb7346"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.55,
+     "description": "The removed block rebuilt `__pydantic_private__` in the copied `__dict__`. On RootModel, private attribute values are kept in `__dict__['__pydantic_private__']`, because the class-level `__pydantic_private__ = None` shadows the slot. Without that block, `copy(self.__dict__)` is shallow, so the copy and the original reference the same private dict. Assigning a private attribute on one instance then silently changes the other. The filter for `PydanticUndefined` placeholders is also gone, so unset-private markers are carried into the copy.",
+     "end_line": 106,
+     "file": "pydantic/root_model.py",
+     "line": 104,
+     "severity": "medium",
+     "suggestion": "Restore the copy of the private dict, with the `PydanticUndefined` filtering, when `__pydantic_private__` is present in `new_dict`.",
+     "title": "RootModel.__copy__ now shares the private-attributes dict with the original"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pydantic/root_model.py\",\"line\":104,\"end_line\":106,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"RootModel.__copy__ now shares the private-attributes dict with the original\",\"description\":\"The removed block rebuilt `__pydantic_private__` in the copied `__dict__`. On RootModel, private attribute values are kept in `__dict__['__pydantic_private__']`, because the class-level `__pydantic_private__ = None` shadows the slot. Without that block, `copy(self.__dict__)` is shallow, so the copy and the original reference the same private dict. Assigning a private attribute on one instance then silently changes the other. The filter for `PydanticUndefined` placeholders is also gone, so unset-private markers are carried into the copy.\",\"suggestion\":\"Restore the copy of the private dict, with the `PydanticUndefined` filtering, when `__pydantic_private__` is present in `new_dict`.\",\"confidence\":0.55}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0093125,
+   "input_tokens": 4358,
+   "latency_ms": null,
+   "output_tokens": 939
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:19+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8862eb9e16ea2b15811557417fb6c3bb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2299,
+  "user_sha256": "030dd44432efd97a7bf47dd9d97a09f54a949ef16a1ba0eb59bbf28eaa3e06d4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: on the denial path, check() stores the refilled tokens but returns before updating bucket.updated_at, so the next call re-counts the same elapsed interval and over-refills. Description A cites line 71 (the denial return, which is a listed location in the same function flow) and Description B cites lines 69-73; both explain the same root cause with different examples and severity framing.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: on the denial path, check() stores the refilled tokens but returns before updating bucket.updated_at, so the next call re-counts the same elapsed interval and over-refills. Description A cites line 71 (the denial return, which is a listed location in the same function flow) and Description B cites lines 69-73; both explain the same root cause with different examples and severity framing.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcLYcmYm37vBGJXM45",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017544,
+   "input_tokens": 905,
+   "latency_ms": 2062,
+   "output_tokens": 144
+  }
+ }
+}

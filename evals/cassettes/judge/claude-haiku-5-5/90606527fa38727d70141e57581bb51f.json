@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:10+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "90606527fa38727d70141e57581bb51f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2060,
+  "user_sha256": "85699dc0c5ada0830d4dfd5e971bde4e6973973059566af8cc2d59bdfcb56706"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both identify the same root cause: after the final failed attempt the loop breaks and charge returns None instead of re-raising GatewayError, causing AttributeError on charge.id in settle_invoice and aborting settle_open_invoices. Description B adds that the invoice is marked PAID before the crash, a downstream consequence of the same defect rather than a different failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both identify the same root cause: after the final failed attempt the loop breaks and charge returns None instead of re-raising GatewayError, causing AttributeError on charge.id in settle_invoice and aborting settle_open_invoices. Description B adds that the invoice is marked PAID before the crash, a downstream consequence of the same defect rather than a different failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbj9P9u8pmm4o6wTP3",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015334,
+   "input_tokens": 734,
+   "latency_ms": 1359,
+   "output_tokens": 134
+  }
+ }
+}

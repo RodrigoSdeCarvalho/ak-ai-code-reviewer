@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:06+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5a6bd762a44af6627d7c71cd30070e5d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2434,
+  "user_sha256": "31870ce3fb1abf8235ed060d272e425d0c61e7598adee6defcf41e6bf17f3758"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: check() now returns a list of violations (empty when compliant), but decide() in expenses/approval.py at line 26 still treats its result as a boolean, inverting approval so violating reports are auto-approved and compliant ones go to review. Description B adds the consequence about bypassing manager review, but the defect and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: check() now returns a list of violations (empty when compliant), but decide() in expenses/approval.py at line 26 still treats its result as a boolean, inverting approval so violating reports are auto-approved and compliant ones go to review. Description B adds the consequence about bypassing manager review, but the defect and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbP2Qm4vqie7hvmuC5",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016643999999999999,
+   "input_tokens": 880,
+   "latency_ms": 1828,
+   "output_tokens": 131
+  }
+ }
+}

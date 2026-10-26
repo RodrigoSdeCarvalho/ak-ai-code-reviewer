@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:14+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8bb1052cb084776b838d84a7b3d4536e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2157,
+  "user_sha256": "0909b7979825aa46b34a31a69b2007aad7ee83aa64fd403c8f009bf6b23d2d28"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that the finally block's unconditional `job.next_run = now + job.interval` overwrites the retry time set in the except branch, so failed jobs wait a full interval instead of the backoff retry delay. Same root cause, same place (lines 75-76 / 76, with line 65 as an alternative location), differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that the finally block's unconditional `job.next_run = now + job.interval` overwrites the retry time set in the except branch, so failed jobs wait a full interval instead of the backoff retry delay. Same root cause, same place (lines 75-76 / 76, with line 65 as an alternative location), differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbyhFNXgiJwt61vEHf",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015674000000000002,
+   "input_tokens": 783,
+   "latency_ms": 2000,
+   "output_tokens": 131
+  }
+ }
+}

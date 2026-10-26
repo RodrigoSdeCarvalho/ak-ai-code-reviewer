@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:36+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2d9ebe62e25cc36bf5e16b9ac545e8e6",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1920,
+  "user_sha256": "c98768d96ab10ce3f7d703e8bdd16fefa82f44e478d3c96c1e52d2830e506781"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect in accept(): it checks only revoked and max_uses, never checking expiry against now, so expired invite links still admit new members with the link's role. They point at the same check at lines 98-99 and describe the same failure, differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect in accept(): it checks only revoked and max_uses, never checking expiry against now, so expired invite links still admit new members with the link's role. They point at the same check at lines 98-99 and describe the same failure, differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdfMyY9AFKxQeJeaek",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013454000000000002,
+   "input_tokens": 686,
+   "latency_ms": 1453,
+   "output_tokens": 106
+  }
+ }
+}

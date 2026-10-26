@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "cc7b59c714b64ffc3fa8268f4db07048",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2181,
+  "user_sha256": "b0b9155e42de50e386ec4ddb002b682c3c1a578ffa9fff346f8a56928feb6e5f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: sign_out_everywhere catches StoreError per record, logs and continues, so sessions that failed to be revoked remain valid after change_password, and the caller cannot detect the incomplete sign-out. The places (lines 98-100) and the failure mode match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: sign_out_everywhere catches StoreError per record, logs and continues, so sessions that failed to be revoked remain valid after change_password, and the caller cannot detect the incomplete sign-out. The places (lines 98-100) and the failure mode match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLc88FFyiF21Y1czYyc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014334,
+   "input_tokens": 739,
+   "latency_ms": 1515,
+   "output_tokens": 113
+  }
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "6ec9202fee05b7b16df8afaa4dcb553e",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8985,
+  "user_sha256": "0e40d466f2f4d76ca94500ee6ef6445e761898c411ea05c9423b289812aabab5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "The `finally` clause always runs after the except branch, so `job.next_run = now + job.interval` overwrites the `now + self._retry_delay(job)` set at line 65. Failed jobs are therefore never retried sooner, and the retry_delay feature has no effect. Only the success path should schedule at `interval`.",
+     "end_line": 76,
+     "file": "scheduler/runner.py",
+     "line": 76,
+     "severity": "high",
+     "suggestion": "Remove the `finally` and set `job.next_run = now + job.interval` in the `else` branch only.",
+     "title": "finally block overwrites the backoff next_run on failure"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "`job.retry_delay * 2 ** (consecutive_failures - 1)` grows without bound. If `max_failures` is large, or failures keep accumulating, the multiplication eventually raises OverflowError (timedelta overflow) inside the except handler. That exception escapes `_run` and `tick`, so the remaining due jobs are skipped and no record is appended.",
+     "end_line": 81,
+     "file": "scheduler/runner.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Cap the exponent, e.g. `2 ** min(job.consecutive_failures - 1, 20)`, or double iteratively and stop once the value reaches `interval`.",
+     "title": "Unbounded exponent in backoff computation can overflow"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduler/runner.py\",\"line\":76,\"end_line\":76,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"finally block overwrites the backoff next_run on failure\",\"description\":\"The `finally` clause always runs after the except branch, so `job.next_run = now + job.interval` overwrites the `now + self._retry_delay(job)` set at line 65. Failed jobs are therefore never retried sooner, and the retry_delay feature has no effect. Only the success path should schedule at `interval`.\",\"suggestion\":\"Remove the `finally` and set `job.next_run = now + job.interval` in the `else` branch only.\",\"confidence\":0.97},{\"file\":\"scheduler/runner.py\",\"line\":81,\"end_line\":81,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Unbounded exponent in backoff computation can overflow\",\"description\":\"`job.retry_delay * 2 ** (consecutive_failures - 1)` grows without bound. If `max_failures` is large, or failures keep accumulating, the multiplication eventually raises OverflowError (timedelta overflow) inside the except handler. That exception escapes `_run` and `tick`, so the remaining due jobs are skipped and no record is appended.\",\"suggestion\":\"Cap the exponent, e.g. `2 ** min(job.consecutive_failures - 1, 20)`, or double iteratively and stop once the value reaches `interval`.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0063675,
+   "input_tokens": 3698,
+   "latency_ms": null,
+   "output_tokens": 482
+  }
+ }
+}

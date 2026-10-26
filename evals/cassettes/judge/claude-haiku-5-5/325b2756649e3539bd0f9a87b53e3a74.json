@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "325b2756649e3539bd0f9a87b53e3a74",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2293,
+  "user_sha256": "1f699941029aeb49d5440db954b5bb616bcbe2fbe7ef28e905311edf776c38dd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: _read_all at lines 139-140 swallows OSError/ValueError/KeyError and returns an empty dict, so corrupt or unreadable files are treated as empty, and the subsequent _write_all overwrites all sessions. Different wording and emphasis (A mentions take_by_refresh and single bad record; B mentions read reporting tokens unknown), but the same failure at the same place.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: _read_all at lines 139-140 swallows OSError/ValueError/KeyError and returns an empty dict, so corrupt or unreadable files are treated as empty, and the subsequent _write_all overwrites all sessions. Different wording and emphasis (A mentions take_by_refresh and single bad record; B mentions read reporting tokens unknown), but the same failure at the same place.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLc69gCxutayUcQVREb",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017584,
+   "input_tokens": 839,
+   "latency_ms": 1844,
+   "output_tokens": 158
+  }
+ }
+}

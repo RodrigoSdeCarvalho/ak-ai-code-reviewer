@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "cf5397d8bb66e3ca134ef6877e593419",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2214,
+  "user_sha256": "a81a5a1d8dde7ddf1e31c13c65d784c014649581f0552de834150754015c2cc8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: the eviction loop in _store at line 107 compares len(self._keys_by_country) (distinct countries) against max_entries instead of the total entry count, so eviction rarely or never runs and the cache grows unbounded, making cache_size ineffective.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: the eviction loop in _store at line 107 compares len(self._keys_by_country) (distinct countries) against max_entries instead of the total entry count, so eviction rarely or never runs and the cache grows unbounded, making cache_size ineffective.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLeNZDU2dznDhUWnox7",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014934,
+   "input_tokens": 804,
+   "latency_ms": 1125,
+   "output_tokens": 112
+  }
+ }
+}

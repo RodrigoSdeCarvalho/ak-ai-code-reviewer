@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e1c992acda297d8a69a12ffd1d2c0b7e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2993,
+  "user_sha256": "217a31876e126a339875f3df97d2f90763314a55fb4b5ed90ddca99c26a86956"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that reading an UploadFile with value.read() without saving and restoring the file position leaves the stream at EOF, so a second consumer of the same UploadFile (e.g., two parameters or dependencies declaring the same bytes field) receives b\"\". Same root cause and location, with different example framing and wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that reading an UploadFile with value.read() without saving and restoring the file position leaves the stream at EOF, so a second consumer of the same UploadFile (e.g., two parameters or dependencies declaring the same bytes field) receives b\\\"\\\". Same root cause and location, with different example framing and wording.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 9.097e-05,
+   "input_tokens": 1082,
+   "latency_ms": null,
+   "output_tokens": 123
+  }
+ }
+}

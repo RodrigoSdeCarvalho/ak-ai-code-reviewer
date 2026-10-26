@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "b59d754896fd5bbccf556a3cc60e81e8",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8463,
+  "user_sha256": "192eedb2d694f43fa7ade5ca58a0688e8081225ff2a8d87b274351179b790bbe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.5,
+     "description": "The old code fetched all keys with a single catalog.get_many(locale, wanted) call. The new loop calls catalog.exists and then catalog.get for every key in every candidate locale, so a page with N keys and a chain of length L makes up to 2*N*L catalog calls. If the catalog is backed by a DB or file, this becomes an N+1 pattern, and exists followed by get is also a check-then-act race if the catalog is reloaded in between.",
+     "end_line": 44,
+     "file": "i18n/bundles.py",
+     "line": 43,
+     "severity": "medium",
+     "suggestion": "Call catalog.get_many(candidate, remaining_keys) once per locale in the chain, shrinking the set of remaining keys after each call.",
+     "title": "Per-key catalog lookups replace the batched get_many call"
+    },
+    {
+     "category": "api_contract",
+     "confidence": 0.4,
+     "description": "Bundle.locale is set to chain[0], which is the normalised tag (for example 'pt_br' becomes 'pt-BR'), rather than the caller's locale. Callers, serialised JSON and missing_report keys that rely on the original string will see a different value. Invalid or empty locales now raise ValueError from normalise, where they previously just yielded all-missing bundles.",
+     "end_line": 50,
+     "file": "i18n/bundles.py",
+     "line": 50,
+     "severity": "medium",
+     "suggestion": "Keep locale=locale in the Bundle, or normalise consistently and document the change. Compare sources against chain[0] inside fallback_keys.",
+     "title": "Bundle.locale is now the normalised locale instead of the requested one"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"i18n/bundles.py\",\"line\":43,\"end_line\":44,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Per-key catalog lookups replace the batched get_many call\",\"description\":\"The old code fetched all keys with a single catalog.get_many(locale, wanted) call. The new loop calls catalog.exists and then catalog.get for every key in every candidate locale, so a page with N keys and a chain of length L makes up to 2*N*L catalog calls. If the catalog is backed by a DB or file, this becomes an N+1 pattern, and exists followed by get is also a check-then-act race if the catalog is reloaded in between.\",\"suggestion\":\"Call catalog.get_many(candidate, remaining_keys) once per locale in the chain, shrinking the set of remaining keys after each call.\",\"confidence\":0.5},{\"file\":\"i18n/bundles.py\",\"line\":50,\"end_line\":50,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Bundle.locale is now the normalised locale instead of the requested one\",\"description\":\"Bundle.locale is set to chain[0], which is the normalised tag (for example 'pt_br' becomes 'pt-BR'), rather than the caller's locale. Callers, serialised JSON and missing_report keys that rely on the original string will see a different value. Invalid or empty locales now raise ValueError from normalise, where they previously just yielded all-missing bundles.\",\"suggestion\":\"Keep locale=locale in the Bundle, or normalise consistently and document the change. Compare sources against chain[0] inside fallback_keys.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0065765,
+   "input_tokens": 3617,
+   "latency_ms": null,
+   "output_tokens": 540
+  }
+ }
+}

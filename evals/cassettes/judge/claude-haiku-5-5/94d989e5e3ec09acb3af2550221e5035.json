@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:13+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "94d989e5e3ec09acb3af2550221e5035",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2206,
+  "user_sha256": "e4b769321e27ac0a121136cccb49a34683bfa0afae7c577c0ae71afd7c162749"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that the finally block unconditionally sets job.next_run = now + job.interval, overwriting the backoff next_run set in the except branch, so failed jobs wait a full interval instead of retry_delay/backoff. Same root cause, same location (line 76 / finally block, with line 65 noted as alternative in A).",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that the finally block unconditionally sets job.next_run = now + job.interval, overwriting the backoff next_run set in the except branch, so failed jobs wait a full interval instead of retry_delay/backoff. Same root cause, same location (line 76 / finally block, with line 65 noted as alternative in A).\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbyfkQWy7MKtaufgha",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015534000000000001,
+   "input_tokens": 794,
+   "latency_ms": 1264,
+   "output_tokens": 126
+  }
+ }
+}

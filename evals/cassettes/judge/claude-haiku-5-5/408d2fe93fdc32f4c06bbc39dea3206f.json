@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:27+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "408d2fe93fdc32f4c06bbc39dea3206f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1878,
+  "user_sha256": "cdd15e703c78bf877f2431b6b1b593023d36d54edbef72c06d00c30cb41176b1"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment is accurate about the code: only RecipientRefused is caught, so other exceptions propagate and the partially built report is lost, making retries ambiguous and risking duplicate or missed sends. This is a concrete failure mode in practice for a mailing loop with network errors."
+  },
+  "raw_text": "{\"reason\": \"The comment is accurate about the code: only RecipientRefused is caught, so other exceptions propagate and the partially built report is lost, making retries ambiguous and risking duplicate or missed sends. This is a concrete failure mode in practice for a mailing loop with network errors.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLhLs72ZMR5bChyAKaS",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00013576000000000001,
+   "input_tokens": 751,
+   "latency_ms": 2343,
+   "output_tokens": 108
+  }
+ }
+}

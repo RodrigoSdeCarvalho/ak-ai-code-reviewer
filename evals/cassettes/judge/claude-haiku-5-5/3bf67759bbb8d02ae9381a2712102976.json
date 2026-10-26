@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3bf67759bbb8d02ae9381a2712102976",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2493,
+  "user_sha256": "328cdf6678e4f9f615cb1f5c7a88bccea8137b6803bd0fdb4f7f4b6951d7e467"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: the bare suffix check host.endswith(domain) lacks a label boundary, so look-alike domains (e.g. evilshop.example / bluekettle.example) are treated as partners and receive credentialed CORS headers. Both describe the same root cause and the same exploitation consequence, differing only in example domains and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: the bare suffix check host.endswith(domain) lacks a label boundary, so look-alike domains (e.g. evilshop.example / bluekettle.example) are treated as partners and receive credentialed CORS headers. Both describe the same root cause and the same exploitation consequence, differing only in example domains and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLe7sg43nXymQ1C2j38",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017324000000000002,
+   "input_tokens": 918,
+   "latency_ms": 1812,
+   "output_tokens": 137
+  }
+ }
+}

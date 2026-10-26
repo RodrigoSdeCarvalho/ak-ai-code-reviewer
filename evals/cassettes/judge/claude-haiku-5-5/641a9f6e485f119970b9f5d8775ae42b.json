@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:11+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "641a9f6e485f119970b9f5d8775ae42b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2162,
+  "user_sha256": "afb3167beca471bf96883d358c317e474202ac230420c789b7891fbc4a60846d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the method falls off the end and returns None after exhausted retries, causing AttributeError in the caller. Description B says the except clause retries all GatewayError types, including permanent declines, which wastes retries. Different failures: one is a return-value/exhaustion bug at lines 61-62, the other is an over-broad exception filter at line 55.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the method falls off the end and returns None after exhausted retries, causing AttributeError in the caller. Description B says the except clause retries all GatewayError types, including permanent declines, which wastes retries. Different failures: one is a return-value/exhaustion bug at lines 61-62, the other is an over-broad exception filter at line 55.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLbmrqsNyrexnNHHsi9",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015694,
+   "input_tokens": 795,
+   "latency_ms": 1359,
+   "output_tokens": 129
+  }
+ }
+}

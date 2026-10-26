@@ -1,0 +1,80 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "a80e73ec83600eba27fc005f464d779f",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8990,
+  "user_sha256": "b7dca955942ddc919ca38fae78345f45440711009e7b139138f0084d6de30dff"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "`metadata` defaults to a shared `{}`, and `put` calls `metadata.setdefault(\"content-type\", ...)` on it. The first call without metadata stores a guessed content type (e.g. text/csv) in the shared default dict. Every later put without metadata then keeps that stale type, so a .png uploaded after a .csv is labelled text/csv. Callers' own dicts are also mutated.",
+     "end_line": 80,
+     "file": "blobstore/store.py",
+     "line": 73,
+     "severity": "high",
+     "suggestion": "Use `metadata: dict[str, str] | None = None` and build a fresh copy: `metadata = dict(metadata or {})` before calling setdefault.",
+     "title": "Mutable default argument is mutated by setdefault"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.55,
+     "description": "The metadata file is replaced before the blob is written. If the blob write fails (disk full, crash), the old blob stays paired with the new metadata, and for a new key an orphan meta file is left. Concurrent puts to the same key can also mix one writer's metadata with another's data. The temp file names are fixed and shared, so concurrent writers can also clobber each other.",
+     "end_line": 87,
+     "file": "blobstore/store.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Write the blob first, then the metadata. Clean up temp files on failure and use unique temp names.",
+     "title": "Metadata written before blob, leaving inconsistent state on failure"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "The `is_file()` check followed by `read_text` is a race: if a concurrent delete removes the meta file in between, FileNotFoundError escapes. Corrupt JSON raises JSONDecodeError out of head(). A non-dict JSON value would make `pop` fail.",
+     "file": "blobstore/store.py",
+     "line": 103,
+     "severity": "medium",
+     "suggestion": "Wrap the read and parse in try/except (FileNotFoundError, ValueError) and fall back to {}.",
+     "title": "head can raise on corrupt metadata or when the file is deleted concurrently"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.1,
+     "description": "Key parts may not start with '.', so hidden meta files are not reachable as keys, which is fine. But a key such as `a.meta.json` is valid while its metadata sidecar is `.a.meta.json`, and the sidecar of key `x` can never conflict. There is an ordering issue instead: the key `a` and a key `a/b` collide as file vs directory. This is not new, though, so it is a minor concern.",
+     "file": "blobstore/store.py",
+     "line": 120,
+     "severity": "medium",
+     "suggestion": null,
+     "title": "Key-validation gap: user key can collide with metadata files"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"blobstore/store.py\",\"line\":73,\"end_line\":80,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Mutable default argument is mutated by setdefault\",\"description\":\"`metadata` defaults to a shared `{}`, and `put` calls `metadata.setdefault(\\\"content-type\\\", ...)` on it. The first call without metadata stores a guessed content type (e.g. text/csv) in the shared default dict. Every later put without metadata then keeps that stale type, so a .png uploaded after a .csv is labelled text/csv. Callers' own dicts are also mutated.\",\"suggestion\":\"Use `metadata: dict[str, str] | None = None` and build a fresh copy: `metadata = dict(metadata or {})` before calling setdefault.\",\"confidence\":0.97},{\"file\":\"blobstore/store.py\",\"line\":81,\"end_line\":87,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Metadata written before blob, leaving inconsistent state on failure\",\"description\":\"The metadata file is replaced before the blob is written. If the blob write fails (disk full, crash), the old blob stays paired with the new metadata, and for a new key an orphan meta file is left. Concurrent puts to the same key can also mix one writer's metadata with another's data. The temp file names are fixed and shared, so concurrent writers can also clobber each other.\",\"suggestion\":\"Write the blob first, then the metadata. Clean up temp files on failure and use unique temp names.\",\"confidence\":0.55},{\"file\":\"blobstore/store.py\",\"line\":103,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"head can raise on corrupt metadata or when the file is deleted concurrently\",\"description\":\"The `is_file()` check followed by `read_text` is a race: if a concurrent delete removes the meta file in between, FileNotFoundError escapes. Corrupt JSON raises JSONDecodeError out of head(). A non-dict JSON value would make `pop` fail.\",\"suggestion\":\"Wrap the read and parse in try/except (FileNotFoundError, ValueError) and fall back to {}.\",\"confidence\":0.4},{\"file\":\"blobstore/store.py\",\"line\":120,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Key-validation gap: user key can collide with metadata files\",\"description\":\"Key parts may not start with '.', so hidden meta files are not reachable as keys, which is fine. But a key such as `a.meta.json` is valid while its metadata sidecar is `.a.meta.json`, and the sidecar of key `x` can never conflict. There is an ordering issue instead: the key `a` and a key `a/b` collide as file vs directory. This is not new, though, so it is a minor concern.\",\"suggestion\":null,\"confidence\":0.1}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0087755,
+   "input_tokens": 3936,
+   "latency_ms": null,
+   "output_tokens": 916
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:51+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a85e87f9b5751082653462c76d3feff4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1729,
+  "user_sha256": "2709520139f04797c3b6b84ba60e700c7a812f8d8ddf43a5e6b1d7cde45f9400"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 51: the retry branch returns the un-awaited coroutine from enrich(event, geo) instead of an Event, so timed-out lookups pass a coroutine downstream to the sink. The wording and secondary details differ, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 51: the retry branch returns the un-awaited coroutine from enrich(event, geo) instead of an Event, so timed-out lookups pass a coroutine downstream to the sink. The wording and secondary details differ, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLejMNfSS26ZJJHxoCG",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013454000000000002,
+   "input_tokens": 656,
+   "latency_ms": 1202,
+   "output_tokens": 112
+  }
+ }
+}

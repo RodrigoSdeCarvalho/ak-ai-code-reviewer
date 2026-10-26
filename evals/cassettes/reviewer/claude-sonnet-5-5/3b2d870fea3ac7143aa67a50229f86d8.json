@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "3b2d870fea3ac7143aa67a50229f86d8",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 17887,
+  "user_sha256": "d2733e4831686f934b3c7f7a64cf87d5e8943f27036f3992a878ed1a8974fac2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "The eviction loop compares len(self._keys_by_country), the number of distinct countries, with max_entries, not the number of cached entries. The cache therefore grows without bound: with 4096 as the limit, millions of postal codes within a few countries are never evicted. Memory use is unbounded, and the max_entries guarantee in the docstring is broken. The stats 'size' and 'evictions' are also misleading as a result.",
+     "end_line": 108,
+     "file": "billing/ratecache.py",
+     "line": 107,
+     "severity": "high",
+     "suggestion": "Use `while len(self._entries) > self._max_entries:`.",
+     "title": "Capacity check counts countries instead of entries"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.15,
+     "description": "clear() empties the entries and the country index but leaves the hit, miss and eviction counters unchanged. This is a minor inconsistency, and it is arguably intentional.",
+     "end_line": 97,
+     "file": "billing/ratecache.py",
+     "line": 94,
+     "severity": "low",
+     "suggestion": null,
+     "title": "clear() does not reset statistics"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.3,
+     "description": "source.replace_country runs before calculator.rates_changed and without the cache lock. A concurrent get() can load the old or new table between the two calls, and the loader does not run under any lock shared with the source. A lookup that loads the new rate is harmless. A lookup that has just read the old table, however, can store the stale rate after the invalidation has run. That stale rate then stays cached for up to the TTL.",
+     "end_line": 38,
+     "file": "billing/admin.py",
+     "line": 37,
+     "severity": "medium",
+     "suggestion": "Do the replace and the invalidate under a single lock shared with the cache loader, or invalidate again after the replace.",
+     "title": "Table replacement and cache invalidation are not atomic"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/ratecache.py\",\"line\":107,\"end_line\":108,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Capacity check counts countries instead of entries\",\"description\":\"The eviction loop compares len(self._keys_by_country), the number of distinct countries, with max_entries, not the number of cached entries. The cache therefore grows without bound: with 4096 as the limit, millions of postal codes within a few countries are never evicted. Memory use is unbounded, and the max_entries guarantee in the docstring is broken. The stats 'size' and 'evictions' are also misleading as a result.\",\"suggestion\":\"Use `while len(self._entries) > self._max_entries:`.\",\"confidence\":0.93},{\"file\":\"billing/ratecache.py\",\"line\":94,\"end_line\":97,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"clear() does not reset statistics\",\"description\":\"clear() empties the entries and the country index but leaves the hit, miss and eviction counters unchanged. This is a minor inconsistency, and it is arguably intentional.\",\"suggestion\":null,\"confidence\":0.15},{\"file\":\"billing/admin.py\",\"line\":37,\"end_line\":38,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Table replacement and cache invalidation are not atomic\",\"description\":\"source.replace_country runs before calculator.rates_changed and without the cache lock. A concurrent get() can load the old or new table between the two calls, and the loader does not run under any lock shared with the source. A lookup that loads the new rate is harmless. A lookup that has just read the old table, however, can store the stale rate after the invalidation has run. That stale rate then stays cached for up to the TTL.\",\"suggestion\":\"Do the replace and the invalidate under a single lock shared with the cache loader, or invalidate again after the replace.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0108105,
+   "input_tokens": 7491,
+   "latency_ms": null,
+   "output_tokens": 612
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "07533fac6f1db272af8120b4c1237334",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2150,
+  "user_sha256": "62e5c959db87cef8c9f7bdefdb538f50612f3a33416eae5bf0d8672f2342adb9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says denied requests advance tokens via refill without updating updated_at, so repeated denied calls over-refill and the limit is bypassed. Description B says requests with cost greater than capacity can never succeed because tokens are capped at capacity. These are different failures at overlapping lines: one is over-admission from refill accounting, the other is permanent denial from cost exceeding burst.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says denied requests advance tokens via refill without updating updated_at, so repeated denied calls over-refill and the limit is bypassed. Description B says requests with cost greater than capacity can never succeed because tokens are capped at capacity. These are different failures at overlapping lines: one is over-admission from refill accounting, the other is permanent denial from cost exceeding burst.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.282000000000001e-05,
+   "input_tokens": 834,
+   "latency_ms": null,
+   "output_tokens": 140
+  }
+ }
+}

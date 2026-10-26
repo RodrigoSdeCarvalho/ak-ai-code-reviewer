@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "fb43d46df3787bb2334b374526a737ef",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6003,
+  "user_sha256": "48f3ca5db8f5b1be2502b8d083419ccac396f468a61413d242d63cb609af8b82"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.9,
+     "description": "The try block wraps self._flush(), so any exception from sink.write (I/O error, DB outage) is caught by `except Exception`. The whole batch is lost, because `batch` was already reset to [] before the flush. A single failed row number is recorded as rejected for what was really a batch-wide write failure. The loop keeps going, so a dead sink silently drops data. The report's loaded count does not include these rows and no error propagates, apart from TooManyRejected much later.",
+     "end_line": 68,
+     "file": "pipeline/load.py",
+     "line": 67,
+     "severity": "high",
+     "suggestion": "Only wrap parse_row in the try/except. Call self._flush outside it, so sink errors propagate. Catch specific parse exceptions (e.g. ValueError, KeyError) rather than Exception.",
+     "title": "Sink write failures are caught and recorded as a row rejection"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/load.py\",\"line\":67,\"end_line\":68,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"Sink write failures are caught and recorded as a row rejection\",\"description\":\"The try block wraps self._flush(), so any exception from sink.write (I/O error, DB outage) is caught by `except Exception`. The whole batch is lost, because `batch` was already reset to [] before the flush. A single failed row number is recorded as rejected for what was really a batch-wide write failure. The loop keeps going, so a dead sink silently drops data. The report's loaded count does not include these rows and no error propagates, apart from TooManyRejected much later.\",\"suggestion\":\"Only wrap parse_row in the try/except. Call self._flush outside it, so sink errors propagate. Catch specific parse exceptions (e.g. ValueError, KeyError) rather than Exception.\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0042645,
+   "input_tokens": 2460,
+   "latency_ms": null,
+   "output_tokens": 309
+  }
+ }
+}

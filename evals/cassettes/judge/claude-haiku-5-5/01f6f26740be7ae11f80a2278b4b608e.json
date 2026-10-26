@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:04+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "01f6f26740be7ae11f80a2278b4b608e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2617,
+  "user_sha256": "0e25c77bb94ab179db7359c6b45f8b5d401603e3b5407a09db008fd7f0d58bc3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The comment claims a removed mark_as_failure call, but the shown code has no such removal and the snippet only logs and rejects with requeue=False. Whether the result backend records the failure cannot be confirmed from the shown code, and the claim that this was the only place the error was stored is unsupported by the visible code, so the claim does not match the code shown."
+  },
+  "raw_text": "{\"reason\": \"The comment claims a removed mark_as_failure call, but the shown code has no such removal and the snippet only logs and rejects with requeue=False. Whether the result backend records the failure cannot be confirmed from the shown code, and the claim that this was the only place the error was stored is unsupported by the visible code, so the claim does not match the code shown.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRLfgbhDVkKSvugoer4h",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00016985999999999998,
+   "input_tokens": 992,
+   "latency_ms": 1359,
+   "output_tokens": 128
+  }
+ }
+}

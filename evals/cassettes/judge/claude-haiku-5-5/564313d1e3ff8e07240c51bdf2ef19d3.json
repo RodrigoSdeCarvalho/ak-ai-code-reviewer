@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:07+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "564313d1e3ff8e07240c51bdf2ef19d3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2447,
+  "user_sha256": "377b172807dc781d032830e75b905f44bf87cf2548cbfd24ab83ef869b9ec3f6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: create_ticket still passes the old `attempts=1` keyword after the rename to `max_attempts`, so it falls into **fields as a stray JSON body field, the default of 3 attempts applies, and timed-out ticket POSTs get retried, creating duplicate tickets. Description A also points to the alternative location in client.py, which is acceptable.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: create_ticket still passes the old `attempts=1` keyword after the rename to `max_attempts`, so it falls into **fields as a stray JSON body field, the default of 3 attempts applies, and timed-out ticket POSTs get retried, creating duplicate tickets. Description A also points to the alternative location in client.py, which is acceptable.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbUjTYDFNSWV8kadmP",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017584,
+   "input_tokens": 914,
+   "latency_ms": 1890,
+   "output_tokens": 143
+  }
+ }
+}

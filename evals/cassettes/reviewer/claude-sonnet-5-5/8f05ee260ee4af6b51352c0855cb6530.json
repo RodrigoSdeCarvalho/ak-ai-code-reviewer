@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "8f05ee260ee4af6b51352c0855cb6530",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5817,
+  "user_sha256": "90c1b46ad0609df3bd7e4a8be39337408fd81cb16e2201702e99f8b413270b8b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.93,
+     "description": "When the target already exists, the function returns early without removing the temporary file in incoming/. Every duplicate upload leaves a full-size orphan file, so disk usage grows without bound. The old code wrote nothing in this case.",
+     "file": "storage/blobs.py",
+     "line": 66,
+     "severity": "medium",
+     "suggestion": "Call incoming.unlink(missing_ok=True) before returning. Better, wrap the post-write section in try/finally that removes incoming if it was not moved.",
+     "title": "Temp upload file leaked when blob already exists"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The cleanup try/except covers only the write loop. If _path_for, target.parent.mkdir or os.replace raises (permissions, disk error), the temp file in incoming/ remains.",
+     "file": "storage/blobs.py",
+     "line": 68,
+     "severity": "medium",
+     "suggestion": "Extend the cleanup to cover the finalize steps, for example with try/finally that unlinks incoming if it still exists.",
+     "title": "Temp file leaked if mkdir or os.replace fails"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"storage/blobs.py\",\"line\":66,\"severity\":\"medium\",\"category\":\"resource\",\"title\":\"Temp upload file leaked when blob already exists\",\"description\":\"When the target already exists, the function returns early without removing the temporary file in incoming/. Every duplicate upload leaves a full-size orphan file, so disk usage grows without bound. The old code wrote nothing in this case.\",\"suggestion\":\"Call incoming.unlink(missing_ok=True) before returning. Better, wrap the post-write section in try/finally that removes incoming if it was not moved.\",\"confidence\":0.93},{\"file\":\"storage/blobs.py\",\"line\":68,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Temp file leaked if mkdir or os.replace fails\",\"description\":\"The cleanup try/except covers only the write loop. If _path_for, target.parent.mkdir or os.replace raises (permissions, disk error), the temp file in incoming/ remains.\",\"suggestion\":\"Extend the cleanup to cover the finalize steps, for example with try/finally that unlinks incoming if it still exists.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0045815,
+   "input_tokens": 2442,
+   "latency_ms": null,
+   "output_tokens": 376
+  }
+ }
+}

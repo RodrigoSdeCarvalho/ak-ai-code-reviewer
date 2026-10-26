@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "87839ba61e2fa78d1a2f9c4d2bfbcdbb",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14880,
+  "user_sha256": "384b2052fd605e0c58f30baaf691c257a8d68dedc18e7d36a6cc618fd773b574"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.9,
+     "description": "Only the target board is checked with _require_editor. The card is fetched by id and moved without verifying the actor can edit the card's current board. A user who is an editor on their own board can pass any card_id from a private board they have no access to, and the card is moved onto their board. This lets them take cards from other boards and read them afterwards. Any viewer or non-member of the source board can also move cards out of it.",
+     "end_line": 103,
+     "file": "kanban/service.py",
+     "line": 102,
+     "severity": "high",
+     "suggestion": "Call self._require_editor(card.board_id, actor_id) for the source board before moving, in addition to the target check.",
+     "title": "move_card does not check permission on the card's source board"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"kanban/service.py\",\"line\":102,\"end_line\":103,\"severity\":\"high\",\"category\":\"security\",\"title\":\"move_card does not check permission on the card's source board\",\"description\":\"Only the target board is checked with _require_editor. The card is fetched by id and moved without verifying the actor can edit the card's current board. A user who is an editor on their own board can pass any card_id from a private board they have no access to, and the card is moved onto their board. This lets them take cards from other boards and read them afterwards. Any viewer or non-member of the source board can also move cards out of it.\",\"suggestion\":\"Call self._require_editor(card.board_id, actor_id) for the source board before moving, in addition to the target check.\",\"confidence\":0.9}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0071775,
+   "input_tokens": 5713,
+   "latency_ms": null,
+   "output_tokens": 241
+  }
+ }
+}

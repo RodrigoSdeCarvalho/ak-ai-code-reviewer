@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5a6e6308f96624dcb5a64ab30b4791b1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2239,
+  "user_sha256": "888666edb20666cce59b2d5804156cf3acfa9f9c4028143452f00238994508f0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: when the digest already exists, the early return at line 66 leaves the staged file in incoming/ without deleting it, so every duplicate upload leaks a full blob copy and disk usage grows. Description B adds a secondary leak path (mkdir/os.replace failures outside the try/except), but its main claim matches A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: when the digest already exists, the early return at line 66 leaves the staged file in incoming/ without deleting it, so every duplicate upload leaks a full blob copy and disk usage grows. Description B adds a secondary leak path (mkdir/os.replace failures outside the try/except), but its main claim matches A.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLeMPHEbgDJrLAMp3JW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015754,
+   "input_tokens": 791,
+   "latency_ms": 1406,
+   "output_tokens": 131
+  }
+ }
+}

@@ -1,0 +1,82 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "499bd304aee9b834b5426be526b99103",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7773,
+  "user_sha256": "861a2e980ea6e1734631e17f54e9da5627aeefec07ca990c97db0151d6f8de04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.95,
+     "description": "In reserve(), release is called after the try/except rather than in a finally block. On the InventoryError path the code re-raises, so release is skipped and the connection is never returned to the pool. Any other exception (e.g. a DB error from put/commit) is not caught, so there is no rollback and no release either. Repeated failures such as insufficient stock will exhaust the pool.",
+     "end_line": 96,
+     "file": "inventory/service.py",
+     "line": 93,
+     "severity": "high",
+     "suggestion": "Use try/except/finally: roll back on any exception (except Exception: conn.rollback(); raise) and call self._pool.release(conn) in a finally block.",
+     "title": "Connection leaked and not rolled back on non-InventoryError exceptions"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.4,
+     "description": "reserve() reads the row, checks free stock, then writes it back with no row lock or version check. Two concurrent reservations for the same SKU can both read the same free value and both succeed, so reserved exceeds on_hand. The same lost-update race affects cancel() and receive() read-modify-write.",
+     "end_line": 90,
+     "file": "inventory/service.py",
+     "line": 83,
+     "severity": "medium",
+     "suggestion": "Use SELECT ... FOR UPDATE or an atomic conditional update, or optimistic versioning, within the transaction.",
+     "title": "Check-then-act on stock without locking allows overselling"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.5,
+     "description": "If conn.get returns None for a SKU, row['reserved'] raises TypeError after earlier lines have already been modified via put. No rollback is done before the connection is released, so the partial changes may remain pending on the pooled connection and be committed later by another user.",
+     "end_line": 108,
+     "file": "inventory/service.py",
+     "line": 106,
+     "severity": "medium",
+     "suggestion": "Roll back on any exception before release, and handle a missing stock row explicitly.",
+     "title": "cancel() has no rollback and can crash on missing SKU row"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "If lines contains the same SKU twice, the row is re-read per line, so this is fine only if conn.get returns fresh copies of uncommitted writes. If get reads from committed state, the second line sees stale reserved and overwrites the first increment, so reserved is under-counted while the reservation records both quantities. Cancel then subtracts both, driving reserved negative.",
+     "end_line": 90,
+     "file": "inventory/service.py",
+     "line": 82,
+     "severity": "medium",
+     "suggestion": "Aggregate quantities per SKU before checking and updating.",
+     "title": "Duplicate SKUs in lines can bypass the free check"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/service.py\",\"line\":93,\"end_line\":96,\"severity\":\"high\",\"category\":\"resource\",\"title\":\"Connection leaked and not rolled back on non-InventoryError exceptions\",\"description\":\"In reserve(), release is called after the try/except rather than in a finally block. On the InventoryError path the code re-raises, so release is skipped and the connection is never returned to the pool. Any other exception (e.g. a DB error from put/commit) is not caught, so there is no rollback and no release either. Repeated failures such as insufficient stock will exhaust the pool.\",\"suggestion\":\"Use try/except/finally: roll back on any exception (except Exception: conn.rollback(); raise) and call self._pool.release(conn) in a finally block.\",\"confidence\":0.95},{\"file\":\"inventory/service.py\",\"line\":83,\"end_line\":90,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Check-then-act on stock without locking allows overselling\",\"description\":\"reserve() reads the row, checks free stock, then writes it back with no row lock or version check. Two concurrent reservations for the same SKU can both read the same free value and both succeed, so reserved exceeds on_hand. The same lost-update race affects cancel() and receive() read-modify-write.\",\"suggestion\":\"Use SELECT ... FOR UPDATE or an atomic conditional update, or optimistic versioning, within the transaction.\",\"confidence\":0.4},{\"file\":\"inventory/service.py\",\"line\":106,\"end_line\":108,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"cancel() has no rollback and can crash on missing SKU row\",\"description\":\"If conn.get returns None for a SKU, row['reserved'] raises TypeError after earlier lines have already been modified via put. No rollback is done before the connection is released, so the partial changes may remain pending on the pooled connection and be committed later by another user.\",\"suggestion\":\"Roll back on any exception before release, and handle a missing stock row explicitly.\",\"confidence\":0.5},{\"file\":\"inventory/service.py\",\"line\":82,\"end_line\":90,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Duplicate SKUs in lines can bypass the free check\",\"description\":\"If lines contains the same SKU twice, the row is re-read per line, so this is fine only if conn.get returns fresh copies of uncommitted writes. If get reads from committed state, the second line sees stale reserved and overwrites the first increment, so reserved is under-counted while the reservation records both quantities. Cancel then subtracts both, driving reserved negative.\",\"suggestion\":\"Aggregate quantities per SKU before checking and updating.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0077235,
+   "input_tokens": 3054,
+   "latency_ms": null,
+   "output_tokens": 882
+  }
+ }
+}

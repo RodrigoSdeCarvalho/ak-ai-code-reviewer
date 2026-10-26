@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:27+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f8d01dab15579c7b8d92d72ffb92a8d2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2210,
+  "user_sha256": "d3fad60e67db9c312361214847ffdc8316a4e7f3e33f53238f91a881f973a336"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: active_skus is a list, so the membership test `scan.sku not in active_skus` at line 54 is a linear scan per scan, giving quadratic O(scans x catalog) cost. Description A adds detail and a set-based fix, and Description B names the same line range; the substance matches.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: active_skus is a list, so the membership test `scan.sku not in active_skus` at line 54 is a linear scan per scan, giving quadratic O(scans x catalog) cost. Description A adds detail and a set-based fix, and Description B names the same line range; the substance matches.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcwTLSw1rEqzMzdB6r",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016354000000000002,
+   "input_tokens": 896,
+   "latency_ms": 1875,
+   "output_tokens": 122
+  }
+ }
+}

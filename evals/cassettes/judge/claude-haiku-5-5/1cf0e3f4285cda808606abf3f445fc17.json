@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1cf0e3f4285cda808606abf3f445fc17",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2308,
+  "user_sha256": "9fd4005b3276c7228aa155185f2a724982e4069e4c487cd20201e6bcff727182"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the removed mark_as_failure means the failure is never written to the result backend, so clients see PENDING. Description B says the handler lacks a return after reject, so the task falls through and executes immediately ignoring its ETA; it also mentions the missing backend write only as a secondary effect. The primary defects differ: A is about missing result-backend recording, B is about fall-through execution despite rejection. B's secondary point overlaps with A's, but the core described failure in A is the backend record, which B only mentions in passing, so they are different root-cause framings of the same code region.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the removed mark_as_failure means the failure is never written to the result backend, so clients see PENDING. Description B says the handler lacks a return after reject, so the task falls through and executes immediately ignoring its ETA; it also mentions the missing backend write only as a secondary effect. The primary defects differ: A is about missing result-backend recording, B is about fall-through execution despite rejection. B's secondary point overlaps with A's, but the core described failure in A is the backend record, which B only mentions in passing, so they are different root-cause framings of the same code region.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLapBDf9QuihVdQeoW8",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019644,
+   "input_tokens": 835,
+   "latency_ms": 2015,
+   "output_tokens": 200
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9bf465ba4855cbb1823c8a3b66a23e67",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2071,
+  "user_sha256": "e9d06846c3075d153398d425d20d4a249478fb5d9ef935cf859e7c0672775440"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the finally block overwrites the backoff next_run with now + interval, so failed jobs wait a full interval instead of retry_delay. Description B says the exponential backoff multiplication in _retry_delay can overflow timedelta and raise OverflowError. These are different defects at different lines (75-76 versus 81), with different failure modes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the finally block overwrites the backoff next_run with now + interval, so failed jobs wait a full interval instead of retry_delay. Description B says the exponential backoff multiplication in _retry_delay can overflow timedelta and raise OverflowError. These are different defects at different lines (75-76 versus 81), with different failure modes.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.622e-05,
+   "input_tokens": 757,
+   "latency_ms": null,
+   "output_tokens": 129
+  }
+ }
+}

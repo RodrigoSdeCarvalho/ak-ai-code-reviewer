@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6535600df95960c57215f805e7774caa",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1778,
+  "user_sha256": "c49756b53fe9d3ab5b779dc4f25ffb44f6171ed712987db5a8fc2d62c1399786"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same line 180 defect: splitting the host on the first colon yields \"[\" for bracketed IPv6 hosts, so cookies get stored under the wrong domain and are not sent on later requests. Description B frames it around session_transaction and lost session values, while A frames it as general response cookies, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same line 180 defect: splitting the host on the first colon yields \\\"[\\\" for bracketed IPv6 hosts, so cookies get stored under the wrong domain and are not sent on later requests. Description B frames it around session_transaction and lost session values, while A frames it as general response cookies, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.267000000000002e-05,
+   "input_tokens": 686,
+   "latency_ms": null,
+   "output_tokens": 129
+  }
+ }
+}

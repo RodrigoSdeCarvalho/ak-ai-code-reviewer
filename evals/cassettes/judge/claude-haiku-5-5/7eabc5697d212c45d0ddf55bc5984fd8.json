@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7eabc5697d212c45d0ddf55bc5984fd8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2390,
+  "user_sha256": "d1e090c0e716108344bc4dad7e990c43e8a19c930bc9407a6b4c0a2d8434d622"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: on the rejection path (lines 70-71), bucket.tokens is refilled but bucket.updated_at is not advanced to now, so the next call re-credits the same elapsed interval, allowing clients to exceed the configured rate. Description A gives a t=0.5/t=1 example and Description B gives a polling example with an over-admission count, but the defect and location are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: on the rejection path (lines 70-71), bucket.tokens is refilled but bucket.updated_at is not advanced to now, so the next call re-credits the same elapsed interval, allowing clients to exceed the configured rate. Description A gives a t=0.5/t=1 example and Description B gives a polling example with an over-admission count, but the defect and location are identical.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 9.092000000000002e-05,
+   "input_tokens": 941,
+   "latency_ms": null,
+   "output_tokens": 151
+  }
+ }
+}

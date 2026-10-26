@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:50+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0668ce2bef4b6296af98091c3ad5e095",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1778,
+  "user_sha256": "c49756b53fe9d3ab5b779dc4f25ffb44f6171ed712987db5a8fc2d62c1399786"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same line 180 using partition(\":\")[0] on the host, which yields \"[\" for IPv6 hosts like [::1]:port, causing cookies to be stored under the wrong domain and not sent on later requests. Description B frames it as session cookies from session_transaction being lost, while A frames it as cookies from responses generally, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same line 180 using partition(\\\":\\\")[0] on the host, which yields \\\"[\\\" for IPv6 hosts like [::1]:port, causing cookies to be stored under the wrong domain and not sent on later requests. Description B frames it as session cookies from session_transaction being lost, while A frames it as cookies from responses generally, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLaCx9uYB9Z2noW56hX",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00030285,
+   "input_tokens": 686,
+   "latency_ms": 1734,
+   "output_tokens": 145
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0d1ea598b85ffc16ebd86a1a736308d0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2374,
+  "user_sha256": "7722ab7112b0c7a1837d8621eb6546170954b17c6a766bbb3c5c157c8c54ed2b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify move_card authorizing only against the target board (to_board_id) and never checking the card's current board, letting an editor of one board pull a card from a private board they are not a member of. Description B adds sequential-id enumeration and cross-handler comparison, but the root cause and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify move_card authorizing only against the target board (to_board_id) and never checking the card's current board, letting an editor of one board pull a card from a private board they are not a member of. Description B adds sequential-id enumeration and cross-handler comparison, but the root cause and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.297e-05,
+   "input_tokens": 772,
+   "latency_ms": null,
+   "output_tokens": 113
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "85285180cf9dc4647a99b127bf355258",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2532,
+  "user_sha256": "67c5330ba62e17b0ee8a080dc8aca819c1b4f9af871af967cb4d11366f53f7ea"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the OverflowError/ValueError handler in the ETA conversion calls req.reject(requeue=False) without returning, eta stays None and execution falls through to dispatch the already-rejected task immediately. Description A adds a note about the result backend not recording the failure, but the core root cause and location match Description B.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the OverflowError/ValueError handler in the ETA conversion calls req.reject(requeue=False) without returning, eta stays None and execution falls through to dispatch the already-rejected task immediately. Description A adds a note about the result backend not recording the failure, but the core root cause and location match Description B.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLadbVGUJ8PedBdsfnX",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016814,
+   "input_tokens": 907,
+   "latency_ms": 1889,
+   "output_tokens": 129
+  }
+ }
+}

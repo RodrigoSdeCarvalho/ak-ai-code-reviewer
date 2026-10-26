@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ffbe96436801911ee9d0431aef0e5e77",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2281,
+  "user_sha256": "2c6c8a76e78cbf9ece7e1f6b8a34ab3711441fb22de91f7c0fd94d9552f19aa6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the handler fails to return after rejecting on ETA conversion error, so the task falls through and executes immediately ignoring its ETA; it also notes the failure isn't stored in the result backend. Description B says the removed mark_as_failure call was the only place storing the conversion error on the result backend, so clients never see FAILURE. They share the result-backend-not-recorded point, but A's primary defect is the missing return causing immediate execution, while B's is a regression from a removed call. Different root causes are described, so these are not the same defect.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the handler fails to return after rejecting on ETA conversion error, so the task falls through and executes immediately ignoring its ETA; it also notes the failure isn't stored in the result backend. Description B says the removed mark_as_failure call was the only place storing the conversion error on the result backend, so clients never see FAILURE. They share the result-backend-not-recorded point, but A's primary defect is the missing return causing immediate execution, while B's is a regression from a removed call. Different root causes are described, so these are not the same defect.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 9.467000000000001e-05,
+   "input_tokens": 821,
+   "latency_ms": null,
+   "output_tokens": 190
+  }
+ }
+}

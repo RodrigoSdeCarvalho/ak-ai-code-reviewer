@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "a360d2839ca0137c5ec14bce62cd3d24",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5080,
+  "user_sha256": "e75724073edb444c154176ec5f855fdaed183b7a2c78ecef9a577b268d22ad54"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "render() runs outside the try block. If a subscriber's rendering raises (for example body_template.format hits a KeyError/IndexError/ValueError on a stray brace, or a bad address in Message), the exception propagates out of send_campaign. The loop stops, the report with already-sent recipients is lost, and the caller cannot tell who received the email. Re-running the campaign would then resend to those who already got it.",
+     "file": "newsletter/campaign.py",
+     "line": 79,
+     "severity": "medium",
+     "suggestion": "Move render() inside error handling, record per-subscriber failures in the report, and continue. Also handle other mailer errors, so that one bad recipient does not abort the batch and discard the report.",
+     "title": "Render failure aborts the whole campaign mid-send"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"newsletter/campaign.py\",\"line\":79,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Render failure aborts the whole campaign mid-send\",\"description\":\"render() runs outside the try block. If a subscriber's rendering raises (for example body_template.format hits a KeyError/IndexError/ValueError on a stray brace, or a bad address in Message), the exception propagates out of send_campaign. The loop stops, the report with already-sent recipients is lost, and the caller cannot tell who received the email. Re-running the campaign would then resend to those who already got it.\",\"suggestion\":\"Move render() inside error handling, record per-subscriber failures in the report, and continue. Also handle other mailer errors, so that one bad recipient does not abort the batch and discard the report.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0038135,
+   "input_tokens": 2179,
+   "latency_ms": null,
+   "output_tokens": 275
+  }
+ }
+}

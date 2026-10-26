@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e89f1595caab775377c8e77b6251598d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2241,
+  "user_sha256": "6cd93b732a013c52f3a983e434cf6e9471c9764c065fefe79438752c8fe0352d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the loop's break after exhausting retries falls through and returns None, causing invoices to be marked PAID without a charge. Description B says the except clause retries all GatewayError types, including permanent declines, which wastes attempts. These are different failures: one is a return-value/control-flow bug after the last attempt, the other is an overly broad retry predicate.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the loop's break after exhausting retries falls through and returns None, causing invoices to be marked PAID without a charge. Description B says the except clause retries all GatewayError types, including permanent declines, which wastes attempts. These are different failures: one is a return-value/control-flow bug after the last attempt, the other is an overly broad retry predicate.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.017000000000001e-05,
+   "input_tokens": 821,
+   "latency_ms": null,
+   "output_tokens": 132
+  }
+ }
+}

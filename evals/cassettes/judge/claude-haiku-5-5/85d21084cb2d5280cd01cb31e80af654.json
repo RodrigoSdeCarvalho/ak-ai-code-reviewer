@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "85d21084cb2d5280cd01cb31e80af654",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2599,
+  "user_sha256": "10843cd87a4b99d42be7b6460b7a901ad97f424d131cd2793b430b9d590a4af4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The comment depends on CalendarSet.for_region raising KeyError for unconfigured regions, but that implementation is not shown, so the claimed failure cannot be confirmed from the code provided. The concern is plausible but speculative here, so it is best treated as a minor hardening point."
+  },
+  "raw_text": "{\"reason\": \"The comment depends on CalendarSet.for_region raising KeyError for unconfigured regions, but that implementation is not shown, so the claimed failure cannot be confirmed from the code provided. The concern is plausible but speculative here, so it is best treated as a minor hardening point.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRLh5RRQu1KNEGo2HRpd",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00023935999999999999,
+   "input_tokens": 1052,
+   "latency_ms": 2421,
+   "output_tokens": 255
+  }
+ }
+}

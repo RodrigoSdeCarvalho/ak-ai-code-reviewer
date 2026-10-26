@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "41122e7fe81725f1d2b90bad1278f8a4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2755,
+  "user_sha256": "62650e274686a8f9d9d4b8db1b526d56c30fe8999a15bdd77a1ced8b261aca88"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the metadata and blob are replaced in two non-transactional steps, so a failed blob write leaves mismatched metadata. Description B says the mutable default dict `{}` is shared across calls, so setdefault leaks the first content type into later uploads. These are different root causes (non-atomic write ordering versus mutable default argument aliasing), though both touch the same put() function.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the metadata and blob are replaced in two non-transactional steps, so a failed blob write leaves mismatched metadata. Description B says the mutable default dict `{}` is shared across calls, so setdefault leaks the first content type into later uploads. These are different root causes (non-atomic write ordering versus mutable default argument aliasing), though both touch the same put() function.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 9.462e-05,
+   "input_tokens": 1070,
+   "latency_ms": null,
+   "output_tokens": 140
+  }
+ }
+}

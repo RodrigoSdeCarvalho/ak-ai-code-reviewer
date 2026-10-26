@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "08995b676b8d974fbe04c0aa9bb4911f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2377,
+  "user_sha256": "b73cad3bafa861f3a9103b47a233de843c1aea4a407ef9dadb337842ab459639"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: comp_tickets uses only require_login rather than a staff/admin role check, so any authenticated user can issue free tickets to arbitrary holders and events, exhausting capacity or giving away paid inventory. Description B adds the 50-ticket cap detail and a slightly different line range, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: comp_tickets uses only require_login rather than a staff/admin role check, so any authenticated user can issue free tickets to arbitrary holders and events, exhausting capacity or giving away paid inventory. Description B adds the 50-ticket cap detail and a slightly different line range, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.487e-05,
+   "input_tokens": 905,
+   "latency_ms": null,
+   "output_tokens": 134
+  }
+ }
+}

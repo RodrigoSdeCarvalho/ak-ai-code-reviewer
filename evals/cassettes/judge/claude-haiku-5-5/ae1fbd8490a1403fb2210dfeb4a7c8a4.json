@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ae1fbd8490a1403fb2210dfeb4a7c8a4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2148,
+  "user_sha256": "21b414bad5187614a17a9c431e33b05cb4703a386ea69d950f250493870e12ac"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the holiday lookup in BusinessCalendar.holidays() is no longer cached, so every is_business_day check re-invokes the holiday source (re-reading the JSON file) during day-walking loops like add_business_days and business_days_between. Differences are only in wording and detail, such as A mentioning overdue() and B mentioning roll_forward.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the holiday lookup in BusinessCalendar.holidays() is no longer cached, so every is_business_day check re-invokes the holiday source (re-reading the JSON file) during day-walking loops like add_business_days and business_days_between. Differences are only in wording and detail, such as A mentioning overdue() and B mentioning roll_forward.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.077000000000001e-05,
+   "input_tokens": 778,
+   "latency_ms": null,
+   "output_tokens": 143
+  }
+ }
+}

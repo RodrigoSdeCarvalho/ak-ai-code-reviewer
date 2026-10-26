@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "29a13414d2b3540aa4b523b8920e51ad",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2489,
+  "user_sha256": "f21f1190dcc764767b0955dcf1a5e3483698d262edf184dbc6c1690ac8f58f6b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: calibration is loaded via source.load() once per reading inside summarize's loop (via calibrated()), causing N+1 per-reading queries with a SQL-backed source instead of one load per sensor. Description A cites line 58 and Description B cites line 49, but both describe the same root cause and performance failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: calibration is loaded via source.load() once per reading inside summarize's loop (via calibrated()), causing N+1 per-reading queries with a SQL-backed source instead of one load per sensor. Description A cites line 58 and Description B cites line 49, but both describe the same root cause and performance failure.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.607000000000001e-05,
+   "input_tokens": 959,
+   "latency_ms": null,
+   "output_tokens": 128
+  }
+ }
+}

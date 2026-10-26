@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:12+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c93c24a6f4f8546a6d2cbdfa15f3c780",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1981,
+  "user_sha256": "f01dc5a981e8059399a1cd845802b47d44915a8992a855f639e8c6124d06338e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: on the final failed attempt the loop breaks and charge returns None instead of re-raising GatewayError, so the caller reads charge.id on None and raises AttributeError, aborting settlement. Description A adds detail about the invoice being left PAID and the batch aborting; Description B adds the gateway-down and declined-card framing, but the failure mechanism and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: on the final failed attempt the loop breaks and charge returns None instead of re-raising GatewayError, so the caller reads charge.id on None and raises AttributeError, aborting settlement. Description A adds detail about the invoice being left PAID and the batch aborting; Description B adds the gateway-down and declined-card framing, but the failure mechanism and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbpysiNCRyEvFoepn2",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015824,
+   "input_tokens": 708,
+   "latency_ms": 1984,
+   "output_tokens": 149
+  }
+ }
+}

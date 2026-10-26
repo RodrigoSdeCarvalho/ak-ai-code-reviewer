@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b138dd28ce96f6d04c3c248bc424d2e8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2608,
+  "user_sha256": "d2c483b11b1223f220d9abef960154e7750037c4a87c1197c368aa63248a3f08"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The O(n) copy of the session map in create() is real, but the claimed file serialisation and fsync happen in FileSessionStore._commit, which is not in the shown code. The impact cannot be confirmed from this file, so it is at most a minor performance note here."
+  },
+  "raw_text": "{\"reason\": \"The O(n) copy of the session map in create() is real, but the claimed file serialisation and fsync happen in FileSessionStore._commit, which is not in the shown code. The impact cannot be confirmed from this file, so it is at most a minor performance note here.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRLfB2CnGiDd7hp217ot",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00028506,
+   "input_tokens": 959,
+   "latency_ms": 2985,
+   "output_tokens": 365
+  }
+ }
+}

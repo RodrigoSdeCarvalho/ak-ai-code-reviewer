@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:31+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4f88e34a4ce641b4b259a487b683efd1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2545,
+  "user_sha256": "7aee235bc0f37713c172b9c87f84e74136d2ddbad415d8f2d1d96552d415b6a6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: calibrated() calls source.load() for every reading in summarize's loop, causing one calibration query per reading (N+1) with SQL-backed sources instead of one per sensor. Description B names line 49 and also lists lines 57-58 (the loop in summarize), which covers the location Description A points at.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: calibrated() calls source.load() for every reading in summarize's loop, causing one calibration query per reading (N+1) with SQL-backed sources instead of one per sensor. Description B names line 49 and also lists lines 57-58 (the loop in summarize), which covers the location Description A points at.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdCYgSybY1S4sRdqtN",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017434000000000001,
+   "input_tokens": 984,
+   "latency_ms": 1765,
+   "output_tokens": 126
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "621ed749295a359400f7cac5632cb642",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2083,
+  "user_sha256": "e1d1a9ade3bfbf1bfb7ce7c74b9fe176616e53bc33b9b19cc9b3ea4fd060bf33"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the removed per-year holiday memo causes BusinessCalendar.holidays (lines 37-38) to call the holiday source on every is_business_day check, re-reading and re-parsing the JSON file repeatedly during roll_forward and business-day walks. Differences are only in wording and emphasis (line range and example workloads), not in root cause or location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the removed per-year holiday memo causes BusinessCalendar.holidays (lines 37-38) to call the holiday source on every is_business_day check, re-reading and re-parsing the JSON file repeatedly during roll_forward and business-day walks. Differences are only in wording and emphasis (line range and example workloads), not in root cause or location.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.002000000000001e-05,
+   "input_tokens": 763,
+   "latency_ms": null,
+   "output_tokens": 143
+  }
+ }
+}

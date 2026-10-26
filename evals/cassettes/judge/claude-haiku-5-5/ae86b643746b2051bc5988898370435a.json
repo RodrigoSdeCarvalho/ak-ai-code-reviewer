@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ae86b643746b2051bc5988898370435a",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2458,
+  "user_sha256": "a05b95d069acc1b661a5fdae40f72cae4a69bef8c84e66cfb9192b93baafa1e4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a thread-safety race from unlocked mutation of the shared cache dict during find(). Description B identifies a different failure: the cached list object is returned by reference, so an in-place sort in a caller corrupts later cached results. Different root causes (concurrency vs. aliasing/mutation of returned list), so different defects.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a thread-safety race from unlocked mutation of the shared cache dict during find(). Description B identifies a different failure: the cached list object is returned by reference, so an in-place sort in a caller corrupts later cached results. Different root causes (concurrency vs. aliasing/mutation of returned list), so different defects.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.137e-05,
+   "input_tokens": 880,
+   "latency_ms": null,
+   "output_tokens": 125
+  }
+ }
+}

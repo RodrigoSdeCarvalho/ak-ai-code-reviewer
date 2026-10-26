@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c9e32e8bc59119ff37dcbf12c232b779",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 12177,
+  "user_sha256": "3a425d7c5988b4f1f0010cbf1221e41b4151d2519a25b7f85601b9cbfecd5552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.8,
+     "description": "The removed code gave each waiter its own Deferred through a callback chained onto the shared one. Now every concurrent request for the same netloc awaits the same `parser` Deferred directly. `maybe_deferred_to_future` adds a callback that returns the result, but its result is not preserved for others. With the asyncio reactor it wraps the Deferred in a Future, and that Future's callback chain replaces the Deferred's result with None. With more than one waiter, or one waiter plus the request that created the parser, the later waiters see None, so robots.txt rules are silently skipped. Without asyncio, a `Deferred` returned to the awaiting coroutine can also raise AlreadyCalledError or give the wrong result. The first waiter can consume the result and the second get None, so forbidden URLs are crawled.",
+     "file": "scrapy/downloadermiddlewares/robotstxt.py",
+     "line": 208,
+     "severity": "high",
+     "suggestion": "Restore a per-waiter Deferred that is fed from the shared one through a callback returning the result, as the removed code did, and await that one.",
+     "title": "Multiple waiters share one Deferred, so later waiters get None or hang"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scrapy/downloadermiddlewares/robotstxt.py\",\"line\":208,\"severity\":\"high\",\"category\":\"concurrency\",\"title\":\"Multiple waiters share one Deferred, so later waiters get None or hang\",\"description\":\"The removed code gave each waiter its own Deferred through a callback chained onto the shared one. Now every concurrent request for the same netloc awaits the same `parser` Deferred directly. `maybe_deferred_to_future` adds a callback that returns the result, but its result is not preserved for others. With the asyncio reactor it wraps the Deferred in a Future, and that Future's callback chain replaces the Deferred's result with None. With more than one waiter, or one waiter plus the request that created the parser, the later waiters see None, so robots.txt rules are silently skipped. Without asyncio, a `Deferred` returned to the awaiting coroutine can also raise AlreadyCalledError or give the wrong result. The first waiter can consume the result and the second get None, so forbidden URLs are crawled.\",\"suggestion\":\"Restore a per-waiter Deferred that is fed from the shared one through a callback returning the result, as the removed code did, and await that one.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0072475,
+   "input_tokens": 4948,
+   "latency_ms": null,
+   "output_tokens": 408
+  }
+ }
+}

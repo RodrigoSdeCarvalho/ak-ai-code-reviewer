@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a6fc9af55a8380961205360873f63919",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2474,
+  "user_sha256": "424dcb6021d6d5b6cfcb0cdbe83f552a7a071ff297f9b85088667af00bf1106a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: sign_out_everywhere catches StoreError from delete, logs and continues, so some sessions survive while change_password/sign-out reports success and callers cannot tell revocation was incomplete. Line ranges differ slightly (98-100 vs 96-102) but both cover the same try/except block.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: sign_out_everywhere catches StoreError from delete, logs and continues, so some sessions survive while change_password/sign-out reports success and callers cannot tell revocation was incomplete. Line ranges differ slightly (98-100 vs 96-102) but both cover the same try/except block.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcCCKEZQA7BgxQHWST",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015994,
+   "input_tokens": 845,
+   "latency_ms": 1343,
+   "output_tokens": 125
+  }
+ }
+}

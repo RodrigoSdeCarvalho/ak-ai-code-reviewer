@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:09+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "007a166a540afc1a3e8ca30a56eb72d8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2945,
+  "user_sha256": "a6b7733c5310f1ecb685bb51ca46e7d9664300e00db9615402a39ee14dbab12c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the try block wraps the mid-stream self._flush call, so sink write failures are caught by the broad except Exception and recorded as row rejections, silently dropping the detached batch of up to batch_size valid transactions while the load continues. The differences are only in detail (A adds the final-flush inconsistency and examples of failure types; B names SinkError specifically), not in the underlying failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the try block wraps the mid-stream self._flush call, so sink write failures are caught by the broad except Exception and recorded as row rejections, silently dropping the detached batch of up to batch_size valid transactions while the load continues. The differences are only in detail (A adds the final-flush inconsistency and examples of failure types; B names SinkError specifically), not in the underlying failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbcmQHfFKFv2KNue1z",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019063999999999998,
+   "input_tokens": 1012,
+   "latency_ms": 1484,
+   "output_tokens": 153
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:31+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "fee9ad38a0dfb786a6f1b87e88a22735",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2246,
+  "user_sha256": "f70bf98b725512aba90cb1d670d564786dbcdd714d3bf5d189ab9e9b93afea58"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says non-RecipientRefused exceptions from mailer.send abort the loop and lose the CampaignReport, so progress is unknown. Description B says each send opens a new SMTP connection and login, causing performance and rate-limit problems. Both point at the mailer.send call in the loop, but they identify different failures: error propagation versus per-message connection overhead.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says non-RecipientRefused exceptions from mailer.send abort the loop and lose the CampaignReport, so progress is unknown. Description B says each send opens a new SMTP connection and login, causing performance and rate-limit problems. Both point at the mailer.send call in the loop, but they identify different failures: error propagation versus per-message connection overhead.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLdBfbc6xEteZ9nHUnF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016413999999999998,
+   "input_tokens": 832,
+   "latency_ms": 2078,
+   "output_tokens": 136
+  }
+ }
+}

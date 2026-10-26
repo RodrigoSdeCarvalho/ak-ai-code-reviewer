@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:04+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "fa56a1d61f9700fbb5cd1fdd6c96412b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1929,
+  "user_sha256": "49829e77c13a33124a49c3152a388dbe9f30027527e0bae19aa5d866eace2a78"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 48: for_account compares record.get(\"user_id\") but the field has been renamed to account_id (via upgrade_record), so the filter never matches and for_account yields nothing, leaving account_timeline empty. The explanations differ only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 48: for_account compares record.get(\\\"user_id\\\") but the field has been renamed to account_id (via upgrade_record), so the filter never matches and for_account yields nothing, leaving account_timeline empty. The explanations differ only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbH7TTMsmrUvrYoicQ",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013394,
+   "input_tokens": 640,
+   "latency_ms": 1375,
+   "output_tokens": 114
+  }
+ }
+}

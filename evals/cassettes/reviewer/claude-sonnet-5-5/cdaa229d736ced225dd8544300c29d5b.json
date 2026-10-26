@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "cdaa229d736ced225dd8544300c29d5b",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "Both the cache-hit path (line 63) and the miss path (line 68) return the same list object that is stored in the cache. If a caller sorts, appends to, or otherwise mutates the returned list, later find() calls with the same query and tags get the altered result until the TTL expires or the cache is cleared. Before this change every call returned a fresh list, so callers could mutate it safely.",
+     "end_line": 68,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Store a tuple internally and return list(...) copies, or return a copy on both the hit and miss paths, e.g. `return list(entry[1])` and `return list(hits)`.",
+     "title": "Cached result list returned by reference; callers can corrupt the cache"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":68,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list returned by reference; callers can corrupt the cache\",\"description\":\"Both the cache-hit path (line 63) and the miss path (line 68) return the same list object that is stored in the cache. If a caller sorts, appends to, or otherwise mutates the returned list, later find() calls with the same query and tags get the altered result until the TTL expires or the cache is cleared. Before this change every call returned a fresh list, so callers could mutate it safely.\",\"suggestion\":\"Store a tuple internally and return list(...) copies, or return a copy on both the hit and miss paths, e.g. `return list(entry[1])` and `return list(hits)`.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0037915,
+   "input_tokens": 2172,
+   "latency_ms": null,
+   "output_tokens": 272
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:02+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c8482240e37ee7edef5a98bde2780bbe",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2210,
+  "user_sha256": "3933b6069bc0f8302bfdbd093391064c8f43f26288cf5d77f13b18f21f1fef5d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The code shown calls self._repository.delete(sku) without checking its result, so a failed delete after _fetch succeeds silently and _forget still runs. That drops a not-found signal callers may depend on, although the repository's return type is not shown."
+  },
+  "raw_text": "{\"reason\": \"The code shown calls self._repository.delete(sku) without checking its result, so a failed delete after _fetch succeeds silently and _forget still runs. That drops a not-found signal callers may depend on, although the repository's return type is not shown.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLfPfxrhkfdzN47Fwju",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00034926000000000005,
+   "input_tokens": 796,
+   "latency_ms": 3952,
+   "output_tokens": 526
+  }
+ }
+}

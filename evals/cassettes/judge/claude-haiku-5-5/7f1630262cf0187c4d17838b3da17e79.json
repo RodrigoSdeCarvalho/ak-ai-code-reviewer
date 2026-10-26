@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7f1630262cf0187c4d17838b3da17e79",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1994,
+  "user_sha256": "d5414cc6d421067a3d5f27d24a237853ec07635d300c81a24245e6d2ebbf7146"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same flaw: delete_entry authorizes with _require_reader, so any shared reader (not just the owner) can permanently delete the entry, when it should require owner authorization. Both point at the same lines and the same failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same flaw: delete_entry authorizes with _require_reader, so any shared reader (not just the owner) can permanently delete the entry, when it should require owner authorization. Both point at the same lines and the same failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdakAqC7jjwPyET9vs",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013674000000000002,
+   "input_tokens": 763,
+   "latency_ms": 1281,
+   "output_tokens": 95
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b61b24abb48a61eb0d7a891fa3a5dd43",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2056,
+  "user_sha256": "e564215a1fc804baf9bedd97eb6b002e92600dad5e99af51c7bdf3ac16d0fc57"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 180: splitting ctx.request.host on the first colon turns an IPv6 host like [::1]:8000 into \"[\", so cookies are stored under the wrong domain and not sent back on later requests. Description B adds detail about the removed urlsplit hostname handling and lowercasing/localhost fallback, but the core root cause and failure match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 180: splitting ctx.request.host on the first colon turns an IPv6 host like [::1]:8000 into \\\"[\\\", so cookies are stored under the wrong domain and not sent back on later requests. Description B adds detail about the removed urlsplit hostname handling and lowercasing/localhost fallback, but the core root cause and failure match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.057000000000001e-05,
+   "input_tokens": 769,
+   "latency_ms": null,
+   "output_tokens": 144
+  }
+ }
+}

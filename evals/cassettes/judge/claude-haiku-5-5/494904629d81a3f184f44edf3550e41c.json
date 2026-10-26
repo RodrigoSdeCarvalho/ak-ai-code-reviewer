@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:30+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "494904629d81a3f184f44edf3550e41c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2856,
+  "user_sha256": "3937a2b0b23912ec399174108cadb59abc434ac6251a408857eb2e505318066b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: calibrated() calls source.load(reading.sensor_id) for every reading inside summarize's loop, causing one calibration query per reading instead of one per sensor, slowing summarization and loading the database. Same root cause and location (summarize loop / calibrated call), differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: calibrated() calls source.load(reading.sensor_id) for every reading inside summarize's loop, causing one calibration query per reading instead of one per sensor, slowing summarization and loading the database. Same root cause and location (summarize loop / calibrated call), differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdBm4aoS3pxUZo9iLj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018464,
+   "input_tokens": 1092,
+   "latency_ms": 1764,
+   "output_tokens": 125
+  }
+ }
+}

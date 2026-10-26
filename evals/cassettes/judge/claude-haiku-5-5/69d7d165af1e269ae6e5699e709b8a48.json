@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:21+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "69d7d165af1e269ae6e5699e709b8a48",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2724,
+  "user_sha256": "7a17f1eb443aee761a7daf988c8adaba87999bda4ed4d7bec36b84ec57582dae"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The claim is accurate: head() calls path.stat(), which succeeds for directories, so a prefix naming a directory returns a BlobInfo while exists() (is_file) returns False. This is an inconsistency that can cause wrong behaviour for callers relying on head() to detect missing blobs."
+  },
+  "raw_text": "{\"reason\": \"The claim is accurate: head() calls path.stat(), which succeeds for directories, so a prefix naming a directory returns a BlobInfo while exists() (is_file) returns False. This is an inconsistency that can cause wrong behaviour for callers relying on head() to detect missing blobs.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLgyJK5HWBTuB2y8fpU",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00017366,
+   "input_tokens": 1095,
+   "latency_ms": 1437,
+   "output_tokens": 115
+  }
+ }
+}

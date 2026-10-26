@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:01+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "02e66733c280d5a14048f6e9faa0fcfd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2458,
+  "user_sha256": "a05b95d069acc1b661a5fdae40f72cae4a69bef8c84e66cfb9192b93baafa1e4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says concurrent find() calls race on the shared cache dict (pop/reinsert/evict without locking), causing KeyError or lost entries. Description B says find() returns the cached list object itself, so callers that sort it in place corrupt later cached results. Different failures: thread-safety of dict operations versus aliasing of the returned mutable list.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says concurrent find() calls race on the shared cache dict (pop/reinsert/evict without locking), causing KeyError or lost entries. Description B says find() returns the cached list object itself, so callers that sort it in place corrupt later cached results. Different failures: thread-safety of dict operations versus aliasing of the returned mutable list.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLb3faWwT4pv9aSpzmh",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016594,
+   "input_tokens": 880,
+   "latency_ms": 1890,
+   "output_tokens": 130
+  }
+ }
+}

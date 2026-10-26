@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f6f34484874ac906324ab8bb82278872",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 14880,
+  "user_sha256": "384b2052fd605e0c58f30baaf691c257a8d68dedc18e7d36a6cc618fd773b574"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.9,
+     "description": "Only editor rights on the destination board are checked. The card is looked up by id and nothing verifies that the actor can edit (or even view) the card's current board. A user who is an editor of their own board can pass any card_id from a private board and move it into their board. This steals the card, leaks its contents, and removes it from the victim board.",
+     "end_line": 103,
+     "file": "kanban/service.py",
+     "line": 102,
+     "severity": "critical",
+     "suggestion": "Call self._require_editor(card.board_id, actor_id) for the source board before checking the target board.",
+     "title": "move_card does not check permission on the source board"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "detach() decrements the positions of cards below the card, but card.position is left unchanged. insert() then excludes the card and shifts others with position >= target. The stale position no longer matches the compacted order. Moving within the same column therefore produces gaps or duplicate positions, and an unrelated card can end up out of order. In addition, the move is not atomic.",
+     "end_line": 113,
+     "file": "kanban/service.py",
+     "line": 110,
+     "severity": "medium",
+     "suggestion": "Compute the position after detaching, or reorder the column as a list and renumber all positions 0..n-1.",
+     "title": "Moving a card within the same column corrupts positions"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.25,
+     "description": "Archiving detaches the card, which closes the gap for the others, but card.position stays at its old value. Nothing resets it, and no unarchive path exists yet. Any later restore would reuse a stale position and collide with other cards.",
+     "end_line": 123,
+     "file": "kanban/service.py",
+     "line": 122,
+     "severity": "low",
+     "suggestion": "Reset position (for example to 0 or None) on archive, or re-insert the card when it is unarchived.",
+     "title": "Archived card keeps its stale position"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"kanban/service.py\",\"line\":102,\"end_line\":103,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"move_card does not check permission on the source board\",\"description\":\"Only editor rights on the destination board are checked. The card is looked up by id and nothing verifies that the actor can edit (or even view) the card's current board. A user who is an editor of their own board can pass any card_id from a private board and move it into their board. This steals the card, leaks its contents, and removes it from the victim board.\",\"suggestion\":\"Call self._require_editor(card.board_id, actor_id) for the source board before checking the target board.\",\"confidence\":0.9},{\"file\":\"kanban/service.py\",\"line\":110,\"end_line\":113,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Moving a card within the same column corrupts positions\",\"description\":\"detach() decrements the positions of cards below the card, but card.position is left unchanged. insert() then excludes the card and shifts others with position >= target. The stale position no longer matches the compacted order. Moving within the same column therefore produces gaps or duplicate positions, and an unrelated card can end up out of order. In addition, the move is not atomic.\",\"suggestion\":\"Compute the position after detaching, or reorder the column as a list and renumber all positions 0..n-1.\",\"confidence\":0.5},{\"file\":\"kanban/service.py\",\"line\":122,\"end_line\":123,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Archived card keeps its stale position\",\"description\":\"Archiving detaches the card, which closes the gap for the others, but card.position stays at its old value. Nothing resets it, and no unarchive path exists yet. Any later restore would reuse a stale position and collide with other cards.\",\"suggestion\":\"Reset position (for example to 0 or None) on archive, or re-insert the card when it is unarchived.\",\"confidence\":0.25}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0090175,
+   "input_tokens": 5713,
+   "latency_ms": null,
+   "output_tokens": 609
+  }
+ }
+}

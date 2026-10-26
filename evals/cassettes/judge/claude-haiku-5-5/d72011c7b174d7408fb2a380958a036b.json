@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:20+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d72011c7b174d7408fb2a380958a036b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1919,
+  "user_sha256": "a5af7bda7bfb2db48cf88e27bcaffa2d1c11391c6257262cdea504124ccfb98a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The regex does use `$`, which in Python matches before a trailing newline, so the validator accepts \"2024-01\\n\". However, the downstream behaviour (build_report silently finding no rows) is not visible in the shown code and is unverified, and a trailing newline in a CLI argument is an unusual input, so this is a minor hardening issue rather than a confirmed defect."
+  },
+  "raw_text": "{\"reason\": \"The regex does use `$`, which in Python matches before a trailing newline, so the validator accepts \\\"2024-01\\\\n\\\". However, the downstream behaviour (build_report silently finding no rows) is not visible in the shown code and is unverified, and a trailing newline in a CLI argument is an unusual input, so this is a minor hardening issue rather than a confirmed defect.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRLgXZmCc3iiLnXm2TgP",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00027756,
+   "input_tokens": 799,
+   "latency_ms": 6046,
+   "output_tokens": 382
+  }
+ }
+}

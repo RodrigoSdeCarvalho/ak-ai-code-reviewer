@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:29+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "900fa765e0b1af0884898c18fe260069",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2235,
+  "user_sha256": "9893b483d7268a8770da97be08cf10b95e0601933ec45cd42de691a31302f1c8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says non-RecipientRefused exceptions from mailer.send escape send_campaign and lose the partial CampaignReport, risking duplicate or skipped sends on retry. Description B says each mailer.send opens a new SMTP connection and login, causing performance and throttling problems. Different failures (error-path report loss vs. per-message connection overhead) at overlapping lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says non-RecipientRefused exceptions from mailer.send escape send_campaign and lose the partial CampaignReport, risking duplicate or skipped sends on retry. Description B says each mailer.send opens a new SMTP connection and login, causing performance and throttling problems. Different failures (error-path report loss vs. per-message connection overhead) at overlapping lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLd5VX4epThmo2UCqYy",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016694,
+   "input_tokens": 830,
+   "latency_ms": 1485,
+   "output_tokens": 142
+  }
+ }
+}

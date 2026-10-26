@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:29+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "69b05818b27b4d79d8697857fd4f35f0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2520,
+  "user_sha256": "b9f6516073885019d8443b4507c1fbd6f9ef67363b20cd8c1ba3ed8cbfa778b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The shown code cannot confirm the claim: fallback_chain, parents, and normalise are not included, so whether normalise raises on empty tags and whether callers pass empty locales cannot be verified. Since the code shown is insufficient to confirm a concrete failure, the comment is best treated as a nit rather than a confirmed valid issue."
+  },
+  "raw_text": "{\"reason\": \"The shown code cannot confirm the claim: fallback_chain, parents, and normalise are not included, so whether normalise raises on empty tags and whether callers pass empty locales cannot be verified. Since the code shown is insufficient to confirm a concrete failure, the comment is best treated as a nit rather than a confirmed valid issue.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRLhSCpdGAehk9hAVUkR",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00016806000000000001,
+   "input_tokens": 984,
+   "latency_ms": 2688,
+   "output_tokens": 126
+  }
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "f717c52ac956c105d4e1c0d263521465",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 12177,
+  "user_sha256": "3a425d7c5988b4f1f0010cbf1221e41b4151d2519a25b7f85601b9cbfecd5552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.8,
+     "description": "The parser Deferred is shared by every request for the same netloc that arrives while robots.txt is being fetched. maybe_deferred_to_future(parser) adds a callback to that Deferred which returns None, or a plain value, and this callback sits in the chain ahead of later waiters. Whichever waiter attaches first consumes the result and leaves the Deferred's result as None, so the next waiter gets None. A None parser means process_request_2 skips the robots.txt check, so disallowed URLs are crawled. The removed code used a separate waiter Deferred per caller and returned the result through the chain, which avoided this. In asyncio mode the future adapter's callback also returns None.",
+     "file": "scrapy/downloadermiddlewares/robotstxt.py",
+     "line": 208,
+     "severity": "high",
+     "suggestion": "Restore a per-caller waiter Deferred whose callback is chained on the shared Deferred and returns the result, so the chain value is preserved for the next waiter.",
+     "title": "Awaiting the shared Deferred directly breaks multiple concurrent waiters"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scrapy/downloadermiddlewares/robotstxt.py\",\"line\":208,\"severity\":\"high\",\"category\":\"concurrency\",\"title\":\"Awaiting the shared Deferred directly breaks multiple concurrent waiters\",\"description\":\"The parser Deferred is shared by every request for the same netloc that arrives while robots.txt is being fetched. maybe_deferred_to_future(parser) adds a callback to that Deferred which returns None, or a plain value, and this callback sits in the chain ahead of later waiters. Whichever waiter attaches first consumes the result and leaves the Deferred's result as None, so the next waiter gets None. A None parser means process_request_2 skips the robots.txt check, so disallowed URLs are crawled. The removed code used a separate waiter Deferred per caller and returned the result through the chain, which avoided this. In asyncio mode the future adapter's callback also returns None.\",\"suggestion\":\"Restore a per-caller waiter Deferred whose callback is chained on the shared Deferred and returns the result, so the chain value is preserved for the next waiter.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0070975,
+   "input_tokens": 4948,
+   "latency_ms": null,
+   "output_tokens": 378
+  }
+ }
+}

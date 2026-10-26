@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "c0c9afee39c25ebffc1a4f42d2b11602",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8990,
+  "user_sha256": "b7dca955942ddc919ca38fae78345f45440711009e7b139138f0084d6de30dff"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "`metadata` defaults to a shared `{}` and `put` calls `metadata.setdefault(\"content-type\", ...)` on it. The first put without metadata stores a guessed content type in the shared default dict, and every later put without metadata reuses that type, so e.g. a .png after a .txt is stored as text/plain. A caller-supplied dict is also mutated.",
+     "end_line": 80,
+     "file": "blobstore/store.py",
+     "line": 73,
+     "severity": "high",
+     "suggestion": "Use `metadata: dict[str,str] | None = None`, then `metadata = dict(metadata or {})` before setdefault.",
+     "title": "Mutable default argument is mutated by setdefault"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The metadata file is replaced before the blob is written. If writing the blob fails, the old blob stays with the new metadata (wrong content type/user metadata). Overwrites are also non-atomic as a pair, and a concurrent head() can see mismatched data.",
+     "end_line": 86,
+     "file": "blobstore/store.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Write the blob first, then the metadata, or clean up and restore on failure.",
+     "title": "Metadata written before blob; failure or key collision leaves inconsistent state"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "`json.loads` on a truncated or invalid meta file raises JSONDecodeError, which is not handled. If the JSON is not an object, `.pop` fails with AttributeError. A missing-meta race between is_file and read_text can also raise FileNotFoundError.",
+     "end_line": 104,
+     "file": "blobstore/store.py",
+     "line": 103,
+     "severity": "medium",
+     "suggestion": "Catch (OSError, ValueError) and fall back to {}, and verify the result is a dict.",
+     "title": "Corrupt or non-dict metadata file crashes head()"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"blobstore/store.py\",\"line\":73,\"end_line\":80,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Mutable default argument is mutated by setdefault\",\"description\":\"`metadata` defaults to a shared `{}` and `put` calls `metadata.setdefault(\\\"content-type\\\", ...)` on it. The first put without metadata stores a guessed content type in the shared default dict, and every later put without metadata reuses that type, so e.g. a .png after a .txt is stored as text/plain. A caller-supplied dict is also mutated.\",\"suggestion\":\"Use `metadata: dict[str,str] | None = None`, then `metadata = dict(metadata or {})` before setdefault.\",\"confidence\":0.97},{\"file\":\"blobstore/store.py\",\"line\":81,\"end_line\":86,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Metadata written before blob; failure or key collision leaves inconsistent state\",\"description\":\"The metadata file is replaced before the blob is written. If writing the blob fails, the old blob stays with the new metadata (wrong content type/user metadata). Overwrites are also non-atomic as a pair, and a concurrent head() can see mismatched data.\",\"suggestion\":\"Write the blob first, then the metadata, or clean up and restore on failure.\",\"confidence\":0.6},{\"file\":\"blobstore/store.py\",\"line\":103,\"end_line\":104,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Corrupt or non-dict metadata file crashes head()\",\"description\":\"`json.loads` on a truncated or invalid meta file raises JSONDecodeError, which is not handled. If the JSON is not an object, `.pop` fails with AttributeError. A missing-meta race between is_file and read_text can also raise FileNotFoundError.\",\"suggestion\":\"Catch (OSError, ValueError) and fall back to {}, and verify the result is a dict.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0074055,
+   "input_tokens": 3936,
+   "latency_ms": null,
+   "output_tokens": 642
+  }
+ }
+}

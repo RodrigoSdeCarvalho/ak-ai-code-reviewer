@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:58+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c51220fd09bc80d966b9e748b65a4bcd",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2307,
+  "user_sha256": "3d158b26d25fe165c2ea42235ec354a240392643a8d71e954a96a7fc817599dc"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the removed mark_as_failure call means the conversion error is no longer stored in the result backend, so clients never see the failure. Description B says that after the ETA conversion error the handler does not return, so the task falls through and executes immediately ignoring its ETA; it also mentions the failure is never stored in the result backend. The core defect in B is the missing return/fall-through causing immediate execution, which A does not mention. A's root cause is the lost result-backend recording, which B only mentions as a secondary point. They identify different primary failures at the same location.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the removed mark_as_failure call means the conversion error is no longer stored in the result backend, so clients never see the failure. Description B says that after the ETA conversion error the handler does not return, so the task falls through and executes immediately ignoring its ETA; it also mentions the failure is never stored in the result backend. The core defect in B is the missing return/fall-through causing immediate execution, which A does not mention. A's root cause is the lost result-backend recording, which B only mentions as a secondary point. They identify different primary failures at the same location.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLapEhDBHAvyBr3PVcx",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019254000000000002,
+   "input_tokens": 831,
+   "latency_ms": 2046,
+   "output_tokens": 193
+  }
+ }
+}

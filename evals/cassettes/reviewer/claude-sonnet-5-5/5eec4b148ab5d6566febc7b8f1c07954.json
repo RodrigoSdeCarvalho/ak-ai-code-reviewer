@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5eec4b148ab5d6566febc7b8f1c07954",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 20158,
+  "user_sha256": "dc8a27e6f55becb8700a56250673ef972fb55a5e77b4af373a8443194f48595f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "UsageKey is (account_id, metric, month), but the lookup builds (account_id, prior, metric). It never matches, so previous_total is always None and every change shows n/a.",
+     "file": "metering/report.py",
+     "line": 69,
+     "severity": "high",
+     "suggestion": "Use usage.get((account_id, metric, prior)).",
+     "title": "Previous-month lookup uses wrong key order"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "After yielding a DailyTotal when the key changes, `quantity` is not reset to 0. Each following day, metric or account inherits the previous group's quantity, so all totals, peaks and averages are inflated.",
+     "file": "metering/rollup.py",
+     "line": 58,
+     "severity": "critical",
+     "suggestion": "Reset `quantity = 0` after the yield, before adding the current event's quantity.",
+     "title": "Daily quantity accumulator is never reset between groups"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"metering/report.py\",\"line\":69,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Previous-month lookup uses wrong key order\",\"description\":\"UsageKey is (account_id, metric, month), but the lookup builds (account_id, prior, metric). It never matches, so previous_total is always None and every change shows n/a.\",\"suggestion\":\"Use usage.get((account_id, metric, prior)).\",\"confidence\":0.97},{\"file\":\"metering/rollup.py\",\"line\":58,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Daily quantity accumulator is never reset between groups\",\"description\":\"After yielding a DailyTotal when the key changes, `quantity` is not reset to 0. Each following day, metric or account inherits the previous group's quantity, so all totals, peaks and averages are inflated.\",\"suggestion\":\"Reset `quantity = 0` after the yield, before adding the current event's quantity.\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0101595,
+   "input_tokens": 8315,
+   "latency_ms": null,
+   "output_tokens": 317
+  }
+ }
+}

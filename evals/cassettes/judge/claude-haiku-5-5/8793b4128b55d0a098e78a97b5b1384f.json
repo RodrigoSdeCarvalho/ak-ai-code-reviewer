@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:56+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8793b4128b55d0a098e78a97b5b1384f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2907,
+  "user_sha256": "8b7061d5a558205a292d71f8b519ff8551aa18bcc8a541d7177f50a4529a6407"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 208: passing the shared robots.txt Deferred directly to maybe_deferred_to_future consumes its result via Deferred.asFuture, so later concurrent waiters receive None, which process_request_2 treats as allowed, bypassing robots.txt. Description B adds a cancellation side effect, but the core root cause and failure match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 208: passing the shared robots.txt Deferred directly to maybe_deferred_to_future consumes its result via Deferred.asFuture, so later concurrent waiters receive None, which process_request_2 treats as allowed, bypassing robots.txt. Description B adds a cancellation side effect, but the core root cause and failure match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLac1jp8CjeQUjhLmS8",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018784,
+   "input_tokens": 1044,
+   "latency_ms": 2795,
+   "output_tokens": 141
+  }
+ }
+}

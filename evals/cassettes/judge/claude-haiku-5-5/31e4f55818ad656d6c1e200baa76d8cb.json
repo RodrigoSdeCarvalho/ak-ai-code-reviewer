@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "31e4f55818ad656d6c1e200baa76d8cb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 1897,
+  "user_sha256": "f738ec503949b7f345897b358c7b7e8b536d4f519ab62c416148876ecbf71518"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 45: deliver() is a coroutine called without await, so the truthy coroutine object makes every recipient count as delivered, lines are dropped from the queue, and nothing is sent. The wording and extra details differ, but the root cause and failure match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 45: deliver() is a coroutine called without await, so the truthy coroutine object makes every recipient count as delivered, lines are dropped from the queue, and nothing is sent. The wording and extra details differ, but the root cause and failure match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 6.577e-05,
+   "input_tokens": 643,
+   "latency_ms": null,
+   "output_tokens": 110
+  }
+ }
+}

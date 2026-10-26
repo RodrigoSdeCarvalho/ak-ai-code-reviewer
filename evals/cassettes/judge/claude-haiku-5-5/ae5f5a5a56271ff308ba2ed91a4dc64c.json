@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:54+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ae5f5a5a56271ff308ba2ed91a4dc64c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2335,
+  "user_sha256": "4f97d3e8cddbad50523b524dc88a15dad718f74171d5c8e015352c67fcd33c02"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same failure: after removing Sentinel.__reduce_ex__, pickling UNSET/FLAG_NEEDS_VALUE reconstructs via bare object() values, causing ValueError on unpickling and loss of sentinel identity. Description B additionally mentions deepcopy on 3.10, but the core root cause and place match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same failure: after removing Sentinel.__reduce_ex__, pickling UNSET/FLAG_NEEDS_VALUE reconstructs via bare object() values, causing ValueError on unpickling and loss of sentinel identity. Description B additionally mentions deepcopy on 3.10, but the core root cause and place match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLaU6j9UW99AxGomGiV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018524,
+   "input_tokens": 1043,
+   "latency_ms": 2797,
+   "output_tokens": 136
+  }
+ }
+}

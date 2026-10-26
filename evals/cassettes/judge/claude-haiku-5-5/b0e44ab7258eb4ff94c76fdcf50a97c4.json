@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:06+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b0e44ab7258eb4ff94c76fdcf50a97c4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2335,
+  "user_sha256": "6991658a3d0e5452e866f62285a596deae84f2b1380f339d685338f1645c8d34"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment correctly notes find() now mutates the shared dict on reads (pop and reinsert for LRU ordering) without locking, so concurrent calls can race. Python dict ops are individually atomic under the GIL, but the pop-then-reinsert sequence and the len-check-then-evict sequence are not atomic together, so a KeyError or wrong eviction is a plausible real failure under threads."
+  },
+  "raw_text": "{\"reason\": \"The comment correctly notes find() now mutates the shared dict on reads (pop and reinsert for LRU ordering) without locking, so concurrent calls can race. Python dict ops are individually atomic under the GIL, but the pop-then-reinsert sequence and the len-check-then-evict sequence are not atomic together, so a KeyError or wrong eviction is a plausible real failure under threads.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLfo5P8gDQ1mw93GfY5",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00016926000000000002,
+   "input_tokens": 881,
+   "latency_ms": 2016,
+   "output_tokens": 149
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:15+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ebe5276f643aa12ca5aa0f3dfcc3556d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2124,
+  "user_sha256": "8dd7493d6e4acd7bcd33e2490fc07ac99359483ec3c4d0839143e91c304af212"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the finally block overwrites the backoff next_run with now + job.interval, so failed jobs wait a full interval instead of retrying after retry_delay. Description B says the exponent 2**(consecutive_failures-1) can overflow timedelta and raise OverflowError inside the except block. These are different failures (wrong scheduling override versus arithmetic overflow), even though both involve the same retry/backoff area.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the finally block overwrites the backoff next_run with now + job.interval, so failed jobs wait a full interval instead of retrying after retry_delay. Description B says the exponent 2**(consecutive_failures-1) can overflow timedelta and raise OverflowError inside the except block. These are different failures (wrong scheduling override versus arithmetic overflow), even though both involve the same retry/backoff area.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLc5ncPwcuBYP7DWir8",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016804000000000002,
+   "input_tokens": 781,
+   "latency_ms": 1500,
+   "output_tokens": 154
+  }
+ }
+}

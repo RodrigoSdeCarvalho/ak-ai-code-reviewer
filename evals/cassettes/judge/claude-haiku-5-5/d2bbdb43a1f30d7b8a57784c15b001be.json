@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d2bbdb43a1f30d7b8a57784c15b001be",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2291,
+  "user_sha256": "5bf1b97c8f6c009629a77fc8a145426bd817e085900190fee5447c60f573ac8d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 96: comp_tickets is guarded only by require_login rather than a staff/admin role check, letting any signed-in user issue free complimentary tickets. The wording and emphasis differ (revenue loss versus authorization bypass and capacity consumption), but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 96: comp_tickets is guarded only by require_login rather than a staff/admin role check, letting any signed-in user issue free complimentary tickets. The wording and emphasis differ (revenue loss versus authorization bypass and capacity consumption), but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.997e-05,
+   "input_tokens": 867,
+   "latency_ms": null,
+   "output_tokens": 122
+  }
+ }
+}

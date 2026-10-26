@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:08+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "754aa33e34c8bf8d20e58672d5f54ec1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2439,
+  "user_sha256": "7cd29fb9790bde65b53ce8db3a6db4a69a47e241ee44bb80499c7dce9ea64357"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The code does show malformed rows being recorded and skipped up to max_rejected, with load() returning normally, and the docstring documents this. The comment's claim about a behaviour change is a design/API compatibility concern about callers, not a defect in the shown code; the code is consistent with its docstring and the change is intentional. This is best treated as a minor note rather than a concrete bug."
+  },
+  "raw_text": "{\"reason\": \"The code does show malformed rows being recorded and skipped up to max_rejected, with load() returning normally, and the docstring documents this. The comment's claim about a behaviour change is a design/API compatibility concern about callers, not a defect in the shown code; the code is consistent with its docstring and the change is intentional. This is best treated as a minor note rather than a concrete bug.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRLfvg2mVTAyDvb5aV12",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00016476000000000001,
+   "input_tokens": 901,
+   "latency_ms": 2750,
+   "output_tokens": 136
+  }
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5a604fae417e45a6673eaa7a08d80d2d",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10296,
+  "user_sha256": "cb6fdce9cabf623c22098602529370956ac328182e46fb741060744e33c50439"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "The `return` after `req.reject(requeue=False)` was removed. When the ETA conversion fails, the request is rejected but execution continues: eta stays None, so the code reaches `task_reserved(req)` and `handle(req)` (or `limit_task` when a rate-limit bucket exists). A task that was just rejected and dropped is therefore also executed immediately, and it may be acked or rejected a second time.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "high",
+     "suggestion": "Restore the `return` right after `req.reject(requeue=False)`.",
+     "title": "Missing return after rejecting task with invalid ETA"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The `mark_as_failure` call was removed, so a task with an unconvertible ETA is rejected without any failure state being stored. Clients waiting on the result never see a failure and may hang or see PENDING indefinitely.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "medium",
+     "suggestion": "Restore the `req.task.backend.mark_as_failure(...)` call before rejecting.",
+     "title": "Failure no longer recorded in result backend"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Missing return after rejecting task with invalid ETA\",\"description\":\"The `return` after `req.reject(requeue=False)` was removed. When the ETA conversion fails, the request is rejected but execution continues: eta stays None, so the code reaches `task_reserved(req)` and `handle(req)` (or `limit_task` when a rate-limit bucket exists). A task that was just rejected and dropped is therefore also executed immediately, and it may be acked or rejected a second time.\",\"suggestion\":\"Restore the `return` right after `req.reject(requeue=False)`.\",\"confidence\":0.93},{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Failure no longer recorded in result backend\",\"description\":\"The `mark_as_failure` call was removed, so a task with an unconvertible ETA is rejected without any failure state being stored. Clients waiting on the result never see a failure and may hang or see PENDING indefinitely.\",\"suggestion\":\"Restore the `req.task.backend.mark_as_failure(...)` call before rejecting.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0064915,
+   "input_tokens": 4162,
+   "latency_ms": null,
+   "output_tokens": 414
+  }
+ }
+}

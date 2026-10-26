@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:08+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "aa975dd4179b444d68b93a2750ff1a81",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2856,
+  "user_sha256": "aff5d7cfd3d7cadefaf1e216c838a0fe34533c1b5fbf07ed90a961d600c4cf88"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the flush call is inside the per-row try with a broad except, so a sink write failure detaches the pending batch, records it as a row rejection, and continues loading, silently losing up to batch_size rows. Both point at the same lines and propose moving the flush outside the per-row handler.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the flush call is inside the per-row try with a broad except, so a sink write failure detaches the pending batch, records it as a row rejection, and continues loading, silently losing up to batch_size rows. Both point at the same lines and propose moving the flush outside the per-row handler.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbXxSV1GX6JgUe34tM",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017004000000000002,
+   "input_tokens": 981,
+   "latency_ms": 1812,
+   "output_tokens": 118
+  }
+ }
+}

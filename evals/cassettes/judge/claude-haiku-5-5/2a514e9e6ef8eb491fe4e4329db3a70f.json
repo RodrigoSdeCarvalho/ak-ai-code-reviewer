@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:06+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2a514e9e6ef8eb491fe4e4329db3a70f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2412,
+  "user_sha256": "6c6e93db04d4f89348c1eeeb7fd60700439050fce374d87ff1e83e7b031c7171"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the rename to max_attempts, create_ticket's leftover attempts=1 keyword falls into **fields and is sent as a body field, so the default of 3 retries applies and a POST /tickets can be retried, creating duplicate tickets. Description A also names the alternative location in client.py, and the wording and detail differ, but the root cause and failure are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the rename to max_attempts, create_ticket's leftover attempts=1 keyword falls into **fields and is sent as a body field, so the default of 3 retries applies and a POST /tickets can be retried, creating duplicate tickets. Description A also names the alternative location in client.py, and the wording and detail differ, but the root cause and failure are identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbNxSy1SwC87pvsbQh",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017594,
+   "input_tokens": 900,
+   "latency_ms": 2094,
+   "output_tokens": 146
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:32+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0b4e1d72f6f63d07c7367d6b4f1ab900",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2864,
+  "user_sha256": "0cf3c0f7f0e03fa2f06299d76368775dbec9437bd9a4dbc91ad709f9914e6c3c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: can_bid at line 72 calls self.spend(), which re-reads and re-sums the full day's impression log on every bid check (once per campaign via eligible), instead of using in-memory running totals updated in record. Both cite the same performance root cause and hot-path timeout consequence, differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: can_bid at line 72 calls self.spend(), which re-reads and re-sums the full day's impression log on every bid check (once per campaign via eligible), instead of using in-memory running totals updated in record. Both cite the same performance root cause and hot-path timeout consequence, differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdKQSQqaC7rrMUBbnc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018174,
+   "input_tokens": 1038,
+   "latency_ms": 1483,
+   "output_tokens": 130
+  }
+ }
+}

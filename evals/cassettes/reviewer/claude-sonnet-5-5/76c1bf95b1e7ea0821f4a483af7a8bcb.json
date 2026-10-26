@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "76c1bf95b1e7ea0821f4a483af7a8bcb",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 19116,
+  "user_sha256": "75996b75a344646ffad84627b4af46308bca5d11a42ecfe2df622e8a40c6a91b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "mark_invalid writes {\"kind\":\"invalid\",\"id\":...} to the day file of served_at. If the impression was served in a different timezone or its served_at is naive/aware inconsistently, the date may differ from the one used at append, so the marker lands in a different file and for_day never sees it. Refunds then silently have no effect. Also, repeated refunds are not idempotent in the file, though harmless on read.",
+     "file": "adserve/ledger.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Ensure the same day derivation is used for append and mark_invalid (e.g. normalise to UTC), and consider validating that the original record exists.",
+     "title": "Invalid marker is keyed only by impression id and lacks campaign"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.6,
+     "description": "The pacer previously kept in-memory spend. Now can_bid calls spend(), which calls for_day, which re-reads and JSON-parses the entire day file, for each campaign on each bid request (eligible loops over all campaigns). Cost is O(requests x campaigns x impressions in the day), growing through the day; the report does the same per campaign. This will become very slow on the hot bid path.",
+     "file": "adserve/ledger.py",
+     "line": 65,
+     "severity": "medium",
+     "suggestion": "Cache per-day, per-campaign spend in memory (updated on record/refund) or index the log; avoid re-reading the file on each bid.",
+     "title": "Whole day file re-read and parsed for every campaign on every bid"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.25,
+     "description": "Impressions are bucketed by impression.served_at.hour, while the cap check uses now.hour from request.received_at. If the datetimes carry different tzinfo (or one is naive), buckets mismatch and the hourly cap is applied to the wrong hour. Also day files are chosen by served_at.date() in its own timezone.",
+     "file": "adserve/pacing.py",
+     "line": 61,
+     "severity": "medium",
+     "suggestion": "Normalise all datetimes to one timezone before deriving date and hour.",
+     "title": "Hourly bucket uses impression's own timezone hour, not the request's"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"adserve/ledger.py\",\"line\":58,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Invalid marker is keyed only by impression id and lacks campaign\",\"description\":\"mark_invalid writes {\\\"kind\\\":\\\"invalid\\\",\\\"id\\\":...} to the day file of served_at. If the impression was served in a different timezone or its served_at is naive/aware inconsistently, the date may differ from the one used at append, so the marker lands in a different file and for_day never sees it. Refunds then silently have no effect. Also, repeated refunds are not idempotent in the file, though harmless on read.\",\"suggestion\":\"Ensure the same day derivation is used for append and mark_invalid (e.g. normalise to UTC), and consider validating that the original record exists.\",\"confidence\":0.3},{\"file\":\"adserve/ledger.py\",\"line\":65,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Whole day file re-read and parsed for every campaign on every bid\",\"description\":\"The pacer previously kept in-memory spend. Now can_bid calls spend(), which calls for_day, which re-reads and JSON-parses the entire day file, for each campaign on each bid request (eligible loops over all campaigns). Cost is O(requests x campaigns x impressions in the day), growing through the day; the report does the same per campaign. This will become very slow on the hot bid path.\",\"suggestion\":\"Cache per-day, per-campaign spend in memory (updated on record/refund) or index the log; avoid re-reading the file on each bid.\",\"confidence\":0.6},{\"file\":\"adserve/pacing.py\",\"line\":61,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Hourly bucket uses impression's own timezone hour, not the request's\",\"description\":\"Impressions are bucketed by impression.served_at.hour, while the cap check uses now.hour from request.received_at. If the datetimes carry different tzinfo (or one is naive), buckets mismatch and the hourly cap is applied to the wrong hour. Also day files are chosen by served_at.date() in its own timezone.\",\"suggestion\":\"Normalise all datetimes to one timezone before deriving date and hour.\",\"confidence\":0.25}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0118815,
+   "input_tokens": 7992,
+   "latency_ms": null,
+   "output_tokens": 726
+  }
+ }
+}

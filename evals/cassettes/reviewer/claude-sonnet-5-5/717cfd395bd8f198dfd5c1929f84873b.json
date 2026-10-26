@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "717cfd395bd8f198dfd5c1929f84873b",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 18307,
+  "user_sha256": "d2962b301a52e00a14d9a2968b4bc6cf2d5af1cc5be9ad5b1fddc56d61b1ec9a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.8,
+     "description": "The `_holidays_by_year` cache was dropped, so `holidays()` now calls `self._source.holidays(...)` and builds a new frozenset each time. `is_business_day` calls it for every candidate day, and `add_business_days`, `business_days_between` and `roll_forward` step one day at a time. With `JsonHolidaySource`, every step re-reads and re-parses the whole JSON file from disk. `SlaPolicy.overdue` repeats this for every ticket, and each ticket calls `is_business_day` several times. The cost grows with tickets times days times file size.",
+     "file": "scheduling/calendar.py",
+     "line": 38,
+     "severity": "medium",
+     "suggestion": "Cache holidays per year inside `BusinessCalendar`, as before, keyed by year since the region is fixed per instance. Alternatively, cache in the source.",
+     "title": "Per-year holiday cache removed; source is queried on every is_business_day call"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scheduling/calendar.py\",\"line\":38,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Per-year holiday cache removed; source is queried on every is_business_day call\",\"description\":\"The `_holidays_by_year` cache was dropped, so `holidays()` now calls `self._source.holidays(...)` and builds a new frozenset each time. `is_business_day` calls it for every candidate day, and `add_business_days`, `business_days_between` and `roll_forward` step one day at a time. With `JsonHolidaySource`, every step re-reads and re-parses the whole JSON file from disk. `SlaPolicy.overdue` repeats this for every ticket, and each ticket calls `is_business_day` several times. The cost grows with tickets times days times file size.\",\"suggestion\":\"Cache holidays per year inside `BusinessCalendar`, as before, keyed by year since the region is fixed per instance. Alternatively, cache in the source.\",\"confidence\":0.8}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0114995,
+   "input_tokens": 7605,
+   "latency_ms": null,
+   "output_tokens": 727
+  }
+ }
+}

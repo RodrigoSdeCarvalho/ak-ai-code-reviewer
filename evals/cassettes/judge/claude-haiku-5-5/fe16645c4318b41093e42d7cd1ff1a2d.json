@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:29+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "fe16645c4318b41093e42d7cd1ff1a2d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2148,
+  "user_sha256": "21b414bad5187614a17a9c431e33b05cb4703a386ea69d950f250493870e12ac"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the removal of per-year holiday caching causes holidays() to call the holiday source (re-reading the JSON file) on every is_business_day check, making day-walking loops like add_business_days and business_days_between very expensive. Both point at lines 37-38 of the holidays/is_business_day path with the same root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the removal of per-year holiday caching causes holidays() to call the holiday source (re-reading the JSON file) on every is_business_day check, making day-walking loops like add_business_days and business_days_between very expensive. Both point at lines 37-38 of the holidays/is_business_day path with the same root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLd5U2vSzsNHmS5PyqV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015574,
+   "input_tokens": 778,
+   "latency_ms": 1454,
+   "output_tokens": 130
+  }
+ }
+}

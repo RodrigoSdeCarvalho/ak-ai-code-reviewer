@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:16+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "eabf902a41117f7abe775e78dad5b49c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1949,
+  "user_sha256": "138894e8bef47f9a775a0494121bb4d47cfc2f0709a0cdd36891fd44c2d983a6"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The regex fact is correct: `$` matches before a trailing newline, so '2024-01\\n' passes validation. However, the claimed downstream effect depends on `build_report`, which is not shown, and a trailing newline in a CLI argument is unusual, so the practical impact is unconfirmed and this is best treated as a minor issue."
+  },
+  "raw_text": "{\"reason\": \"The regex fact is correct: `$` matches before a trailing newline, so '2024-01\\\\n' passes validation. However, the claimed downstream effect depends on `build_report`, which is not shown, and a trailing newline in a CLI argument is unusual, so the practical impact is unconfirmed and this is best treated as a minor issue.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRLgTK2V3XqPTynNVNdB",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00026416000000000005,
+   "input_tokens": 805,
+   "latency_ms": 2734,
+   "output_tokens": 354
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:19+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3f795d2588e19cde24ac30c5b60b742e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1966,
+  "user_sha256": "0791b09325d88cfb2c51318181450bef816f887fe3d220184da36cdbc84bad7e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 61: the conditional expression assigns 0.0 to every non-title term, discarding body frequency, so body-only terms score 0 and rankings collapse (alphabetical with no title) and suggest_tags drops body-only words. Description A adds extra consequences (empty title returns []), but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 61: the conditional expression assigns 0.0 to every non-title term, discarding body frequency, so body-only terms score 0 and rankings collapse (alphabetical with no title) and suggest_tags drops body-only words. Description A adds extra consequences (empty title returns []), but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcJhjqs5pDwXBivbV5",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015304,
+   "input_tokens": 741,
+   "latency_ms": 1952,
+   "output_tokens": 132
+  }
+ }
+}

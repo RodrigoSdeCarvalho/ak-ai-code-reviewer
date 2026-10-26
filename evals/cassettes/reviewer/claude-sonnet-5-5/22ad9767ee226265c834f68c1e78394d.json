@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "22ad9767ee226265c834f68c1e78394d",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3078,
+  "user_sha256": "a87a34e18b78cf5b40dd4ad81e2577b7a19ff50b715a130cbbb521cb04973daf"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The removed `_read_file_bytes` helper saved the file position and seeked back after reading. The direct `value.read()` calls leave the file cursor at EOF. If the same UploadFile is read again (for example when the form is parsed a second time, or another dependency or field uses the same upload), it gets empty bytes. This is a regression from the previous behavior.",
+     "end_line": 1078,
+     "file": "fastapi/dependencies/utils.py",
+     "line": 1070,
+     "severity": "medium",
+     "suggestion": "Restore `_read_file_bytes`, or otherwise save the position before `read()` and `await file.seek(position)` afterwards in both places.",
+     "title": "UploadFile position no longer restored after reading bytes"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"fastapi/dependencies/utils.py\",\"line\":1070,\"end_line\":1078,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"UploadFile position no longer restored after reading bytes\",\"description\":\"The removed `_read_file_bytes` helper saved the file position and seeked back after reading. The direct `value.read()` calls leave the file cursor at EOF. If the same UploadFile is read again (for example when the form is parsed a second time, or another dependency or field uses the same upload), it gets empty bytes. This is a regression from the previous behavior.\",\"suggestion\":\"Restore `_read_file_bytes`, or otherwise save the position before `read()` and `await file.seek(position)` afterwards in both places.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0026705,
+   "input_tokens": 1131,
+   "latency_ms": null,
+   "output_tokens": 256
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:50+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ad9850365dbc5efffd1193fdd383cab0",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2411,
+  "user_sha256": "e56206ebb5e6b716cd72a8c7c457b6bf43dfcdd29c93c73ca9fa5248eb4e30cb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: server_name.partition(':') at line 724 splits bracketed IPv6 SERVER_NAME values at the first colon, producing host '[' and a bogus port string, which makes int(sn_port) raise ValueError in run(). Description B adds details (explicit port case, bracketed address without port) but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: server_name.partition(':') at line 724 splits bracketed IPv6 SERVER_NAME values at the first colon, producing host '[' and a bogus port string, which makes int(sn_port) raise ValueError in run(). Description B adds details (explicit port case, bracketed address without port) but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLaCnjoecyKnpQ2LCJx",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 1294,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00032305,
+   "input_tokens": 938,
+   "latency_ms": 1890,
+   "output_tokens": 135
+  }
+ }
+}

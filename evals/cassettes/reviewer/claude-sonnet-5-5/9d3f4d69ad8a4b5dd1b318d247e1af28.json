@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "9d3f4d69ad8a4b5dd1b318d247e1af28",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "The same list object stored in the cache is returned on both the miss path (`return hits`) and the hit path (`return entry[1]`). Before this change each call returned a fresh list. A caller that sorts, appends to or filters the result in place now silently corrupts the cached entry, and later callers with the same query get the altered results.",
+     "end_line": 68,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Store a tuple in the cache and return `list(...)` copies, or return a copy on both paths.",
+     "title": "Cached result list returned by reference; callers can mutate the cache"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.15,
+     "description": "An expired entry is popped, so the cache shrinks, and then a recompute happens. The capacity check on line 65 therefore sees a length that already excludes that key, which is fine. However, the stored entry keeps its original timestamp when re-inserted on a hit, so the TTL is absolute from creation and the LRU ordering has no effect on expiry. This is only a minor inconsistency, not a hard failure.",
+     "end_line": 63,
+     "file": "catalog/service.py",
+     "line": 60,
+     "severity": "low",
+     "suggestion": "Document the TTL semantics, or drop the LRU reordering if it is not needed.",
+     "title": "Cache hit refreshes LRU order but not the timestamp, and expired entries are handled inconsistently"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":68,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list returned by reference; callers can mutate the cache\",\"description\":\"The same list object stored in the cache is returned on both the miss path (`return hits`) and the hit path (`return entry[1]`). Before this change each call returned a fresh list. A caller that sorts, appends to or filters the result in place now silently corrupts the cached entry, and later callers with the same query get the altered results.\",\"suggestion\":\"Store a tuple in the cache and return `list(...)` copies, or return a copy on both paths.\",\"confidence\":0.6},{\"file\":\"catalog/service.py\",\"line\":60,\"end_line\":63,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Cache hit refreshes LRU order but not the timestamp, and expired entries are handled inconsistently\",\"description\":\"An expired entry is popped, so the cache shrinks, and then a recompute happens. The capacity check on line 65 therefore sees a length that already excludes that key, which is fine. However, the stored entry keeps its original timestamp when re-inserted on a hit, so the TTL is absolute from creation and the LRU ordering has no effect on expiry. This is only a minor inconsistency, not a hard failure.\",\"suggestion\":\"Document the TTL semantics, or drop the LRU reordering if it is not needed.\",\"confidence\":0.15}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0048165,
+   "input_tokens": 2172,
+   "latency_ms": null,
+   "output_tokens": 477
+  }
+ }
+}

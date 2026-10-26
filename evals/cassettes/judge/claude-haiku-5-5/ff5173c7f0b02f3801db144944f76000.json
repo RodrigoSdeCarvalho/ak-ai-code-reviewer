@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:22+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ff5173c7f0b02f3801db144944f76000",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2377,
+  "user_sha256": "a388b30a235c66dd1806f01174108429bee14be92d01d3f58dbed3ded6b222a2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: on the denied path, the refilled tokens are stored in bucket.tokens but updated_at is not advanced to now, so the same elapsed interval is credited again on subsequent calls, letting a throttled client exceed the configured rate. Description B gives a concrete worked example, while Description A gives a different numeric example, but the defect and location are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: on the denied path, the refilled tokens are stored in bucket.tokens but updated_at is not advanced to now, so the same elapsed interval is credited again on subsequent calls, letting a throttled client exceed the configured rate. Description B gives a concrete worked example, while Description A gives a different numeric example, but the defect and location are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcVNgrGxCrHtEpPU1U",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017654000000000001,
+   "input_tokens": 926,
+   "latency_ms": 2671,
+   "output_tokens": 142
+  }
+ }
+}

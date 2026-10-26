@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1bd5d1bad909c824c96b66e1ebf80eb3",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2186,
+  "user_sha256": "a7551ad27301053f9a8c2cd00631821f30ce53ea8fce3d7b887a74ed53a17852"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the per-year holiday cache was removed, so holidays() calls the holiday source on every is_business_day check, causing repeated file reads and parses with JsonHolidaySource during day-walking functions like add_business_days and business_days_between. Differences are only in wording and examples (overdue() vs roll_forward/ticket queue), not in the underlying failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the per-year holiday cache was removed, so holidays() calls the holiday source on every is_business_day check, causing repeated file reads and parses with JsonHolidaySource during day-walking functions like add_business_days and business_days_between. Differences are only in wording and examples (overdue() vs roll_forward/ticket queue), not in the underlying failure.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.277000000000001e-05,
+   "input_tokens": 808,
+   "latency_ms": null,
+   "output_tokens": 145
+  }
+ }
+}

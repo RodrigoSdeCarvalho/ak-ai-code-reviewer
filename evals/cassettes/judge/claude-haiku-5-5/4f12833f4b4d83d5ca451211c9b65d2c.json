@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "4f12833f4b4d83d5ca451211c9b65d2c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2221,
+  "user_sha256": "28405fa07dbe32bef33c770c58d3429c312e5721cb2e8064237d5e826e901d3b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says max_entries=0 causes StopIteration on an empty dict when evicting from the cache (line 66). Description B says the cached list object is returned directly, so in-place sorting by callers mutates the cache and corrupts later results (lines 63-68). These are different failures: one is an eviction crash on an empty cache, the other is aliasing of a mutable cached list.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says max_entries=0 causes StopIteration on an empty dict when evicting from the cache (line 66). Description B says the cached list object is returned directly, so in-place sorting by callers mutates the cache and corrupts later results (lines 63-68). These are different failures: one is an eviction crash on an empty cache, the other is aliasing of a mutable cached list.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.112000000000001e-05,
+   "input_tokens": 810,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}

@@ -1,0 +1,60 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "349523eb55a9e9bd56ba1042e432a74a",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8463,
+  "user_sha256": "192eedb2d694f43fa7ade5ca58a0688e8081225ff2a8d87b274351179b790bbe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.5,
+     "description": "The old code fetched all keys with one catalog.get_many(locale, wanted). The new loop calls catalog.exists and then catalog.get for every key in every locale of the chain. That is up to 2 * keys * chain-length calls. If the catalog is backed by a DB or file, this becomes an N+1 pattern, and the two calls per key are also not atomic.",
+     "end_line": 44,
+     "file": "i18n/bundles.py",
+     "line": 43,
+     "severity": "medium",
+     "suggestion": "Use catalog.get_many per locale in the chain, only for the keys still unresolved, so the number of calls is bounded by the chain length.",
+     "title": "Per-key catalog lookups replace the batched get_many call"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.35,
+     "description": "Bundle.locale is set to chain[0], the normalised tag (for example pt_br becomes pt-BR), not the locale the caller passed in. Callers and missing_report that key on the requested locale string now get a different value. A catalog that stores non-canonical names, such as pt_BR, will also never match the normalised candidates, so every key is reported missing.",
+     "end_line": 50,
+     "file": "i18n/bundles.py",
+     "line": 50,
+     "severity": "medium",
+     "suggestion": "Keep the caller's requested locale in Bundle.locale, or ensure the catalog is queried with matching keys. Compare sources against the normalised chain[0] consistently.",
+     "title": "Bundle locale is normalised, which breaks the fallback_keys comparison and callers"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"i18n/bundles.py\",\"line\":43,\"end_line\":44,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Per-key catalog lookups replace the batched get_many call\",\"description\":\"The old code fetched all keys with one catalog.get_many(locale, wanted). The new loop calls catalog.exists and then catalog.get for every key in every locale of the chain. That is up to 2 * keys * chain-length calls. If the catalog is backed by a DB or file, this becomes an N+1 pattern, and the two calls per key are also not atomic.\",\"suggestion\":\"Use catalog.get_many per locale in the chain, only for the keys still unresolved, so the number of calls is bounded by the chain length.\",\"confidence\":0.5},{\"file\":\"i18n/bundles.py\",\"line\":50,\"end_line\":50,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Bundle locale is normalised, which breaks the fallback_keys comparison and callers\",\"description\":\"Bundle.locale is set to chain[0], the normalised tag (for example pt_br becomes pt-BR), not the locale the caller passed in. Callers and missing_report that key on the requested locale string now get a different value. A catalog that stores non-canonical names, such as pt_BR, will also never match the normalised candidates, so every key is reported missing.\",\"suggestion\":\"Keep the caller's requested locale in Bundle.locale, or ensure the catalog is queried with matching keys. Compare sources against the normalised chain[0] consistently.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0064465,
+   "input_tokens": 3617,
+   "latency_ms": null,
+   "output_tokens": 514
+  }
+ }
+}

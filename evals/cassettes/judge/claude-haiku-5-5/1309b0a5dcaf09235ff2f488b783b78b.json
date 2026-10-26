@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1309b0a5dcaf09235ff2f488b783b78b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2782,
+  "user_sha256": "ab40714e5a6456776c810f327d5d0fcc4811f2af58f249d5cb32bf77578230a5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies the ordering of metadata replacement before the blob replacement in put(), creating a crash/concurrency window with mismatched state. Description B identifies the mutable default argument metadata={} being mutated by setdefault, so content-type leaks across calls. These are different root causes (write ordering vs. shared mutable default), though both involve lines 73-87 of put().",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies the ordering of metadata replacement before the blob replacement in put(), creating a crash/concurrency window with mismatched state. Description B identifies the mutable default argument metadata={} being mutated by setdefault, so content-type leaks across calls. These are different root causes (write ordering vs. shared mutable default), though both involve lines 73-87 of put().\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 9.397e-05,
+   "input_tokens": 1067,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}

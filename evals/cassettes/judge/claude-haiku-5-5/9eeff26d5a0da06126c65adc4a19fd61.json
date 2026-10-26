@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:19+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9eeff26d5a0da06126c65adc4a19fd61",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2967,
+  "user_sha256": "6d1ff8b9722a894ea3be5f6c487b424bbbcba9af5a244b976f8bb0a8f2490a78"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The grouping uses each timestamp's local `.date()` while sorting by absolute instant, so with mixed UTC offsets the same local day can be split into non-adjacent groups and yielded twice. The docstring promises UTC days, but the code never converts to UTC, so this is a real correctness defect whenever mixed offsets occur."
+  },
+  "raw_text": "{\"reason\": \"The grouping uses each timestamp's local `.date()` while sorting by absolute instant, so with mixed UTC offsets the same local day can be split into non-adjacent groups and yielded twice. The docstring promises UTC days, but the code never converts to UTC, so this is a real correctness defect whenever mixed offsets occur.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLgXEQreQCTDThEotZ1",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00051186,
+   "input_tokens": 1142,
+   "latency_ms": 4906,
+   "output_tokens": 782
+  }
+ }
+}

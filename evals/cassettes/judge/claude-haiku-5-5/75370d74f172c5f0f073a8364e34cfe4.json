@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:03+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "75370d74f172c5f0f073a8364e34cfe4",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 3273,
+  "user_sha256": "2a9e9429563dc52685ed4a27cd1157292ec4841dfa734d2ba21569054a13836b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The comment claims the copy loses private state, but the shown code is the post-change version and does not reveal the removed block; the comment itself admits the removed code was not handling __pydantic_private__ correctly, and RootModel does not declare private attributes in the shown code. The claim that accessing private attributes will fail is not confirmed by the code shown, so it is at best speculative."
+  },
+  "raw_text": "{\"reason\": \"The comment claims the copy loses private state, but the shown code is the post-change version and does not reveal the removed block; the comment itself admits the removed code was not handling __pydantic_private__ correctly, and RootModel does not declare private attributes in the shown code. The claim that accessing private attributes will fail is not confirmed by the code shown, so it is at best speculative.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRLfdp1pBAb3LsMNL3s1",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00020446,
+   "input_tokens": 1298,
+   "latency_ms": 1514,
+   "output_tokens": 136
+  }
+ }
+}

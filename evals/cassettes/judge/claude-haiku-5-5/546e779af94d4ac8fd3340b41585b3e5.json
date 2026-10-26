@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:23+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "546e779af94d4ac8fd3340b41585b3e5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2686,
+  "user_sha256": "ab3797e34256f0ed8fad0d9110475685f2914eaed8fe582cfe0290531923919c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says daily grouping splits one day into multiple totals when timestamps have mixed UTC offsets (non-adjacent same-day events, and no UTC conversion). Description B says quantity is never reset after yielding a day, so totals become running sums across days. The code shows quantity += event.quantity with no reset on group change, which is the defect B describes; A's mixed-offset scenario is a different failure at the same lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says daily grouping splits one day into multiple totals when timestamps have mixed UTC offsets (non-adjacent same-day events, and no UTC conversion). Description B says quantity is never reset after yielding a day, so totals become running sums across days. The code shows quantity += event.quantity with no reset on group change, which is the defect B describes; A's mixed-offset scenario is a different failure at the same lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLcd43dM7fxQRuR5U3K",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018974,
+   "input_tokens": 1003,
+   "latency_ms": 2046,
+   "output_tokens": 153
+  }
+ }
+}

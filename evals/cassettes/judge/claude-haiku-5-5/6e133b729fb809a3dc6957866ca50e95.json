@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:01+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6e133b729fb809a3dc6957866ca50e95",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2323,
+  "user_sha256": "9eb6999b8429d53d69593d2c1b88f173c956fc2bfd9d158e0ba338c1f4a27763"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that find() returns the same cached list object by reference, so callers mutating it corrupt the cache. Description A states the general mutation hazard, while Description B gives a concrete instance (in-place sort in search_products reordering the cached entry for later default searches). Same root cause at the same place, differing only in detail and example.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that find() returns the same cached list object by reference, so callers mutating it corrupt the cache. Description A states the general mutation hazard, while Description B gives a concrete instance (in-place sort in search_products reordering the cached entry for later default searches). Same root cause at the same place, differing only in detail and example.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLaxwpZE7eZYuinPCbW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015624,
+   "input_tokens": 813,
+   "latency_ms": 2172,
+   "output_tokens": 124
+  }
+ }
+}

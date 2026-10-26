@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:04+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c160331e4189720eb334be7a568a3224",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1907,
+  "user_sha256": "f879c03ebaed30b530bb9484139d337afb800eeb1107b5ab94ec714ee40e8956"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 48: for_account compares record.get(\"user_id\") but the user_id key is no longer present on records yielded by records() (renamed to account_id), so for_account yields nothing and account_timeline returns empty lists. The mechanism described differs slightly in wording (A attributes it to the rename and upgrade_record rewriting legacy records; B explicitly says upgrade_record drops user_id), but the root cause and failure are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 48: for_account compares record.get(\\\"user_id\\\") but the user_id key is no longer present on records yielded by records() (renamed to account_id), so for_account yields nothing and account_timeline returns empty lists. The mechanism described differs slightly in wording (A attributes it to the rename and upgrade_record rewriting legacy records; B explicitly says upgrade_record drops user_id), but the root cause and failure are identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbFgdkQXppy6DLBjTK",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016193999999999998,
+   "input_tokens": 635,
+   "latency_ms": 1625,
+   "output_tokens": 171
+  }
+ }
+}

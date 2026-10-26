@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "5a898978bef7b0efe7e711fb1b88e581",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8990,
+  "user_sha256": "b7dca955942ddc919ca38fae78345f45440711009e7b139138f0084d6de30dff"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "`metadata` defaults to a shared dict `{}`, and `put` calls `metadata.setdefault(\"content-type\", ...)` on it. The first put without metadata stores a guessed content type in the shared default, so every later put without metadata reuses that type, e.g. a .png then a .pdf gets image/png. A caller-supplied dict is also mutated.",
+     "end_line": 80,
+     "file": "blobstore/store.py",
+     "line": 73,
+     "severity": "high",
+     "suggestion": "Use `metadata: dict[str, str] | None = None` and build a copy: `meta = dict(metadata or {}); meta.setdefault(...)`.",
+     "title": "Mutable default argument is mutated by setdefault"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.5,
+     "description": "The metadata file is replaced before the blob is written. If the blob write fails, or a concurrent reader calls head in between, the old blob is paired with the new metadata. A new key whose blob write failed leaves an orphaned metadata file. The two atomic replaces are not atomic together.",
+     "end_line": 87,
+     "file": "blobstore/store.py",
+     "line": 81,
+     "severity": "medium",
+     "suggestion": "Write the blob first, then the metadata, or clean up the metadata on failure.",
+     "title": "Metadata written before blob; failed blob write leaves inconsistent state"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "`is_file()` followed by `read_text` is a check-then-act race with a concurrent delete, which raises FileNotFoundError. Corrupt JSON raises JSONDecodeError. Both escape instead of falling back to defaults.",
+     "end_line": 104,
+     "file": "blobstore/store.py",
+     "line": 103,
+     "severity": "medium",
+     "suggestion": "Wrap the read and parse in try/except (FileNotFoundError, ValueError) and fall back to {}.",
+     "title": "head can fail on a missing or corrupt metadata file"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"blobstore/store.py\",\"line\":73,\"end_line\":80,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Mutable default argument is mutated by setdefault\",\"description\":\"`metadata` defaults to a shared dict `{}`, and `put` calls `metadata.setdefault(\\\"content-type\\\", ...)` on it. The first put without metadata stores a guessed content type in the shared default, so every later put without metadata reuses that type, e.g. a .png then a .pdf gets image/png. A caller-supplied dict is also mutated.\",\"suggestion\":\"Use `metadata: dict[str, str] | None = None` and build a copy: `meta = dict(metadata or {}); meta.setdefault(...)`.\",\"confidence\":0.97},{\"file\":\"blobstore/store.py\",\"line\":81,\"end_line\":87,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Metadata written before blob; failed blob write leaves inconsistent state\",\"description\":\"The metadata file is replaced before the blob is written. If the blob write fails, or a concurrent reader calls head in between, the old blob is paired with the new metadata. A new key whose blob write failed leaves an orphaned metadata file. The two atomic replaces are not atomic together.\",\"suggestion\":\"Write the blob first, then the metadata, or clean up the metadata on failure.\",\"confidence\":0.5},{\"file\":\"blobstore/store.py\",\"line\":103,\"end_line\":104,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"head can fail on a missing or corrupt metadata file\",\"description\":\"`is_file()` followed by `read_text` is a check-then-act race with a concurrent delete, which raises FileNotFoundError. Corrupt JSON raises JSONDecodeError. Both escape instead of falling back to defaults.\",\"suggestion\":\"Wrap the read and parse in try/except (FileNotFoundError, ValueError) and fall back to {}.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0074455,
+   "input_tokens": 3936,
+   "latency_ms": null,
+   "output_tokens": 650
+  }
+ }
+}

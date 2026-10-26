@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:21+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "20ce2c9a35ff56c2a198ab183cc0f659",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2150,
+  "user_sha256": "62e5c959db87cef8c9f7bdefdb538f50612f3a33416eae5bf0d8672f2342adb9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the early-return denial path stores refilled tokens without advancing updated_at, so repeated denied calls re-add the same elapsed interval and over-admit requests. Description B says any cost greater than capacity can never be satisfied because tokens are capped at capacity, so those requests are always denied. Both point near lines 69-71, but they identify different failures: one is over-refill leading to too many admissions, the other is an unsatisfiable cost exceeding burst.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the early-return denial path stores refilled tokens without advancing updated_at, so repeated denied calls re-add the same elapsed interval and over-admit requests. Description B says any cost greater than capacity can never be satisfied because tokens are capped at capacity, so those requests are always denied. Both point near lines 69-71, but they identify different failures: one is over-refill leading to too many admissions, the other is an unsatisfiable cost exceeding burst.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLcVQfYcC8KS4uecSBc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018034,
+   "input_tokens": 834,
+   "latency_ms": 2077,
+   "output_tokens": 168
+  }
+ }
+}

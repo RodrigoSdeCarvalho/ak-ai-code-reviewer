@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:23+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7d0a6885578105209221079f25951979",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2590,
+  "user_sha256": "1731db30349e19371a9c864c1bf9d6495a44abe14df8dab45e38f98de340a693"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the mutable default dict `metadata={}` is mutated by `metadata.setdefault(\"content-type\", ...)` at line 80, so the content type from one upload leaks into later uploads that omit metadata, and caller-passed dicts get mutated. Description B gives a concrete example (CSV recorded as image/png) while A uses a .pdf example, but the root cause and location are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the mutable default dict `metadata={}` is mutated by `metadata.setdefault(\\\"content-type\\\", ...)` at line 80, so the content type from one upload leaks into later uploads that omit metadata, and caller-passed dicts get mutated. Description B gives a concrete example (CSV recorded as image/png) while A uses a .pdf example, but the root cause and location are identical.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLceHTgT4CFNvkF1zB4",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019274,
+   "input_tokens": 1013,
+   "latency_ms": 1812,
+   "output_tokens": 157
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:02+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "59b19c7e517c3db142164671bd16e8e1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2008,
+  "user_sha256": "46c7c5e15bf72aac3bbd51104beba3d7bb0d4c356edc242681e4ae93bbba99a2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: deliver() became a coroutine and is called without await in flush, so the always-truthy coroutine object causes the lines to be deleted as if delivered and no failures are reported. Description B adds details (RuntimeWarning, no retries) but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: deliver() became a coroutine and is called without await in flush, so the always-truthy coroutine object causes the lines to be deleted as if delivered and no failures are reported. Description B adds details (RuntimeWarning, no retries) but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLb8DBCCu9HMuT8EegF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013764000000000002,
+   "input_tokens": 677,
+   "latency_ms": 1733,
+   "output_tokens": 114
+  }
+ }
+}

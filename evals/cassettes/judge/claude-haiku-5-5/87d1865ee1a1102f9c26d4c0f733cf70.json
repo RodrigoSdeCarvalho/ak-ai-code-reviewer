@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "87d1865ee1a1102f9c26d4c0f733cf70",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2383,
+  "user_sha256": "91db0246a481c817cf6709f3abd8b166b6e51e8e07cef8d533731815313df00c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: check() now returns a list of violations (empty when compliant), but decide() still uses its truthiness as if it were a bool meaning within policy, inverting approval so violating reports are auto-approved and compliant ones go to review. Same root cause and location, different wording and severity framing.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: check() now returns a list of violations (empty when compliant), but decide() still uses its truthiness as if it were a bool meaning within policy, inverting approval so violating reports are auto-approved and compliant ones go to review. Same root cause and location, different wording and severity framing.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.857e-05,
+   "input_tokens": 859,
+   "latency_ms": null,
+   "output_tokens": 118
+  }
+ }
+}

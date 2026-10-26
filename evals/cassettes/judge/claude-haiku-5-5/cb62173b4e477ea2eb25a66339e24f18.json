@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:52+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "cb62173b4e477ea2eb25a66339e24f18",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2993,
+  "user_sha256": "217a31876e126a339875f3df97d2f90763314a55fb4b5ed90ddca99c26a86956"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that reading an UploadFile via value.read() in _extract_form_body (line 1070 / lines 1070-1078) does not restore the file position, so the shared UploadFile is consumed at EOF and subsequent bytes-annotated consumers (multiple dependencies or endpoint) receive b\"\". Both propose saving and restoring the position. Same root cause and place.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that reading an UploadFile via value.read() in _extract_form_body (line 1070 / lines 1070-1078) does not restore the file position, so the shared UploadFile is consumed at EOF and subsequent bytes-annotated consumers (multiple dependencies or endpoint) receive b\\\"\\\". Both propose saving and restoring the position. Same root cause and place.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLaLZo1F72bWS8u8yfV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019413999999999998,
+   "input_tokens": 1082,
+   "latency_ms": 1920,
+   "output_tokens": 146
+  }
+ }
+}

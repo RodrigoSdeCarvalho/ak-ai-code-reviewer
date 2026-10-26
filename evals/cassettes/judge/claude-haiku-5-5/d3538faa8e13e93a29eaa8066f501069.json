@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:52+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d3538faa8e13e93a29eaa8066f501069",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2806,
+  "user_sha256": "76eaa07518bb711b5054c7c0f517d2470dd466cc7727ea91fdc3f795d821663e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that reading the shared UploadFile with value.read() in _extract_form_body does not restore the file position, so a later read of the same file in the same request returns b''. Description A adds more scenarios (dependencies, sub-values in lists) but the root cause and location match Description B's note about the removed position restore.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that reading the shared UploadFile with value.read() in _extract_form_body does not restore the file position, so a later read of the same file in the same request returns b''. Description A adds more scenarios (dependencies, sub-values in lists) but the root cause and location match Description B's note about the removed position restore.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLaRTyrJYsyd1cg1oUW",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017554000000000002,
+   "input_tokens": 1026,
+   "latency_ms": 1312,
+   "output_tokens": 120
+  }
+ }
+}

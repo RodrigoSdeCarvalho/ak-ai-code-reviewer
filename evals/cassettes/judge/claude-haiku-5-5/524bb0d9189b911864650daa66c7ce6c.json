@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "524bb0d9189b911864650daa66c7ce6c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2086,
+  "user_sha256": "cd8bd7e95f501677fd4e14ef75f8b50e67fac4e63f90af4d7dfd99d9fe6d088d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that accept() never checks link expiry (expires_at against now), so expired invite links still grant membership. They point at the same check in accept() and the same failure, differing only in wording and detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that accept() never checks link expiry (expires_at against now), so expired invite links still grant membership. They point at the same check in accept() and the same failure, differing only in wording and detail.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdmd1vZJWKRL7pmUK4",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00012834,
+   "input_tokens": 739,
+   "latency_ms": 1202,
+   "output_tokens": 83
+  }
+ }
+}

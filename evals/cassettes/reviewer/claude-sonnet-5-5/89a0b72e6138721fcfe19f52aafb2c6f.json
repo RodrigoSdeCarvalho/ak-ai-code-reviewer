@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "89a0b72e6138721fcfe19f52aafb2c6f",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6971,
+  "user_sha256": "92dc1370188c00024a157079a5a3e425d7dfdc480eeaa90cf939e9aeb9a92b6c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.95,
+     "description": "delete_entry calls _require_reader, so any user the entry is shared with can permanently delete the owner's journal entry. Every other destructive or mutating operation (edit, share, unshare) uses _require_owner. Deleting is destructive and should be restricted to the owner.",
+     "file": "bookclub/handlers.py",
+     "line": 76,
+     "severity": "critical",
+     "suggestion": "Use _require_owner(entry, user) in delete_entry.",
+     "title": "delete_entry authorizes with reader check instead of owner check"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"bookclub/handlers.py\",\"line\":76,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"delete_entry authorizes with reader check instead of owner check\",\"description\":\"delete_entry calls _require_reader, so any user the entry is shared with can permanently delete the owner's journal entry. Every other destructive or mutating operation (edit, share, unshare) uses _require_owner. Deleting is destructive and should be restricted to the owner.\",\"suggestion\":\"Use _require_owner(entry, user) in delete_entry.\",\"confidence\":0.95}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0042345,
+   "input_tokens": 3015,
+   "latency_ms": null,
+   "output_tokens": 192
+  }
+ }
+}

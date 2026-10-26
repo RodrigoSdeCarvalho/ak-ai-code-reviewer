@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "522ed8aa6c80b48c3a96c2b2d142ce38",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 19116,
+  "user_sha256": "75996b75a344646ffad84627b4af46308bca5d11a42ecfe2df622e8a40c6a91b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "mark_invalid writes the marker to the file for impression.served_at.date(), and for_day reads only that day's file, so this works only if the caller passes an impression with the same served_at as the original. A caller that builds the refund impression with a different served_at (e.g. timezone differences, or the date derived from a different datetime) writes the marker to another day's file, and the original impression keeps counting against the budget. Also, if the original append was never written in this file, the marker is silently orphaned.",
+     "file": "adserve/ledger.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Validate that the impression exists, or store the day in the marker and look markers up from the original impression's file.",
+     "title": "Invalid marker keyed only by impression id is dropped if the impression's day differs"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.5,
+     "description": "Spend was previously kept in memory. can_bid now calls spend(), which calls for_day(), which opens and parses the full day's JSONL file for every campaign on each bid request. eligible() therefore reads the file once per campaign per request, and the cost grows with the day's impression volume, which hurts latency on the hot path.",
+     "file": "adserve/ledger.py",
+     "line": 70,
+     "severity": "medium",
+     "suggestion": "Cache per-day spend in memory, updated on record/refund, or index the log by campaign.",
+     "title": "Whole day file re-read and parsed for every campaign on every bid check"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"adserve/ledger.py\",\"line\":58,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Invalid marker keyed only by impression id is dropped if the impression's day differs\",\"description\":\"mark_invalid writes the marker to the file for impression.served_at.date(), and for_day reads only that day's file, so this works only if the caller passes an impression with the same served_at as the original. A caller that builds the refund impression with a different served_at (e.g. timezone differences, or the date derived from a different datetime) writes the marker to another day's file, and the original impression keeps counting against the budget. Also, if the original append was never written in this file, the marker is silently orphaned.\",\"suggestion\":\"Validate that the impression exists, or store the day in the marker and look markers up from the original impression's file.\",\"confidence\":0.2},{\"file\":\"adserve/ledger.py\",\"line\":70,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Whole day file re-read and parsed for every campaign on every bid check\",\"description\":\"Spend was previously kept in memory. can_bid now calls spend(), which calls for_day(), which opens and parses the full day's JSONL file for every campaign on each bid request. eligible() therefore reads the file once per campaign per request, and the cost grows with the day's impression volume, which hurts latency on the hot path.\",\"suggestion\":\"Cache per-day spend in memory, updated on record/refund, or index the log by campaign.\",\"confidence\":0.5}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0106715,
+   "input_tokens": 7992,
+   "latency_ms": null,
+   "output_tokens": 484
+  }
+ }
+}

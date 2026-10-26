@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "577d7ecb041c96846839bf0516ff5105",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2305,
+  "user_sha256": "67bb94f0a794129a043866c88718d487c107d3e6633105023409974cc9ddaef5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the loop breaks after the final failed attempt and charge() returns None instead of raising, so callers get a None charge. Description B says the except clause retries all GatewayErrors, including permanent declines that should not be retried. These are different failures: one is a return-value/exception-swallowing bug at the end of the loop, the other is an overly broad retry condition at the except clause.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the loop breaks after the final failed attempt and charge() returns None instead of raising, so callers get a None charge. Description B says the except clause retries all GatewayErrors, including permanent declines that should not be retried. These are different failures: one is a return-value/exception-swallowing bug at the end of the loop, the other is an overly broad retry condition at the except clause.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.242000000000001e-05,
+   "input_tokens": 836,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}

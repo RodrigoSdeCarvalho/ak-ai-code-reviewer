@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:17+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5f699290acf2a64b0c1bb19bf9d70cbe",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2382,
+  "user_sha256": "d8975f693f06eb77c4013345a7020edc6bf9cf5c5b7f0dde0c9cc1fc0d9a3e6a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at lines 139-140: _read_all swallows OSError/ValueError (and KeyError) and returns an empty dict, so a subsequent write via save/delete overwrites the real session file and destroys other users' sessions. Description B adds corrupt/truncated file cases and read-side effects, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at lines 139-140: _read_all swallows OSError/ValueError (and KeyError) and returns an empty dict, so a subsequent write via save/delete overwrites the real session file and destroys other users' sessions. Description B adds corrupt/truncated file cases and read-side effects, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcE3SqvxEkco4GqyJV",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016674000000000002,
+   "input_tokens": 863,
+   "latency_ms": 1405,
+   "output_tokens": 135
+  }
+ }
+}

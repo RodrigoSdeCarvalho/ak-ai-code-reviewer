@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:00+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ef32b0519713e0e15f43041f07e60f4b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1924,
+  "user_sha256": "bc3c220c1a730327f13f57707544ec8a2640a4c49da8b5004342acf8b6a6c5fb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "nit",
+   "reason": "The leak is real in principle: if os.fdopen raises, the raw fd from mkstemp is never closed. However, with a valid fd and a fixed text mode, os.fdopen rarely fails, and the comment does not name a concrete failure path. That makes it speculative hardening, so nit."
+  },
+  "raw_text": "{\"reason\": \"The leak is real in principle: if os.fdopen raises, the raw fd from mkstemp is never closed. However, with a valid fd and a fixed text mode, os.fdopen rarely fails, and the comment does not name a concrete failure path. That makes it speculative hardening, so nit.\", \"label\": \"nit\"}",
+  "request_id": "req_011CgRLfJF3fvPQe6nFMS7Q2",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00023556,
+   "input_tokens": 769,
+   "latency_ms": 2907,
+   "output_tokens": 304
+  }
+ }
+}

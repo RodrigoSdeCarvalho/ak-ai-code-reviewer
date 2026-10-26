@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:14+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "73a8f6ae6da8a21ec57fd0570bca7638",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2129,
+  "user_sha256": "e95f12fa93b30109aed50a187d695f011841f9695dd1e170c1f3260ea4340f84"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The code caps tokens at capacity (line 69), so a request with cost greater than capacity can never satisfy tokens >= cost at line 70 and is always denied. The comment's claim is accurate and causes a concrete, persistent failure for such requests, though the retry_after and middleware details are not fully shown in the excerpt."
+  },
+  "raw_text": "{\"reason\": \"The code caps tokens at capacity (line 69), so a request with cost greater than capacity can never satisfy tokens >= cost at line 70 and is always denied. The comment's claim is accurate and causes a concrete, persistent failure for such requests, though the retry_after and middleware details are not fully shown in the excerpt.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLgSJ1FCE3re2Nc3aaU",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00015435999999999998,
+   "input_tokens": 857,
+   "latency_ms": 1843,
+   "output_tokens": 124
+  }
+ }
+}

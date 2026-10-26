@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:35+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "33f567b9a7e2f7a2dbf15c8017a39581",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2054,
+  "user_sha256": "7724efb95e8e1a36a8be8876c8d6977512649128848b5e60829d87aeaaf9a645"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: delete_entry at line 76 uses _require_reader, letting any shared reader (not just the owner) permanently delete the owner's entry, when _require_owner should be used as in other mutating handlers.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: delete_entry at line 76 uses _require_reader, letting any shared reader (not just the owner) permanently delete the owner's entry, when _require_owner should be used as in other mutating handlers.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdaig28Tj28kbhsQbc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013854,
+   "input_tokens": 786,
+   "latency_ms": 1078,
+   "output_tokens": 94
+  }
+ }
+}

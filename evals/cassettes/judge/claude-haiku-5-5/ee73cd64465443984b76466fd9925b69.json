@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:32+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "ee73cd64465443984b76466fd9925b69",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2716,
+  "user_sha256": "57ee4346d386129957d0f511b901e794a5348bd2356f5a60dda1f8f99fed9530"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The except clause only catches InventoryError, so any other exception from conn.put or conn.commit skips rollback and also skips the release call after the try block. That leaks the pooled connection and can leave a half-applied transaction, which is a concrete failure path visible in the code."
+  },
+  "raw_text": "{\"reason\": \"The except clause only catches InventoryError, so any other exception from conn.put or conn.commit skips rollback and also skips the release call after the try block. That leaks the pooled connection and can leave a half-applied transaction, which is a concrete failure path visible in the code.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLhdgduvHBmixqbDLdq",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00025586,
+   "input_tokens": 977,
+   "latency_ms": 2875,
+   "output_tokens": 303
+  }
+ }
+}

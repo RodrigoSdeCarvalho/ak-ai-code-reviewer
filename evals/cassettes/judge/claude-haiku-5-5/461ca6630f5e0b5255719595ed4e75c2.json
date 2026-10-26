@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:21+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "461ca6630f5e0b5255719595ed4e75c2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2202,
+  "user_sha256": "7a878b35c656cbc8e4b8071ea2764b8807546f527d7f67af6b70c09609ef73f5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the denied path does not advance updated_at, so refill is double-counted on repeated denied calls, admitting extra requests. Description B says cost above capacity can never be satisfied because tokens are capped at capacity, so such requests are always denied. These are different failures (over-admission from repeated refill counting versus permanent denial for oversized cost) at overlapping lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the denied path does not advance updated_at, so refill is double-counted on repeated denied calls, admitting extra requests. Description B says cost above capacity can never be satisfied because tokens are capped at capacity, so such requests are always denied. These are different failures (over-admission from repeated refill counting versus permanent denial for oversized cost) at overlapping lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLcVQQtvspS9qvLxQ2J",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016694,
+   "input_tokens": 850,
+   "latency_ms": 1765,
+   "output_tokens": 138
+  }
+ }
+}

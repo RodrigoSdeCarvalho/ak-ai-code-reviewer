@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "135186b43161e685c3e20c10628ccfbe",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 15679,
+  "user_sha256": "cf802054654e78df9139881001360b19106db38c2060e8d401cf047ee6f214b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The old code used urlsplit, which handled bracketed IPv6 hosts such as \"[::1]:5000\". partition(\":\") splits at the first colon, so sn_host becomes \"[\" and sn_port becomes \":1]:5000\". app.run() then binds to host \"[\", and the later int(sn_port) raises ValueError. The old code also stripped brackets and lowercased the hostname, and that is lost too.",
+     "file": "src/flask/app.py",
+     "line": 724,
+     "severity": "medium",
+     "suggestion": "Keep using urlsplit(f\"//{server_name}\") for hostname and port, or use rpartition with bracket handling.",
+     "title": "SERVER_NAME parsing with partition(\":\") breaks IPv6 literals"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.55,
+     "description": "The old code used urlsplit(host_url).hostname or \"localhost\". The new code uses host.partition(\":\")[0]. For an IPv6 host such as \"[::1]:5000\" this yields \"[\", so the cookie domain is wrong and the session cookie is not sent on later requests. An empty host gives \"\" instead of \"localhost\". The hostname is also no longer lowercased.",
+     "file": "src/flask/testing.py",
+     "line": 180,
+     "severity": "medium",
+     "suggestion": "Restore urlsplit(ctx.request.host_url).hostname or \"localhost\".",
+     "title": "Cookie domain no longer falls back to localhost and breaks on IPv6 hosts"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"src/flask/app.py\",\"line\":724,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"SERVER_NAME parsing with partition(\\\":\\\") breaks IPv6 literals\",\"description\":\"The old code used urlsplit, which handled bracketed IPv6 hosts such as \\\"[::1]:5000\\\". partition(\\\":\\\") splits at the first colon, so sn_host becomes \\\"[\\\" and sn_port becomes \\\":1]:5000\\\". app.run() then binds to host \\\"[\\\", and the later int(sn_port) raises ValueError. The old code also stripped brackets and lowercased the hostname, and that is lost too.\",\"suggestion\":\"Keep using urlsplit(f\\\"//{server_name}\\\") for hostname and port, or use rpartition with bracket handling.\",\"confidence\":0.6},{\"file\":\"src/flask/testing.py\",\"line\":180,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Cookie domain no longer falls back to localhost and breaks on IPv6 hosts\",\"description\":\"The old code used urlsplit(host_url).hostname or \\\"localhost\\\". The new code uses host.partition(\\\":\\\")[0]. For an IPv6 host such as \\\"[::1]:5000\\\" this yields \\\"[\\\", so the cookie domain is wrong and the session cookie is not sent on later requests. An empty host gives \\\"\\\" instead of \\\"localhost\\\". The hostname is also no longer lowercased.\",\"suggestion\":\"Restore urlsplit(ctx.request.host_url).hostname or \\\"localhost\\\".\",\"confidence\":0.55}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0092385,
+   "input_tokens": 6364,
+   "latency_ms": null,
+   "output_tokens": 523
+  }
+ }
+}

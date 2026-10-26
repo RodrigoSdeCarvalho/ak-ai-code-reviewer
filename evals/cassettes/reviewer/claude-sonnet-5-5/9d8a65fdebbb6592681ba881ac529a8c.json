@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "9d8a65fdebbb6592681ba881ac529a8c",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 3078,
+  "user_sha256": "a87a34e18b78cf5b40dd4ad81e2577b7a19ff50b715a130cbbb521cb04973daf"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.6,
+     "description": "The removed helper `_read_file_bytes` saved the file position and seeked back after reading. Now `value.read()` leaves the underlying file at EOF. If the same UploadFile is read again (for example when the body is parsed more than once, when another field or dependency also receives the same upload, or when `request.form()` is reused), it will return empty bytes. Data is silently lost on the second read, so the second consumer sees an empty upload.",
+     "end_line": 1078,
+     "file": "fastapi/dependencies/utils.py",
+     "line": 1070,
+     "severity": "medium",
+     "suggestion": "Restore the position after reading: record `file.file.tell()` before the read and `await file.seek(position)` in a `finally` block, as the removed helper did. Alternatively, keep the helper and use it at both call sites.",
+     "title": "UploadFile position no longer restored after reading bytes"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"fastapi/dependencies/utils.py\",\"line\":1070,\"end_line\":1078,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"UploadFile position no longer restored after reading bytes\",\"description\":\"The removed helper `_read_file_bytes` saved the file position and seeked back after reading. Now `value.read()` leaves the underlying file at EOF. If the same UploadFile is read again (for example when the body is parsed more than once, when another field or dependency also receives the same upload, or when `request.form()` is reused), it will return empty bytes. Data is silently lost on the second read, so the second consumer sees an empty upload.\",\"suggestion\":\"Restore the position after reading: record `file.file.tell()` before the read and `await file.seek(position)` in a `finally` block, as the removed helper did. Alternatively, keep the helper and use it at both call sites.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0029055,
+   "input_tokens": 1131,
+   "latency_ms": null,
+   "output_tokens": 303
+  }
+ }
+}

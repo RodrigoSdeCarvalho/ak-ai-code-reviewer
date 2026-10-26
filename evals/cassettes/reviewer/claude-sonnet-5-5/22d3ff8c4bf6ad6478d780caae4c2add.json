@@ -1,0 +1,71 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "22d3ff8c4bf6ad6478d780caae4c2add",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 7773,
+  "user_sha256": "861a2e980ea6e1734631e17f54e9da5627aeefec07ca990c97db0151d6f8de04"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "resource",
+     "confidence": 0.95,
+     "description": "In reserve(), release() is called only on the success path after the try/except. If InventoryError is raised, the handler re-raises and release() on line 96 is skipped, leaking the pooled connection on every failed reservation (insufficient stock, unknown SKU, duplicate). Other exceptions (DB errors) skip both rollback and release. The pool will be exhausted under normal failure traffic.",
+     "end_line": 96,
+     "file": "inventory/service.py",
+     "line": 93,
+     "severity": "high",
+     "suggestion": "Use try/except/finally: roll back on any exception (`except Exception: conn.rollback(); raise`) and call self._pool.release(conn) in a finally block.",
+     "title": "Connection leaked and not rolled back on non-InventoryError exceptions"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.35,
+     "description": "Each line re-reads the stock row and checks free stock independently. If the same SKU appears in multiple lines, the result depends on whether conn.get returns a fresh copy or shared object. With copies and uncommitted puts not visible, the second line's free check ignores the first line's reservation, which could over-reserve. Also the check-then-write is not locked, so concurrent reserves can oversell.",
+     "end_line": 90,
+     "file": "inventory/service.py",
+     "line": 82,
+     "severity": "medium",
+     "suggestion": "Aggregate quantities per SKU before checking, and read stock rows with a lock (e.g. SELECT FOR UPDATE) within the transaction.",
+     "title": "Duplicate SKUs in lines can over-reserve or depend on mutable row aliasing"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "If a stock row is missing, row is None and `row['reserved']` raises TypeError mid-loop after earlier puts, with no rollback before the connection is released to the pool, leaving partial uncommitted changes on a reused connection.",
+     "end_line": 107,
+     "file": "inventory/service.py",
+     "line": 106,
+     "severity": "low",
+     "suggestion": "Add rollback on exception before releasing, and handle a missing row explicitly.",
+     "title": "cancel has no rollback and assumes the stock row exists"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"inventory/service.py\",\"line\":93,\"end_line\":96,\"severity\":\"high\",\"category\":\"resource\",\"title\":\"Connection leaked and not rolled back on non-InventoryError exceptions\",\"description\":\"In reserve(), release() is called only on the success path after the try/except. If InventoryError is raised, the handler re-raises and release() on line 96 is skipped, leaking the pooled connection on every failed reservation (insufficient stock, unknown SKU, duplicate). Other exceptions (DB errors) skip both rollback and release. The pool will be exhausted under normal failure traffic.\",\"suggestion\":\"Use try/except/finally: roll back on any exception (`except Exception: conn.rollback(); raise`) and call self._pool.release(conn) in a finally block.\",\"confidence\":0.95},{\"file\":\"inventory/service.py\",\"line\":82,\"end_line\":90,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Duplicate SKUs in lines can over-reserve or depend on mutable row aliasing\",\"description\":\"Each line re-reads the stock row and checks free stock independently. If the same SKU appears in multiple lines, the result depends on whether conn.get returns a fresh copy or shared object. With copies and uncommitted puts not visible, the second line's free check ignores the first line's reservation, which could over-reserve. Also the check-then-write is not locked, so concurrent reserves can oversell.\",\"suggestion\":\"Aggregate quantities per SKU before checking, and read stock rows with a lock (e.g. SELECT FOR UPDATE) within the transaction.\",\"confidence\":0.35},{\"file\":\"inventory/service.py\",\"line\":106,\"end_line\":107,\"severity\":\"low\",\"category\":\"error_handling\",\"title\":\"cancel has no rollback and assumes the stock row exists\",\"description\":\"If a stock row is missing, row is None and `row['reserved']` raises TypeError mid-loop after earlier puts, with no rollback before the connection is released to the pool, leaving partial uncommitted changes on a reused connection.\",\"suggestion\":\"Add rollback on exception before releasing, and handle a missing row explicitly.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0069035,
+   "input_tokens": 3054,
+   "latency_ms": null,
+   "output_tokens": 718
+  }
+ }
+}

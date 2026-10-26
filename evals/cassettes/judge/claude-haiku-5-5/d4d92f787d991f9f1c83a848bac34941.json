@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:39+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d4d92f787d991f9f1c83a848bac34941",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2377,
+  "user_sha256": "b73cad3bafa861f3a9103b47a233de843c1aea4a407ef9dadb337842ab459639"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: comp_tickets is gated only by require_login rather than a staff/admin role check, letting any logged-in user issue free tickets to arbitrary holders and events, depleting capacity or giving away paid inventory. Description B cites line 96 (the require_login line within the function), which is within the range Description A lists, so they point at the same place.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: comp_tickets is gated only by require_login rather than a staff/admin role check, letting any logged-in user issue free tickets to arbitrary holders and events, depleting capacity or giving away paid inventory. Description B cites line 96 (the require_login line within the function), which is within the range Description A lists, so they point at the same place.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdrr2zNa4nWpkWBbsy",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017144,
+   "input_tokens": 905,
+   "latency_ms": 1514,
+   "output_tokens": 136
+  }
+ }
+}

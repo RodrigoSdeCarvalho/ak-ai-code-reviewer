@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:38+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "30f788d302694240aa2e195c0c8f938f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1857,
+  "user_sha256": "2283e86554abe96ed2adf1e9e71e9d00346b828268b37e1134e0f790af724843"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 49: _new_code uses the non-cryptographic random module (Mersenne Twister) to generate invite bearer codes, so predictable codes let attackers join workspaces without invitation. Different wording and detail, same root cause and place.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 49: _new_code uses the non-cryptographic random module (Mersenne Twister) to generate invite bearer codes, so predictable codes let attackers join workspaces without invitation. Different wording and detail, same root cause and place.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdmd1vB4WzAVpzyVsh",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013554000000000002,
+   "input_tokens": 691,
+   "latency_ms": 1155,
+   "output_tokens": 107
+  }
+ }
+}

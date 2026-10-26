@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:52+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a05aae540c8c0e156e29ea752c94c82b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2228,
+  "user_sha256": "0562f43ea2e802edee3ac1968b78a54591210dd53b54f6613eaef07c358f34b0"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the one-shot iterator `lines` is consumed by the count on line 42, so the main loop sees nothing and the job reports success with zero events. Description B says the retry branch on line 51 returns an un-awaited coroutine instead of an Event, so timed-out lookups corrupt or crash output. These are different failures at different lines with different causes.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the one-shot iterator `lines` is consumed by the count on line 42, so the main loop sees nothing and the job reports success with zero events. Description B says the retry branch on line 51 returns an un-awaited coroutine instead of an Event, so timed-out lookups corrupt or crash output. These are different failures at different lines with different causes.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLeq3RFvnyJ5u8Y132z",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016304,
+   "input_tokens": 846,
+   "latency_ms": 1390,
+   "output_tokens": 131
+  }
+ }
+}

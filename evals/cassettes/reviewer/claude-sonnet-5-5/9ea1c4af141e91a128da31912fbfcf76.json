@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "9ea1c4af141e91a128da31912fbfcf76",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11903,
+  "user_sha256": "cfc2f3501d8fe7c0a41da90034a1eab84024c8f13527a5cb546e1a98063edbbb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.93,
+     "description": "`total = sum(1 for _ in lines)` iterates the whole `lines` iterable. The CLI passes an open file object, which is a one-shot iterator. After the count it is exhausted, so the `for line in lines` loop at line 54 sees no lines. The output is empty and stats.read is 0, while progress reports 0/total.",
+     "file": "pipeline/runner.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Avoid the pre-pass: pass total as an optional argument, or materialize the lines into a list (at the cost of memory), or seek the file back to the start. Alternatively drop the total from the progress callback.",
+     "title": "Counting lines consumes a one-shot iterator, so nothing is processed"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "In the except branch, `return enrich(event, geo)` is missing `await`. enrich_one therefore returns a coroutine object. The retry never runs inside the semaphore, a second LookupTimeout is never raised in this task so it cannot abort the run as documented, and `sink` receives a coroutine rather than an Event. `to_json` then fails or writes garbage, and a 'coroutine was never awaited' warning appears.",
+     "file": "pipeline/runner.py",
+     "line": 51,
+     "severity": "critical",
+     "suggestion": "Use `return await enrich(event, geo)` so the retry runs under the semaphore and a second timeout propagates.",
+     "title": "Retry returns an un-awaited coroutine instead of the Event"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/runner.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Counting lines consumes a one-shot iterator, so nothing is processed\",\"description\":\"`total = sum(1 for _ in lines)` iterates the whole `lines` iterable. The CLI passes an open file object, which is a one-shot iterator. After the count it is exhausted, so the `for line in lines` loop at line 54 sees no lines. The output is empty and stats.read is 0, while progress reports 0/total.\",\"suggestion\":\"Avoid the pre-pass: pass total as an optional argument, or materialize the lines into a list (at the cost of memory), or seek the file back to the start. Alternatively drop the total from the progress callback.\",\"confidence\":0.93},{\"file\":\"pipeline/runner.py\",\"line\":51,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Retry returns an un-awaited coroutine instead of the Event\",\"description\":\"In the except branch, `return enrich(event, geo)` is missing `await`. enrich_one therefore returns a coroutine object. The retry never runs inside the semaphore, a second LookupTimeout is never raised in this task so it cannot abort the run as documented, and `sink` receives a coroutine rather than an Event. `to_json` then fails or writes garbage, and a 'coroutine was never awaited' warning appears.\",\"suggestion\":\"Use `return await enrich(event, geo)` so the retry runs under the semaphore and a second timeout propagates.\",\"confidence\":0.95}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0079375,
+   "input_tokens": 5098,
+   "latency_ms": null,
+   "output_tokens": 516
+  }
+ }
+}

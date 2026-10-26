@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "cb5e4feb305c7f97dfffdc660a7f1834",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 11903,
+  "user_sha256": "cfc2f3501d8fe7c0a41da90034a1eab84024c8f13527a5cb546e1a98063edbbb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "`total = sum(1 for _ in lines)` exhausts `lines` before the main loop runs. The CLI passes an open file object, which is a one-shot iterator. The `for line in lines` loop then sees no lines, so read/written stay 0 and the output file is empty. Progress reports 0/total.",
+     "file": "pipeline/runner.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Avoid the pre-count (report progress without a total), or materialise the lines in a list, or count in a separate pass that reopens or seeks the file.",
+     "title": "Counting lines consumes a one-shot iterator, so nothing is processed"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "In the `except LookupTimeout` branch the code does `return enrich(event, geo)` without `await`. `enrich_one` therefore returns a coroutine object, which `_flush` passes to `sink`. `to_json` then fails or writes garbage, and the coroutine is never awaited. The retry never actually runs. A second timeout would not abort the run as documented.",
+     "file": "pipeline/runner.py",
+     "line": 51,
+     "severity": "critical",
+     "suggestion": "Use `return await enrich(event, geo)` so the retry runs and a second LookupTimeout propagates.",
+     "title": "Retry returns an un-awaited coroutine instead of the Event"
+    },
+    {
+     "category": "resource",
+     "confidence": 0.3,
+     "description": "`asyncio.gather` without handling leaves the other tasks running when one raises, so they may continue after the exception propagates. Because the sink is only called after the whole batch completes, a failure discards that batch's results. Earlier batches are already written, so the output file is left partially written.",
+     "file": "pipeline/runner.py",
+     "line": 79,
+     "severity": "medium",
+     "suggestion": "Use `asyncio.TaskGroup`, or cancel the pending tasks on error.",
+     "title": "Failure in one lookup leaves sibling tasks running and the batch partially handled"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/runner.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Counting lines consumes a one-shot iterator, so nothing is processed\",\"description\":\"`total = sum(1 for _ in lines)` exhausts `lines` before the main loop runs. The CLI passes an open file object, which is a one-shot iterator. The `for line in lines` loop then sees no lines, so read/written stay 0 and the output file is empty. Progress reports 0/total.\",\"suggestion\":\"Avoid the pre-count (report progress without a total), or materialise the lines in a list, or count in a separate pass that reopens or seeks the file.\",\"confidence\":0.95},{\"file\":\"pipeline/runner.py\",\"line\":51,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Retry returns an un-awaited coroutine instead of the Event\",\"description\":\"In the `except LookupTimeout` branch the code does `return enrich(event, geo)` without `await`. `enrich_one` therefore returns a coroutine object, which `_flush` passes to `sink`. `to_json` then fails or writes garbage, and the coroutine is never awaited. The retry never actually runs. A second timeout would not abort the run as documented.\",\"suggestion\":\"Use `return await enrich(event, geo)` so the retry runs and a second LookupTimeout propagates.\",\"confidence\":0.97},{\"file\":\"pipeline/runner.py\",\"line\":79,\"severity\":\"medium\",\"category\":\"resource\",\"title\":\"Failure in one lookup leaves sibling tasks running and the batch partially handled\",\"description\":\"`asyncio.gather` without handling leaves the other tasks running when one raises, so they may continue after the exception propagates. Because the sink is only called after the whole batch completes, a failure discards that batch's results. Earlier batches are already written, so the output file is left partially written.\",\"suggestion\":\"Use `asyncio.TaskGroup`, or cancel the pending tasks on error.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0086725,
+   "input_tokens": 5098,
+   "latency_ms": null,
+   "output_tokens": 663
+  }
+ }
+}

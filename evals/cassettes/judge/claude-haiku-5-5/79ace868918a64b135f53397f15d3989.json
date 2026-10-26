@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:25+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "79ace868918a64b135f53397f15d3989",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2782,
+  "user_sha256": "ab40714e5a6456776c810f327d5d0fcc4811f2af58f249d5cb32bf77578230a5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A concerns the write ordering in put(): metadata is replaced before the blob, creating a window of mismatched state and inconsistency on failure. Description B concerns the mutable default argument metadata={} being shared and mutated by setdefault, so content-type leaks across calls. Different root causes at different lines of the same function.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A concerns the write ordering in put(): metadata is replaced before the blob, creating a window of mismatched state and inconsistency on failure. Description B concerns the mutable default argument metadata={} being shared and mutated by setdefault, so content-type leaks across calls. Different root causes at different lines of the same function.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLcqBZF8ggQYnxepy5z",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018014,
+   "input_tokens": 1067,
+   "latency_ms": 1592,
+   "output_tokens": 121
+  }
+ }
+}

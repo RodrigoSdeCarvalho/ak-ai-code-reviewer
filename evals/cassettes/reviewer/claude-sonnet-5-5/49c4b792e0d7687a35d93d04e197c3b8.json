@@ -1,0 +1,81 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "49c4b792e0d7687a35d93d04e197c3b8",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 17887,
+  "user_sha256": "d2733e4831686f934b3c7f7a64cf87d5e8943f27036f3992a878ed1a8974fac2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.95,
+     "description": "The eviction loop compares len(self._keys_by_country), the number of distinct countries, with max_entries. The number of cached rates is len(self._entries). The cache therefore never evicts until there are more than max_entries countries, so it grows without bound by postal code. The old lru_cache(maxsize=4096) capped the number of rates, so this removes that bound.",
+     "end_line": 108,
+     "file": "billing/ratecache.py",
+     "line": 107,
+     "severity": "high",
+     "suggestion": "Use `while len(self._entries) > self._max_entries:`.",
+     "title": "Capacity check counts countries instead of entries"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "Entries expire by TTL but are never removed from _entries or _keys_by_country when they are replaced. The expired key is re-stored, which is harmless for the set. However, `_evict_oldest` and `invalidate_country` assume the indexes stay in sync. `invalidate_country` does `del self._entries[key]`, which raises KeyError if a key was already evicted. This is currently guarded because eviction removes the key from the set, but the capacity-check bug above leaves the eviction path wrongly gated.",
+     "end_line": 97,
+     "file": "billing/ratecache.py",
+     "line": 94,
+     "severity": "medium",
+     "suggestion": "Use `self._entries.pop(key, None)` in invalidate_country to be robust.",
+     "title": "clear() does not reset stats while invalidate_country also ignores bookkeeping consistency"
+    },
+    {
+     "category": "concurrency",
+     "confidence": 0.4,
+     "description": "put_country_rates replaces the table and only then invalidates the cache. A concurrent lookup in the gap can still be served the old cached rate. A lookup that misses can load a rate and store it either side of the replace, so it may cache a rate from the old table after the invalidation if it started before. The class docstring claims the lock rules this out, but replace_country is not performed under the cache lock.",
+     "end_line": 38,
+     "file": "billing/admin.py",
+     "line": 37,
+     "severity": "medium",
+     "suggestion": "Perform the replace and the invalidation atomically, for example by running the table swap while holding the cache lock.",
+     "title": "Table replaced before cache invalidation; stale rate can be cached in between"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.35,
+     "description": "Normalising keys can map different input prefixes (e.g. 'ab 1' and 'AB1') to the same key. The later entry silently overwrites the earlier one, which may have a different rate, and no error is reported.",
+     "file": "billing/admin.py",
+     "line": 24,
+     "severity": "medium",
+     "suggestion": "Detect duplicate normalised keys and return a 400.",
+     "title": "Distinct prefixes can collapse after normalisation and silently overwrite each other"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/ratecache.py\",\"line\":107,\"end_line\":108,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Capacity check counts countries instead of entries\",\"description\":\"The eviction loop compares len(self._keys_by_country), the number of distinct countries, with max_entries. The number of cached rates is len(self._entries). The cache therefore never evicts until there are more than max_entries countries, so it grows without bound by postal code. The old lru_cache(maxsize=4096) capped the number of rates, so this removes that bound.\",\"suggestion\":\"Use `while len(self._entries) > self._max_entries:`.\",\"confidence\":0.95},{\"file\":\"billing/ratecache.py\",\"line\":94,\"end_line\":97,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"clear() does not reset stats while invalidate_country also ignores bookkeeping consistency\",\"description\":\"Entries expire by TTL but are never removed from _entries or _keys_by_country when they are replaced. The expired key is re-stored, which is harmless for the set. However, `_evict_oldest` and `invalidate_country` assume the indexes stay in sync. `invalidate_country` does `del self._entries[key]`, which raises KeyError if a key was already evicted. This is currently guarded because eviction removes the key from the set, but the capacity-check bug above leaves the eviction path wrongly gated.\",\"suggestion\":\"Use `self._entries.pop(key, None)` in invalidate_country to be robust.\",\"confidence\":0.2},{\"file\":\"billing/admin.py\",\"line\":37,\"end_line\":38,\"severity\":\"medium\",\"category\":\"concurrency\",\"title\":\"Table replaced before cache invalidation; stale rate can be cached in between\",\"description\":\"put_country_rates replaces the table and only then invalidates the cache. A concurrent lookup in the gap can still be served the old cached rate. A lookup that misses can load a rate and store it either side of the replace, so it may cache a rate from the old table after the invalidation if it started before. The class docstring claims the lock rules this out, but replace_country is not performed under the cache lock.\",\"suggestion\":\"Perform the replace and the invalidation atomically, for example by running the table swap while holding the cache lock.\",\"confidence\":0.4},{\"file\":\"billing/admin.py\",\"line\":24,\"severity\":\"medium\",\"category\":\"logic\",\"title\":\"Distinct prefixes can collapse after normalisation and silently overwrite each other\",\"description\":\"Normalising keys can map different input prefixes (e.g. 'ab 1' and 'AB1') to the same key. The later entry silently overwrites the earlier one, which may have a different rate, and no error is reported.\",\"suggestion\":\"Detect duplicate normalised keys and return a 400.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0123155,
+   "input_tokens": 7491,
+   "latency_ms": null,
+   "output_tokens": 913
+  }
+ }
+}

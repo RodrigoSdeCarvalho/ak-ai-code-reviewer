@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "4ddc71fcafc4b817edf71da6f3152750",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10296,
+  "user_sha256": "cb6fdce9cabf623c22098602529370956ac328182e46fb741060744e33c50439"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "After `req.reject(requeue=False)` the handler no longer returns. `eta` stays None and execution falls through to the non-ETA path, which calls `task_reserved(req)`, the callbacks and `handle(req)`, so the already-rejected task is executed immediately. The message is rejected and may also be executed, and the ack/reject may happen twice. The task also runs without its ETA.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "high",
+     "suggestion": "Restore the `return` after `req.reject(requeue=False)`.",
+     "title": "Missing return after rejecting task with invalid ETA"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The removed `mark_as_failure` call stored the failure in the backend. Now the task is rejected without recording any result, so clients waiting on the result never see the failure and the task stays PENDING.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "medium",
+     "suggestion": "Restore the `req.task.backend.mark_as_failure(...)` call before rejecting.",
+     "title": "Task failure no longer recorded in result backend"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Missing return after rejecting task with invalid ETA\",\"description\":\"After `req.reject(requeue=False)` the handler no longer returns. `eta` stays None and execution falls through to the non-ETA path, which calls `task_reserved(req)`, the callbacks and `handle(req)`, so the already-rejected task is executed immediately. The message is rejected and may also be executed, and the ack/reject may happen twice. The task also runs without its ETA.\",\"suggestion\":\"Restore the `return` after `req.reject(requeue=False)`.\",\"confidence\":0.9},{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Task failure no longer recorded in result backend\",\"description\":\"The removed `mark_as_failure` call stored the failure in the backend. Now the task is rejected without recording any result, so clients waiting on the result never see the failure and the task stays PENDING.\",\"suggestion\":\"Restore the `req.task.backend.mark_as_failure(...)` call before rejecting.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0064015,
+   "input_tokens": 4162,
+   "latency_ms": null,
+   "output_tokens": 396
+  }
+ }
+}

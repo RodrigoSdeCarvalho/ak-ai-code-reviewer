@@ -1,0 +1,59 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "fa771e1fa84750ecd2469c2432ba3d3c",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6003,
+  "user_sha256": "48f3ca5db8f5b1be2502b8d083419ccac396f468a61413d242d63cb609af8b82"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.9,
+     "description": "The try block wraps self._flush, so any exception from sink.write (I/O error, DB outage) is caught by `except Exception`. The whole batch has been detached from `batch` (line 65), so up to batch_size rows are silently dropped, yet only the single current row is recorded as rejected, with the sink error as its reason. The load continues and returns a report that looks mostly successful, though rows were lost. Sink errors are not row-level parse errors and should propagate.",
+     "end_line": 68,
+     "file": "pipeline/load.py",
+     "line": 67,
+     "severity": "high",
+     "suggestion": "Only wrap parse_row in the try/except; call self._flush outside it so sink failures propagate (or are handled separately).",
+     "title": "Sink write failures are caught and recorded as a rejected row"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "Catching Exception around parsing turns programming errors (e.g. AttributeError, TypeError from a bug in parse_row) into per-row rejections, up to max_rejected. Only the expected parse/validation errors should be treated as malformed rows.",
+     "file": "pipeline/load.py",
+     "line": 67,
+     "severity": "low",
+     "suggestion": "Catch the specific exception(s) parse_row raises, e.g. ValueError or a ParseError class.",
+     "title": "Over-broad except Exception hides non-parse bugs"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"pipeline/load.py\",\"line\":67,\"end_line\":68,\"severity\":\"high\",\"category\":\"error_handling\",\"title\":\"Sink write failures are caught and recorded as a rejected row\",\"description\":\"The try block wraps self._flush, so any exception from sink.write (I/O error, DB outage) is caught by `except Exception`. The whole batch has been detached from `batch` (line 65), so up to batch_size rows are silently dropped, yet only the single current row is recorded as rejected, with the sink error as its reason. The load continues and returns a report that looks mostly successful, though rows were lost. Sink errors are not row-level parse errors and should propagate.\",\"suggestion\":\"Only wrap parse_row in the try/except; call self._flush outside it so sink failures propagate (or are handled separately).\",\"confidence\":0.9},{\"file\":\"pipeline/load.py\",\"line\":67,\"severity\":\"low\",\"category\":\"error_handling\",\"title\":\"Over-broad except Exception hides non-parse bugs\",\"description\":\"Catching Exception around parsing turns programming errors (e.g. AttributeError, TypeError from a bug in parse_row) into per-row rejections, up to max_rejected. Only the expected parse/validation errors should be treated as malformed rows.\",\"suggestion\":\"Catch the specific exception(s) parse_row raises, e.g. ValueError or a ParseError class.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0050545,
+   "input_tokens": 2460,
+   "latency_ms": null,
+   "output_tokens": 467
+  }
+ }
+}

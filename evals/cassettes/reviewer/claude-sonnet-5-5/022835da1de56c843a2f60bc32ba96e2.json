@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "022835da1de56c843a2f60bc32ba96e2",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 13344,
+  "user_sha256": "717f445f727c7a575b89d7154d7d35caf251d4606f48e7b0e28ba97f13ab6d30"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "performance",
+     "confidence": 0.85,
+     "description": "The old code loaded each distinct sensor's calibration once per batch. The new `calibrated()` calls `source.load()` for every reading, so a batch with N readings runs N SQL queries instead of one per sensor. Large batches become slow and put needless load on the database.",
+     "file": "greenhouse/readings.py",
+     "line": 58,
+     "severity": "medium",
+     "suggestion": "Cache calibrations per sensor_id within `summarize` (a dict, or a local memo passed into `calibrated`) so each sensor is loaded once per batch.",
+     "title": "Calibration loaded from the database for every reading"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.2,
+     "description": "A zone is marked 'inspect' when `mean is None` or the rejected share is too high. The reason always says '{rejected} readings out of range'. With a policy where `max_rejected_share` is below the actual share the message is accurate, but a zone with `mean is None` and `rejected == 0` cannot occur from `summarize`. For other callers building summaries by hand, the message would read '0 readings out of range', which hides the real cause.",
+     "file": "greenhouse/irrigation.py",
+     "line": 35,
+     "severity": "low",
+     "suggestion": "Build the reason from the actual condition, for example 'no valid readings' versus 'X of Y readings rejected'.",
+     "title": "Inspect reason is misleading when there are no rejected readings"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"greenhouse/readings.py\",\"line\":58,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Calibration loaded from the database for every reading\",\"description\":\"The old code loaded each distinct sensor's calibration once per batch. The new `calibrated()` calls `source.load()` for every reading, so a batch with N readings runs N SQL queries instead of one per sensor. Large batches become slow and put needless load on the database.\",\"suggestion\":\"Cache calibrations per sensor_id within `summarize` (a dict, or a local memo passed into `calibrated`) so each sensor is loaded once per batch.\",\"confidence\":0.85},{\"file\":\"greenhouse/irrigation.py\",\"line\":35,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Inspect reason is misleading when there are no rejected readings\",\"description\":\"A zone is marked 'inspect' when `mean is None` or the rejected share is too high. The reason always says '{rejected} readings out of range'. With a policy where `max_rejected_share` is below the actual share the message is accurate, but a zone with `mean is None` and `rejected == 0` cannot occur from `summarize`. For other callers building summaries by hand, the message would read '0 readings out of range', which hides the real cause.\",\"suggestion\":\"Build the reason from the actual condition, for example 'no valid readings' versus 'X of Y readings rejected'.\",\"confidence\":0.2}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0083525,
+   "input_tokens": 5733,
+   "latency_ms": null,
+   "output_tokens": 472
+  }
+ }
+}

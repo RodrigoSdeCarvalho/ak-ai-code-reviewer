@@ -1,0 +1,37 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "3715387abd60a25d43d146c89fb91dd6",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6749,
+  "user_sha256": "4cbd0870861136d53d1d6790a84a9f117e32a8d6cc25575bb191f5612ccc9ad4"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": []
+  },
+  "raw_text": "{\"findings\":[]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 2595,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00617375,
+   "input_tokens": 2880,
+   "latency_ms": null,
+   "output_tokens": 10
+  }
+ }
+}

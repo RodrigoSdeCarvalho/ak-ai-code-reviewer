@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "323ca7ae3f4daf082128f061dbeb46ea",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2212,
+  "user_sha256": "91879b58405585933f60e5e17b06cb6d6a0f41457928aef08b0d50a16fe2fdf5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: when target.exists() is true at lines 65-66, put_stream returns early without removing the staged incoming file, so each duplicate upload leaves a full-size copy that accumulates in incoming/. Description A adds a claim about the pre-change code, but the core root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: when target.exists() is true at lines 65-66, put_stream returns early without removing the staged incoming file, so each duplicate upload leaves a full-size copy that accumulates in incoming/. Description A adds a claim about the pre-change code, but the core root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLeM1i2kySwRe6KZF3t",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014994,
+   "input_tokens": 775,
+   "latency_ms": 1360,
+   "output_tokens": 119
+  }
+ }
+}

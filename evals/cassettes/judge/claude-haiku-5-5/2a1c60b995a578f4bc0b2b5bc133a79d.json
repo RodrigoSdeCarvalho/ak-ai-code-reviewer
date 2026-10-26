@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2a1c60b995a578f4bc0b2b5bc133a79d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2150,
+  "user_sha256": "3da04e037ee6d96f8ec0a1a1ab950e8c21718c7a814cee156fbb883c5cb2213d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: when the digest already exists, the early return at line 66 skips unlinking the staged incoming/ temp file, so every duplicate upload leaks a full blob copy and disk usage grows unbounded. Different line attribution (65-66 vs 66) and wording do not change the shared root cause.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: when the digest already exists, the early return at line 66 skips unlinking the staged incoming/ temp file, so every duplicate upload leaks a full blob copy and disk usage grows unbounded. Different line attribution (65-66 vs 66) and wording do not change the shared root cause.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLeKerKfUPYybuqWD7v",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015154000000000003,
+   "input_tokens": 771,
+   "latency_ms": 1765,
+   "output_tokens": 123
+  }
+ }
+}

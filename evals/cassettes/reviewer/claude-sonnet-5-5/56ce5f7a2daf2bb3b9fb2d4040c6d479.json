@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "56ce5f7a2daf2bb3b9fb2d4040c6d479",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 20158,
+  "user_sha256": "dc8a27e6f55becb8700a56250673ef972fb55a5e77b4af373a8443194f48595f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "UsageKey is (account_id, metric, month), but the lookup uses (account_id, prior, metric). It never matches, so previous_total is always None and change is always 'n/a'. The month-over-month feature never works.",
+     "file": "metering/report.py",
+     "line": 69,
+     "severity": "high",
+     "suggestion": "Use usage.get((account_id, metric, prior)).",
+     "title": "Previous-month lookup uses wrong key order"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "After yielding a DailyTotal when the key changes, `quantity` is not reset to 0. The next day/metric/account starts with the previous group's total added to it, so all daily totals after the first are inflated, as are monthly totals, peaks and averages.",
+     "file": "metering/rollup.py",
+     "line": 58,
+     "severity": "critical",
+     "suggestion": "Set quantity = 0 after the yield, before adding the current event's quantity.",
+     "title": "Quantity accumulator not reset between groups"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.15,
+     "description": "`if not self.previous_total` treats a previous total of 0 as nothing to compare. This is arguably intended to avoid division by zero, but the guard also hides legitimate cases; it is minor.",
+     "file": "metering/report.py",
+     "line": 40,
+     "severity": "low",
+     "suggestion": "Keep the zero guard but make the intent explicit (`is None or == 0`).",
+     "title": "Zero previous total hidden while previous_total is shown"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"metering/report.py\",\"line\":69,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Previous-month lookup uses wrong key order\",\"description\":\"UsageKey is (account_id, metric, month), but the lookup uses (account_id, prior, metric). It never matches, so previous_total is always None and change is always 'n/a'. The month-over-month feature never works.\",\"suggestion\":\"Use usage.get((account_id, metric, prior)).\",\"confidence\":0.97},{\"file\":\"metering/rollup.py\",\"line\":58,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Quantity accumulator not reset between groups\",\"description\":\"After yielding a DailyTotal when the key changes, `quantity` is not reset to 0. The next day/metric/account starts with the previous group's total added to it, so all daily totals after the first are inflated, as are monthly totals, peaks and averages.\",\"suggestion\":\"Set quantity = 0 after the yield, before adding the current event's quantity.\",\"confidence\":0.97},{\"file\":\"metering/report.py\",\"line\":40,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Zero previous total hidden while previous_total is shown\",\"description\":\"`if not self.previous_total` treats a previous total of 0 as nothing to compare. This is arguably intended to avoid division by zero, but the guard also hides legitimate cases; it is minor.\",\"suggestion\":\"Keep the zero guard but make the intent explicit (`is None or == 0`).\",\"confidence\":0.15}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0110545,
+   "input_tokens": 8315,
+   "latency_ms": null,
+   "output_tokens": 496
+  }
+ }
+}

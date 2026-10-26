@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:50+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f032176e0d0ea2d8f087a03ec2292b30",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2198,
+  "user_sha256": "5a3c98038ac34e632ddde73217bf961dc995231fb4e383c31c44f8aa6cb686f8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a missing `await` on the retry branch at line 51, so a coroutine object is returned instead of an enriched event. Description B identifies line 42, where counting `lines` with `sum(1 for _ in lines)` exhausts a one-shot iterator so the main loop processes nothing. Different lines and different failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a missing `await` on the retry branch at line 51, so a coroutine object is returned instead of an enriched event. Description B identifies line 42, where counting `lines` with `sum(1 for _ in lines)` exhausts a one-shot iterator so the main loop processes nothing. Different lines and different failures.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLee5d3b8CSn8BcKAx7",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015844,
+   "input_tokens": 835,
+   "latency_ms": 1328,
+   "output_tokens": 124
+  }
+ }
+}

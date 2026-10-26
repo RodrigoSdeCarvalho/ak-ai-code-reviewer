@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "912aadcbb6ff86cfbec251fb09323dab",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2716,
+  "user_sha256": "8fa094fe1fe574d3efc134d8d0e45c8553a3092cd82008fa3ffddf24ec16ef26"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the mutable default argument `metadata: dict[str, str] = {}` at lines 73-80, where `setdefault` on the shared dict causes the first content-type guess to persist across later puts and also mutates caller-supplied dicts. The examples differ (pdf/png vs png/csv) but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the mutable default argument `metadata: dict[str, str] = {}` at lines 73-80, where `setdefault` on the shared dict causes the first content-type guess to persist across later puts and also mutates caller-supplied dicts. The examples differ (pdf/png vs png/csv) but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcmrsTP84qfPFQ1diR",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00018444,
+   "input_tokens": 1060,
+   "latency_ms": 1375,
+   "output_tokens": 131
+  }
+ }
+}

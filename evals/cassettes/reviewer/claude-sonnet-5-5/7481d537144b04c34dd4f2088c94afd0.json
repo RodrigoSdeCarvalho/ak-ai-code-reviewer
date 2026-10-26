@@ -1,0 +1,59 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "7481d537144b04c34dd4f2088c94afd0",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9095,
+  "user_sha256": "a633dd1b01b38a5b7577a357970c6933f5d3614e9c1e0d4ebbdb2b12632ecba7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "On a denied check, `bucket.tokens` is already increased by the elapsed refill, but `bucket.updated_at` is left at its old value. The next call computes `elapsed` from that same old timestamp and adds the refill again. Example: capacity 10, rate 1/s, tokens 0 at t=0. A cost-5 request at t=3 is denied and tokens become 3. At t=4 the elapsed time is 4 s, giving 7 tokens instead of the correct 4, so the request is allowed. Clients that keep retrying while limited get far more throughput than the configured rate, and the Retry-After values are too short.",
+     "end_line": 71,
+     "file": "ratelimit/limiter.py",
+     "line": 69,
+     "severity": "high",
+     "suggestion": "Set `bucket.updated_at = now` right after applying the refill, before the `bucket.tokens < cost` check, so it is updated on both the allow and deny paths.",
+     "title": "Refill is double-counted after a denied request because updated_at is not advanced"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "The `burst` config can be set below 5, the cost of expensive paths. The bucket can then never hold enough tokens, so `/v1/search` and `/v1/export` always return 429. The Retry-After value computed in that case is meaningless, because the wait never ends. Nothing validates this at build time.",
+     "file": "ratelimit/middleware.py",
+     "line": 54,
+     "severity": "low",
+     "suggestion": "Validate that burst is at least the maximum request cost, or cap the cost at capacity.",
+     "title": "Burst smaller than request cost makes expensive requests permanently denied"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"ratelimit/limiter.py\",\"line\":69,\"end_line\":71,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Refill is double-counted after a denied request because updated_at is not advanced\",\"description\":\"On a denied check, `bucket.tokens` is already increased by the elapsed refill, but `bucket.updated_at` is left at its old value. The next call computes `elapsed` from that same old timestamp and adds the refill again. Example: capacity 10, rate 1/s, tokens 0 at t=0. A cost-5 request at t=3 is denied and tokens become 3. At t=4 the elapsed time is 4 s, giving 7 tokens instead of the correct 4, so the request is allowed. Clients that keep retrying while limited get far more throughput than the configured rate, and the Retry-After values are too short.\",\"suggestion\":\"Set `bucket.updated_at = now` right after applying the refill, before the `bucket.tokens < cost` check, so it is updated on both the allow and deny paths.\",\"confidence\":0.9},{\"file\":\"ratelimit/middleware.py\",\"line\":54,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Burst smaller than request cost makes expensive requests permanently denied\",\"description\":\"The `burst` config can be set below 5, the cost of expensive paths. The bucket can then never hold enough tokens, so `/v1/search` and `/v1/export` always return 429. The Retry-After value computed in that case is meaningless, because the wait never ends. Nothing validates this at build time.\",\"suggestion\":\"Validate that burst is at least the maximum request cost, or cap the cost at capacity.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0087675,
+   "input_tokens": 3928,
+   "latency_ms": null,
+   "output_tokens": 916
+  }
+ }
+}

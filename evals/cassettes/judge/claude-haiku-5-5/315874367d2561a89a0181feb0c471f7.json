@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:11+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "315874367d2561a89a0181feb0c471f7",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1848,
+  "user_sha256": "c9386251adaa944a8d11ebc6782077ede4571000a014dd5e373851b497208723"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The multiplication `job.retry_delay * 2 ** (job.consecutive_failures - 1)` has no bound, and timedelta multiplication raises OverflowError once the result exceeds its maximum, which happens after roughly 40+ consecutive failures for a one-minute delay. `_retry_delay` runs inside the except block before the max_failures check, so the exception would propagate out of `_run`; whether it stops `tick()` depends on code not shown, but the overflow itself is real when max_failures is set high."
+  },
+  "raw_text": "{\"reason\": \"The multiplication `job.retry_delay * 2 ** (job.consecutive_failures - 1)` has no bound, and timedelta multiplication raises OverflowError once the result exceeds its maximum, which happens after roughly 40+ consecutive failures for a one-minute delay. `_retry_delay` runs inside the except block before the max_failures check, so the exception would propagate out of `_run`; whether it stops `tick()` depends on code not shown, but the overflow itself is real when max_failures is set high.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLfwqyd7CHS4zPcuvzU",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00047186,
+   "input_tokens": 697,
+   "latency_ms": 4875,
+   "output_tokens": 791
+  }
+ }
+}

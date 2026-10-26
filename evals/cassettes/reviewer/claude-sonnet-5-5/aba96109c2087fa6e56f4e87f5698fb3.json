@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "aba96109c2087fa6e56f4e87f5698fb3",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9090,
+  "user_sha256": "7307f2591c8d39a63aa1becdaf8a7cd0f5ba8f371d24abe578f0d6d169aca5d2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.97,
+     "description": "When the final attempt fails, the loop breaks and the function falls off the end, returning None instead of a Charge or raising. In settle_invoice, `except GatewayError` is never triggered for exhausted retries, so execution continues to `charge.id` and raises AttributeError on None. That aborts the whole settle_open_invoices run, and the invoice is never marked PAYMENT_FAILED.",
+     "end_line": 62,
+     "file": "billing/retry.py",
+     "line": 61,
+     "severity": "critical",
+     "suggestion": "Keep the last exception and re-raise it after the loop (e.g. `raise` in place of `break`, or `raise last_exc`).",
+     "title": "charge() returns None after retries are exhausted instead of raising"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/retry.py\",\"line\":61,\"end_line\":62,\"severity\":\"critical\",\"category\":\"error_handling\",\"title\":\"charge() returns None after retries are exhausted instead of raising\",\"description\":\"When the final attempt fails, the loop breaks and the function falls off the end, returning None instead of a Charge or raising. In settle_invoice, `except GatewayError` is never triggered for exhausted retries, so execution continues to `charge.id` and raises AttributeError on None. That aborts the whole settle_open_invoices run, and the invoice is never marked PAYMENT_FAILED.\",\"suggestion\":\"Keep the last exception and re-raise it after the loop (e.g. `raise` in place of `break`, or `raise last_exc`).\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0054325,
+   "input_tokens": 3858,
+   "latency_ms": null,
+   "output_tokens": 263
+  }
+ }
+}

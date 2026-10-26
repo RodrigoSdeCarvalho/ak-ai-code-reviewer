@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:55+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "a2952bb8811d61f57acccfdd0c05e4ea",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2219,
+  "user_sha256": "e49c0d6c799d3161577fbc9e0232edd0a863c181e73c3af8a253db3ef6f7b6b7"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The claim that the whitespace check rejects valid revisions like HEAD@{2 weeks ago} is accurate given line 37, so it describes a real behavior regression. However, the empty-until claim is wrong: until defaults to 'HEAD' and _revision('') would raise only if a caller explicitly passes an empty string, which is a narrow case. The core regression is a real, concrete behavior change that breaks previously working inputs."
+  },
+  "raw_text": "{\"reason\": \"The claim that the whitespace check rejects valid revisions like HEAD@{2 weeks ago} is accurate given line 37, so it describes a real behavior regression. However, the empty-until claim is wrong: until defaults to 'HEAD' and _revision('') would raise only if a caller explicitly passes an empty string, which is a narrow case. The core regression is a real, concrete behavior change that breaks previously working inputs.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLf3QpbioANTSx2u7my",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 666,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00025394999999999997,
+   "input_tokens": 912,
+   "latency_ms": 2047,
+   "output_tokens": 159
+  }
+ }
+}

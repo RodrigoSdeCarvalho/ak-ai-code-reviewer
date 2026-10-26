@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:26+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "185dcedac2497b256696e4dd69d03db1",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2225,
+  "user_sha256": "bc563d2fbe56f9817dc3a356584c6e7a97e4669f411f9b1ba11431278cc6b4fa"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: `active_skus` is a list, so the `scan.sku not in active_skus` membership test in unknown_locations is a linear scan per scan, making the work quadratic and slow for large stocktakes, with a set as the fix. The line range differs slightly (51-54 vs 54) but both point at the same membership test.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: `active_skus` is a list, so the `scan.sku not in active_skus` membership test in unknown_locations is a linear scan per scan, making the work quadratic and slow for large stocktakes, with a set as the fix. The line range differs slightly (51-54 vs 54) but both point at the same membership test.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLcsdeCYC4ErrAaLyud",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016904000000000002,
+   "input_tokens": 906,
+   "latency_ms": 1453,
+   "output_tokens": 131
+  }
+ }
+}

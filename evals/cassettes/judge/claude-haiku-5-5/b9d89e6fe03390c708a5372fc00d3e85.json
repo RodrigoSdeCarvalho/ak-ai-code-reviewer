@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b9d89e6fe03390c708a5372fc00d3e85",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2072,
+  "user_sha256": "5a2974e8f51e859f54edde4ba5d8385b88c537e35719dd5438a43d3422a2bc97"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: line 107 compares len(self._keys_by_country), the number of distinct countries, against max_entries instead of the number of cached entries, so eviction never triggers for realistic country counts and the cache grows unbounded. Both point at the same line and same failure with different wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: line 107 compares len(self._keys_by_country), the number of distinct countries, against max_entries instead of the number of cached entries, so eviction never triggers for realistic country counts and the cache grows unbounded. Both point at the same line and same failure with different wording.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.302000000000002e-05,
+   "input_tokens": 758,
+   "latency_ms": null,
+   "output_tokens": 116
+  }
+ }
+}

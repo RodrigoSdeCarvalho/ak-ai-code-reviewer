@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e0a5b4b19659603ea9bd8379842b5162",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2545,
+  "user_sha256": "c91856692bede608be8a7f8e245f799224a9d85bb0c137c281744e2cbecd00c5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same missing authorization check in move_card: it authorizes only against to_board_id and never checks the card's current board (card.board_id), letting an editor of one board pull a card from another board by id. They differ in emphasis (A stresses data exposure and removal from owner's board; B stresses unauthorized relocation) but name the same root cause and location.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same missing authorization check in move_card: it authorizes only against to_board_id and never checks the card's current board (card.board_id), letting an editor of one board pull a card from another board by id. They differ in emphasis (A stresses data exposure and removal from owner's board; B stresses unauthorized relocation) but name the same root cause and location.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.147e-05,
+   "input_tokens": 837,
+   "latency_ms": null,
+   "output_tokens": 134
+  }
+ }
+}

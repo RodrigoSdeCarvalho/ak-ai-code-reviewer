@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:33+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "23ac1261a25a7da0eb33970bc6613105",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2681,
+  "user_sha256": "80eb55e5eb85452e9b5de1724f4e70329335b207d90b861bd85e7ffbad95c0ce"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A reports a performance regression: per-key exists/get calls causing many Redis round trips instead of batched get_many. Description B reports that Bundle.locale changes to the normalised chain head, altering output and catalog lookup tags. Different root causes and different failures, both at nearby lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A reports a performance regression: per-key exists/get calls causing many Redis round trips instead of batched get_many. Description B reports that Bundle.locale changes to the normalised chain head, altering output and catalog lookup tags. Different root causes and different failures, both at nearby lines.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLdRkvDmdBpYecQDbns",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016914,
+   "input_tokens": 1007,
+   "latency_ms": 1329,
+   "output_tokens": 111
+  }
+ }
+}

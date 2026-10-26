@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3f4efe91edf703128291fe079e50824d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2441,
+  "user_sha256": "779a8485fd06b0561a08424442bd6d9f60ab82d034a31b81a2750bf72948221a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: in reserve(), self._pool.release(conn) at line 96 sits after the try/except, so when the except InventoryError branch re-raises, the connection is never released and leaks from the pool. Description A adds non-InventoryError paths and load effects, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: in reserve(), self._pool.release(conn) at line 96 sits after the try/except, so when the except InventoryError branch re-raises, the connection is never released and leaks from the pool. Description A adds non-InventoryError paths and load effects, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 7.862e-05,
+   "input_tokens": 855,
+   "latency_ms": null,
+   "output_tokens": 119
+  }
+ }
+}

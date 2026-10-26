@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "2d2fb51571418d254f1bf8db4154c2f2",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 8463,
+  "user_sha256": "192eedb2d694f43fa7ade5ca58a0688e8081225ff2a8d87b274351179b790bbe"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.3,
+     "description": "The bundle is built with locale=chain[0], which is the normalised tag. A caller passing 'pt_br' or 'PT-br' gets a bundle whose locale is 'pt-BR'. Previously the locale was returned as given. Callers that key bundles or reports by the requested string (e.g. missing_report) can now see a different key than the one they passed.",
+     "file": "i18n/bundles.py",
+     "line": 50,
+     "severity": "medium",
+     "suggestion": "Keep the requested locale in Bundle.locale, and use the normalised chain only for lookups. Or document and test the change.",
+     "title": "Bundle.locale is now the normalised locale, not the one requested"
+    },
+    {
+     "category": "performance",
+     "confidence": 0.4,
+     "description": "The previous code made one catalog.get_many call for all keys. The new code calls catalog.exists and catalog.get for every key in every candidate locale, so a page with N keys and a chain of length L makes up to 2*N*L catalog calls. If the catalog is backed by a DB or file, this becomes an N+1 pattern. The two calls per hit are also not atomic.",
+     "file": "i18n/bundles.py",
+     "line": 43,
+     "severity": "medium",
+     "suggestion": "Fetch with get_many per locale in the chain for the keys still unresolved, and shrink the unresolved set after each locale.",
+     "title": "Per-key exists/get calls replace the single batched get_many lookup"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"i18n/bundles.py\",\"line\":50,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Bundle.locale is now the normalised locale, not the one requested\",\"description\":\"The bundle is built with locale=chain[0], which is the normalised tag. A caller passing 'pt_br' or 'PT-br' gets a bundle whose locale is 'pt-BR'. Previously the locale was returned as given. Callers that key bundles or reports by the requested string (e.g. missing_report) can now see a different key than the one they passed.\",\"suggestion\":\"Keep the requested locale in Bundle.locale, and use the normalised chain only for lookups. Or document and test the change.\",\"confidence\":0.3},{\"file\":\"i18n/bundles.py\",\"line\":43,\"severity\":\"medium\",\"category\":\"performance\",\"title\":\"Per-key exists/get calls replace the single batched get_many lookup\",\"description\":\"The previous code made one catalog.get_many call for all keys. The new code calls catalog.exists and catalog.get for every key in every candidate locale, so a page with N keys and a chain of length L makes up to 2*N*L catalog calls. If the catalog is backed by a DB or file, this becomes an N+1 pattern. The two calls per hit are also not atomic.\",\"suggestion\":\"Fetch with get_many per locale in the chain for the keys still unresolved, and shrink the unresolved set after each locale.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0062765,
+   "input_tokens": 3617,
+   "latency_ms": null,
+   "output_tokens": 480
+  }
+ }
+}

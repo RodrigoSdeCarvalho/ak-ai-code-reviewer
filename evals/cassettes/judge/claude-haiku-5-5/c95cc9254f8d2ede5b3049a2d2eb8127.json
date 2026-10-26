@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "c95cc9254f8d2ede5b3049a2d2eb8127",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2686,
+  "user_sha256": "ab3797e34256f0ed8fad0d9110475685f2914eaed8fe582cfe0290531923919c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says days are split into multiple groups because timestamps with mixed UTC offsets make local dates non-monotonic in sort order, so the same day appears non-adjacent. Description B says quantity is never reset after yielding, so totals are running sums across days. The code shows quantity is reset nowhere, but the reset is not missing from the tracking; the real issue in B is a missing reset, while A is about grouping by non-UTC dates. Different root causes, even though both lie in daily_totals.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says days are split into multiple groups because timestamps with mixed UTC offsets make local dates non-monotonic in sort order, so the same day appears non-adjacent. Description B says quantity is never reset after yielding, so totals are running sums across days. The code shows quantity is reset nowhere, but the reset is not missing from the tracking; the real issue in B is a missing reset, while A is about grouping by non-UTC dates. Different root causes, even though both lie in daily_totals.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 0.00010027000000000001,
+   "input_tokens": 1003,
+   "latency_ms": null,
+   "output_tokens": 176
+  }
+ }
+}

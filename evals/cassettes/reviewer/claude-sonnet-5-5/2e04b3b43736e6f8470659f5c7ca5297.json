@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "2e04b3b43736e6f8470659f5c7ca5297",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 10296,
+  "user_sha256": "cb6fdce9cabf623c22098602529370956ac328182e46fb741060744e33c50439"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.9,
+     "description": "The `return` after `req.reject(requeue=False)` was removed. When the ETA cannot be converted, `eta` stays None and execution continues. The task is rejected (and acked/dropped) but then falls through to the rate-limit/bucket logic and is executed immediately via `task_reserved(req)` and `handle(req)`, or goes to `limit_task`. A task that was rejected as invalid therefore runs without its ETA, and is potentially processed after it was already rejected.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "high",
+     "suggestion": "Restore the `return` after `req.reject(requeue=False)`.",
+     "title": "Missing return after rejecting task with invalid ETA"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.6,
+     "description": "The call to `backend.mark_as_failure` was removed, so a task rejected because of an unparseable ETA leaves no failure state in the result backend. Clients waiting on the result will never see the failure and may hang or see PENDING indefinitely.",
+     "file": "celery/worker/strategy.py",
+     "line": 189,
+     "severity": "medium",
+     "suggestion": "Restore the `mark_as_failure` call before rejecting the request.",
+     "title": "Failure no longer recorded in result backend for invalid ETA"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Missing return after rejecting task with invalid ETA\",\"description\":\"The `return` after `req.reject(requeue=False)` was removed. When the ETA cannot be converted, `eta` stays None and execution continues. The task is rejected (and acked/dropped) but then falls through to the rate-limit/bucket logic and is executed immediately via `task_reserved(req)` and `handle(req)`, or goes to `limit_task`. A task that was rejected as invalid therefore runs without its ETA, and is potentially processed after it was already rejected.\",\"suggestion\":\"Restore the `return` after `req.reject(requeue=False)`.\",\"confidence\":0.9},{\"file\":\"celery/worker/strategy.py\",\"line\":189,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"Failure no longer recorded in result backend for invalid ETA\",\"description\":\"The call to `backend.mark_as_failure` was removed, so a task rejected because of an unparseable ETA leaves no failure state in the result backend. Clients waiting on the result will never see the failure and may hang or see PENDING indefinitely.\",\"suggestion\":\"Restore the `mark_as_failure` call before rejecting the request.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0066315,
+   "input_tokens": 4162,
+   "latency_ms": null,
+   "output_tokens": 442
+  }
+ }
+}

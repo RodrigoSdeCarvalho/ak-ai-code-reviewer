@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:03+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "00f751a8a2ecf15c2d78f91ee475129f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1997,
+  "user_sha256": "9d5ceeb8e2557ace6a4f91bf86a821a64ef9af6c7ed77ae6610959f30670850c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the call to deliver(channel, message) at line 45 lacks await on a now-coroutine function, so the truthy coroutine object causes the success branch to run, dropping queued digest lines without sending. Description A adds the RuntimeWarning and line-range detail, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the call to deliver(channel, message) at line 45 lacks await on a now-coroutine function, so the truthy coroutine object causes the success branch to run, dropping queued digest lines without sending. Description A adds the RuntimeWarning and line-range detail, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLbApCZ3jeHULo6XSnt",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00014424000000000001,
+   "input_tokens": 678,
+   "latency_ms": 1469,
+   "output_tokens": 127
+  }
+ }
+}

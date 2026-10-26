@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "4ba4d267591187dc3bc27f1cdda9b24a",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 16549,
+  "user_sha256": "9eba1959628d89ea6fd0a4155b84791ccc779490023b0a80c7b1f920c61d921f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.95,
+     "description": "`host.endswith(domain)` accepts any host whose name merely ends with the partner domain string. With partner domain `shop.example`, an attacker-registered host such as `evilshop.example` or `notshop.example` passes. The policy then reflects that origin with `Access-Control-Allow-Credentials: true`, so the attacker's page can read member balances and redeem rewards using the victim's session cookie.",
+     "file": "loyalty/cors.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Require an exact match or a subdomain boundary: `host == domain or host.endswith('.' + domain)`.",
+     "title": "Partner domain match uses endswith without a dot boundary"
+    },
+    {
+     "category": "security",
+     "confidence": 0.35,
+     "description": "For the partner check only the scheme, hostname, path and query are validated. An origin like `https://user@shop.example` or one with an arbitrary port is accepted and reflected verbatim in Access-Control-Allow-Origin. Real browser Origin headers never contain userinfo, so such values only come from non-browser clients. Reflecting unvalidated text makes the check looser than intended.",
+     "file": "loyalty/cors.py",
+     "line": 39,
+     "severity": "medium",
+     "suggestion": "Reject origins where `parts.username` or `parts.password` is set, and decide explicitly whether to allow a port. Alternatively, compare against a rebuilt `https://hostname[:port]` string.",
+     "title": "Origin with userinfo or port is not validated"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"loyalty/cors.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Partner domain match uses endswith without a dot boundary\",\"description\":\"`host.endswith(domain)` accepts any host whose name merely ends with the partner domain string. With partner domain `shop.example`, an attacker-registered host such as `evilshop.example` or `notshop.example` passes. The policy then reflects that origin with `Access-Control-Allow-Credentials: true`, so the attacker's page can read member balances and redeem rewards using the victim's session cookie.\",\"suggestion\":\"Require an exact match or a subdomain boundary: `host == domain or host.endswith('.' + domain)`.\",\"confidence\":0.95},{\"file\":\"loyalty/cors.py\",\"line\":39,\"severity\":\"medium\",\"category\":\"security\",\"title\":\"Origin with userinfo or port is not validated\",\"description\":\"For the partner check only the scheme, hostname, path and query are validated. An origin like `https://user@shop.example` or one with an arbitrary port is accepted and reflected verbatim in Access-Control-Allow-Origin. Real browser Origin headers never contain userinfo, so such values only come from non-browser clients. Reflecting unvalidated text makes the check looser than intended.\",\"suggestion\":\"Reject origins where `parts.username` or `parts.password` is set, and decide explicitly whether to allow a port. Alternatively, compare against a rebuilt `https://hostname[:port]` string.\",\"confidence\":0.35}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0095085,
+   "input_tokens": 6709,
+   "latency_ms": null,
+   "output_tokens": 508
+  }
+ }
+}

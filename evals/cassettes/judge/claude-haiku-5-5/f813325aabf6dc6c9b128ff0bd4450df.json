@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:12+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "f813325aabf6dc6c9b128ff0bd4450df",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 1830,
+  "user_sha256": "74151c21c138542333936c09ebfff1144a2a442f9fac8d0c45b28dd78264f1c8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The overflow is real: `job.retry_delay * 2 ** (consecutive_failures - 1)` grows without bound, and once the product exceeds timedelta's maximum it raises OverflowError inside the except block before line 68 can disable the job. It only triggers when max_failures is configured high enough to reach that many consecutive failures, and the claim about skipping other due jobs depends on code not shown here."
+  },
+  "raw_text": "{\"reason\": \"The overflow is real: `job.retry_delay * 2 ** (consecutive_failures - 1)` grows without bound, and once the product exceeds timedelta's maximum it raises OverflowError inside the except block before line 68 can disable the job. It only triggers when max_failures is configured high enough to reach that many consecutive failures, and the claim about skipping other due jobs depends on code not shown here.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLg3WYnB4rJppXgiHgC",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00046906,
+   "input_tokens": 684,
+   "latency_ms": 5172,
+   "output_tokens": 788
+  }
+ }
+}

@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "8bf98887cef38aca9d39e253d3ae959c",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 12177,
+  "user_sha256": "3a425d7c5988b4f1f0010cbf1221e41b4151d2519a25b7f85601b9cbfecd5552"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "concurrency",
+     "confidence": 0.7,
+     "description": "The shared per-netloc Deferred is awaited directly by every request waiting on the same host's robots.txt. maybe_deferred_to_future adds a callback to the Deferred that returns None, so the result chain is consumed after the first waiter. Later waiters get None, and rp_dfd.callback(rp) hands the parser to the first waiter only. Other concurrent requests to that host then see rp=None in process_request_2 and skip the robots.txt check, so forbidden URLs are crawled. The removed per-waiter Deferred forwarded the result to each waiter without consuming the shared chain.",
+     "file": "scrapy/downloadermiddlewares/robotstxt.py",
+     "line": 208,
+     "severity": "high",
+     "suggestion": "Restore a per-waiter Deferred that is fired from a callback on the shared Deferred, and return the result from that callback so the chain value is preserved.",
+     "title": "Awaiting the shared Deferred directly breaks for multiple concurrent waiters"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"scrapy/downloadermiddlewares/robotstxt.py\",\"line\":208,\"severity\":\"high\",\"category\":\"concurrency\",\"title\":\"Awaiting the shared Deferred directly breaks for multiple concurrent waiters\",\"description\":\"The shared per-netloc Deferred is awaited directly by every request waiting on the same host's robots.txt. maybe_deferred_to_future adds a callback to the Deferred that returns None, so the result chain is consumed after the first waiter. Later waiters get None, and rp_dfd.callback(rp) hands the parser to the first waiter only. Other concurrent requests to that host then see rp=None in process_request_2 and skip the robots.txt check, so forbidden URLs are crawled. The removed per-waiter Deferred forwarded the result to each waiter without consuming the shared chain.\",\"suggestion\":\"Restore a per-waiter Deferred that is fired from a callback on the shared Deferred, and return the result from that callback so the chain value is preserved.\",\"confidence\":0.7}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0069575,
+   "input_tokens": 4948,
+   "latency_ms": null,
+   "output_tokens": 350
+  }
+ }
+}

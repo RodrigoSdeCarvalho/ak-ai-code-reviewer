@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:36+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0cc587c3298f0e7da14f4915be6c0a43",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1965,
+  "user_sha256": "44fc24a68a0ff430ae7ce62f6182878a4b3b54dffcc817683cacd5f06b6e9ec5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: accept() checks only revoked and uses-remaining, never checking expiry (is_active / expires_at), so expired invite links still admit new members. They point at the same line range in accept() and explain the same failure.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: accept() checks only revoked and uses-remaining, never checking expiry (is_active / expires_at), so expired invite links still admit new members. They point at the same line range in accept() and explain the same failure.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLdgtFeSuosuDwwwVPF",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00013094,
+   "input_tokens": 705,
+   "latency_ms": 1109,
+   "output_tokens": 95
+  }
+ }
+}

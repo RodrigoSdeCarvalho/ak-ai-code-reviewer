@@ -1,0 +1,68 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "8458a5defedc45647cff795cc12d2ebf",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 20158,
+  "user_sha256": "dc8a27e6f55becb8700a56250673ef972fb55a5e77b4af373a8443194f48595f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "UsageKey is (account_id, metric, month), but the lookup builds (account_id, prior, metric). It never matches, so previous_total is always None and every change shows n/a. The month-over-month feature does not work.",
+     "file": "metering/report.py",
+     "line": 69,
+     "severity": "high",
+     "suggestion": "Use usage.get((account_id, metric, prior)).",
+     "title": "Previous-month lookup uses wrong key order"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "After yielding a DailyTotal when the key changes, quantity is not reset to 0. The next group starts with the previous group's total added in, so every day after the first is inflated by cumulative sums. All totals, peaks and averages are wrong.",
+     "file": "metering/rollup.py",
+     "line": 58,
+     "severity": "high",
+     "suggestion": "Set quantity = 0 after the yield, before adding the current event's quantity.",
+     "title": "Daily quantity accumulator is not reset between groups"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.15,
+     "description": "`not self.previous_total` treats 0 the same as None. That is acceptable for avoiding division by zero, but the previous_total column shows 0 while change shows n/a; this is inconsistent but minor.",
+     "file": "metering/report.py",
+     "line": 40,
+     "severity": "low",
+     "suggestion": "Handle None and 0 explicitly if different output is wanted.",
+     "title": "Zero previous total conflated with missing"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"metering/report.py\",\"line\":69,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Previous-month lookup uses wrong key order\",\"description\":\"UsageKey is (account_id, metric, month), but the lookup builds (account_id, prior, metric). It never matches, so previous_total is always None and every change shows n/a. The month-over-month feature does not work.\",\"suggestion\":\"Use usage.get((account_id, metric, prior)).\",\"confidence\":0.97},{\"file\":\"metering/rollup.py\",\"line\":58,\"severity\":\"high\",\"category\":\"logic\",\"title\":\"Daily quantity accumulator is not reset between groups\",\"description\":\"After yielding a DailyTotal when the key changes, quantity is not reset to 0. The next group starts with the previous group's total added in, so every day after the first is inflated by cumulative sums. All totals, peaks and averages are wrong.\",\"suggestion\":\"Set quantity = 0 after the yield, before adding the current event's quantity.\",\"confidence\":0.97},{\"file\":\"metering/report.py\",\"line\":40,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Zero previous total conflated with missing\",\"description\":\"`not self.previous_total` treats 0 the same as None. That is acceptable for avoiding division by zero, but the previous_total column shows 0 while change shows n/a; this is inconsistent but minor.\",\"suggestion\":\"Handle None and 0 explicitly if different output is wanted.\",\"confidence\":0.15}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0109995,
+   "input_tokens": 8315,
+   "latency_ms": null,
+   "output_tokens": 485
+  }
+ }
+}

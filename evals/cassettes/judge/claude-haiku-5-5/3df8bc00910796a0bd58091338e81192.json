@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:40+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3df8bc00910796a0bd58091338e81192",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2459,
+  "user_sha256": "883591bba28df6699650f5bd697382e426d28f8f0c37c6895b65f0b946949e5d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify that move_card authorizes only the target board (to_board_id) and never checks editor access on the card's current source board (card.board_id), letting a user move cards from boards they cannot edit. Description B adds detail about sequential ids and exposure of card contents, and cites line 103 which is the target-board check, but the root cause and failure are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify that move_card authorizes only the target board (to_board_id) and never checks editor access on the card's current source board (card.board_id), letting a user move cards from boards they cannot edit. Description B adds detail about sequential ids and exposure of card contents, and cites line 103 which is the target-board check, but the root cause and failure are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLduEQuZwMHvVY7VVTw",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015904000000000002,
+   "input_tokens": 801,
+   "latency_ms": 1985,
+   "output_tokens": 132
+  }
+ }
+}

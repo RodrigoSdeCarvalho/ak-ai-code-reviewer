@@ -1,0 +1,58 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "27e6aa11b021b502b261e1532dd4a21b",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 16549,
+  "user_sha256": "9eba1959628d89ea6fd0a4155b84791ccc779490023b0a80c7b1f920c61d921f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "security",
+     "confidence": 0.95,
+     "description": "`host.endswith(domain)` does not require a dot boundary. With partner domain `shop.example`, an attacker-controlled origin like `https://evilshop.example` or `https://notshop.example` passes. The API then reflects that origin with `Access-Control-Allow-Credentials: true`, so the attacker's site can read member balances and redeem rewards using the victim's session cookie.",
+     "file": "loyalty/cors.py",
+     "line": 42,
+     "severity": "critical",
+     "suggestion": "Accept only `host == domain` or `host.endswith('.' + domain)`.",
+     "title": "Partner domain check uses bare endswith, allowing look-alike origins with credentials"
+    },
+    {
+     "category": "logic",
+     "confidence": 0.3,
+     "description": "The header reflects the request's original `origin` string. A trailing slash is stripped for the allow check but is still echoed back, so a request with `Origin: https://a.example/` gets `Access-Control-Allow-Origin: https://a.example/`. Browsers compare this to the serialized origin, which has no trailing slash, so the request would be blocked. The same applies to the preflight response at line 63.",
+     "file": "loyalty/cors.py",
+     "line": 47,
+     "severity": "low",
+     "suggestion": "Return the normalised origin, or the exact configured origin, in the header.",
+     "title": "Allow-Origin echoes the raw origin rather than the normalised one"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"loyalty/cors.py\",\"line\":42,\"severity\":\"critical\",\"category\":\"security\",\"title\":\"Partner domain check uses bare endswith, allowing look-alike origins with credentials\",\"description\":\"`host.endswith(domain)` does not require a dot boundary. With partner domain `shop.example`, an attacker-controlled origin like `https://evilshop.example` or `https://notshop.example` passes. The API then reflects that origin with `Access-Control-Allow-Credentials: true`, so the attacker's site can read member balances and redeem rewards using the victim's session cookie.\",\"suggestion\":\"Accept only `host == domain` or `host.endswith('.' + domain)`.\",\"confidence\":0.95},{\"file\":\"loyalty/cors.py\",\"line\":47,\"severity\":\"low\",\"category\":\"logic\",\"title\":\"Allow-Origin echoes the raw origin rather than the normalised one\",\"description\":\"The header reflects the request's original `origin` string. A trailing slash is stripped for the allow check but is still echoed back, so a request with `Origin: https://a.example/` gets `Access-Control-Allow-Origin: https://a.example/`. Browsers compare this to the serialized origin, which has no trailing slash, so the request would be blocked. The same applies to the preflight response at line 63.\",\"suggestion\":\"Return the normalised origin, or the exact configured origin, in the header.\",\"confidence\":0.3}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0093185,
+   "input_tokens": 6709,
+   "latency_ms": null,
+   "output_tokens": 470
+  }
+ }
+}

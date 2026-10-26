@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:44+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9d9b00ea17faf3061dbf624d3dc12c8f",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2441,
+  "user_sha256": "a7f8644bd8a6f3a19cd7c2ce92ffa424472cd7d6a3d1fc85de8c7d1fea590b87"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: in reserve(), when an InventoryError is raised the except branch re-raises before self._pool.release(conn) runs, so the connection leaks from the pool with each rejected reservation. Description B additionally mentions non-InventoryError exceptions skipping rollback and release, but its core failure matches A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: in reserve(), when an InventoryError is raised the except branch re-raises before self._pool.release(conn) runs, so the connection leaks from the pool with each rejected reservation. Description B additionally mentions non-InventoryError exceptions skipping rollback and release, but its core failure matches A.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLeE6EUqcG3tu8JaArp",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016214,
+   "input_tokens": 857,
+   "latency_ms": 1280,
+   "output_tokens": 127
+  }
+ }
+}

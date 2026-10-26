@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:55+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0a19ed048df1e9cafbe9df1c56d4b85b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2911,
+  "user_sha256": "7c5c43d2866898a0700321dabad64caa867fd904101b35cb13206a97330f6611"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment accurately describes that get() no longer evicts expired sessions and that nothing in the shown change schedules purge_expired; without a periodic caller, expired entries accumulate in memory. This is a real resource growth risk in a long-running process, though whether purge_expired is called elsewhere is not visible in the shown code, so it is a plausible leak rather than confirmed."
+  },
+  "raw_text": "{\"reason\": \"The comment accurately describes that get() no longer evicts expired sessions and that nothing in the shown change schedules purge_expired; without a periodic caller, expired entries accumulate in memory. This is a real resource growth risk in a long-running process, though whether purge_expired is called elsewhere is not visible in the shown code, so it is a plausible leak rather than confirmed.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLf2B9rtXfDPmvvqtZA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 666,
+   "cache_read_input_tokens": 0,
+   "cost_usd": 0.00025745,
+   "input_tokens": 1042,
+   "latency_ms": 1844,
+   "output_tokens": 140
+  }
+ }
+}

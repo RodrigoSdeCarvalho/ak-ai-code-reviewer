@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:14+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "d597a07b37e171dad4d00172a944d68c",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2068,
+  "user_sha256": "718ab3a6b4408b8b691546fccf6a4f096a1b1ee8759e13e5eef872b09894a1d8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "valid_issue",
+   "reason": "The comment is accurate: tokens are capped at capacity, so if cost exceeds capacity the check at line 70 always fails and the request can never succeed, with retry_after giving a finite wait that never leads to success. This is a real behavioural defect that can cause clients to retry indefinitely."
+  },
+  "raw_text": "{\"reason\": \"The comment is accurate: tokens are capped at capacity, so if cost exceeds capacity the check at line 70 always fails and the request can never succeed, with retry_after giving a finite wait that never leads to success. This is a real behavioural defect that can cause clients to retry indefinitely.\", \"label\": \"valid_issue\"}",
+  "request_id": "req_011CgRLgRg42gKPUE1SgTMZ9",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00014666,
+   "input_tokens": 835,
+   "latency_ms": 1360,
+   "output_tokens": 113
+  }
+ }
+}

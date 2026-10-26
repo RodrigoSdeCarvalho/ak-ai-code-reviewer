@@ -1,0 +1,48 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "cf08c0ed03fb1019855b6eaf1e78f261",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 4,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 6793,
+  "user_sha256": "a0f800c55884e344dfa6021920086f2cf0668cec4b037e418c4c8b7f5295585e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "logic",
+     "confidence": 0.97,
+     "description": "`scores[term] = frequency + title_bonus if term in title_terms else 0.0` parses as `(frequency + title_bonus) if term in title_terms else 0.0`. Every term not in the title gets a score of 0.0 instead of its frequency. With no title (the default), all scores are 0, so extract_keywords returns alphabetically-sorted terms with score 0.0. In suggest_tags, nothing then passes MIN_SCORE, so no tags are suggested for articles without title overlap.",
+     "file": "textkit/keywords.py",
+     "line": 61,
+     "severity": "critical",
+     "suggestion": "Write `scores[term] = frequency + (title_bonus if term in title_terms else 0.0)`.",
+     "title": "Conditional expression precedence zeroes score of every non-title term"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"textkit/keywords.py\",\"line\":61,\"severity\":\"critical\",\"category\":\"logic\",\"title\":\"Conditional expression precedence zeroes score of every non-title term\",\"description\":\"`scores[term] = frequency + title_bonus if term in title_terms else 0.0` parses as `(frequency + title_bonus) if term in title_terms else 0.0`. Every term not in the title gets a score of 0.0 instead of its frequency. With no title (the default), all scores are 0, so extract_keywords returns alphabetically-sorted terms with score 0.0. In suggest_tags, nothing then passes MIN_SCORE, so no tags are suggested for articles without title overlap.\",\"suggestion\":\"Write `scores[term] = frequency + (title_bonus if term in title_terms else 0.0)`.\",\"confidence\":0.97}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0046665,
+   "input_tokens": 2987,
+   "latency_ms": null,
+   "output_tokens": 284
+  }
+ }
+}

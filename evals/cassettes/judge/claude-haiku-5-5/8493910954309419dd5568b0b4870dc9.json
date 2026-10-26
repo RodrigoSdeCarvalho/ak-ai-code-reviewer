@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:42:04+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8493910954309419dd5568b0b4870dc9",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "fp-triage-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "4451cd038f8c3457c962ed9bd81a3826328e9a6e1f57426d545a60e5e79bb4ba",
+  "user_chars": 2618,
+  "user_sha256": "028bfc07823bf84a5f36007b5f8887a1e23a214d008aff989a991ecc05ca5d87"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "label": "incorrect",
+   "reason": "The comment claims a removed mark_as_failure call, but the shown post-change code has no such call in the ETA conversion path; it only logs and calls req.reject(requeue=False). Whether a result backend write happens is not visible here, and the claim about a removed call cannot be confirmed from the code shown, so it does not clearly match real behaviour."
+  },
+  "raw_text": "{\"reason\": \"The comment claims a removed mark_as_failure call, but the shown post-change code has no such call in the ETA conversion path; it only logs and calls req.reject(requeue=False). Whether a result backend write happens is not visible here, and the claim about a removed call cannot be confirmed from the code shown, so it does not clearly match real behaviour.\", \"label\": \"incorrect\"}",
+  "request_id": "req_011CgRLfgoN3mQsTQ8BC1m8S",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 666,
+   "cost_usd": 0.00017076000000000003,
+   "input_tokens": 996,
+   "latency_ms": 1467,
+   "output_tokens": 129
+  }
+ }
+}

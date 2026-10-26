@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:00+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "0fd9d1628d37ed5d6bb6b277c3f26f7b",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2186,
+  "user_sha256": "6e63763e299da4e1d61901b1894352811d984721efaeb1b635892ecee4e5f8cb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says that with max_entries=0 the eviction line calls next() on an empty dict, raising StopIteration. Description B says the cached list object is returned directly, so in-place sorting by callers corrupts the cache. These are different failures at overlapping lines: one is an exception on eviction, the other is shared mutable state returned from the cache.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says that with max_entries=0 the eviction line calls next() on an empty dict, raising StopIteration. Description B says the cached list object is returned directly, so in-place sorting by callers corrupts the cache. These are different failures at overlapping lines: one is an exception on eviction, the other is shared mutable state returned from the cache.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLavxGMginEVD9b8ZSj",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00015604000000000003,
+   "input_tokens": 796,
+   "latency_ms": 1594,
+   "output_tokens": 127
+  }
+ }
+}

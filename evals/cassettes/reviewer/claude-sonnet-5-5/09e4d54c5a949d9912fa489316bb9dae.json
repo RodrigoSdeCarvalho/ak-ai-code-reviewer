@@ -1,0 +1,59 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "09e4d54c5a949d9912fa489316bb9dae",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 3,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 9090,
+  "user_sha256": "7307f2591c8d39a63aa1becdaf8a7cd0f5ba8f371d24abe578f0d6d169aca5d2"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "error_handling",
+     "confidence": 0.97,
+     "description": "When the last attempt fails, the loop hits `break` and the function ends without a return or raise, so `charge` returns None. `settle_invoice` only catches GatewayError, so it then runs `charge.id` on None and raises AttributeError. Any persistent gateway failure now crashes the whole settlement batch, and the invoice is never marked PAYMENT_FAILED. Before this change the GatewayError was caught and recorded.",
+     "end_line": 62,
+     "file": "billing/retry.py",
+     "line": 61,
+     "severity": "critical",
+     "suggestion": "Re-raise the last GatewayError once attempts are exhausted (`raise` instead of `break`), or keep the exception and raise it after the loop.",
+     "title": "RetryingGateway.charge returns None after retries are exhausted instead of raising"
+    },
+    {
+     "category": "error_handling",
+     "confidence": 0.4,
+     "description": "Every GatewayError triggers a retry with backoff, including permanent failures such as a card decline or invalid customer. Each such invoice then sleeps through the full backoff (0.5s + 1s by default) before failing, which slows the batch and repeats calls that cannot succeed.",
+     "file": "billing/retry.py",
+     "line": 55,
+     "severity": "medium",
+     "suggestion": "Retry only errors marked transient (for example a `retryable` attribute or a subclass), and re-raise the others immediately.",
+     "title": "All GatewayErrors are retried, including non-transient ones"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"billing/retry.py\",\"line\":61,\"end_line\":62,\"severity\":\"critical\",\"category\":\"error_handling\",\"title\":\"RetryingGateway.charge returns None after retries are exhausted instead of raising\",\"description\":\"When the last attempt fails, the loop hits `break` and the function ends without a return or raise, so `charge` returns None. `settle_invoice` only catches GatewayError, so it then runs `charge.id` on None and raises AttributeError. Any persistent gateway failure now crashes the whole settlement batch, and the invoice is never marked PAYMENT_FAILED. Before this change the GatewayError was caught and recorded.\",\"suggestion\":\"Re-raise the last GatewayError once attempts are exhausted (`raise` instead of `break`), or keep the exception and raise it after the loop.\",\"confidence\":0.97},{\"file\":\"billing/retry.py\",\"line\":55,\"severity\":\"medium\",\"category\":\"error_handling\",\"title\":\"All GatewayErrors are retried, including non-transient ones\",\"description\":\"Every GatewayError triggers a retry with backoff, including permanent failures such as a card decline or invalid customer. Each such invoice then sleeps through the full backoff (0.5s + 1s by default) before failing, which slows the batch and repeats calls that cannot succeed.\",\"suggestion\":\"Retry only errors marked transient (for example a `retryable` attribute or a subclass), and re-raise the others immediately.\",\"confidence\":0.4}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0065675,
+   "input_tokens": 3858,
+   "latency_ms": null,
+   "output_tokens": 490
+  }
+ }
+}

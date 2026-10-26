@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "25231586e0aabcc5037db2b0e1994059",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2472,
+  "user_sha256": "a25b366912b3ebdfb6096c02e06448368a32aba856419644c19cbf38c0f557cd"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same flaw at line 42: `host.endswith(domain)` lacks a label boundary, so unrelated hosts like bluekettle.example (A) or evilshop.example (B) pass as partner origins and receive credentialed CORS headers. The impact described (reading balances and redeeming points via session cookie) is the same failure, differing only in example domains and wording.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same flaw at line 42: `host.endswith(domain)` lacks a label boundary, so unrelated hosts like bluekettle.example (A) or evilshop.example (B) pass as partner origins and receive credentialed CORS headers. The impact described (reading balances and redeeming points via session cookie) is the same failure, differing only in example domains and wording.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLe7tAMvaCoCp3C7kE6",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017704000000000003,
+   "input_tokens": 926,
+   "latency_ms": 1452,
+   "output_tokens": 143
+  }
+ }
+}

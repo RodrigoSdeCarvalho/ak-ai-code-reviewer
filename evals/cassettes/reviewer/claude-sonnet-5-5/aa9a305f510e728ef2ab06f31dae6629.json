@@ -1,0 +1,49 @@
+{
+ "recorded_at": "2026-10-26T18:40:30+00:00",
+ "request_meta": {
+  "effort": "medium",
+  "key": "aa9a305f510e728ef2ab06f31dae6629",
+  "max_tokens": 16000,
+  "model": "claude-sonnet-5-5",
+  "prompt_version": "v1",
+  "role": "reviewer",
+  "sample": 5,
+  "system_sha256": "308e4c19584c791c40695e140d4f6f70eeb9e36d4308ab0cd84b073af03d0982",
+  "user_chars": 5451,
+  "user_sha256": "29cd04dea1fead6acbf1e00799b3344461948d5a128d945018cc0c70a988db9d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "findings": [
+    {
+     "category": "api_contract",
+     "confidence": 0.6,
+     "description": "find() returns the exact list object stored in the cache, both on a hit (line 63) and on a miss (line 68). If a caller sorts, appends to or removes from the returned list, the cached entry is corrupted. Later callers with the same query get the altered results until the TTL expires or a product is added. Before this change each call returned a fresh list, so callers could mutate it safely.",
+     "end_line": 68,
+     "file": "catalog/service.py",
+     "line": 63,
+     "severity": "medium",
+     "suggestion": "Store a tuple internally and return list(entry[1]) on hits and list(hits) on misses, so callers never hold the cached list.",
+     "title": "Cached result list is returned by reference and can be mutated by callers"
+    }
+   ]
+  },
+  "raw_text": "{\"findings\":[{\"file\":\"catalog/service.py\",\"line\":63,\"end_line\":68,\"severity\":\"medium\",\"category\":\"api_contract\",\"title\":\"Cached result list is returned by reference and can be mutated by callers\",\"description\":\"find() returns the exact list object stored in the cache, both on a hit (line 63) and on a miss (line 68). If a caller sorts, appends to or removes from the returned list, the cached entry is corrupted. Later callers with the same query get the altered results until the TTL expires or a product is added. Before this change each call returned a fresh list, so callers could mutate it safely.\",\"suggestion\":\"Store a tuple internally and return list(entry[1]) on hits and list(hits) on misses, so callers never hold the cached list.\",\"confidence\":0.6}]}",
+  "request_id": "msgbatch_01AuiuYMrqeVHr3ariP5nJ3j",
+  "served_model": "claude-sonnet-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 2595,
+   "cost_usd": 0.0036965,
+   "input_tokens": 2172,
+   "latency_ms": null,
+   "output_tokens": 253
+  }
+ }
+}

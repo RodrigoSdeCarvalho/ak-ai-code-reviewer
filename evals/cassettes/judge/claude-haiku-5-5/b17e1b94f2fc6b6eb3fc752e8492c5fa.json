@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:24+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "b17e1b94f2fc6b6eb3fc752e8492c5fa",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2562,
+  "user_sha256": "cdf4ddea78fa8fe536834b819931dc8e0906224d1fccfd932a0abf2d56a30889"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the fixed metadata temp filename `.<name>.meta.tmp` causes concurrent puts to the same key to race, so one os.replace raises FileNotFoundError. Description B says the mutable default argument `metadata={}` is shared across calls, so setdefault leaks content-type between uploads. These are different failures (a concurrency race on temp files versus a shared mutable default dict) at different lines of the code.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the fixed metadata temp filename `.<name>.meta.tmp` causes concurrent puts to the same key to race, so one os.replace raises FileNotFoundError. Description B says the mutable default argument `metadata={}` is shared across calls, so setdefault leaks content-type between uploads. These are different failures (a concurrency race on temp files versus a shared mutable default dict) at different lines of the code.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLcgq1UTfSYcNsaVQRc",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00019224000000000002,
+   "input_tokens": 1018,
+   "latency_ms": 1953,
+   "output_tokens": 155
+  }
+ }
+}

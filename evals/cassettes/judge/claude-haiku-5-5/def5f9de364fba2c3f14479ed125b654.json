@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:40:51+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "def5f9de364fba2c3f14479ed125b654",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2719,
+  "user_sha256": "36301c57c321d5fce604f7e340e5ef47cbeb7ee7d36043f458bb80105bba04e9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the copy drops private attributes entirely, so the copy lacks private state. Description B says the copy shares the same private-attribute dict with the original, so mutations leak between copies. These are different failures: one is missing state, the other is aliasing of shared state.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the copy drops private attributes entirely, so the copy lacks private state. Description B says the copy shares the same private-attribute dict with the original, so mutations leak between copies. These are different failures: one is missing state, the other is aliasing of shared state.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLaLDi6hBPpV6fj3cZK",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017093999999999999,
+   "input_tokens": 1075,
+   "latency_ms": 1218,
+   "output_tokens": 101
+  }
+ }
+}

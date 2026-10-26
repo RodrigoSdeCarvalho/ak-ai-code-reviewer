@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:39:45+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2702bff313e06591771d57a404ea9704",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v1",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "2d6f3f632766e768b79427144b197d993ca10534c032cf34b291ff848ba74fb9",
+  "user_chars": 2517,
+  "user_sha256": "8e68cd60cc9f3b5a50383e7afe67c83d75e30f941bed74619f1d87e4a0274a5b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the ETA conversion failure at lines 186-189, the handler calls req.reject but does not return, so eta stays None and execution falls through to reserve/handle and runs the task. Description A adds a note about results not being stored, and B adds a redelivery duplicate concern, but the core root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the ETA conversion failure at lines 186-189, the handler calls req.reject but does not return, so eta stays None and execution falls through to reserve/handle and runs the task. Description A adds a note about results not being stored, and B adds a redelivery duplicate concern, but the core root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01E7LEqq2p7jkc6V6M5j46tD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1224,
+   "cost_usd": 8.367000000000002e-05,
+   "input_tokens": 911,
+   "latency_ms": null,
+   "output_tokens": 128
+  }
+ }
+}

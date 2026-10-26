@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:34+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9f482e63ffd3c8aedc721620e6856927",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2710,
+  "user_sha256": "babddec1d01762ac46058de33932b01a1f0cb07c1a1405c9acc6573b12b86f2f"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A reports a performance regression from per-key exists/get calls causing many Redis round trips. Description B reports that an empty or blank locale now raises ValueError via fallback_chain/normalise instead of falling back. These are different failures at different aspects of the change; neither mentions the other's concern.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A reports a performance regression from per-key exists/get calls causing many Redis round trips. Description B reports that an empty or blank locale now raises ValueError via fallback_chain/normalise instead of falling back. These are different failures at different aspects of the change; neither mentions the other's concern.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLdSgjCSezCsGZF5s1s",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00017134,
+   "input_tokens": 1024,
+   "latency_ms": 1859,
+   "output_tokens": 112
+  }
+ }
+}

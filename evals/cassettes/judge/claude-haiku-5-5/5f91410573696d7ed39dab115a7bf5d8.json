@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:41:43+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "5f91410573696d7ed39dab115a7bf5d8",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2434,
+  "user_sha256": "96379f43d4d2b03e483db41fb07fa4bf07bf5c5ddb2bca3b165c0790f7e3857d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 42: is_allowed uses host.endswith(domain) without a dot boundary, so unrelated domains ending in the partner string (e.g. evilshop.example / bluekettle.example) receive credentialed CORS access. The examples differ but the root cause and consequence are the same.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 42: is_allowed uses host.endswith(domain) without a dot boundary, so unrelated domains ending in the partner string (e.g. evilshop.example / bluekettle.example) receive credentialed CORS access. The examples differ but the root cause and consequence are the same.\", \"verdict\": \"same\"}",
+  "request_id": "req_011CgRLe7rSHffAPdB84ayLt",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016354000000000002,
+   "input_tokens": 896,
+   "latency_ms": 1546,
+   "output_tokens": 122
+  }
+ }
+}
