@@ -2,11 +2,11 @@
 
 `aireview` reviews a Python diff (or a whole repository) with one structured-output Claude call and writes its findings to a JSON file. The reviewer is deliberately modest. Most of this repository is the **eval**, which measures whether the reviewer works and can block a release when it gets worse:
 
-- **A versioned golden set** of 56 Python cases in `evals/dataset/`:
-  - 31 *seeded* cases: a realistic feature or refactor diff with a bug planted in it. Each bug is proven by a test that fails on the change and passes with the fix.
+- **A versioned golden set** of 72 Python cases in `evals/dataset/` (dev 29 / test 43):
+  - 47 *seeded* cases: a realistic feature or refactor diff with a bug planted in it. Each bug is proven by a test that fails on the change and passes with the fix.
   - 15 *clean* cases: correct changes, used to measure false alarms.
   - 10 *real* cases: reverted fixes from recent public commits.
-- **A grader.** Findings are matched to labelled bugs by location, then a separate LLM judge decides whether they describe the same defect. The judge is checked against human labels. A location-only score is always reported next to the strict one.
+- **A grader.** Findings are matched to labelled bugs by location, then a separate LLM judge decides whether they describe the same defect. The judge is checked against blind rater labels (an agent rater, disclosed in EVAL.md) and a second judge model. A location-only score is always reported next to the strict one.
 - **Statistics.** Every metric comes with a 95% cluster-bootstrap CI over cases. Runs are compared with a paired bootstrap and an exact McNemar test.
 - **A gate.** `aireview eval gate` is a pure function of a run, a promoted baseline and three versioned config files. Its exit code is the release decision.
 - **Offline reproducibility.** Every model call goes through content-addressed cassettes. `--mode replay` reproduces a run without an API key, and `--mode record` measures it again.
@@ -20,12 +20,18 @@ Python 3.12.
 ```bash
 pip install -e '.[dev]'
 
-# The full eval pipeline, offline and free. The oracle reviewer returns the gold bugs, so the
-# scorer must report recall = precision = 1.0. Writes evals/runs/<run_id>/ (scores.json, report.md, ...).
-aireview eval run --config evals/configs/oracle.yaml --split test --samples 1 --mode replay
+# The eval, one command: replays the shipped reviewer (v2) on the test split, 43 cases x 3 samples, from the
+# committed cassettes. Offline, no API key, seconds. Writes evals/runs/<run_id>/ (scores.json, report.md, ...).
+aireview eval run --config evals/configs/v2-sonnet.yaml --split test --samples 3 --mode replay
+
+# The release decision for that run (exit code 0 = ship, 1 = blocked; see EVAL.md)
+aireview eval gate --run evals/runs/<run_id printed above>
+
+# Re-measure live instead of replaying (needs ANTHROPIC_API_KEY in .env, ~$2; new sample indices)
+aireview eval run --config evals/configs/v2-sonnet.yaml --split test --samples 3 --sample-offset 6 --mode record
 ```
 
-Once the reference cassettes are committed, the same command with `--config evals/configs/v1-sonnet.yaml --samples 3` replays the headline run offline. *(Pending live runs.)*
+Sanity check of the harness itself: `--config evals/configs/oracle.yaml` (returns the gold bugs) must score recall = precision = 1.0, and `null.yaml` must score recall 0.
 
 ## Running the reviewer
 
@@ -105,7 +111,30 @@ aireview eval run --config evals/configs/v1-sonnet.yaml --split dev --samples 3 
 
 ## Results
 
-See [EVAL.md](EVAL.md). *Pending live runs:* no model run has been recorded yet, so the reviewer quality numbers, the noise floor, the gate thresholds and the judge calibration are all still to be measured. The thresholds in `evals/gate/` are marked as placeholders and cannot block until they are measured and accepted.
+Test split, 43 cases, 42 labelled bugs, k = 3, strict scoring, 95% CIs. Full analysis, and where not to trust it, in [EVAL.md](EVAL.md).
+
+| Reviewer | Recall | Precision | Clean false alarms | $ / review | Release gate |
+|---|---|---|---|---|---|
+| ruff + bandit (non-LLM floor) | 0.02 | 0.07 | 0.00 | 0 | — |
+| v1: Sonnet 5.5 | 0.86 [0.76, 0.95] | 0.56 [0.47, 0.67] | 0.00 | 0.014 | baseline |
+| **v2: v1 + confidence ≥ 0.5 (shipped)** | **0.86 [0.76, 0.95]** | **0.88 [0.81, 0.95]** | 0.00 | 0.014 | PASS ([PR #1](../../pull/1)) |
+| Haiku 5.5 | 0.81 [0.69, 0.92] | 0.63 [0.51, 0.75] | 0.00 | 0.0006 | FAIL ([PR #2](../../pull/2)) |
+
+Every number is reproducible offline from `evals/runs/` and `evals/cassettes/`.
+
+## How this was built
+
+Built with Claude Code (Opus 5.5) as the main tool:
+- I wrote the design contract and decisions.
+- Multi-agent workflows built the modules in parallel against that contract.
+- Agents wrote the dataset cases, and *different* agents then tried to break each one (wrong lines, unlabelled bugs, hint words).
+- Three independent reviewers audited the measuring instrument, and a skeptic agent re-checked every finding before it was fixed (11 of 18 confirmed).
+
+Where model output was trusted, something mechanical backs it:
+- case tests that must fail on the buggy code and pass on the fix;
+- the dataset validator;
+- the oracle, null and spam reviewers run through the scorer;
+- the A/A run for the gate.
 
 ## Repository map
 

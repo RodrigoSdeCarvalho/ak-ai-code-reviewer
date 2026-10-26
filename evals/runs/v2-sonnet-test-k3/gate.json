@@ -82,8 +82,8 @@
    "status": "PASS",
    "blocking": true,
    "value": 0.0,
-   "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "bar": "delta CI bad end not below -0.1 (non-inferiority)",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 43 cases"
   },
   {
@@ -91,8 +91,8 @@
    "status": "PASS",
    "blocking": true,
    "value": 0.0,
-   "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "bar": "delta CI bad end not below -0.15 (non-inferiority)",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.037 [-0.135, +0.026]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 43 cases"
   },
   {
@@ -100,8 +100,8 @@
    "status": "PASS",
    "blocking": true,
    "value": 0.3194,
-   "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "bar": "delta CI bad end not below -0.07 (non-inferiority)",
+   "provenance": "MEASURED A/A 2026-10-26: delta +0.007 [-0.058, +0.066]",
    "detail": "paired delta +0.319 [+0.225, +0.413] over 43 cases"
   },
   {
@@ -109,8 +109,8 @@
    "status": "PASS",
    "blocking": true,
    "value": 0.0,
-   "bar": "delta CI not entirely above +0.15",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "bar": "delta CI bad end not above +0.15 (non-inferiority)",
+   "provenance": "DEFAULT kept: A/A had 0 alarms in both runs (no spread to measure); 0.125 = one clean case alarming in every sample",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 43 cases"
   },
   {
@@ -119,7 +119,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely above +0.15",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "DEFAULT kept: A/A had 0 alarms in both runs (no spread to measure); 0.125 = one clean case alarming in every sample",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 8 cases"
   },
   {
@@ -128,7 +128,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 6 cases"
   },
   {
@@ -136,8 +136,8 @@
    "status": "INSUFFICIENT_DATA",
    "blocking": true,
    "value": 0.0,
-   "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "bar": "delta CI not entirely below -0.15",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.037 [-0.135, +0.026]",
    "detail": "n=1 < 6"
   },
   {
@@ -145,8 +145,8 @@
    "status": "PASS",
    "blocking": true,
    "value": 0.0357,
-   "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "bar": "delta CI not entirely below -0.07",
+   "provenance": "MEASURED A/A 2026-10-26: delta +0.007 [-0.058, +0.066]",
    "detail": "paired delta +0.036 [+0.000, +0.091] over 6 cases"
   },
   {
@@ -155,7 +155,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 29 cases"
   },
   {
@@ -163,8 +163,8 @@
    "status": "PASS",
    "blocking": true,
    "value": 0.0,
-   "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "bar": "delta CI not entirely below -0.15",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.037 [-0.135, +0.026]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 29 cases"
   },
   {
@@ -172,8 +172,8 @@
    "status": "PASS",
    "blocking": true,
    "value": 0.3242,
-   "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "bar": "delta CI not entirely below -0.07",
+   "provenance": "MEASURED A/A 2026-10-26: delta +0.007 [-0.058, +0.066]",
    "detail": "paired delta +0.324 [+0.232, +0.406] over 29 cases"
   },
   {
@@ -182,7 +182,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 6 cases"
   },
   {
@@ -191,7 +191,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 5 cases"
   },
   {
@@ -200,7 +200,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 8 cases"
   },
   {
@@ -209,7 +209,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 6 cases"
   },
   {
@@ -218,7 +218,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 5 cases"
   },
   {
@@ -227,7 +227,7 @@
    "blocking": true,
    "value": 0.0,
    "bar": "delta CI not entirely below -0.1",
-   "provenance": "DEFAULT — replace with measured noise floor",
+   "provenance": "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]",
    "detail": "paired delta +0.000 [+0.000, +0.000] over 6 cases"
   },
   {
@@ -235,8 +235,8 @@
    "status": "PASS",
    "blocking": true,
    "value": 0,
-   "bar": "0 critical/high bugs with baseline rate >= 0.66 and candidate rate <= 0.0",
-   "provenance": "design §7",
+   "bar": "<= 1 critical/high bugs with baseline rate >= 0.66 and candidate rate <= 0.0",
+   "provenance": "MEASURED A/A 2026-10-26: an identical config re-sampled lost 1 high bug (seeded-perf-08/b1, 3/3 -> 0/3)",
    "detail": null
   },
   {

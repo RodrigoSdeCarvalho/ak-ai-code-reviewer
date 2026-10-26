@@ -4,4 +4,4 @@
 #   evals/configs/v1-sonnet.yaml 3 3    (an independent re-record, cassettes at sample indices 3..5)
 # Add a line only once the run's reviewer and judge cassettes are committed: a missing cassette fails CI.
 # Empty (comments only) = CI skips the eval steps.
-evals/configs/v1-sonnet.yaml 3
+evals/configs/v2-sonnet.yaml 3
