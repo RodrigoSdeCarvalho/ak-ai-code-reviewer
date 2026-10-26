@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "096a85bd4d4390f22862092356be6487",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2479,
+  "user_sha256": "9a9942cb4e8cc718820fcc021b53dad1826ad4653d9be2b0736bda0b27661ace"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: calibrated() calls source.load() per reading rather than once per sensor, causing N database queries per batch instead of one per distinct sensor. Description B names the line 49 call site and the summarize loop as an alternative location, which covers Description A's line 58; the root cause and consequence (slow batches, database load) match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: calibrated() calls source.load() per reading rather than once per sensor, causing N database queries per batch instead of one per distinct sensor. Description B names the line 49 call site and the summarize loop as an alternative location, which covers Description A's line 58; the root cause and consequence (slow batches, database load) match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.697e-05,
+   "input_tokens": 960,
+   "latency_ms": null,
+   "output_tokens": 130
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "6fe2aa5e952a0181164c581ade487ee9",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3101,
+  "user_sha256": "e09ac86effdcf4f95f65372909c210a8e718d19250fd3aff3be8dba93eeac461"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 208: multiple concurrent waiters share one parser Deferred via maybe_deferred_to_future, so later waiters receive None and robots.txt rules are skipped, letting forbidden URLs through. Description A focuses on the consuming callback and cancellation propagation; Description B adds asyncio-reactor details and a speculative non-asyncio AlreadyCalledError, but the core failure (later waiters get None, disallowed URLs crawled) matches.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 208: multiple concurrent waiters share one parser Deferred via maybe_deferred_to_future, so later waiters receive None and robots.txt rules are skipped, letting forbidden URLs through. Description A focuses on the consuming callback and cancellation propagation; Description B adds asyncio-reactor details and a speculative non-asyncio AlreadyCalledError, but the core failure (later waiters get None, disallowed URLs crawled) matches.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00010756999999999999,
+   "input_tokens": 1112,
+   "latency_ms": null,
+   "output_tokens": 182
+  }
+ }
+}

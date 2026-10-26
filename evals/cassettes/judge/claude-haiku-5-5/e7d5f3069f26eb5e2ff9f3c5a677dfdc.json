@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "e7d5f3069f26eb5e2ff9f3c5a677dfdc",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1991,
+  "user_sha256": "c351f77fb9fdaf434dd8e077a094151b340d28f119655f341f2dfec9ebcfcb78"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: when the digest already exists, the early return at line 66 skips deleting the staged file in incoming/, so every duplicate upload leaks a full-size copy and disk usage grows unboundedly. Description B's line reference (66) falls within A's range (65-66) and both name the same root cause and consequence.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: when the digest already exists, the early return at line 66 skips deleting the staged file in incoming/, so every duplicate upload leaks a full-size copy and disk usage grows unboundedly. Description B's line reference (66) falls within A's range (65-66) and both name the same root cause and consequence.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.362e-05,
+   "input_tokens": 713,
+   "latency_ms": null,
+   "output_tokens": 126
+  }
+ }
+}

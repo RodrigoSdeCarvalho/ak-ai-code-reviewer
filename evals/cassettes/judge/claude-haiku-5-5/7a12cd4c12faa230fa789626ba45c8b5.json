@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7a12cd4c12faa230fa789626ba45c8b5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2117,
+  "user_sha256": "9c3b422599ff2b2e50aeaddf7b2086caf08c1fc1507519da9b00bb87305b7744"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause: the per-year holiday memoization was removed from BusinessCalendar.holidays, so the holiday source (JsonHolidaySource, which re-reads and re-parses the JSON file) is hit on every is_business_day check, causing thousands of file reads when walking days in roll_forward/add_business_days/business_days_between. Both point at lines 37-38 of the same method with the same failure and consequence.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause: the per-year holiday memoization was removed from BusinessCalendar.holidays, so the holiday source (JsonHolidaySource, which re-reads and re-parses the JSON file) is hit on every is_business_day check, causing thousands of file reads when walking days in roll_forward/add_business_days/business_days_between. Both point at lines 37-38 of the same method with the same failure and consequence.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.672e-05,
+   "input_tokens": 800,
+   "latency_ms": null,
+   "output_tokens": 161
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "793fa9abe0b9c8a5addd2aee1b29da5d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 3242,
+  "user_sha256": "951fd03e57021e32d2e44543fa2b4e4e4a1334b492493701d5642db14dc6823a"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A identifies a performance defect: spend is recomputed by scanning the entire impression log for every bid decision, causing quadratic work per day. Description B identifies a timezone/tzinfo mismatch between served_at and received_at buckets causing wrong hourly cap application. Different root causes and failures, though both mention the same lines.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A identifies a performance defect: spend is recomputed by scanning the entire impression log for every bid decision, causing quadratic work per day. Description B identifies a timezone/tzinfo mismatch between served_at and received_at buckets causing wrong hourly cap application. Different root causes and failures, though both mention the same lines.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.847e-05,
+   "input_tokens": 1215,
+   "latency_ms": null,
+   "output_tokens": 125
+  }
+ }
+}

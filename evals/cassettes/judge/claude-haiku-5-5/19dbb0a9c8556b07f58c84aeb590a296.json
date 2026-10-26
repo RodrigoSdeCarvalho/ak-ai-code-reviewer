@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:45:46+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "19dbb0a9c8556b07f58c84aeb590a296",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2501,
+  "user_sha256": "24ef4ff948486ab9a1d8c290df2e82b5bcde9c3e67a9d0702a8e3af064bb8fb3"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": false,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A is a lint warning that the loop variable `value` is reassigned inside the for loop (PLW2901), a style issue. Description B describes a functional defect: reading UploadFile streams without restoring file position, so shared uploads are consumed and later reads return empty bytes. Different defects.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A is a lint warning that the loop variable `value` is reassigned inside the for loop (PLW2901), a style issue. Description B describes a functional defect: reading UploadFile streams without restoring file position, so shared uploads are consumed and later reads return empty bytes. Different defects.\", \"verdict\": \"different\"}",
+  "request_id": "req_011CgRLx3QJMimneoeu1LiJD",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 0.00016294,
+   "input_tokens": 940,
+   "latency_ms": 2110,
+   "output_tokens": 112
+  }
+ }
+}

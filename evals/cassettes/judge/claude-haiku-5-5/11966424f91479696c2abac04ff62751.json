@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "11966424f91479696c2abac04ff62751",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2867,
+  "user_sha256": "599b97d058355daac4e738d2a5e220352305561674f828c9971bffe504d2a4e8"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same root cause at lines 1070-1078: `value.read()` consumes the UploadFile stream without restoring the file position, so a later read of the same upload returns empty bytes. Description A frames it as lost data on repeated reads, while Description B gives the concrete shared-upload scenario (dependency and endpoint both declaring the file as bytes) and suggests saving and restoring the position; the mechanism and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same root cause at lines 1070-1078: `value.read()` consumes the UploadFile stream without restoring the file position, so a later read of the same upload returns empty bytes. Description A frames it as lost data on repeated reads, while Description B gives the concrete shared-upload scenario (dependency and endpoint both declaring the file as bytes) and suggests saving and restoring the position; the mechanism and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.847e-05,
+   "input_tokens": 1040,
+   "latency_ms": null,
+   "output_tokens": 160
+  }
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2cb503a15d7bf22eba8245e69fce7d1d",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2433,
+  "user_sha256": "2212b30d42757c54a3b618f25ca504746fc338721fbb7e1e06ca0d91bbae0d89"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says sign_out_everywhere's snapshot-then-delete races with a concurrent refresh that removes and reissues a session, so the attacker's session survives. Description B says the StoreError is caught and logged, so failed revocations are silently skipped and the caller cannot tell sign-out was incomplete. Different root causes: a race condition versus swallowed delete errors.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says sign_out_everywhere's snapshot-then-delete races with a concurrent refresh that removes and reissues a session, so the attacker's session survives. Description B says the StoreError is caught and logged, so failed revocations are silently skipped and the caller cannot tell sign-out was incomplete. Different root causes: a race condition versus swallowed delete errors.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.337000000000001e-05,
+   "input_tokens": 843,
+   "latency_ms": null,
+   "output_tokens": 139
+  }
+ }
+}

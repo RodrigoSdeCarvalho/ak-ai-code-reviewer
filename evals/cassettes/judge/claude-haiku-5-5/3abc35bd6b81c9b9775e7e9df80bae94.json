@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "3abc35bd6b81c9b9775e7e9df80bae94",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2279,
+  "user_sha256": "6af61da47c0807db85b1b0bd3ca7f26a29e791da95862df3f905f88bb06ee10d"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A is about render() running outside the try block so an exception aborts the campaign mid-send and loses the report. Description B is about performance: each mailer.send opens and closes a new SMTP connection instead of reusing one session. Different root causes and different failures.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A is about render() running outside the try block so an exception aborts the campaign mid-send and loses the report. Description B is about performance: each mailer.send opens and closes a new SMTP connection instead of reusing one session. Different root causes and different failures.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.302000000000002e-05,
+   "input_tokens": 841,
+   "latency_ms": null,
+   "output_tokens": 98
+  }
+ }
+}

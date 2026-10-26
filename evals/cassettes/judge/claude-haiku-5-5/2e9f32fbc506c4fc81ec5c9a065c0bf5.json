@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "2e9f32fbc506c4fc81ec5c9a065c0bf5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1835,
+  "user_sha256": "a0b5ab235bc4771e3f2ab8116ff3e4b6fee28dce74c79a24762ae58592f2cdae"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect at line 48: for_account compares record.get(\"user_id\") after the schema change renamed the field to account_id, so the filter never matches and account_timeline returns an empty list. The wording and supporting detail differ, but the root cause and failure are identical.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect at line 48: for_account compares record.get(\\\"user_id\\\") after the schema change renamed the field to account_id, so the filter never matches and account_timeline returns an empty list. The wording and supporting detail differ, but the root cause and failure are identical.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 6.512e-05,
+   "input_tokens": 623,
+   "latency_ms": null,
+   "output_tokens": 110
+  }
+ }
+}

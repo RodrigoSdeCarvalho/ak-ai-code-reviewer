@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "7bbe6110627f732c75ffea162ff7caa2",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1809,
+  "user_sha256": "5bbfed5045f61a4af766ad02c0ea653f5f8d210674244682b241ad5eec07f0c5"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same flaw at line 49: invite codes (bearer credentials for joining a workspace) are generated with the non-cryptographic random.choices/Mersenne Twister, making them predictable so attackers can join uninvited. Description A adds detail about state recovery and suggests secrets, but the root cause and failure match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same flaw at line 49: invite codes (bearer credentials for joining a workspace) are generated with the non-cryptographic random.choices/Mersenne Twister, making them predictable so attackers can join uninvited. Description A adds detail about state recovery and suggests secrets, but the root cause and failure match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.242e-05,
+   "input_tokens": 684,
+   "latency_ms": null,
+   "output_tokens": 127
+  }
+ }
+}

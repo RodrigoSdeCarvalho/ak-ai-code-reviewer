@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "8ec2a9c7a239e2eb16c6304d70e3405e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2009,
+  "user_sha256": "d3ffb84f618a029176db1edf9415248bfae7c1556c8c3f44a1bed31374e45901"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says the retry loop catches all GatewayError, including permanent errors like CardDeclined, so declines are retried needlessly. Description B says that after retries are exhausted the function breaks and falls through, returning None instead of raising, which later causes AttributeError. These are different failures: one concerns retrying non-transient errors, the other the missing raise/return on exhaustion.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says the retry loop catches all GatewayError, including permanent errors like CardDeclined, so declines are retried needlessly. Description B says that after retries are exhausted the function breaks and falls through, returning None instead of raising, which later causes AttributeError. These are different failures: one concerns retrying non-transient errors, the other the missing raise/return on exhaustion.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.792e-05,
+   "input_tokens": 734,
+   "latency_ms": null,
+   "output_tokens": 139
+  }
+ }
+}

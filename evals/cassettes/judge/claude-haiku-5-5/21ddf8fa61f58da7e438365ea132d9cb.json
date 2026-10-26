@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "21ddf8fa61f58da7e438365ea132d9cb",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1848,
+  "user_sha256": "97e96f3cf0be0edea5f7d5d01b37008ebc6416793745d7b0b45337fe4f997a9c"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same line 180 defect: using host.partition(':')[0] to derive the cookie domain yields '[' for IPv6 hosts like [::1]:port, so the session cookie is stored under the wrong domain and not sent on later requests. Description B additionally mentions the lost localhost fallback and lowercasing, but its core IPv6 cookie-domain failure matches Description A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same line 180 defect: using host.partition(':')[0] to derive the cookie domain yields '[' for IPv6 hosts like [::1]:port, so the session cookie is stored under the wrong domain and not sent on later requests. Description B additionally mentions the lost localhost fallback and lowercasing, but its core IPv6 cookie-domain failure matches Description A.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.937000000000001e-05,
+   "input_tokens": 713,
+   "latency_ms": null,
+   "output_tokens": 149
+  }
+ }
+}

@@ -63,6 +63,7 @@ class NewlyMissed(_Strict):
     severities: list[str] = Field(default_factory=lambda: ["critical", "high"])
     baseline_min_rate: float = 0.66  # detected by the baseline in >= 2/3 of samples
     candidate_max_rate: float = 0.0  # ... and by the candidate in none
+    max_lost: int = 0  # how many such bugs a candidate may lose before the check fails
     provenance: str = "design §7"
 
 
@@ -89,6 +90,10 @@ class Tolerances(_Strict):
     mode: Literal["strict", "location"] = "strict"
     metrics: dict[str, Tolerance]
     slices: list[str] = Field(default_factory=lambda: ["kind", "category_group"])
+    # Headline rule. "demonstrated": fail only when the whole delta CI lies beyond the tolerance (a proven
+    # regression). "non_inferiority": fail unless the CI's bad end stays within the tolerance (the candidate
+    # must show it is not worse than noise). Slices always use "demonstrated": their CIs are too wide.
+    headline_rule: Literal["demonstrated", "non_inferiority"] = "demonstrated"
 
 
 class Acceptance(_Strict):
@@ -275,9 +280,19 @@ def absolute_checks(scores: dict[str, Any], thresholds: Thresholds, policy: Poli
     return out
 
 
-def _regressed(metric: str, lo: float, hi: float, tol: float) -> bool:
-    """The interval lies entirely beyond the tolerance in the bad direction."""
+def _regressed(metric: str, lo: float, hi: float, tol: float, rule: str = "demonstrated") -> bool:
+    """`demonstrated`: the interval lies entirely beyond the tolerance in the bad direction.
+    `non_inferiority`: the interval's bad end reaches beyond the tolerance."""
+    if rule == "non_inferiority":
+        return hi > tol if metric in LOWER_IS_BETTER else lo < -tol
     return lo > tol if metric in LOWER_IS_BETTER else hi < -tol
+
+
+def _rule_bar(metric: str, tol: float, rule: str) -> str:
+    worse = "above +" if metric in LOWER_IS_BETTER else "below -"
+    if rule == "non_inferiority":
+        return f"delta CI bad end not {worse}{tol} (non-inferiority)"
+    return f"delta CI not entirely {worse}{tol}"
 
 
 def _slice_n(scores: dict[str, Any], key: str, metric: str, mode: str) -> int | None:
@@ -294,23 +309,29 @@ def paired_regression_checks(
 ) -> list[GateCheck]:
     """Paired-bootstrap delta CI vs tolerance, headline and every gated slice."""
     blocking = policy.blocks("regression")
-    targets: list[tuple[str, str, dict[str, Any], int | None]] = []
+    targets: list[tuple[str, str, dict[str, Any], int | None, str]] = []
     for metric, d in compare["metrics"].items():
         if metric in tolerances.metrics:
             m = scores["metrics"][tolerances.mode].get(metric)
-            targets.append((f"regression.{metric}", metric, d, None if m is None else m["n"]))
+            targets.append((f"regression.{metric}", metric, d, None if m is None else m["n"], tolerances.headline_rule))
     for key, entry in compare.get("slices", {}).items():
         if key.split(":", 1)[0] not in tolerances.slices:
             continue
         for metric, d in entry.items():
             if metric in tolerances.metrics and d.get("delta") is not None:
                 targets.append(
-                    (f"regression.{key}.{metric}", metric, d, _slice_n(scores, key, metric, tolerances.mode))
+                    (
+                        f"regression.{key}.{metric}",
+                        metric,
+                        d,
+                        _slice_n(scores, key, metric, tolerances.mode),
+                        "demonstrated",
+                    )
                 )
     out = []
-    for name, metric, d, n in targets:
+    for name, metric, d, n, rule in targets:
         tol = tolerances.metrics[metric]
-        bar = f"delta CI not entirely {'above +' if metric in LOWER_IS_BETTER else 'below -'}{tol.value}"
+        bar = _rule_bar(metric, tol.value, rule)
         if d.get("delta") is None or d.get("ci_low") is None:
             out.append(
                 _skip(name, blocking, "delta undefined (metric has no denominator)", bar=bar, provenance=tol.provenance)
@@ -334,7 +355,7 @@ def paired_regression_checks(
             out.append(
                 _check(
                     name,
-                    _regressed(metric, d["ci_low"], d["ci_high"], tol.value),
+                    _regressed(metric, d["ci_low"], d["ci_high"], tol.value, rule),
                     blocking,
                     _r(d["delta"]),
                     bar,
@@ -421,10 +442,10 @@ def newly_missed_check(
             lost.append(f"{bug['case_id']}/{bug['bug_id']}")
     return _check(
         "newly_missed_critical",
-        bool(lost),
+        len(lost) > t.max_lost,
         blocking,
         len(lost),
-        f"0 {'/'.join(t.severities)} bugs with baseline rate >= {t.baseline_min_rate} and candidate rate <= {t.candidate_max_rate}",
+        f"<= {t.max_lost} {'/'.join(t.severities)} bugs with baseline rate >= {t.baseline_min_rate} and candidate rate <= {t.candidate_max_rate}",
         t.provenance,
         ", ".join(lost) or None,
     )

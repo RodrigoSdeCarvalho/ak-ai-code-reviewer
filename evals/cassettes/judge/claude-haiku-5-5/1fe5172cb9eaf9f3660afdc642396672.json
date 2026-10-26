@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "1fe5172cb9eaf9f3660afdc642396672",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1854,
+  "user_sha256": "8775043d351c23485405b7cac138609c0b135d1c1fe0ad03c2369255292d3073"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the retry branch at line 51 returns `enrich(event, geo)` without `await`, so enrich_one returns an un-awaited coroutine instead of an Event, leading to bad output and a 'never awaited' warning. Description B adds extra consequences (semaphore and abort behavior) but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the retry branch at line 51 returns `enrich(event, geo)` without `await`, so enrich_one returns an un-awaited coroutine instead of an Event, leading to bad output and a 'never awaited' warning. Description B adds extra consequences (semaphore and abort behavior) but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.442e-05,
+   "input_tokens": 694,
+   "latency_ms": null,
+   "output_tokens": 133
+  }
+ }
+}

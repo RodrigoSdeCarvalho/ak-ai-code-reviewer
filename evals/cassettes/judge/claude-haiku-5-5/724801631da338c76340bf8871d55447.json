@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "724801631da338c76340bf8871d55447",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2316,
+  "user_sha256": "beaf47f612c42f64031d19b6d4fd11bd59f523e662098c4f5ca3a67e1dc84ef9"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: create_ticket still passes the renamed-away `attempts=1` kwarg, which falls into **fields and is sent as a body field, so max_attempts stays at 3 and the non-idempotent POST can be retried, creating duplicate tickets. Description B also points at the alternative location in client.py, which is allowed.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: create_ticket still passes the renamed-away `attempts=1` kwarg, which falls into **fields and is sent as a body field, so max_attempts stays at 3 and the non-idempotent POST can be retried, creating duplicate tickets. Description B also points at the alternative location in client.py, which is allowed.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.397e-05,
+   "input_tokens": 890,
+   "latency_ms": null,
+   "output_tokens": 132
+  }
+ }
+}

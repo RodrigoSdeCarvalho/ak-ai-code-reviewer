@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "83a2b86b288fe44406698918c8f741a5",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2439,
+  "user_sha256": "dfbfe79c0dba0b8f974e52cae01dffa0be67eecbab96f5f4f32445203fcb49cb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says reserve() re-raises on InventoryError without releasing the connection, leaking pool connections. Description B says cancel() lacks rollback and crashes with TypeError on a missing stock row, leaving partial uncommitted changes on a reused connection. Different failures (connection leak in reserve vs. missing rollback/TypeError in cancel) at different places.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says reserve() re-raises on InventoryError without releasing the connection, leaking pool connections. Description B says cancel() lacks rollback and crashes with TypeError on a missing stock row, leaving partial uncommitted changes on a reused connection. Different failures (connection leak in reserve vs. missing rollback/TypeError in cancel) at different places.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.407e-05,
+   "input_tokens": 867,
+   "latency_ms": null,
+   "output_tokens": 137
+  }
+ }
+}

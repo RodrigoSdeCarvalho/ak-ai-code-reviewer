@@ -1,18 +1,22 @@
-# Regression tolerances: a gated metric (headline or slice) fails when the paired-bootstrap CI of
-# candidate - baseline lies entirely beyond the tolerance in the bad direction.
-# Replace each DEFAULT with the measured run-to-run noise floor (provenance MEASURED + date, design §5).
+# Regression tolerances = the measured noise floor (design §5, ADR-0009).
+# Measured 2026-10-26 by an A/A comparison: v1-sonnet on test recorded twice with independent samples
+# (evals/runs/v1-sonnet-test-k3 vs evals/runs/v1-sonnet-test-k3-o3, paired over 43 cases, k=3 each).
+# Tolerance = the A/A paired CI's bad-direction bound, rounded up to 0.01, plus 0.01 margin.
 mode: strict
-slices: [kind, category_group]   # gated slices; a regressing slice fails even if the headline holds
+slices: [kind, category_group]   # gated slices; a demonstrated regression in any slice fails
+# Headline metrics must show non-inferiority: the bad end of the paired delta CI may not pass the tolerance.
+# Slices use the weaker "demonstrated regression" rule: with 6-8 bugs their CIs are too wide for non-inferiority.
+headline_rule: non_inferiority
 metrics:
   recall:
     value: 0.10
-    provenance: "DEFAULT — replace with measured noise floor"
+    provenance: "MEASURED A/A 2026-10-26: delta -0.016 [-0.081, +0.028]"
   recall_high:
-    value: 0.10
-    provenance: "DEFAULT — replace with measured noise floor"
+    value: 0.15
+    provenance: "MEASURED A/A 2026-10-26: delta -0.037 [-0.135, +0.026]"
   precision:
-    value: 0.10
-    provenance: "DEFAULT — replace with measured noise floor"
+    value: 0.07
+    provenance: "MEASURED A/A 2026-10-26: delta +0.007 [-0.058, +0.066]"
   clean_false_alarm_rate:
     value: 0.15
-    provenance: "DEFAULT — replace with measured noise floor"
+    provenance: "DEFAULT kept: A/A had 0 alarms in both runs (no spread to measure); 0.125 = one clean case alarming in every sample"

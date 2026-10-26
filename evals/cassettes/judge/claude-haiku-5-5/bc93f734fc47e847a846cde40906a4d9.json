@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "bc93f734fc47e847a846cde40906a4d9",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2488,
+  "user_sha256": "2182d77d5ba07f09fec0704b853ef4399608f2e1185e08fc3d5d0eb7bca46f7b"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the ETA conversion fails and req.reject(requeue=False) is called, there is no return, so eta stays None and the task falls through to the rate-limit/reserve path and runs immediately despite being rejected. Description B adds a note about the result backend not storing the failure, which is an extra point but does not change the core root cause shared with A.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the ETA conversion fails and req.reject(requeue=False) is called, there is no return, so eta stays None and the task falls through to the rate-limit/reserve path and runs immediately despite being rejected. Description B adds a note about the result backend not storing the failure, which is an extra point but does not change the core root cause shared with A.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 8.607e-05,
+   "input_tokens": 907,
+   "latency_ms": null,
+   "output_tokens": 137
+  }
+ }
+}

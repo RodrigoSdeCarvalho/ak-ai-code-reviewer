@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "590702b180f719da923d26a2b5611757",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1874,
+  "user_sha256": "b1f4c28c174bd3d18431b645a01dc449a94d5139d731bce0b05bad3dbfe49bcb"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: after the final failed attempt the loop breaks and charge returns None instead of re-raising GatewayError, so settle_invoice dereferences charge.id and raises AttributeError, aborting settlement and leaving the invoice unmarked. Both point at the same lines and same failure chain, differing only in wording and extra detail.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: after the final failed attempt the loop breaks and charge returns None instead of re-raising GatewayError, so settle_invoice dereferences charge.id and raises AttributeError, aborting settlement and leaving the invoice unmarked. Both point at the same lines and same failure chain, differing only in wording and extra detail.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.322e-05,
+   "input_tokens": 665,
+   "latency_ms": null,
+   "output_tokens": 134
+  }
+ }
+}

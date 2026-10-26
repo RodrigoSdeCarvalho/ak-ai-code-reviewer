@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "9653a5cbc97755370b361e829540827e",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 1954,
+  "user_sha256": "423ad1315f7d543e49f385365bfa5f831bd37caf73c1ee52ad1505648350cf2e"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Both descriptions identify the same defect: the eviction loop in _store compares len(self._keys_by_country), the number of distinct countries, against max_entries instead of the number of cached entries, so the cache never evicts and grows unbounded. Description A adds the note about the old lru_cache bound, and B adds that cache_size has no effect, but the root cause and location match.",
+   "verdict": "same"
+  },
+  "raw_text": "{\"reason\": \"Both descriptions identify the same defect: the eviction loop in _store compares len(self._keys_by_country), the number of distinct countries, against max_entries instead of the number of cached entries, so the cache never evicts and grows unbounded. Description A adds the note about the old lru_cache bound, and B adds that cache_size has no effect, but the root cause and location match.\", \"verdict\": \"same\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 7.662000000000001e-05,
+   "input_tokens": 728,
+   "latency_ms": null,
+   "output_tokens": 135
+  }
+ }
+}

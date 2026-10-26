@@ -1,0 +1,38 @@
+{
+ "recorded_at": "2026-10-26T18:47:41+00:00",
+ "request_meta": {
+  "effort": "low",
+  "key": "15608b9bf5fe99825b76b9cb2bb0aa38",
+  "max_tokens": 4000,
+  "model": "claude-haiku-5-5",
+  "prompt_version": "same-defect-v2",
+  "role": "judge",
+  "sample": 0,
+  "system_sha256": "038ba303bc2b9767b3c5db9025b3608aa5c262cd74790458fdc46606bd50a114",
+  "user_chars": 2748,
+  "user_sha256": "089977b3cae7619c71657f46a9ba908cb465b5d2dc675e2032eb3d03463b9259"
+ },
+ "response": {
+  "attempts": 1,
+  "batch": true,
+  "error": null,
+  "error_class": null,
+  "from_cache": false,
+  "parsed": {
+   "reason": "Description A says metadata is written before the blob, so a failed blob write or concurrent reader can pair old blob with new metadata (non-atomic two-step update). Description B identifies the mutable default argument `metadata: dict = {}` being shared across calls and mutated by setdefault, causing wrong content-type to persist. Different root causes, though both touch put's metadata handling.",
+   "verdict": "different"
+  },
+  "raw_text": "{\"reason\": \"Description A says metadata is written before the blob, so a failed blob write or concurrent reader can pair old blob with new metadata (non-atomic two-step update). Description B identifies the mutable default argument `metadata: dict = {}` being shared across calls and mutated by setdefault, causing wrong content-type to persist. Different root causes, though both touch put's metadata handling.\", \"verdict\": \"different\"}",
+  "request_id": "msgbatch_01DKTXBf3pvqwhR4cKgDGiDA",
+  "served_model": "claude-haiku-5-5",
+  "stop_reason": "end_turn",
+  "usage": {
+   "cache_creation_input_tokens": 0,
+   "cache_read_input_tokens": 1294,
+   "cost_usd": 9.481999999999999e-05,
+   "input_tokens": 1077,
+   "latency_ms": null,
+   "output_tokens": 138
+  }
+ }
+}
